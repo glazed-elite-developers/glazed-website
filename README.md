@@ -1,45 +1,18 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.org">
-    <img alt="Gatsby" src="https://www.gatsbyjs.org/monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby ReasonML Starter
-</h1>
-
-This starter for Gatsby is inspired by the default starter blog. Except this one supports ReasonML with its strongly typed, functional goodness.
-
-## 🚀 Quick start
-
-1.  **Install the Gatsby CLI.**
-
-    The Gatsby CLI helps you create new sites using Gatsby starters (like this one!)
+1.  **Deps.**
 
     ```sh
-    # install the Gatsby CLI globally
-    npm install -g gatsby-cli
+    npm install
     ```
 
-2.  **Create a Gatsby site.**
+2.  **Start developing.**
 
-    Use the Gatsby CLI to create a new site, specifying the default starter.◊
-
-    ```sh
-    # create a new Gatsby site using the ReasonML starter
-    gatsby new my-super-neat-reasonml-site https://github.com/iwilsonq/gatsby-starter-reasonml
-    ```
-
-3.  **Start developing.**
-
-    Navigate into your new site’s directory and start it up.
 
     ```sh
-    cd my-super-neat-reasonml-site/
     npm run dev:bsb
     npm run dev:gatsby
     ```
 
-4.  **Open the source code and start editing!**
+3.  **Open the source code and start editing!**
 
     Your site is now running at `http://localhost:8000`!
 
