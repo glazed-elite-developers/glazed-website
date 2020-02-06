@@ -12,7 +12,10 @@ var wrapper = Css.style(/* :: */[
       Css.display(/* flex */-1010954439),
       /* :: */[
         Css.marginBottom(Css.px(16)),
-        /* [] */0
+        /* :: */[
+          Css.marginTop(Css.px(16)),
+          /* [] */0
+        ]
       ]
     ]);
 
@@ -38,19 +41,47 @@ var bioText = Css.style(/* :: */[
       ]
     ]);
 
+var div = Css.style(/* :: */[
+      Css.display(/* flex */-1010954439),
+      /* [] */0
+    ]);
+
+var myHeader = Css.style(/* :: */[
+      Css.display(/* flex */-1010954439),
+      /* :: */[
+        Css.padding(Css.px(35)),
+        /* :: */[
+          Css.margin(Css.px(-25)),
+          /* :: */[
+            Css.zIndex(2),
+            /* :: */[
+              Css.border(Css.px(1), /* solid */12956715, Css.rgb(0, 0, 0)),
+              /* [] */0
+            ]
+          ]
+        ]
+      ]
+    ]);
+
 var Styles = {
   wrapper: wrapper,
   img: img,
-  bioText: bioText
+  bioText: bioText,
+  div: div,
+  myHeader: myHeader
 };
 
 function Bio(Props) {
   return React.createElement("div", {
               className: wrapper
-            }, React.createElement("img", {
+            }, React.createElement("h2", {
+                  className: myHeader
+                }, "Yo Dude"), React.createElement("img", {
                   className: img,
                   alt: "Ian Wilson",
                   src: "/images/iwilsonq.jpg"
+                }), React.createElement("div", {
+                  className: div
                 }), React.createElement("p", {
                   className: bioText
                 }, "Written by Ian Wilson who lives and works in Cupertino building useful things.", React.createElement("a", {

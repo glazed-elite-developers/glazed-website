@@ -15,6 +15,8 @@ S /Users/ismael/code/glazed/glazed-website/node_modules/bs-date-fns/lib/ocaml
 B /Users/ismael/code/glazed/glazed-website/node_modules/bs-date-fns/lib/ocaml
 S re
 B lib/bs/re
+S re/examples
+B lib/bs/re/examples
 S re/types
 B lib/bs/re/types
 ####BSB GENERATED: NO EDIT}

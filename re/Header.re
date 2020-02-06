@@ -21,6 +21,7 @@ let make = (~siteTitle) => {
   <header className=Styles.header>
     <div className=Styles.content>
       <h1 className=Styles.h1>
+        <ComponentFromJS startAt={10} message="Yolo" />
         <Gatsby.Link _to="/" className=Styles.link>
           {siteTitle |> ReasonReact.string}
         </Gatsby.Link>

@@ -4,6 +4,7 @@
 var Css = require("bs-css/src/Css.js");
 var React = require("react");
 var Gatsby = require("gatsby");
+var ComponentFromJS$ReactTemplate = require("./examples/ComponentFromJS.bs.js");
 
 var header = Css.style(/* :: */[
       Css.backgroundColor(Css.hex("db4d3f")),
@@ -64,7 +65,10 @@ function Header(Props) {
                   className: content
                 }, React.createElement("h1", {
                       className: h1
-                    }, React.createElement(Gatsby.Link, {
+                    }, React.createElement(ComponentFromJS$ReactTemplate.make, {
+                          startAt: 10,
+                          message: "Yolo"
+                        }), React.createElement(Gatsby.Link, {
                           to: "/",
                           className: link,
                           children: siteTitle
