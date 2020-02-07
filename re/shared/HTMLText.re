@@ -68,33 +68,38 @@ module TextStyles = {
 };
 
 module TextContent = {
-  let className =
-    Css.(style([paddingLeft(rem(1.56)), display(`inlineBlock)]));
-
   [@react.component]
-  let make = (~children) => <span className> children </span>;
+  let make = (~children, ~inline=?) => {
+    let className =
+      switch (inline) {
+      | None =>
+        Css.(style([paddingLeft(rem(1.56)), display(`inlineBlock)]))
+      | Some () => Css.(style([paddingLeft(rem(1.56))]))
+      };
+
+    <span className> children </span>;
+  };
 };
 
 [@react.component]
 let make = (~tag: tags, ~className, ~children) => {
-
   switch (tag) {
   | H1 =>
-    <h1 className=Css.merge([TextStyles.h1, className])>
+    <h1 className={Css.merge([TextStyles.h1, className])}>
       <Tag tag=H1 html="<h1>" />
       <TextContent> children </TextContent>
       <Tag tag=H1 html="</h1>" />
     </h1>
   | H2 =>
-    <h2 className=Css.merge([TextStyles.h2, className])>
+    <h2 className={Css.merge([TextStyles.h2, className])}>
       <Tag tag=H2 html="<h2>" />
       <TextContent> children <Tag tag=H2 html="</h2>" /> </TextContent>
     </h2>
   | P =>
-    <p>
-      <Tag tag=P html="<p>" />
-      <TextContent> children </TextContent>
-      <Tag tag=P html="</p>" />
+    <p className>
+      <Tag tag=P html="<p> " />
+      <TextContent inline=()> children </TextContent>
+      <Tag tag=P html=" </p>" />
     </p>
   };
 };

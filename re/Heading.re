@@ -40,7 +40,7 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~level: levels, ~className=?, ~children) => {
+let make = (~level: levels, ~className=?,~children) => {
   let (component, styles) = switch(level) {
     | H1 => ("h1", Styles.h1)
     | H2 => ("h2", Styles.h2)

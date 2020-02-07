@@ -22,8 +22,10 @@ module Styles = {
 let items = [|
   ("#case-studies", "case studies"),
   ("#about", "about"),
-  ("#team", "team"),
-  ("#manifesto", "manifesto"),
+  // ("#team", "team"),
+  ("/teamDetail", "team"),
+  // ("#manifesto", "manifesto"),
+  ("/manifesto", "manifesto"),
 |];
 
 [@react.component]

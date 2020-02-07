@@ -10,14 +10,14 @@ type icon =
   | Github;
 
 [@react.component]
-let make = (~icon: icon) => {
+let make = (~icon: icon, ~className) => {
   let iconSource = switch (icon) {
     | Twitter => twitter
     | Facebook => facebook
     | Linkedin => linkedin
     | Github => github
   };
-  <img src=iconSource />;
+  <img className height="16" src=iconSource />;
 };
 
 let default = make;

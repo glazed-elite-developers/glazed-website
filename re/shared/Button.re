@@ -9,7 +9,7 @@ module Styles = {
   open Css;
 
   let base = style([padding2(~h=rem(3.0), ~v=rem(0.875))]);
-
+  let common = style([border(px(1), `none, `transparent)]);
   let primary = isDisabled =>
     style([
       opacity(isDisabled ? 0.4 : 1.0),
@@ -54,7 +54,7 @@ module Styles = {
         padding2(~h=rem(3.0), ~v=rem(0.875)),
         // border: 1px solid #2962F6
         border(px(1), `solid, hex("2962F6")),
-        backgroundColor(`transparent)
+        backgroundColor(`transparent),
       ]),
       secondaryForBg(bg),
     ]);
@@ -81,18 +81,27 @@ let make =
       ~isTertiary=false,
       ~bgColor=BrightBg,
       ~isDisabled=false,
-      ~onClick,
+      ~className=?,
+      ~onClick=?,
     ) => {
-  let className =
+  let ownStyles =
     isPrimary
       ? Styles.primary(isDisabled)
       : isTertiary
           ? Styles.tertiary(isDisabled)
           : isSecondary ? Styles.secondary(bgColor, isDisabled) : Styles.base;
+  let onClickHandler =
+    switch (onClick) {
+    | None => (_ => ())
+    | Some(handler) => isDisabled ? (_ => ()) : handler
+    };
+  let combinedStyles =
+    switch (className) {
+    | None => Css.merge([Styles.common, ownStyles])
+    | Some(className) => Css.merge([Styles.common, ownStyles, className])
+    };
 
-  <button className onClick={isDisabled ? _ => () : onClick}>
-    children
-  </button>;
+  <button className={combinedStyles} onClick=onClickHandler> children </button>;
 };
 
 let default = make;

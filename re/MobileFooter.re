@@ -16,6 +16,7 @@ module Styles = {
       alignItems(`center),
       height(rem(3.75)),
       padding2(~v=rem(0.), ~h=rem(1.)),
+      fontSize(rem(0.75)),
     ]);
 };
 

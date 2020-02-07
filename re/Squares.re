@@ -1,29 +1,23 @@
 module Styles = {
   open Css;
-  open Theme;
   let squaresContainer = 
     style([
       display(`flex),
-      flexWrap(wrap)
+      flexWrap(wrap),
     ]);
   let square =
     style([
-      width(`percent(33.3)),
-      paddingTop(`percent(33.3)),
+      width(`percent(33.4)),
+      paddingTop(`percent(33.4)),
       height(px(0)),
       position(relative),
       media(
         Theme.Breakpoints.tabletLandscape,
         [
-          width(`percent(18.)),
-          paddingTop(`percent(18.))
+          width(`percent(20.1)),
+          paddingTop(`percent(20.1))
         ],
-      ),
-      backgroundColor(hex(Colors.glazedBlue)),
-      borderStyle(solid),
-      borderWidth(px(1)),
-      borderColor(hex(Colors.glazedBabyBlueDarker)),
-      color(white)
+      )
     ]);
   let squareContent = 
     style([
