@@ -62,10 +62,10 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {
-        "re": path.resolve(__dirname, "lib/js/re"),
-        "src": path.resolve(__dirname, "src"),
-        "static": path.resolve(__dirname, "static"),
-      }
-    }
-  });
-};
+        re: path.resolve(__dirname, 'lib/js/re'),
+        src: path.resolve(__dirname, 'src'),
+        static: path.resolve(__dirname, 'static'),
+      },
+    },
+  })
+}
