@@ -15,7 +15,7 @@ module Styles = {
 [@react.component]
 let make = (~children, ~useDarkNavBarLinks) => {
   <div className=Styles.wrapper>
-    <Header className=Styles.header useDarkNavBarLinks />
+    <Header className=Styles.header useDarkNavBarLinks currentPageIndex=0 />
     children
   </div>;
 };
