@@ -17,7 +17,7 @@ module Colors = {
 
 module Fonts = {
   let primary = "ZonaProBold";
-  let inputPrimary = "Muli-Regular";
+  let inputPrimary = "'Muli', sans-serif";
   let inputSecondary = "Muli-Bold"
 }
 

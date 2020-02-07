@@ -8,6 +8,7 @@ import Header from 're/Header'
 import Index from 're/Index'
 import GlobalStyles from 'src/styles'
 
+
 const Layout = ({ children, useDarkNavBarLinks }) => (
   <StaticQuery
     query={graphql`
@@ -32,6 +33,7 @@ const Layout = ({ children, useDarkNavBarLinks }) => (
           ]}
         >
           <html lang="en" />
+          <link href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swap" rel="stylesheet"/>
         </Helmet>
         <GlobalStyles />
         <PageLayout siteTitle={data.site.siteMetadata.title} useDarkNavBarLinks={ useDarkNavBarLinks }>
