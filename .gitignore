@@ -13,3 +13,6 @@ yarn-error.log
 
 #ReasonML
 /.merlin
+.merlin
+
+.bsb.lock

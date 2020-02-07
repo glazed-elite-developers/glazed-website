@@ -47,7 +47,7 @@ module.exports = {
       "alias": [
         ["re", "./lib/js/re"],
         ["src", "./src"],
-        ["assets", "./assets"]
+        ["static", "./static"]
       ]
     }
   }
