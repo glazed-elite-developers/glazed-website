@@ -27,6 +27,12 @@ module Styles = {
       ])
   ]);
 
+    let contactFormWrapper = 
+      style([
+        backgroundColor(hex(Theme.Colors.glazedBlueMidnight)),
+        marginBottom(rem(3.0)),
+        padding(rem(1.0)),
+      ]);
 };
 
 /* For a page of static text like this one, it would be easier to just use plain React
@@ -47,6 +53,9 @@ let make = () => {
         <SocialIconDark icon=SocialIconDark.Facebook />
         <SocialIconDark icon=SocialIconDark.Linkedin />
         <SocialIconDark icon=SocialIconDark.Github />
+      </div>
+      <div className=Styles.contactFormWrapper>
+        <ContactForm />
       </div>
     </FullPageSlide>
   </PageContent>;
