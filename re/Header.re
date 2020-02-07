@@ -21,6 +21,10 @@ let make = (~siteTitle) => {
   <header className=Styles.header>
     <div className=Styles.content>
       <h1 className=Styles.h1>
+        <SocialIconBright icon=SocialIconBright.Twitter />
+        <SocialIconBright icon=SocialIconBright.Facebook />
+        <SocialIconBright icon=SocialIconBright.Linkedin />
+        <SocialIconBright icon=SocialIconBright.Github />
         <ComponentFromJS startAt={10} message="Yolo" />
         <Gatsby.Link _to="/" className=Styles.link>
           {siteTitle |> ReasonReact.string}

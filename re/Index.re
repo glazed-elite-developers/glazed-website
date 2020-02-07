@@ -5,11 +5,6 @@ let str = React.string;
 [@react.component]
 let make = () => {
   <div>
-    <SocialIcon icon=SocialIcon.Twitter />
-    <SocialIcon icon=SocialIcon.Facebook />
-    <SocialIcon icon=SocialIcon.Linkedin />
-    <SocialIcon icon=SocialIcon.Github />
-    
     <ExampleComponent />
     <ColorSamples />
     <h1> {"Gatsby" ++ {js| ❤ |js} ++ "ReasonML" |> str} </h1>
@@ -20,7 +15,6 @@ let make = () => {
     <h2> {"Features" |> str} </h2>
     <ul>
       <li>
-      
         <a href="https://github.com/reasonml/reason-react">
           {"reason-react" |> str}
         </a>
@@ -43,7 +37,10 @@ let make = () => {
          |> str}
       </li>
     </ul>
-      
+    <SocialIconDark icon=SocialIconDark.Twitter />
+    <SocialIconDark icon=SocialIconDark.Facebook />
+    <SocialIconDark icon=SocialIconDark.Linkedin />
+    <SocialIconDark icon=SocialIconDark.Github />
   </div>;
 };
 

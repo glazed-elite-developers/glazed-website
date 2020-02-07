@@ -9,6 +9,7 @@ module Colors = {
   let glazedBlue = "024DD1";
   let glazedBlueLighter = "537EED";
   let glazedBlueDarker = "2962F6";
+  let glazedBlueMidnight = "010C31";
   let glazedBabyBlue = "53D3FF";
   let glazedBabyBlueLight = "7FDAFF";
   let glazedBabyBlueDarker = "69C0FE";
