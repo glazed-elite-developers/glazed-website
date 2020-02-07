@@ -1,4 +1,4 @@
-[@bs.module] external image: string = "assets/examples/bunny.jpg";
+[@bs.module] external image: string = "static/images/bunny.jpg";
 
 let str = React.string;
 
