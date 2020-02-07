@@ -60,11 +60,14 @@ let make =
       ~value,
       ~onChange,
       ~tint,
+      ~textArea=false,
     ) => {
   let (hasFocus, setHasFocus) = React.useState(() => false);
 
   let onFocus = _ => setHasFocus(_ => true);
   let onBlur = _ => setHasFocus(_ => false);
+
+  let handleChange = event => onChange(ReactEvent.Form.target(event)##value);
 
   <div className=Styles.wrapper>
     <label className=Styles.label>
@@ -72,14 +75,23 @@ let make =
       <span className={Styles.labelInner(tint)}> label </span>
       {"\">" |> ReasonReact.string}
     </label>
-    <input
-      placeholder
-      className={Styles.input(tint, hasFocus)}
-      onChange
-      value
-      onFocus
-      onBlur
-    />
+    {textArea
+       ? <textarea
+           placeholder
+           className={Styles.input(tint, hasFocus)}
+           onChange=handleChange
+           value
+           onFocus
+           onBlur
+         />
+       : <input
+           placeholder
+           className={Styles.input(tint, hasFocus)}
+           onChange=handleChange
+           value
+           onFocus
+           onBlur
+         />}
   </div>;
 };
 
