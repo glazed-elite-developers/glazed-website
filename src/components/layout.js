@@ -5,6 +5,8 @@ import { StaticQuery, graphql } from 'gatsby'
 
 import Header from 're/Header'
 
+import '../../static/reset.css'
+
 const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
@@ -29,12 +31,6 @@ const Layout = ({ children }) => (
           ]}
         >
           <html lang="en" />
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-            integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU="
-            crossorigin="anonymous"
-          />
         </Helmet>
         <Header siteTitle={data.site.siteMetadata.title} />
         <div
