@@ -6,7 +6,7 @@ external logoOutline: string =
 module Styles = {
   open Css;
 
-  let header =
+  let nav =
     style([
       display(`flex),
       alignItems(`center),
@@ -37,7 +37,7 @@ module Styles = {
 let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
 
-  <header className={Css.merge([Styles.header, className])}>
+  <nav className={Css.merge([Styles.nav, className])}>
     <div className=Styles.logoWrapper>
       <img className=Styles.logo src=logoToUse />
     </div>
@@ -46,7 +46,7 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
       useDarkNavBarLinks
       currentPageIndex
     />
-  </header>;
+  </nav>;
 };
 
 let default = make;
