@@ -27,7 +27,7 @@ module Styles = {
       borderWidth(px(0)),
       color(hex("9FA8B3")),
       display(`block),
-      fontFamily(Theme.Fonts.primary),
+      fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.69)),
       lineHeight(rem(1.44)),
       marginTop(rem(0.625)),

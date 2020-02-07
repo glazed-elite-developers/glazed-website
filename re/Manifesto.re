@@ -9,7 +9,7 @@ let manifestoContent = [|
     content: "They care about who they work with, and about areas outside their speciality, understanding other's needs and limitations. They anticipate problems and propose solutions. And that's why it takes less time to ship a great product with them."
   },
   {
-    title: "built great code",
+    title: "build great code",
     content: "Great code is simple: it is the shortest path to a solution. Because it doesn't try to solve the future, it is more adaptable to the unpredictable. Because it is easily understood, it is easy to improve upon. And that's why it takes them less time to add new features."
   }
 |];
@@ -23,7 +23,7 @@ module Styles = {
 
   let content = style([
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [display(`flex)]
     )
   ]);
@@ -39,7 +39,7 @@ module Styles = {
       border(px(1), `solid, rgba(159, 168, 179, 0.1))
     ]),
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [
         after([
           display(`none)
@@ -62,17 +62,20 @@ module Styles = {
   let block = style([
     not_(":last-child", [marginBottom(rem(1.25))]),
     media(
-      Theme.Breakpoints.tabletLandscape, [
+      Theme.Breakpoints.tabletPortait, [
         position(`relative),
-        flex3(~grow=1., ~shrink=0., ~basis=pct(33.)),
+        flex3(~grow=1., ~shrink=1., ~basis=pct(33.)),
         padding2(~v=rem(0.), ~h=rem(1.25)),
         before(verticalLine),
+        display(`flex),
+        flexDirection(`column),
         lastChild([after([
           contentRule(""),
           position(`fixed),
           top(`zero),
           bottom(`zero),
-          marginLeft(rem(15.75)),
+          marginLeft(rem(1.25)),
+          alignSelf(`flexEnd),
           border(px(1), `solid, rgba(159, 168, 179, 0.1))
         ])])
       ]
@@ -85,7 +88,7 @@ module Styles = {
     fontSize(rem(0.75)),
     paddingBottom(rem(1.125)),
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [display(`block)],
     ),
   ]);
@@ -94,7 +97,7 @@ module Styles = {
     color(hex(Theme.Colors.darkGreyDarker)),
     lineHeight(rem(1.5)),
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [
         color(hex(Theme.Colors.grey)),
         paddingBottom(rem(1.125))
@@ -104,7 +107,7 @@ module Styles = {
 
   let strong = style([
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [color(hex(Theme.Colors.darkGreyDarker))],
     )
   ])
@@ -116,7 +119,7 @@ module Styles = {
     lineHeight(rem(1.5)),
     color(hex(Theme.Colors.darkGrey)),
     media(
-      Theme.Breakpoints.tabletLandscape,
+      Theme.Breakpoints.tabletPortait,
       [
         lineHeight(rem(2.125))
       ]
@@ -126,7 +129,7 @@ module Styles = {
 
 [@react.component]
 let make = () => {
-  <section>
+  <PageContent>
     <Heading level=Heading.H2 className=Styles.displayTitle>
       {"// manifesto" |> ReasonReact.string}
     </Heading>
@@ -152,7 +155,7 @@ let make = () => {
       }, manifestoContent) |> ReasonReact.array
     )
     </div>
-  </section>;
+  </PageContent>;
 };
 
 let default = make;

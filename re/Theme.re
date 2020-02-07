@@ -16,8 +16,8 @@ module Colors = {
 };
 
 module Fonts = {
-  let primary = "ZonaProBold";
-  let inputPrimary = "'Muli', sans-serif";
+  let heading = "ZonaProBold";
+  let text = "'Muli', sans-serif";
 };
 
 module Breakpoints = {

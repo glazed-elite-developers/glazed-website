@@ -18,7 +18,7 @@ module Tag = {
       style([
         position(`absolute),
         color(hex(Colors.glazedBlueLighter)),
-        fontFamily(Fonts.inputPrimary),
+        fontFamily(Fonts.text),
         fontWeight(`num(700)),
         fontSize(rem(0.75)),
         opacity(0.2),
@@ -51,7 +51,7 @@ module TextStyles = {
     style([
       position(`relative),
       color(hex(Colors.glazedBlueDarker)),
-      fontFamily(Fonts.primary),
+      fontFamily(Fonts.heading),
       fontSize(rem(2.25)),
       lineHeight(rem(2.7)),
     ]);
@@ -60,7 +60,7 @@ module TextStyles = {
     style([
       position(`relative),
       color(hex(Colors.glazedBlueLighter)),
-      fontFamily(Fonts.primary),
+      fontFamily(Fonts.heading),
       fontSize(rem(0.88)),
       opacity(0.8),
       lineHeight(rem(1.5)),
