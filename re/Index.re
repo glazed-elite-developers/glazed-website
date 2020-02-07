@@ -43,10 +43,10 @@ let make = () => {
     <FullPageSlide backgroundImageUrl="/images/home/slide-1-background.jpg">
       <Quote
         className=Styles.quote
-        quote={"\"TThis is the bestest site I've ever seen. It's the most EPIC thing in the world... I honnestly peed a litle when I opened it. I would give my soon to be born child to be able to forget I've seen this site to be able to see it again for the first time.\""}
+        quote={"\"Bacon ipsum dolor amet bresaola swine pancetta buffalo tri-tip. Shank bresaola turkey pork belly ball tip. Bresaola brisket frankfurter, kevin buffalo bacon sausage porchetta doner hamburger short ribs. Tri-tip sirloin pork belly tongue ribeye.\""}
         imageSrc={"/images/iwilsonq.jpg"}
-        name={j|José Neves|j}
-        position={"CEO Farfetch"}
+        name={j|Tony Barracuda|j}
+        position={"CEO SweeNuus"}
         />
       <div className=Styles.socialNetworks>
         <SocialIconDark icon=SocialIconDark.Twitter />
