@@ -4,7 +4,11 @@ module Styles = {
   let wrapper =
     style([
       height(pct(100.)),
-      padding3(~top=rem(6.25), ~h=rem(4.75), ~bottom=`zero)
+      padding3(~top=rem(4.1875), ~h=rem(1.25), ~bottom=`zero),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [padding3(~top=rem(6.25), ~h=rem(4.75), ~bottom=`zero)],
+      ),
     ]);
 };
 
