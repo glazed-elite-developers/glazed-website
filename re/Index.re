@@ -11,6 +11,7 @@ let make = () => {
     <SocialIcon icon=SocialIcon.Github />
     
     <ExampleComponent />
+    <ColorSamples />
     <h1> {"Gatsby" ++ {js| ❤ |js} ++ "ReasonML" |> str} </h1>
     <p>
       {"Use this starter to create static sites with Gatsby using ReasonML components."
