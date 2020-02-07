@@ -57,7 +57,7 @@ module Styles = {
 
   let row = style([flexDirection(row), color(white), display(`flex)]);
 
-  let rowLeft = style([paddingLeft(px(15)), color(hex(Theme.Colors.grey))]);
+  let rowLeft = style([paddingLeft(px(15)), color(hex("FEFFFE"))]);
 
   let rowRight = style([paddingLeft(px(15))]);
 
