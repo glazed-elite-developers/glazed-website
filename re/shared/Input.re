@@ -7,12 +7,17 @@ let tints = {"Dark": 0, "Light": 1};
 module Styles = {
   open Css;
 
-  let wrapper = style([]);
-  let label = style([color(hex("9FA8B3"))]);
+  let wrapper = style([height(`percent(100.00))]);
+  let label = style([
+    color(hex("9FA8B3")),
+    fontSize(rem(0.625)),
+    fontWeight(`num(700)),
+    lineHeight(px(23)),
+    ]);
   let labelInner = tint =>
     switch (tint) {
-    | Dark => style([color(hex("fff"))])
-    | Light => style([color(hex("000"))])
+    | Dark => style([color(hex("000"))])
+    | Light => style([color(hex("fff"))])
     };
 
   let focusStyle =
@@ -23,7 +28,7 @@ module Styles = {
   let inputNormal =
     style([
       backgroundColor(hex("F4F6FB")),
-      transition(~duration=1, "borderWidth"),
+      transition(~duration=300, "borderWidth"),
       borderWidth(px(0)),
       color(hex("9FA8B3")),
       display(`block),
@@ -34,6 +39,9 @@ module Styles = {
       width(px(327)),
       padding2(~h=rem(1.25), ~v=rem(0.93)),
       fontSize(rem(0.93)),
+      borderBottomWidth(px(1)),
+      borderColor(`transparent),
+      resize(`none),
     ]);
 
   let inputTint = tint =>
@@ -46,6 +54,15 @@ module Styles = {
     merge([
       inputNormal,
       inputTint(tint),
+      focus ? focusStyle : nonFocusStyle,
+    ]);
+
+
+  let textarea = (tint, focus) =>
+    merge([
+      inputNormal,
+      inputTint(tint),
+      style([height(`percent(100.00))]),
       focus ? focusStyle : nonFocusStyle,
     ]);
 };
@@ -78,7 +95,7 @@ let make =
     {textArea
        ? <textarea
            placeholder
-           className={Styles.input(tint, hasFocus)}
+           className={Styles.textarea(tint, hasFocus)}
            onChange=handleChange
            value
            onFocus

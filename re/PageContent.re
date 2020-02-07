@@ -3,6 +3,9 @@ module Styles = {
 
   let wrapper =
     style([
+      display(`flex),
+      flexDirection(`column),
+      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
       height(pct(100.)),
       padding3(~top=rem(4.1875), ~h=rem(1.25), ~bottom=`zero),
       media(

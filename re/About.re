@@ -3,6 +3,10 @@ let str = React.string;
 module Styles = {
   open Css;
 
+  let page = style([
+    padding(`zero)
+  ])
+
   let wrapper =
     style([
       backgroundColor(hex(Theme.Colors.glazedBlue)),
@@ -19,7 +23,7 @@ module Styles = {
       textAlign(`left),
       paddingRight(px(25)),
       paddingTop(px(10)),
-      float(`right)
+      alignSelf(`flexEnd),
     ]);
 
   let headerText =
@@ -41,13 +45,63 @@ module Styles = {
       fontWeight(normal),
       lineHeight(px(24)),
     ]);
+
+  let listProjects =
+    style([
+      width(`percent(100.0)),
+      backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
+      float(`right),
+      lineHeight(px(30)),
+      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
+    ]);
+
+  let row = style([flexDirection(row), color(white), display(`flex)]);
+
+  let rowLeft = style([paddingLeft(px(15)), color(hex("FEFFFE"))]);
+
+  let rowRight = style([paddingLeft(px(15))]);
+
+};
+
+module LineProjectElement = {
+  [@react.component]
+  let make = (~children) => {
+    <div className=Styles.row>
+      <div className=Styles.rowLeft> {"<li>" |> ReasonReact.string} </div>
+      <div className=Styles.rowRight> children </div>
+    </div>;
+  };
+};
+
+module ListProjects = {
+  [@react.component]
+  let make = () => {
+    <div className=Styles.listProjects>
+      <div> {"Our kind of projects:" |> ReasonReact.string} </div>
+      <LineProjectElement>
+        {"Technically complex" |> ReasonReact.string}
+      </LineProjectElement>
+      <LineProjectElement>
+        {"Highly customised and detailed" |> ReasonReact.string}
+      </LineProjectElement>
+      <LineProjectElement>
+        {"Innovative and using recent technologies" |> ReasonReact.string}
+      </LineProjectElement>
+      <LineProjectElement>
+        {"Critically impact on businesses or people's lives" |> ReasonReact.string}
+      </LineProjectElement>
+      <LineProjectElement>
+        {"Scalable prototypes" |> ReasonReact.string}
+      </LineProjectElement>
+    </div>;
+  };
 };
 
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  <section>
+  <PageContent className=Styles.page>
     <Heading level=Heading.H2 className=Styles.headerText>
       {"// about us" |> ReasonReact.string}
     </Heading>
@@ -59,7 +113,8 @@ let make = () => {
       {"It's your code, ready to hand off or build a team around at any time, but we care for it as it were ours."
        |> ReasonReact.string}
     </HTMLText>
-  </section>;
+    <ListProjects />
+  </PageContent>;
 };
 
 let default = make;
