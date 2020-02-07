@@ -63,7 +63,8 @@ exports.onCreateWebpackConfig = ({ actions }) => {
     resolve: {
       alias: {
         "re": path.resolve(__dirname, "lib/js/re"),
-        "src": path.resolve(__dirname, "src")
+        "src": path.resolve(__dirname, "src"),
+        "assets": path.resolve(__dirname, "assets"),
       }
     }
   });

@@ -45,7 +45,9 @@ module.exports = {
   "settings": {
     "import/resolver": {
       "alias": [
-        ["re", "./lib/js/re"]
+        ["re", "./lib/js/re"],
+        ["src", "./src"],
+        ["assets", "./assets"]
       ]
     }
   }
