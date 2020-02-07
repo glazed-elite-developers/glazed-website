@@ -54,7 +54,11 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => 
                  ])
                : Css.merge([Styles.item, Styles.link, contextualStyles]);
 
-           <Gatsby.Link _to={"/" ++ link} className=linkStyles replace=true>
+           <Gatsby.Link
+             key=string_of_int(index)
+             _to={"/" ++ link}
+             className=linkStyles
+             replace=true>
              {React.string("// " ++ label)}
            </Gatsby.Link>;
          },

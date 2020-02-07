@@ -18,8 +18,7 @@ module Colors = {
 module Fonts = {
   let primary = "ZonaProBold";
   let inputPrimary = "'Muli', sans-serif";
-  let inputSecondary = "Muli-Bold"
-}
+};
 
 module Breakpoints = {
   let phoneLandscape = "(min-width: 576px)"
