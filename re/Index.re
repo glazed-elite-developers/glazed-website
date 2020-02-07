@@ -8,6 +8,7 @@ module Styles = {
       padding(`zero),
       backgroundColor(hex(Theme.Colors.glazedBlue)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
+      media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
     ]);
   let socialNetworks =
     style([
