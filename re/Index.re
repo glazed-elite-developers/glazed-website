@@ -18,10 +18,11 @@ module Styles = {
 
   let quote= 
     style([
+      marginTop(rem(5.)),
       media(
       Theme.Breakpoints.tabletLandscape,[
         maxWidth(rem(70.)),
-        marginTop(rem(5.)),
+        
         marginBottom(rem(5.)),
       ])
   ]);
