@@ -3,6 +3,10 @@ let str = React.string;
 module Styles = {
   open Css;
 
+  let page = style([
+    padding(`zero)
+  ])
+
   let wrapper =
     style([
       backgroundColor(hex(Theme.Colors.glazedBlue)),
@@ -19,7 +23,7 @@ module Styles = {
       textAlign(`left),
       paddingRight(px(25)),
       paddingTop(px(10)),
-      float(`right),
+      alignSelf(`flexEnd),
     ]);
 
   let headerText =
@@ -48,6 +52,7 @@ module Styles = {
       backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
       float(`right),
       lineHeight(px(30)),
+      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);
 
   let row = style([flexDirection(row), color(white), display(`flex)]);
@@ -55,6 +60,7 @@ module Styles = {
   let rowLeft = style([paddingLeft(px(15)), color(hex(Theme.Colors.grey))]);
 
   let rowRight = style([paddingLeft(px(15))]);
+
 };
 
 module LineProjectElement = {
@@ -95,7 +101,7 @@ module ListProjects = {
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  <section>
+  <PageContent className=Styles.page>
     <Heading level=Heading.H2 className=Styles.headerText>
       {"// about us" |> ReasonReact.string}
     </Heading>
@@ -108,7 +114,7 @@ let make = () => {
        |> ReasonReact.string}
     </HTMLText>
     <ListProjects />
-  </section>;
+  </PageContent>;
 };
 
 let default = make;
