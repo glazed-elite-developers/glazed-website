@@ -23,7 +23,7 @@ module Styles = {
   let inputNormal =
     style([
       backgroundColor(hex("F4F6FB")),
-      transition(~duration=1, "borderWidth"),
+      transition(~duration=300, "borderWidth"),
       borderWidth(px(0)),
       color(hex("9FA8B3")),
       display(`block),
