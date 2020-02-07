@@ -18,7 +18,8 @@ module Tag = {
       style([
         position(`absolute),
         color(hex(Colors.glazedBlueLighter)),
-        fontFamily(Fonts.inputSecondary),
+        fontFamily(Fonts.inputPrimary),
+        fontWeight(`num(700)),
         fontSize(rem(0.75)),
         opacity(0.2),
       ]);
