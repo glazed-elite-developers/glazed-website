@@ -5,8 +5,14 @@ module Styles = {
 
   let wrapper =
     style([
+      padding(`zero),
       backgroundColor(hex(Theme.Colors.glazedBlue)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
+    ]);
+  let socialNetworks =
+    style([
+      display(`none),
+      media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
 };
 
@@ -15,12 +21,15 @@ module Styles = {
 [@react.component]
 let make = () => {
   <PageContent className=Styles.wrapper>
-    <ColorSamples />
-    // <div className=Styles.socialNetworks></div>
-    <SocialIconDark icon=SocialIconDark.Twitter />
-    <SocialIconDark icon=SocialIconDark.Facebook />
-    <SocialIconDark icon=SocialIconDark.Linkedin />
-    <SocialIconDark icon=SocialIconDark.Github />
+    <FullPageSlide backgroundImageUrl="/images/home/slide-1-background.jpg">
+      <ColorSamples />
+      <div className=Styles.socialNetworks>
+        <SocialIconDark icon=SocialIconDark.Twitter />
+        <SocialIconDark icon=SocialIconDark.Facebook />
+        <SocialIconDark icon=SocialIconDark.Linkedin />
+        <SocialIconDark icon=SocialIconDark.Github />
+      </div>
+    </FullPageSlide>
   </PageContent>;
 };
 
