@@ -30,7 +30,7 @@ module Styles = {
       backgroundColor(hex("2962F6")),
       // boxShadow(),
       color(hex("FFFFFF")),
-      fontFamily(Theme.Fonts.primary),
+      fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),
       lineHeight(rem(0.75)),
       // letterSpacing: 0.2px;
@@ -64,7 +64,7 @@ module Styles = {
       color(hex("53D3FF")),
       borderWidth(px(0)),
       // opacity(0.1),
-      fontFamily(Theme.Fonts.primary),
+      fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),
       lineHeight(rem(1.5)),
       textAlign(`left),
