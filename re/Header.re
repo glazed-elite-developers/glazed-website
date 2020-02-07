@@ -22,33 +22,14 @@ module Styles = {
 };
 
 [@react.component]
-// let make = (~siteTitle) => {
-// <header className=Styles.header>
-//   <div className=Styles.content>
-//     <h1 className=Styles.h1>
-//       <SocialIconBright icon=SocialIconBright.Twitter />
-//       <SocialIconBright icon=SocialIconBright.Facebook />
-//       <SocialIconBright icon=SocialIconBright.Linkedin />
-//       <SocialIconBright icon=SocialIconBright.Github />
-//       <ComponentFromJS startAt={10} message="Yolo" />
-//       <Gatsby.Link _to="/" className=Styles.link>
-//         {siteTitle |> ReasonReact.string}
-//       </Gatsby.Link>
-//     </h1>
-//     <nav className=Styles.nav>
-//       <Gatsby.Link _to="/blog" className=Styles.link>
-//         {"Blog" |> ReasonReact.string}
-//       </Gatsby.Link>
-//     </nav>
-//   </div>
-let make = (~className, ~useDarkNavBarLinks: bool) => {
+let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
 
   <header className={Css.merge([Styles.header, className])}>
     <div className=Styles.logoWrapper>
       <img className=Styles.logo src=logoToUse />
     </div>
-    <NavBarLinks useDarkNavBarLinks />
+    <NavBarLinks useDarkNavBarLinks currentPageIndex />
   </header>;
 };
 

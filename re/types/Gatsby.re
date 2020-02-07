@@ -1,7 +1,7 @@
 module Link = {
   [@bs.module "gatsby"] [@react.component]
   external make:
-    (~_to: string, ~className: string, ~children: React.element) =>
+    (~_to: string, ~className: string, ~children: React.element, ~replace: bool = ?) =>
     React.element =
     "Link";
 };
