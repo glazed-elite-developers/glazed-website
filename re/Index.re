@@ -22,7 +22,7 @@ module Styles = {
       media(
       Theme.Breakpoints.tabletLandscape,[
         maxWidth(rem(70.)),
-        
+        marginTop(rem(20.)),
         marginBottom(rem(5.)),
       ])
   ]);
