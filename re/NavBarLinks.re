@@ -5,9 +5,18 @@ module Styles = {
   let lightTheme = style([color(hex(Theme.Colors.white))]);
   let darkTheme = style([color(hex(Theme.Colors.darkGreyDarker))]);
   let logoWrapper = style([flex3(~grow=0., ~shrink=0., ~basis=`auto)]);
-  let item = style([padding(rem(0.75))]);
+  let item =
+    style([
+      padding(rem(0.25)),
+      media(Theme.Breakpoints.tabletLandscape, [padding(rem(0.75))]),
+    ]);
   let dimmed = style([opacity(0.6)]);
   let link = style([textDecoration(`none)]);
+  let explore =
+    style([
+      display(`none),
+      media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
+    ]);
 };
 
 let items = [|
@@ -28,7 +37,7 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => 
     useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
 
   <div className={Css.merge([styles, contextualStyles])}>
-    <div className={Css.merge([Styles.dimmed, Styles.item])}>
+    <div className={Css.merge([Styles.dimmed, Styles.item, Styles.explore])}>
       {React.string("explore:")}
     </div>
     {React.array(
