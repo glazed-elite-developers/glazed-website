@@ -1,11 +1,21 @@
 let str = React.string;
 
+module Styles = {
+  open Css;
+
+  let wrapper =
+    style([
+      backgroundColor(hex(Theme.Colors.glazedBlue)),
+      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
+      padding(rem(10.))
+    ]);
+};
+
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  <div>
-    <ExampleComponent />
+  <div className=Styles.wrapper>
     <ColorSamples />
     <h1> {"Gatsby" ++ {js| ❤ |js} ++ "ReasonML" |> str} </h1>
     <p>
