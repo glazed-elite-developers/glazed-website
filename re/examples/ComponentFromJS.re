@@ -1,4 +1,4 @@
-[@react.component] [@bs.module "../../src/components/examples/JSComponent"]
+[@react.component] [@bs.module "src/components/examples/JSComponent"]
 external make: (~startAt: int, ~message: string) => React.element = "default";
 
 
