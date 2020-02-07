@@ -15,7 +15,6 @@ module Styles = {
 
   let colorSquare = style([
       display(`flex),
-      float(`left),
       width(em(10.5)),
       height(em(10.5)),
       flexDirection(`column),
@@ -50,9 +49,9 @@ let make = () => {
             <div
                 className=Styles.colorSquare 
                 key=string_of_int(i)
-                style=(ReactDOMRe.Style.make(~backgroundColor=bgColor, ~color=color, ()))>
+                style=(ReactDOMRe.Style.make(~backgroundColor="#"++bgColor, ~color="#"++color, ()))>
                 <p>{ str(name) }</p>
-                <p>{ str(color) }</p>
+                <p>{ str(bgColor) }</p>
             </div>
         }, colors)
         |> ReasonReact.array
