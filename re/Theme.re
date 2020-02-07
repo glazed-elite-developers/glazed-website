@@ -10,6 +10,12 @@ module Colors = {
   let glazedBlueLighter = "#537EED";
   let glazedBlueDarker = "#2962F6";
   let glazedBabyBlue = "#53D3FF";
-  let glazedBabyBlueLight =  "#7FDAFF";
+  let glazedBabyBlueLight = "#7FDAFF";
   let glazedBabyBlueDarker = "#69C0FE";
 };
+
+module Fonts = {
+  let primary = "ZonaProBold";
+  let inputPrimary = "Muli-Regular";
+  let inputSecondary = "Muli-Bold"
+}
