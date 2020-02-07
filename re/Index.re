@@ -15,6 +15,17 @@ module Styles = {
       display(`none),
       media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
+
+  let quote= 
+    style([
+      media(
+      Theme.Breakpoints.tabletLandscape,[
+        maxWidth(rem(70.)),
+        marginTop(rem(5.)),
+        marginBottom(rem(5.)),
+      ])
+  ]);
+
 };
 
 /* For a page of static text like this one, it would be easier to just use plain React
@@ -23,7 +34,13 @@ module Styles = {
 let make = () => {
   <PageContent className=Styles.wrapper>
     <FullPageSlide backgroundImageUrl="/images/home/slide-1-background.jpg">
-      <ColorSamples />
+      <Quote
+        className=Styles.quote
+        quote={"\"TThis is the bestest site I've ever seen. It's the most EPIC thing in the world... I honnestly peed a litle when I opened it. I would give my soon to be born child to be able to forget I've seen this site to be able to see it again for the first time.\""}
+        imageSrc={"/images/iwilsonq.jpg"}
+        name={j|José Neves|j}
+        position={"CEO Farfetch"}
+        />
       <div className=Styles.socialNetworks>
         <SocialIconDark icon=SocialIconDark.Twitter />
         <SocialIconDark icon=SocialIconDark.Facebook />
