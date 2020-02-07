@@ -2,8 +2,8 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { Link, graphql } from 'gatsby'
 
-import Bio from '../../re/Bio.bs'
-import Layout from '../components/layout'
+import Bio from 're/Bio'
+import Layout from 'src/components/layout'
 
 class BlogPostTemplate extends React.Component {
   render() {

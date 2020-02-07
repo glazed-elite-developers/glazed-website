@@ -7,5 +7,9 @@ yarn-error.log
 /public
 .DS_Store
 
+
 # BuckleScript
 /lib
+
+#ReasonML
+/.merlin

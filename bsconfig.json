@@ -9,9 +9,9 @@
   },
   "package-specs": [{
     "module": "commonjs",
-    "in-source": true
+    "in-source": false
   }],
-  "suffix": ".bs.js",
+  "suffix": ".js",
   "namespace": true,
   "bs-dependencies": [
     "reason-react",

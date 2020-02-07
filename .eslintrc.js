@@ -41,5 +41,12 @@ module.exports = {
   parser: 'babel-eslint',
   parserOptions: {
     'ecmaVersion': 8, // optional, recommended 6+
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [
+        ["re", "./lib/js/re"]
+      ]
+    }
   }
 }
