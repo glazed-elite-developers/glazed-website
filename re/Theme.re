@@ -19,3 +19,10 @@ module Fonts = {
   let inputPrimary = "Muli-Regular";
   let inputSecondary = "Muli-Bold"
 }
+
+module Breakpoints = {
+  let phoneLandscape = "(min-width: 576px)"
+  let tabletPortait = "(min-width: 768px)"
+  let tabletLandscape = "(min-width: 992px)"
+  let desktop = "(min-width: 1200px)"
+};
