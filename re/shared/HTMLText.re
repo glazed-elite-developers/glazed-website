@@ -76,16 +76,17 @@ module TextContent = {
 };
 
 [@react.component]
-let make = (~tag: tags, ~children) => {
+let make = (~tag: tags, ~className, ~children) => {
+
   switch (tag) {
   | H1 =>
-    <h1 className=TextStyles.h1>
+    <h1 className=Css.merge([TextStyles.h1, className])>
       <Tag tag=H1 html="<h1>" />
       <TextContent> children </TextContent>
       <Tag tag=H1 html="</h1>" />
     </h1>
   | H2 =>
-    <h2 className=TextStyles.h2>
+    <h2 className=Css.merge([TextStyles.h2, className])>
       <Tag tag=H2 html="<h2>" />
       <TextContent> children <Tag tag=H2 html="</h2>" /> </TextContent>
     </h2>
