@@ -20,6 +20,16 @@
 
     Open the the `my-super-neat-reasonml-site` directory (or whatever sensible name you gave it) in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
 
+## Editor support for VS Code
+
+    Install BuckleScript & Reason globally:
+
+    ```sh
+    npm install -g bs-platform
+    ```
+
+    Install the reason-vscode@1.7.4 and prettier vs code extensions.
+
 ## 🧐 What's inside?
 
 - Gatsby v2

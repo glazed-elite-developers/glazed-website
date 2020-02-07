@@ -1,6 +1,6 @@
 import React from 'react'
-import Component1 from 're/examples/Component.bs'
+import Component from 're/examples/Component'
 
 export default function() {
-  return <Component1 />
+  return <Component />
 }
