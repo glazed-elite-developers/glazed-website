@@ -1,7 +1,7 @@
 import React from 'react'
 import { Global, css } from '@emotion/core'
 import ResetCSS from './reset'
-import fonts from './fonts';
+import fonts from './fonts'
 
 const GlobalStyles = () => (
   <>

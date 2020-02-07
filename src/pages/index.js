@@ -5,7 +5,7 @@ import Theme from 're/Theme'
 import Bio from 're/Bio'
 
 const IndexPage = () => (
-  <Layout useDarkNavBarLinks={ false }>
+  <Layout useDarkNavBarLinks={false}>
     <Index />
   </Layout>
 )
