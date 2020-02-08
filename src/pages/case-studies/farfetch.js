@@ -4,7 +4,11 @@ import CaseStudiesHeader from 're/CaseStudies/CaseStudiesHeader'
 import { useStaticQuery, graphql } from 'gatsby'
 import debounce from 'lodash.debounce'
 
-const DEBOUNCE_PERIOD = 50;
+const DEBOUNCE_PERIOD = 50
+
+if (typeof window === 'undefined') {
+  var window = {}
+}
 
 const FarfetchCaseStudy = () => {
   const data = useStaticQuery(graphql`
@@ -19,7 +23,11 @@ const FarfetchCaseStudy = () => {
     }
   `)
 
-  const [useDarkNavBarLinks, setUseDarkNavBarLinks] = useState((window.innerWidth || document.documentElement.clientWidth) > 1024);
+  const initialState =
+    typeof window !== 'undefined' && typeof document !== 'undefined'
+      ? (window.innerWidth || document.documentElement.clientWidth) > 1024
+      : false
+  const [useDarkNavBarLinks, setUseDarkNavBarLinks] = useState(initialState)
 
   const changeNavWhenOnDesktop = debounce(
     () => {
