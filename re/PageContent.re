@@ -17,13 +17,13 @@ module Styles = {
 
 [@react.component]
 let make = (~className=?, ~children) => {
-  let combinedStyles =
-    switch (className) {
-    | None => Styles.wrapper
-    | Some(className) => Css.merge([Styles.wrapper, className])
-    };
-
-  <main className=combinedStyles> children </main>;
+  <main
+    className={Utils.React.combineOptionalStyles(
+      ~baseStyles=Styles.wrapper,
+      ~className?,
+    )}>
+    children
+  </main>;
 };
 
 let default = make;

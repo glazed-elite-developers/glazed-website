@@ -8,7 +8,6 @@ import Theme from 're/Theme';
 const withBG = color => ({ backgroundColor: `#${color}`, padding: "10px" });
 // const blueBG = { backgroundColor: `#${Theme.Colors.blueDarker}`};
 
-console.log(backgrounds)
 const IndexPage = () => {
   const [value, setVal] = useState('')
 

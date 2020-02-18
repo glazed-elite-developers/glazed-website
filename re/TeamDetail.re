@@ -101,7 +101,7 @@ module Styles = {
 
 [@react.component]
 let make = (~developer, ~image) => {
-  <PageContent>
+  <PageContent> 
     <GatsbyBackgroundImage
       className=Styles.developer
       fluid=image>

@@ -30,12 +30,12 @@ module Styles = {
 [@react.component]
 let make = (
   ~image: unit,
-  ~title: string,
-  ~area: string,
-  ~text: string,
-  ~techs: array(string),
-  ~year: string,
-  ~brief: string
+  _title: string,
+  _area: string,
+  _text: string,
+  _techs: array(string),
+  _year: string,
+  _brief: string
 ) => {
   <header>
     <div className=Styles.image>

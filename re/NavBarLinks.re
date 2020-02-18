@@ -31,10 +31,7 @@ let items = [|
 [@react.component]
 let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => {
   let styles =
-    switch (className) {
-    | None => Styles.wrapper
-    | Some(className) => Css.merge([Styles.wrapper, className])
-    };
+    Utils.React.combineOptionalStyles(~baseStyles=Styles.wrapper, ~className?);
   let contextualStyles =
     useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
 
@@ -57,7 +54,7 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => 
                : Css.merge([Styles.item, Styles.link, contextualStyles]);
 
            <Gatsby.Link
-             key=string_of_int(index)
+             key={string_of_int(index)}
              _to={"/" ++ link}
              className=linkStyles
              replace=true>

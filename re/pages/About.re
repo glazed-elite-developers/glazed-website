@@ -50,7 +50,7 @@ module Styles = {
     style([
       width(`percent(100.0)),
       backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
-      float(`right),
+      Css.float(`right),
       lineHeight(px(30)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);

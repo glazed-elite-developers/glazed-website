@@ -11,11 +11,6 @@ module Styles = {
 
 [@react.component]
 let make = (~className=?, ~children, ~backgroundImageUrl=?) => {
-  let combinedStyles =
-    switch (className) {
-    | None => Styles.wrapper
-    | Some(className) => Css.merge([Styles.wrapper, className])
-    };
   let inlineStyle =
     switch (backgroundImageUrl) {
     | None => ReactDOMRe.Style.make()
@@ -23,7 +18,14 @@ let make = (~className=?, ~children, ~backgroundImageUrl=?) => {
       ReactDOMRe.Style.make(~backgroundImage={j|url('$(url)')|j}, ())
     };
 
-  <section className=combinedStyles style=inlineStyle> children </section>;
+  <section
+    className={Utils.React.combineOptionalStyles(
+      ~baseStyles=Styles.wrapper,
+      ~className?,
+    )}
+    style=inlineStyle>
+    children
+  </section>;
 };
 
 let default = make;

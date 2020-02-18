@@ -59,7 +59,7 @@ module Styles = {
       secondaryForBg(bg),
     ]);
 
-  let tertiary = isDisabled =>
+  let tertiary = _isDisabled =>
     style([
       color(hex("53D3FF")),
       borderWidth(px(0)),
@@ -95,13 +95,15 @@ let make =
     | None => (_ => ())
     | Some(handler) => isDisabled ? (_ => ()) : handler
     };
-  let combinedStyles =
-    switch (className) {
-    | None => Css.merge([Styles.common, ownStyles])
-    | Some(className) => Css.merge([Styles.common, ownStyles, className])
-    };
 
-  <button className={combinedStyles} onClick=onClickHandler> children </button>;
+  <button
+    className={Utils.React.combineOptionalStyles(
+      ~baseStyles=Css.merge([Styles.common, ownStyles]),
+      ~className?,
+    )}
+    onClick=onClickHandler>
+    children
+  </button>;
 };
 
 let default = make;

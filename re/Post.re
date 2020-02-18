@@ -22,7 +22,7 @@ let make = (~post) => {
     </Gatsby.Link>
     <p className=Styles.p> {post##excerpt} </p>
     <small className=Styles.date>
-      {post##frontmatter##date |> Utils.formatDate |> str}
+      {post##frontmatter##date |> Utils.Date.formatDate |> str}
     </small>
   </article>;
 };

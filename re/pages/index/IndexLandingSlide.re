@@ -1,16 +1,7 @@
-let str = React.string;
-
 module Styles = {
   open Css;
 
   let wrapper =
-    style([
-      padding(`zero),
-      backgroundColor(hex(Theme.Colors.glazedBlue)),
-      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
-      media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
-    ]);
-  let firstSlide =
     style([
       padding2(~h=rem(2.0625), ~v=rem(8.0625)),
       display(`flex),
@@ -19,14 +10,14 @@ module Styles = {
       alignItems(`center),
       position(`relative),
     ]);
-  let firstSlideContent =
+  let content =
     style([
       display(`flex),
       flexDirection(`column),
       width(pct(100.)),
       media(Theme.Breakpoints.tabletLandscape, [maxWidth(rem(44.))]),
     ]);
-  let firstSlideHtmlText =
+  let htmlText =
     style([
       color(hex(Theme.Colors.white)),
       fontSize(rem(0.85)),
@@ -113,55 +104,43 @@ module Styles = {
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  <PageContent className=Styles.wrapper>
-    <FullPageSlide
-      className=Styles.firstSlide
-      backgroundImageUrl="/images/home/slide-1-background.jpg">
-      <div className=Styles.firstSlideContent>
-        <Heading level=Heading.H1 className=Styles.mainHeading>
-          <span className=Styles.commentedText>
-            {React.string("// Some projects")}
-          </span>
-          {React.string("require elite mobile and web developers")}
-        </Heading>
-        <Gatsby.Link className="" _to="case-studies">
-          <Button isPrimary=true className=Styles.exploreCasesButton>
-            {React.string("> explore cases")}
-          </Button>
-        </Gatsby.Link>
-        <HTMLText tag=HTMLText.P className=Styles.firstSlideHtmlText>
-          {React.string(
-             "a team of highly specialized developers that takes on the most demanding web and mobile development projects",
-           )}
-        </HTMLText>
-      </div>
-      <div className=Styles.socialNetworks>
-        <SocialIconDark
-          className=Styles.socialIcon
-          icon=SocialIconDark.Twitter
-        />
-        <SocialIconDark
-          className=Styles.socialIcon
-          icon=SocialIconDark.Facebook
-        />
-        <SocialIconDark
-          className=Styles.socialIcon
-          icon=SocialIconDark.Linkedin
-        />
-        <SocialIconDark
-          className=Styles.socialIcon
-          icon=SocialIconDark.Github
-        />
-      </div>
-    </FullPageSlide>
-    <FullPageSlide backgroundImageUrl="/images/home/slide-1-background.jpg">
-      <CaseStudies />
-      <Team />
-    </FullPageSlide>
-    <FullPageSlide backgroundImageUrl="/images/home/slide-1-background.jpg">
-      <div className=Styles.contactFormWrapper> <ContactForm /> </div>
-    </FullPageSlide>
-  </PageContent>;
+  <FullPageSlide
+    className=Styles.wrapper
+    backgroundImageUrl="/images/home/slide-1-background.jpg">
+    <div className=Styles.content>
+      <Heading level=Heading.H1 className=Styles.mainHeading>
+        <span className=Styles.commentedText>
+          {React.string("// Some projects")}
+        </span>
+        {React.string("require elite mobile and web developers")}
+      </Heading>
+      <Gatsby.Link className="" _to="case-studies">
+        <Button isPrimary=true className=Styles.exploreCasesButton>
+          {React.string("> explore cases")}
+        </Button>
+      </Gatsby.Link>
+      <HTMLText tag=HTMLText.P className=Styles.htmlText>
+        {React.string(
+           "a team of highly specialized developers that takes on the most demanding web and mobile development projects",
+         )}
+      </HTMLText>
+    </div>
+    <div className=Styles.socialNetworks>
+      <SocialIconDark
+        className=Styles.socialIcon
+        icon=SocialIconDark.Twitter
+      />
+      <SocialIconDark
+        className=Styles.socialIcon
+        icon=SocialIconDark.Facebook
+      />
+      <SocialIconDark
+        className=Styles.socialIcon
+        icon=SocialIconDark.Linkedin
+      />
+      <SocialIconDark className=Styles.socialIcon icon=SocialIconDark.Github />
+    </div>
+  </FullPageSlide>;
 };
 
 let default = make;
