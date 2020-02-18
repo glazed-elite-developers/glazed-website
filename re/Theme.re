@@ -15,6 +15,7 @@ module Colors = {
   let glazedBabyBlueDarker = "69C0FE";
   let glazedBabyBlueText= "2560F2";
   let glazedGreyText= "0F1936";
+  let almostWhite = "FEFFFE";
 };
 
 module Fonts = {

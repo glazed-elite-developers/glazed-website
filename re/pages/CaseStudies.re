@@ -1,66 +1,142 @@
 module Styles = {
   open Css;
   open Theme;
-  
-  let number = style([]);
-  let projectName = style([]);
-  let link = style([color(hex(Colors.glazedBlueLighter))]);
-  
-  let square = style([
-    backgroundColor(hex(Colors.glazedBlue)),
-    borderStyle(solid),
-    borderWidth(px(1)),
-    borderColor(hex(Colors.glazedBabyBlueDarker)),
-    color(white),
-    height(`percent(100.))
-  ]);
-  let fakeSquare = style([    
-    height(`percent(100.))
-  ]);
 
+  let number =
+    style([
+      color(hex(Colors.almostWhite)),
+      fontFamily(Fonts.heading),
+      fontSize(px(10)),
+      fontWeight(`bolder),
+      lineHeight(px(23)),
+      opacity(0.67),
+      // width() 25px;
+      textAlign(`left),
+      marginTop(px(20)),
+      marginLeft(px(30)),
+    ]);
+  let projectName = hovered =>
+    style([
+      color(hex(Colors.almostWhite)),
+      fontFamily(Fonts.heading),
+      fontSize(px(32)),
+      fontWeight(`bolder),
+      lineHeight(px(48)),
+      opacity(0.9),
+      width(px(183)),
+      textAlign(`left),
+      marginLeft(px(30)),
+      ...hovered ? [] : [position(`absolute), bottom(px(20))],
+    ]);
+  let projectArea = hovered =>
+    style([
+      //     color: #FFFFFF;
+      // font-family: Muli;
+      // font-size: 14px;
+      // font-weight: 400;
+      // letter-spacing: 0.31px;
+      // line-height: 34px;
+      // text-align: left;
+      color(white),
+      fontFamily("Multi"),
+      fontSize(px(14)),
+      fontWeight(`normal),
+      letterSpacing(pxFloat(0.31)),
+      lineHeight(px(34)),
+      // textAlign(`left),
+      marginLeft(px(30)),
+      ...hovered ? [] : [display(`none)],
+    ]);
+  let link = hovered =>
+    style([
+      marginLeft(px(30)),
+      color(hex(Colors.glazedBlueLighter)),
+      ...hovered ? [] : [display(`none)],
+    ]);
+
+  let square = hovered =>
+    style([
+      backgroundColor(hex(Colors.glazedBlueDarker)),
+      opacity(0.5),
+      borderStyle(solid),
+      borderWidth(px(1)),
+      borderColor(hex(Colors.glazedBabyBlueDarker)),
+      // boxShadow(
+      //   Shadow.box(
+      //     // ~y=px(0),
+      //     ~blur=px(5),
+      //     // ~x=px(0),
+      //     // ~spread=px(0),
+      //     // ~inset=false,
+      //     hex(Colors.glazedBabyBlueLight),
+      //   ),
+      // ),
+      color(white),
+      height(`percent(100.)),
+      ...hovered
+           ? [opacity(1.0), backgroundColor(hex(Colors.glazedBlueDarker))]
+           : [],
+    ]);
+  let fakeSquare = style([height(`percent(100.))]);
 };
 
 let str = React.string;
 
+type caseStudie = {
+  name: string,
+  area: string,
+};
+let caseStudies = [|
+  {name: "LVMH", area: "Fashion - Ecommerce"},
+  {name: "Farfetch", area: "Fashion - Ecommerce"},
+  {name: "Switch", area: "Fashion - Ecommerce"},
+  {name: "ASOS", area: "Fashion - Ecommerce"},
+  {name: "Meo Music", area: "Fashion - Ecommerce"},
+|];
+
 [@react.component]
 let make = () => {
+  let (hovered, setHovered) = React.useState(() => 0);
+
+  let handleOver = (i, _) => {
+    setHovered(_ => i);
+  };
+
   <div>
     <Squares>
       [|
-        <div className=Styles.square >
-          <h1 className=Styles.projectName > {"// case studies" |> str} </h1>
-        </div>
+        <div className=Styles.square(false)>
+          <h1 className={Styles.projectName(false)}>
+            {"// case studies" |> str}
+          </h1>
+        </div>,
       |]
     </Squares>
     <Squares>
-      [|
-        <div className=Styles.square >
-          <p className=Styles.number > {"// 01" |> str} </p>
-          <h1 className=Styles.projectName > {"LVMH" |> str} </h1>
-          <a className=Styles.link > {">explore case" |> str} </a>
-        </div>,
-        <div className=Styles.square >
-          <p className=Styles.number > {"// 02" |> str} </p>
-          <h1 className=Styles.projectName > {"LVMH" |> str} </h1>
-          <a className=Styles.link > {">explore case" |> str} </a>
-        </div>,
-        <div className=Styles.square >
-          <p className=Styles.number > {"// 03" |> str} </p>
-          <h1 className=Styles.projectName > {"LVMH" |> str} </h1>
-          <a className=Styles.link > {">explore case" |> str} </a>
-        </div>,
-        <div className=Styles.square >
-          <p className=Styles.number > {"// 04" |> str} </p>
-          <h1 className=Styles.projectName > {"LVMH" |> str} </h1>
-          <a className=Styles.link > {">explore case" |> str} </a>
-        </div>,
-        <div className=Styles.fakeSquare />,
-        <div className=Styles.square >
-          <p className=Styles.number > {"// 05" |> str} </p>
-          <h1 className=Styles.projectName > {"LVMH" |> str} </h1>
-          <a className=Styles.link > {">explore case" |> str} </a>
-        </div>,
-      |]
+      {caseStudies
+       |> Array.mapi((i, cs) => {
+            let isHovered = hovered == i;
+            <div onMouseEnter={handleOver(i)} className=Styles.square(isHovered)>
+              <p className=Styles.number>
+                {"// 0" ++ string_of_int(i + 1) |> str}
+              </p>
+              <h2 className={Styles.projectName(isHovered)}>
+                {cs.name |> str}
+              </h2>
+              <p className={Styles.projectArea(isHovered)}>
+                {cs.area |> str}
+              </p>
+              <a className={Styles.link(isHovered)}>
+                {">explore case" |> str}
+              </a>
+            </div>;
+          })}
     </Squares>
-  </div>
+  </div>;
+  // <div className=Styles.fakeSquare />
+  // <div className=Styles.square>
+  //   <p className=Styles.number> {"// 05" |> str} </p>
+  //   <h1 className=Styles.projectName> {"LVMH" |> str} </h1>
+  //   <a className=Styles.link> {">explore case" |> str} </a>
+  // </div>
 };
