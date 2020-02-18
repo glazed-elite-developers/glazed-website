@@ -3,9 +3,9 @@ import HTMLText, { tags } from 're/shared/HTMLText'
 import Input, { tints } from 're/shared/Input'
 import Button, { backgrounds } from 're/shared/Button'
 import Layout from 'src/components/layout'
-import Theme from 're/Theme';
+import Theme from 're/Theme'
 
-const withBG = color => ({ backgroundColor: `#${color}`, padding: "10px" });
+const withBG = color => ({ backgroundColor: `#${color}`, padding: '10px' })
 // const blueBG = { backgroundColor: `#${Theme.Colors.blueDarker}`};
 
 const IndexPage = () => {
@@ -50,9 +50,7 @@ const IndexPage = () => {
 
       <div>
         <div style={withBG('fff')}>
-          <Button isPrimary>
-            > send
-          </Button>
+          <Button isPrimary>> send</Button>
         </div>
 
         <div style={withBG('fff')}>
@@ -89,9 +87,7 @@ const IndexPage = () => {
         </div>
 
         <div style={withBG('fff')}>
-          <Button isTertiary>
-            > send
-          </Button>
+          <Button isTertiary>> send</Button>
         </div>
       </div>
     </Layout>

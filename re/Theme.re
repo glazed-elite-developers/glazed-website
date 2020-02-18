@@ -15,8 +15,6 @@ module Colors = {
   let glazedBabyBlueDarker = "69C0FE";
   let glazedBabyBlueText= "2560F2";
   let glazedGreyText= "0F1936";
-
-
 };
 
 module Fonts = {
@@ -25,8 +23,14 @@ module Fonts = {
 };
 
 module Breakpoints = {
+  let phone = "(min-width: 0px)"
+  let phoneValue = 0
   let phoneLandscape = "(min-width: 576px)"
+  let phoneLandscapeValue = 576
   let tabletPortait = "(min-width: 768px)"
+  let tabletPortaitValue = 768
   let tabletLandscape = "(min-width: 992px)"
+  let tabletLandscapeValue = 992
   let desktop = "(min-width: 1200px)"
+  let desktopValue = 1200
 };

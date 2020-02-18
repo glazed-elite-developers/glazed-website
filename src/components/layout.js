@@ -7,6 +7,7 @@ import PageLayout from 're/PageLayout'
 import Header from 're/Header'
 import Index from 're/Index'
 import GlobalStyles from 'src/styles'
+import { MediaContextProvider } from './mediaContext'
 
 const Layout = ({ children, useDarkNavBarLinks }) => (
   <StaticQuery
@@ -38,6 +39,7 @@ const Layout = ({ children, useDarkNavBarLinks }) => (
           />
         </Helmet>
         <GlobalStyles />
+
         <PageLayout
           siteTitle={data.site.siteMetadata.title}
           useDarkNavBarLinks={useDarkNavBarLinks}

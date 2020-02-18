@@ -4,27 +4,25 @@ import Layout from 'src/components/layout'
 import { useStaticQuery, graphql } from 'gatsby'
 
 const developer = {
-  name: "Diogo Nunes",
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi u",
-  headline: "has a vast experience and deep knowledge on all things on iOS",
-  photo: "images/team/CarlosMatias.png"
-};
-
-
-
+  name: 'Diogo Nunes',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi u',
+  headline: 'has a vast experience and deep knowledge on all things on iOS',
+  photo: 'images/team/CarlosMatias.png',
+}
 
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
-  query {
-  developerImage: file(relativePath: { eq: "team/CarlosMatias.png" }) {
-    childImageSharp {
-      fluid(maxWidth: 1200) {
-        ...GatsbyImageSharpFluid
+    query {
+      developerImage: file(relativePath: { eq: "team/CarlosMatias.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1200) {
+            ...GatsbyImageSharpFluid
+          }
+        }
       }
     }
-  }
-}
-`)
+  `)
 
   return (
     <Layout useDarkNavBarLinks>
