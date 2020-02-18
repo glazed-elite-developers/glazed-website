@@ -30,20 +30,12 @@ module Styles = {
     ]);
   let projectArea = hovered =>
     style([
-      //     color: #FFFFFF;
-      // font-family: Muli;
-      // font-size: 14px;
-      // font-weight: 400;
-      // letter-spacing: 0.31px;
-      // line-height: 34px;
-      // text-align: left;
       color(white),
       fontFamily("Multi"),
       fontSize(px(14)),
       fontWeight(`normal),
       letterSpacing(pxFloat(0.31)),
       lineHeight(px(34)),
-      // textAlign(`left),
       marginLeft(px(30)),
       ...hovered ? [] : [display(`none)],
     ]);
@@ -61,16 +53,6 @@ module Styles = {
       borderStyle(solid),
       borderWidth(px(1)),
       borderColor(hex(Colors.glazedBabyBlueDarker)),
-      // boxShadow(
-      //   Shadow.box(
-      //     // ~y=px(0),
-      //     ~blur=px(5),
-      //     // ~x=px(0),
-      //     // ~spread=px(0),
-      //     // ~inset=false,
-      //     hex(Colors.glazedBabyBlueLight),
-      //   ),
-      // ),
       color(white),
       height(`percent(100.)),
       ...hovered
@@ -105,7 +87,7 @@ let make = () => {
   <div>
     <Squares>
       [|
-        <div className=Styles.square(false)>
+        <div className={Styles.square(false)}>
           <h1 className={Styles.projectName(false)}>
             {"// case studies" |> str}
           </h1>
@@ -116,7 +98,9 @@ let make = () => {
       {caseStudies
        |> Array.mapi((i, cs) => {
             let isHovered = hovered == i;
-            <div onMouseEnter={handleOver(i)} className=Styles.square(isHovered)>
+            <div
+              onMouseEnter={handleOver(i)}
+              className={Styles.square(isHovered)}>
               <p className=Styles.number>
                 {"// 0" ++ string_of_int(i + 1) |> str}
               </p>
@@ -133,10 +117,4 @@ let make = () => {
           })}
     </Squares>
   </div>;
-  // <div className=Styles.fakeSquare />
-  // <div className=Styles.square>
-  //   <p className=Styles.number> {"// 05" |> str} </p>
-  //   <h1 className=Styles.projectName> {"LVMH" |> str} </h1>
-  //   <a className=Styles.link> {">explore case" |> str} </a>
-  // </div>
 };

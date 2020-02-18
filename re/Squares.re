@@ -37,4 +37,3 @@ let make = (~children) => {
      |> ReasonReact.array}
   </ol>;
 };
-};
