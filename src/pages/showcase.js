@@ -3,7 +3,7 @@ import HTMLText, { tags } from 're/shared/HTMLText'
 import Input, { tints } from 're/shared/Input'
 import Button, { backgrounds } from 're/shared/Button'
 import Layout from 'src/components/layout'
-import Theme from 're/Theme'
+import { Colors } from 're/Theme'
 
 const withBG = color => ({ backgroundColor: `#${color}`, padding: '10px' })
 // const blueBG = { backgroundColor: `#${Theme.Colors.blueDarker}`};

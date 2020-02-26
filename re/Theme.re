@@ -1,7 +1,9 @@
 module Colors = {
   let black = "000000";
   let white = "FFFFFF";
+  let almostWhite = "FEFFFE";
   let orange = "FFB665";
+  let lightGrey = "D9E3FF";
   let grey = "9FA8B3";
   let darkGrey = "4E5C6B";
   let darkGreyDarker = "26313D";
@@ -15,7 +17,6 @@ module Colors = {
   let glazedBabyBlueDarker = "69C0FE";
   let glazedBabyBlueText= "2560F2";
   let glazedGreyText= "0F1936";
-  let almostWhite = "FEFFFE";
 };
 
 module Fonts = {

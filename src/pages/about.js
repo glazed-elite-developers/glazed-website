@@ -1,7 +1,7 @@
 import React from 'react'
 import HTMLText, { tags } from 're/shared/HTMLText'
 import Layout from 'src/components/layout'
-import About from 're/About'
+import About from 're/pages/About'
 
 const AboutPage = () => (
   <Layout>

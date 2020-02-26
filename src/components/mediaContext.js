@@ -1,9 +1,9 @@
 import React, { useState, useEffect, createContext, useCallback } from 'react'
-import Theme from 're/theme'
+import { Breakpoints } from 're/theme'
 
 export const MediaContext = createContext(null)
 
-const matchMediaQueries = Object.entries(Theme.Breakpoints)
+const matchMediaQueries = Object.entries(Breakpoints)
   .filter(([name]) => {
     return !name.includes('Value')
   })
@@ -13,7 +13,7 @@ const matchMediaQueries = Object.entries(Theme.Breakpoints)
   }))
 
 export const MediaContextProvider = ({ children }) => {
-  let [currentBreakpoint, setCurrentBreakpoint] = useState('phone')
+  const [currentBreakpoint, setCurrentBreakpoint] = useState('phone')
 
   const handleWindowResize = useCallback(() => {
     for (const { name, query } of matchMediaQueries) {

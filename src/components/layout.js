@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import { Global, css } from '@emotion/core'
 import PageLayout from 're/PageLayout'
-import Header from 're/Header'
-import Index from 're/Index'
 import GlobalStyles from 'src/styles'
-import { MediaContextProvider } from './mediaContext'
 
 const Layout = ({ children, useDarkNavBarLinks }) => (
   <StaticQuery
@@ -39,7 +35,6 @@ const Layout = ({ children, useDarkNavBarLinks }) => (
           />
         </Helmet>
         <GlobalStyles />
-
         <PageLayout
           siteTitle={data.site.siteMetadata.title}
           useDarkNavBarLinks={useDarkNavBarLinks}

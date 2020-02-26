@@ -16,7 +16,9 @@ module Styles = {
       alignItems(`center),
       height(rem(3.75)),
       padding2(~v=rem(0.), ~h=rem(1.)),
+      fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),
+      opacity(0.8),
     ]);
 };
 

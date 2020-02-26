@@ -2,7 +2,7 @@ module Styles = {
   open Css;
 
   let wrapper = style([display(`flex), pointerEvents(`auto)]);
-  let lightTheme = style([color(hex(Theme.Colors.white))]);
+  let lightTheme = style([color(hex(Theme.Colors.almostWhite))]);
   let darkTheme = style([color(hex(Theme.Colors.darkGreyDarker))]);
   let logoWrapper = style([flex3(~grow=0., ~shrink=0., ~basis=`auto)]);
   let item =
@@ -31,7 +31,10 @@ let items = [|
 [@react.component]
 let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => {
   let styles =
-    Utils.React.combineOptionalStyles(~baseStyles=Styles.wrapper, ~className?);
+    Utils.React.combineOptionalStyles(
+      ~baseStyles=Styles.wrapper,
+      ~className?,
+    );
   let contextualStyles =
     useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
 

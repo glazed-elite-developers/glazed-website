@@ -3,6 +3,11 @@ type background =
   | BlueBg
   | ImageBg;
 
+type buttonType =
+  | Primary
+  | Secondary
+  | Tertiary;
+
 let backgrounds = {"BrightBg": 0, "BlueBg": 1, "ImageBg": 2};
 
 module Styles = {
@@ -27,9 +32,9 @@ module Styles = {
         ),
         // boxShadow(0 20px 20px 0 rgba(0, 0, 0, 0.24);
       ]),
-      backgroundColor(hex("2962F6")),
+      backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
       // boxShadow(),
-      color(hex("FFFFFF")),
+      color(hex(Theme.Colors.almostWhite)),
       fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),
       lineHeight(rem(0.75)),
@@ -41,19 +46,24 @@ module Styles = {
     switch (bg) {
     | BrightBg => style([])
     | BlueBg =>
-      style([color(hex("FEFFFE")), border(px(1), `solid, hex("FFFFFF"))])
+      style([
+        color(hex(Theme.Colors.almostWhite)),
+        border(px(1), `solid, hex(Theme.Colors.almostWhite)),
+      ])
     | ImageBg =>
-      style([color(hex("FEFFFE")), border(px(1), `solid, hex("2962F6"))])
+      style([
+        color(hex(Theme.Colors.almostWhite)),
+        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarker)),
+      ])
     };
 
   let secondary = (bg, isDisabled) =>
     merge([
       style([
-        color(hex("26313D")),
+        color(hex(Theme.Colors.darkGreyDarker)),
         opacity(isDisabled ? 0.4 : 1.0),
         padding2(~h=rem(3.0), ~v=rem(0.875)),
-        // border: 1px solid #2962F6
-        border(px(1), `solid, hex("2962F6")),
+        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarker)),
         backgroundColor(`transparent),
       ]),
       secondaryForBg(bg),
@@ -61,7 +71,7 @@ module Styles = {
 
   let tertiary = _isDisabled =>
     style([
-      color(hex("53D3FF")),
+      color(hex(Theme.Colors.glazedBabyBlue)),
       borderWidth(px(0)),
       // opacity(0.1),
       fontFamily(Theme.Fonts.heading),
@@ -76,20 +86,22 @@ module Styles = {
 let make =
     (
       ~children,
-      ~isPrimary=false,
-      ~isSecondary=false,
-      ~isTertiary=false,
+      ~_type: option(buttonType)=?,
       ~bgColor=BrightBg,
       ~isDisabled=false,
       ~className=?,
       ~onClick=?,
     ) => {
   let ownStyles =
-    isPrimary
-      ? Styles.primary(isDisabled)
-      : isTertiary
-          ? Styles.tertiary(isDisabled)
-          : isSecondary ? Styles.secondary(bgColor, isDisabled) : Styles.base;
+    switch (_type) {
+    | None => Styles.base
+    | Some(unwrappedType) =>
+      switch (unwrappedType) {
+      | Primary => Styles.primary(isDisabled)
+      | Secondary => Styles.secondary(bgColor, isDisabled)
+      | Tertiary => Styles.tertiary(isDisabled)
+      }
+    };
   let onClickHandler =
     switch (onClick) {
     | None => (_ => ())

@@ -16,11 +16,11 @@ module.exports = {
         functions: 'never',
       },
     ],
-    strict: ['never'],
+    strict: [0],
 
     // options to emulate prettier setup
     semi: ['error', 'never'],
-    'max-len': ['error', { code: 80 }],
+    'max-len': ['error', { code: 120 }],
     'template-curly-spacing': ['error', 'always'],
     'arrow-parens': ['error', 'as-needed'],
 
@@ -51,7 +51,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       alias: [
-        ['re', './lib/js/re'],
+        ['re', './lib/es6/re'],
         ['src', './src'],
         ['static', './static'],
       ],
