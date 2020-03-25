@@ -1,6 +1,10 @@
 module Styles = {
   open Css;
 
+  module Variables = {
+    let height = rem(3.75);
+  }
+
   let wrapper =
     style([
       position(`fixed),
@@ -14,7 +18,7 @@ module Styles = {
     style([
       display(`flex),
       alignItems(`center),
-      height(rem(3.75)),
+      height(Variables.height),
       padding2(~v=rem(0.), ~h=rem(1.)),
       fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),

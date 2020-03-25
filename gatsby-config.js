@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby ReasonML Starter',
-    author: 'Ian Wilson',
+    title: 'Glazed',
+    author: 'Glazed Solutions Lda.',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -36,5 +36,6 @@ module.exports = {
     'gatsby-transformer-remark',
     'gatsby-plugin-offline',
     'gatsby-plugin-svg-sprite',
+    'gatsby-bucklescript-output-linker',
   ],
 }

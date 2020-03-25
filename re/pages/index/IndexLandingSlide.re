@@ -251,7 +251,7 @@ let make = () => {
           {React.string("require elite mobile and web developers")}
         </Heading>
         <div className=Styles.exploreCasesButtonWrapper>
-          <Gatsby.Link className="" _to="case-studies">
+          <Gatsby.Link className="" _to="/case-studies">
             <Button _type=Button.Primary className=Styles.exploreCasesButton>
               {React.string("> explore cases")}
             </Button>
@@ -282,7 +282,7 @@ let make = () => {
            Array.mapi(
              (index, icon) =>
                <SVG
-                 key={string_of_int(index)}
+                 key={Belt.Int.toString(index)}
                  className=Styles.techStackIcon
                  asset=icon
                  height="16"

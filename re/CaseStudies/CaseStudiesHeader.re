@@ -39,7 +39,7 @@ let make = (
 ) => {
   <header>
     <div className=Styles.image>
-      <GatsbyImage fluid=image />
+      <Gatsby.Image fluid=image />
       <div className=Styles.mask />
     </div>
   </header>;

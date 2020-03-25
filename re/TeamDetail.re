@@ -1,5 +1,3 @@
-let str = React.string;
-
 module Styles = {
   open Css;
 
@@ -15,17 +13,21 @@ module Styles = {
       before([
         //backgroundSize(pct(250.)),
         backgroundPosition4(
-        ~x=`left,
-        ~offsetX=pct(40.),
-        ~y=`top,
-        ~offsetY=rem(0.),
-      )
+          ~x=`left,
+          ~offsetX=pct(40.),
+          ~y=`top,
+          ~offsetY=rem(0.),
+        ),
       ]),
-      media(Theme.Breakpoints.tabletLandscape, [
-        before([
-          //backgroundSize(pct(100.)),
-        ])
-      ]),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [
+          before(
+            [],
+            //backgroundSize(pct(100.)),
+          ),
+        ],
+      ),
     ]);
 
   let name =
@@ -101,10 +103,8 @@ module Styles = {
 
 [@react.component]
 let make = (~developer, ~image) => {
-  <PageContent> 
-    <GatsbyBackgroundImage
-      className=Styles.developer
-      fluid=image>
+  <PageContent>
+    <Gatsby.BackgroundImage className=Styles.developer fluid=image>
       <div className=Styles.name>
         {React.array(
            Array.map(
@@ -115,11 +115,13 @@ let make = (~developer, ~image) => {
       </div>
       <div className=Styles.descriptionWrapper>
         <div className=Styles.description>
-          {developer##description |> str}
+          {React.string(developer##description)}
         </div>
-        <div className=Styles.headline> {developer##headline |> str} </div>
+        <div className=Styles.headline>
+          {React.string(developer##headline)}
+        </div>
       </div>
-    </GatsbyBackgroundImage>
+    </Gatsby.BackgroundImage>
   </PageContent>;
 };
 

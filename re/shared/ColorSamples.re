@@ -48,7 +48,7 @@ let make = () => {
         (i, (name, bgColor, color)) => {
             <div
                 className=Styles.colorSquare 
-                key=string_of_int(i)
+                key=Belt.Int.toString(i)
                 style=(ReactDOMRe.Style.make(~backgroundColor="#"++bgColor, ~color="#"++color, ()))>
                 <p>{ str(name) }</p>
                 <p>{ str(bgColor) }</p>

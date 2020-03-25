@@ -26,40 +26,40 @@ let str = React.string;
 [@react.component]
 let make = () => {
   <div className=Styles.team>
-    <Squares >
-      [|
-        <div className=Styles.square>
-          <h1 className=Styles.name > {"// team" |> str} </h1>
-        </div>
-      |]
-    </ Squares>
-    <Squares >
-      [|
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Ismael Abreu" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>,
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Ricardo Moutinho" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>,
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Diogo Nunes" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>,
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Ismael Abreu" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>,
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Ricardo Moutinho" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>,
-        <div className=Styles.developerSquare>
-          <h1 className=Styles.name > {"Diogo Nunes" |> str} </h1>
-          <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
-        </div>
-      |]
-    </Squares>
+    // <Squares >
+    //   [|
+    //     <div className=Styles.square>
+    //       <h1 className=Styles.name > {"// team" |> str} </h1>
+    //     </div>
+    //   |]
+    // </ Squares>
+    // <Squares >
+    //   [|
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Ismael Abreu" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>,
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Ricardo Moutinho" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>,
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Diogo Nunes" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>,
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Ismael Abreu" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>,
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Ricardo Moutinho" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>,
+    //     <div className=Styles.developerSquare>
+    //       <h1 className=Styles.name > {"Diogo Nunes" |> str} </h1>
+    //       <a className=Styles.link > {"//Reason  //Gatsby" |> str} </a>
+    //     </div>
+    //   |]
+    // </Squares>
   </div>
 };

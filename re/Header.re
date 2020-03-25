@@ -37,11 +37,13 @@ module Styles = {
     ]);
   let sayHelloButton =
     style([
+      display(`none),
       padding2(~v=`rem(0.875), ~h=`rem(1.75)),
       color(hex(Theme.Colors.almostWhite)),
       fontSize(`rem(0.75)),
       fontFamily(Theme.Fonts.heading),
       pointerEvents(`auto),
+      media(Theme.Breakpoints.tabletLandscape, [display(`block)]),
     ]);
 };
 

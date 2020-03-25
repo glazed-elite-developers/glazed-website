@@ -18,6 +18,7 @@ let make = (~className=?, ~children, ~backgroundImageUrl=?) => {
       ReactDOMRe.Style.make(~backgroundImage={j|url('$(url)')|j}, ())
     };
 
+  // TODO: we could be using <Gatsby.BackgroundImage> here instead of inline styles.
   <section
     className={Utils.React.combineOptionalStyles(
       ~baseStyles=Styles.wrapper,

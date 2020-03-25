@@ -23,9 +23,9 @@ let items = [|
   ("#case-studies", "case studies"),
   ("#about", "about"),
   // ("#team", "team"),
-  ("/teamDetail", "team"),
+  ("teamDetail", "team"),
   // ("#manifesto", "manifesto"),
-  ("/manifesto", "manifesto"),
+  ("manifesto", "manifesto"),
 |];
 
 [@react.component]
@@ -57,7 +57,7 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => 
                : Css.merge([Styles.item, Styles.link, contextualStyles]);
 
            <Gatsby.Link
-             key={string_of_int(index)}
+             key={Belt.Int.toString(index)}
              _to={"/" ++ link}
              className=linkStyles
              replace=true>

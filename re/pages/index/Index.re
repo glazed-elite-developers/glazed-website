@@ -20,6 +20,8 @@ let make = () => {
     <IndexLandingSlide />
     <IndexCaseStudiesSlide />
     <IndexAboutSlide />
+    <IndexTeamSlide />
+    <IndexManifestoSlide />
   </PageContent>;
 };
 

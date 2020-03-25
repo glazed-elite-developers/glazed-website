@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useCallback } from 'react'
-import { Breakpoints } from 're/theme'
+import { Breakpoints } from 're/Theme'
 
 export const MediaContext = createContext(null)
 
@@ -18,7 +18,6 @@ export const MediaContextProvider = ({ children }) => {
   const handleWindowResize = useCallback(() => {
     for (const { name, query } of matchMediaQueries) {
       if (query.matches) {
-        console.log({ current: name })
         setCurrentBreakpoint(name)
       }
     }
@@ -36,11 +35,7 @@ export const MediaContextProvider = ({ children }) => {
     }
   }, [])
 
-  return (
-    <MediaContext.Provider value={currentBreakpoint}>
-      {children}
-    </MediaContext.Provider>
-  )
+  return <MediaContext.Provider value={currentBreakpoint}>{children}</MediaContext.Provider>
 }
 
 export const MediaContextConsumer = MediaContext.Consumer

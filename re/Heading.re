@@ -15,17 +15,27 @@ module Styles = {
       fontFamily(Theme.Fonts.heading),
     ]);
 
-  let h1 = merge([commonStyles, style([])]);
+  let h1 =
+    merge([
+      commonStyles,
+      style([
+        fontSize(rem(1.5)),
+        lineHeight(rem(2.125)),
+        media(
+          Theme.Breakpoints.tabletPortait,
+          [fontSize(rem(2.25)), lineHeight(rem(2.75))],
+        ),
+      ]),
+    ]);
   let h2 =
     merge([
       commonStyles,
       style([
         fontSize(rem(1.125)),
-        paddingBottom(rem(0.75)),
         color(hex(Theme.Colors.grey)),
         media(
           Theme.Breakpoints.tabletPortait,
-          [paddingBottom(rem(2.375)), fontSize(rem(2.))],
+          [fontSize(rem(2.))],
         ),
       ]),
     ]);
@@ -60,7 +70,7 @@ let make = (~level: levels, ~className=?, ~children) => {
     component,
     ~props=
       ReactDOMRe.domProps(
-        ~className=
+       ~className=
           Utils.React.combineOptionalStyles(~baseStyles=styles, ~className?),
         (),
       ),
