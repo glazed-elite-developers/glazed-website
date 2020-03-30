@@ -33,7 +33,7 @@ module Styles = {
   let section = style([position(`relative)]);
 
   let content =
-    style([media(Theme.Breakpoints.tabletPortait, [display(`flex)])]);
+    style([media(Theme.Breakpoints.tabletPortrait, [display(`flex)])]);
 
   let displayTitle =
     style([
@@ -47,7 +47,7 @@ module Styles = {
         border(px(1), `solid, rgba(159, 168, 179, 0.1)),
       ]),
       media(
-        Theme.Breakpoints.tabletPortait,
+        Theme.Breakpoints.tabletPortrait,
         [
           after([display(`none)]),
           paddingLeft(rem(1.25)),
@@ -69,7 +69,7 @@ module Styles = {
     style([
       not_(":last-child", [marginBottom(rem(1.25))]),
       media(
-        Theme.Breakpoints.tabletPortait,
+        Theme.Breakpoints.tabletPortrait,
         [
           position(`relative),
           flex3(~grow=1., ~shrink=1., ~basis=pct(33.)),
@@ -98,7 +98,7 @@ module Styles = {
       color(hex("2560F2")),
       fontSize(rem(0.75)),
       paddingBottom(rem(1.125)),
-      media(Theme.Breakpoints.tabletPortait, [display(`block)]),
+      media(Theme.Breakpoints.tabletPortrait, [display(`block)]),
     ]);
 
   let title =
@@ -106,7 +106,7 @@ module Styles = {
       color(hex(Theme.Colors.darkGreyDarker)),
       lineHeight(rem(1.5)),
       media(
-        Theme.Breakpoints.tabletPortait,
+        Theme.Breakpoints.tabletPortrait,
         [color(hex(Theme.Colors.grey)), paddingBottom(rem(1.125))],
       ),
     ]);
@@ -114,7 +114,7 @@ module Styles = {
   let strong =
     style([
       media(
-        Theme.Breakpoints.tabletPortait,
+        Theme.Breakpoints.tabletPortrait,
         [color(hex(Theme.Colors.darkGreyDarker))],
       ),
     ]);
@@ -126,7 +126,7 @@ module Styles = {
       letterSpacing(rem(-0.025)),
       lineHeight(rem(1.5)),
       color(hex(Theme.Colors.darkGrey)),
-      media(Theme.Breakpoints.tabletPortait, [lineHeight(rem(2.125))]),
+      media(Theme.Breakpoints.tabletPortrait, [lineHeight(rem(2.125))]),
     ]);
 };
 

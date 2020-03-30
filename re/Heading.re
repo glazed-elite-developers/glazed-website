@@ -22,7 +22,7 @@ module Styles = {
         fontSize(rem(1.5)),
         lineHeight(rem(2.125)),
         media(
-          Theme.Breakpoints.tabletPortait,
+          Theme.Breakpoints.tabletPortrait,
           [fontSize(rem(2.25)), lineHeight(rem(2.75))],
         ),
       ]),
@@ -34,7 +34,7 @@ module Styles = {
         fontSize(rem(1.125)),
         color(hex(Theme.Colors.grey)),
         media(
-          Theme.Breakpoints.tabletPortait,
+          Theme.Breakpoints.tabletPortrait,
           [fontSize(rem(2.))],
         ),
       ]),
@@ -44,7 +44,7 @@ module Styles = {
       commonStyles,
       style([
         media(
-          Theme.Breakpoints.tabletPortait,
+          Theme.Breakpoints.tabletPortrait,
           [fontSize(rem(1.5)), lineHeight(rem(2.75))],
         ),
       ]),

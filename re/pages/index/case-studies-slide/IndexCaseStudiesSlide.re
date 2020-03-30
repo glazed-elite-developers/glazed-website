@@ -128,7 +128,7 @@ module Styles = {
       fontSize(`rem(1.125)),
       lineHeight(`rem(1.75)),
       media(
-        Theme.Breakpoints.tabletPortait,
+        Theme.Breakpoints.tabletPortrait,
         [fontSize(rem(2.)), lineHeight(rem(3.)), width(px(183))],
       ),
     ]);

@@ -6,8 +6,8 @@ module Styles = {
 
   let wrapper =
     style([
-      display(`flex),
-      flexDirection(`column),
+      display(`grid),
+      gridTemplateRows([`auto, `auto, `fr(1.)]),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
       height(pct(100.)),
       padding4(
@@ -18,16 +18,38 @@ module Styles = {
       ),
       overflow(`hidden),
       media(
-        Theme.Breakpoints.tabletLandscape,
+        Breakpoints.tabletLandscape,
         [
+          gridTemplateRows([`auto, `fr(1.)]),
+          gridTemplateColumns([`fr(1.), `fr(1.)]),
           padding4(
             ~top=rem(6.25),
-            ~right=rem(7.25),
-            ~bottom=rem(1.875),
+            ~right=`zero,
+            ~bottom=`zero,
             ~left=rem(4.75),
           ),
         ],
       ),
+      media(Breakpoints.desktop, [gridTemplateColumns([`fr(1.), `auto])]),
+    ]);
+  let about =
+    style([
+      display(`flex),
+      flexDirection(`column),
+      flex3(~grow=0., ~shrink=0., ~basis=`auto),
+      media(
+        Breakpoints.tabletLandscape,
+        [
+          gridColumn(1, 3),
+          padding4(
+            ~top=`zero,
+            ~right=rem(4.75),
+            ~bottom=rem(4.75),
+            ~left=`zero,
+          ),
+        ],
+      ),
+      media(Breakpoints.desktop, [gridColumn(1, 2)]),
     ]);
   let heading =
     style([
@@ -51,13 +73,23 @@ module Styles = {
         border(px(1), `solid, hex(Colors.glazedBabyBlueText)),
         opacity(0.1),
         media(
-          Theme.Breakpoints.tabletLandscape,
+          Breakpoints.tabletLandscape,
           [width(`px(258)), height(`px(258))],
         ),
       ]),
       media(
-        Theme.Breakpoints.tabletLandscape,
-        [width(`auto), fontSize(`rem(2.))],
+        Breakpoints.tabletLandscape,
+        [
+          padding4(
+            ~top=`rem(5.625),
+            ~left=`rem(0.9375),
+            ~bottom=`rem(1.875),
+            ~right=`zero,
+          ),
+          width(`auto),
+          color(hex(Colors.darkGrey)),
+          fontSize(`rem(2.)),
+        ],
       ),
     ]);
   let contentText =
@@ -71,7 +103,45 @@ module Styles = {
       opacity(0.6),
       fontSize(`rem(0.75)),
       lineHeight(`abs(2.)),
-      color(hex(Theme.Colors.glazedGreyText)),
+      color(hex(Colors.glazedGreyText)),
+      media(
+        Breakpoints.tabletLandscape,
+        [display(`block), fontSize(`rem(1.5))],
+      ),
+    ]);
+  let contentTextLine =
+    style([
+      display(`inline),
+      media(Breakpoints.tabletLandscape, [display(`block)]),
+    ]);
+  let dimmedOnDesktop =
+    style([media(Breakpoints.tabletLandscape, [opacity(0.6)])]);
+  let htmlTextWrapper =
+    style([
+      media(
+        Breakpoints.tabletLandscape,
+        [
+          padding4(
+            ~top=rem(4.75),
+            ~right=rem(2.5),
+            ~bottom=`zero,
+            ~left=`zero,
+          ),
+        ],
+      ),
+      media(
+        Breakpoints.desktop,
+        [
+          gridColumn(1, 2),
+          padding4(
+            ~top=rem(4.75),
+            ~right=rem(4.75),
+            ~bottom=`zero,
+            ~left=rem(2.5),
+          ),
+          maxWidth(rem(47.5))
+        ],
+      ),
     ]);
   let htmlTag =
     style([
@@ -81,12 +151,16 @@ module Styles = {
         ~bottom=`rem(1.25),
         ~right=`rem(0.9375),
       ),
-      color(hex(Theme.Colors.glazedBabyBlueText)),
+      color(hex(Colors.glazedBabyBlueText)),
       fontSize(rem(1.125)),
+      lineHeight(`abs(1.5)),
       width(`rem(21.875)),
-      lineHeight(rem(1.75)),
       textAlign(`left),
       alignSelf(`flexEnd),
+      media(
+        Breakpoints.tabletLandscape,
+        [width(`auto), fontSize(rem(2.125)), padding(`zero)],
+      ),
     ]);
 };
 
@@ -102,9 +176,25 @@ module LineProjectElement = {
         flexDirection(row),
         color(hex(Colors.almostWhite)),
         opacity(0.8),
+        media(
+          Breakpoints.tabletLandscape,
+          [padding2(~v=rem(1.), ~h=rem(1.875))],
+        ),
       ]);
     let rowLeft = style([opacity(0.3), fontSize(`rem(0.625))]);
-    let rowRight = style([paddingLeft(px(15)), fontSize(`rem(0.75))]);
+    let rowRight =
+      style([
+        paddingLeft(rem(0.9375)),
+        fontSize(rem(0.75)),
+        media(
+          Breakpoints.tabletLandscape,
+          [
+            paddingLeft(rem(2.0625)),
+            fontSize(rem(1.125)),
+            fontWeight(`num(700)),
+          ],
+        ),
+      ]);
   };
 
   [@react.component]
@@ -124,18 +214,33 @@ let kindsOfProjects = [|
   "Critically impact on businesses or people's lives",
 |];
 
-module ListProjects = {
+module ProjectList = {
   module Styles = {
     open Css;
     open Theme;
 
     let wrapper =
       style([
-        width(`percent(100.0)),
-        backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
-        Css.float(`right),
-        lineHeight(px(30)),
+        display(`flex),
+        flexDirection(`column),
         flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
+        backgroundColor(hex(Colors.glazedBlueDarker)),
+        lineHeight(`rem(1.875)),
+        media(
+          Breakpoints.desktop,
+          [
+            gridRow(1, 3),
+            gridColumn(2, 3),
+            alignSelf(`flexEnd),
+            height(pct(80.)),
+            padding4(
+              ~top=`zero,
+              ~right=rem(5.),
+              ~bottom=rem(10.),
+              ~left=`zero,
+            ),
+          ],
+        ),
       ]);
 
     let heading =
@@ -149,6 +254,13 @@ module ListProjects = {
         fontSize(`rem(0.625)),
         color(hex(Colors.almostWhite)),
         opacity(0.3),
+        media(
+          Breakpoints.tabletLandscape,
+          [
+            padding3(~top=rem(5.), ~bottom=rem(4.), ~h=rem(5.)),
+            fontSize(rem(0.8125)),
+          ],
+        ),
       ]);
   };
 
@@ -176,18 +288,32 @@ module ListProjects = {
 [@react.component]
 let make = () => {
   <FullPageSlide className=Styles.wrapper>
-    <Heading level=Heading.H1 className=Styles.heading>
-      {"// about us" |> ReasonReact.string}
-    </Heading>
-    <p className=Styles.contentText>
-      {"Every team member is highly experienced (8y avg), strives for excellency and has access to the colossal combined knowledge of the whole team. We act as (an extension of) your development team, in very flexible team sizes, and adapting to your processes and with a tight feedback loop."
-       |> ReasonReact.string}
-    </p>
-    <HTMLText tag=HTMLText.H2 className=Styles.htmlTag>
-      {"It's your code, ready to hand off or build a team around at any time, but we care for it as it were ours."
-       |> ReasonReact.string}
-    </HTMLText>
-    <ListProjects />
+    <div className=Styles.about>
+      <Heading level=Heading.H1 className=Styles.heading>
+        {"// about us" |> ReasonReact.string}
+      </Heading>
+      <div className=Styles.contentText>
+        <p className=Styles.contentTextLine>
+          {"Every team member is highly experienced (8y avg), strives for excellency and has access to the colossal combined knowledge of the whole team. "
+           |> ReasonReact.string}
+        </p>
+        <p
+          className={Css.merge([
+            Styles.contentTextLine,
+            Styles.dimmedOnDesktop,
+          ])}>
+          {"We act as (an extension of) your development team, in very flexible team sizes, and adapting to your processes and with a tight feedback loop."
+           |> React.string}
+        </p>
+      </div>
+    </div>
+    <div className=Styles.htmlTextWrapper>
+      <HTMLText tag=HTMLText.H2 className=Styles.htmlTag>
+        {"It's your code, ready to hand off or build a team around at any time, but we care for it as it were ours."
+         |> ReasonReact.string}
+      </HTMLText>
+    </div>
+    <ProjectList />
   </FullPageSlide>;
 };
 

@@ -35,11 +35,11 @@ module Styles = {
       lineHeight(`rem(0.875)),
       media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
-  let sayHelloButton =
+  let sayHelloButton = (useDarkNavBarLinks) =>
     style([
       display(`none),
       padding2(~v=`rem(0.875), ~h=`rem(1.75)),
-      color(hex(Theme.Colors.almostWhite)),
+      color(hex(useDarkNavBarLinks ? Theme.Colors.darkGreyDarker : Theme.Colors.almostWhite)),
       fontSize(`rem(0.75)),
       fontFamily(Theme.Fonts.heading),
       pointerEvents(`auto),
@@ -60,7 +60,7 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
       useDarkNavBarLinks
       currentPageIndex
     />
-    <Button _type=Button.Secondary className=Styles.sayHelloButton>
+    <Button _type=Button.Secondary className=Styles.sayHelloButton(useDarkNavBarLinks)>
       {React.string("> say hello")}
     </Button>
   </nav>;
