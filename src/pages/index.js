@@ -3,7 +3,7 @@ import Layout from 'src/components/layout'
 import Index from 're/pages/index/Index'
 
 const IndexPage = () => (
-  <Layout useDarkNavBarLinks={true}>
+  <Layout useDarkNavBarLinks={false}>
     <Index />
   </Layout>
 )

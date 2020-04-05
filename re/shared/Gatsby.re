@@ -39,7 +39,7 @@ module BackgroundImage = {
   external make:
     (
       ~fluid: fluidImage,
-      ~className: string,
+      ~className: string=?,
       ~children: React.element=?,
       ~style: ReactDOMRe.style=?
     ) =>

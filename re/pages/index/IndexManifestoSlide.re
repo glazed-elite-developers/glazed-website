@@ -138,8 +138,8 @@ let make = () => {
     </Heading>
     <div className=Styles.content>
       {Array.mapi(
-         (i, el) => {
-           let index = i + 1;
+         (index, element) => {
+           let index = index + 1;
 
            <div className=Styles.block key={Belt.Int.toString(index)}>
              <Heading level=Heading.H5 className=Styles.pre>
@@ -148,11 +148,11 @@ let make = () => {
              <Heading level=Heading.H3 className=Styles.title>
                {"Great developers " |> ReasonReact.string}
                <strong className=Styles.strong>
-                 {el.title |> ReasonReact.string}
+                 {element.title |> ReasonReact.string}
                </strong>
              </Heading>
              <p className=Styles.paragraph>
-               {el.content |> ReasonReact.string}
+               {element.content |> ReasonReact.string}
              </p>
            </div>;
          },
