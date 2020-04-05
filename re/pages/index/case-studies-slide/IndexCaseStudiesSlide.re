@@ -2,13 +2,6 @@ module Styles = {
   open Css;
   open Theme;
 
-  let fullPageSlide =
-    style([
-      padding(`zero),
-      display(`flex),
-      flexDirection(`column),
-      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
-    ]);
   let wrapper = {
     let footerHeight = MobileFooter.Styles.Variables.height;
     let paddingBottom =
@@ -21,8 +14,7 @@ module Styles = {
       display(`flex),
       flexDirection(`column),
       justifyContent(`flexEnd),
-      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
-      height(pct(100.)),
+      // minHeight(rem(37.5)),
       padding4(
         ~top=rem(4.1875),
         ~right=rem(2.5),
@@ -31,8 +23,9 @@ module Styles = {
       ),
       overflow(`hidden),
       color(hex(Colors.almostWhite)),
+      // media(Breakpoints.tabletPortrait, [minHeight(rem(56.25))]),
       media(
-        Theme.Breakpoints.tabletLandscape,
+        Breakpoints.tabletLandscape,
         [
           alignItems(`center),
           padding4(
@@ -45,8 +38,9 @@ module Styles = {
         ],
       ),
       media(
-        Theme.Breakpoints.desktop,
+        Breakpoints.desktop,
         [
+          // minHeight(rem(62.5)),
           padding4(
             ~top=rem(6.25),
             ~right=rem(16.875),
@@ -70,7 +64,7 @@ module Styles = {
       position(`relative),
       width(pct(100.)),
       maxWidth(`rem(31.25)),
-      media(Theme.Breakpoints.tabletLandscape, [maxWidth(`rem(75.))]),
+      media(Breakpoints.tabletLandscape, [maxWidth(`rem(75.))]),
       padding4(~top=`px(1), ~right=`zero, ~bottom=`zero, ~left=`px(1)),
     ]);
   let backgroundGrid =
@@ -88,14 +82,14 @@ module Styles = {
   let onlyInMobile =
     style([
       display(`none),
-      media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
+      media(Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
   let square =
     style([
       margin4(~top=`px(-1), ~right=`zero, ~bottom=`zero, ~left=`px(-1)),
       flex3(~grow=0., ~shrink=0., ~basis=pct(50.)),
       media(
-        Theme.Breakpoints.tabletLandscape,
+        Breakpoints.tabletLandscape,
         [flex3(~grow=0., ~shrink=0., ~basis=pct(25.))],
       ),
     ]);
@@ -115,7 +109,7 @@ module Styles = {
         padding2(~v=`zero, ~h=`rem(0.9375)),
         justifyContent(`center),
         media(
-          Theme.Breakpoints.tabletLandscape,
+          Breakpoints.tabletLandscape,
           [padding2(~v=`zero, ~h=`rem(1.4375))],
         ),
       ]),
@@ -128,7 +122,7 @@ module Styles = {
       fontSize(`rem(1.125)),
       lineHeight(`rem(1.75)),
       media(
-        Theme.Breakpoints.tabletPortrait,
+        Breakpoints.tabletPortrait,
         [fontSize(rem(2.)), lineHeight(rem(3.)), width(px(183))],
       ),
     ]);

@@ -3,8 +3,8 @@ module Styles = {
 
   let wrapper =
     style([
-      height(pct(100.)),
       minHeight(pct(100.)),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundSize(`cover),
     ]);
 };

@@ -6,8 +6,7 @@ module Styles = {
     style([
       display(`grid),
       gridTemplateRows([`auto, `auto, `fr(1.)]),
-      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
-      height(pct(100.)),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       padding4(
         ~top=rem(4.1875),
         ~right=`zero,
