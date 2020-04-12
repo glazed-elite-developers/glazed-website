@@ -50,6 +50,8 @@ module Styles = {
 [@react.component]
 let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
+  let scrollValues = ScrollConnectors.useRootScrollValues();
+  Js.log(scrollValues);
 
   <nav className={Css.merge([Styles.nav, className])}>
     <Gatsby.Link _to="/" className=Styles.logoWrapper>

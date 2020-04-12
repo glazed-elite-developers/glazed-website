@@ -1,46 +1,54 @@
-// import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
-// import joinClassNames from 'classnames';
-// import {
-//     isIOSDevice,
-//     scrollElementIfOnLimit,
-//     preventRubberBandScroll,
-// } from 'shared/util/iOSHackery';
-
-// // Styles.
-// import styles from './ScrollContainer.css';
 open React;
 
 module Styles = {
   open Css;
 
-  let wrapper = style([]);
-  let content = style([]);
-  let locked = style([]);
+  let wrapper =
+    style([
+      /* Hints the browser to isolate the content in a new layer without creating
+         a new stacking context. 'will-change: transform;' of other transform based
+         hints would create new contexts. */
+      overflow(`auto),
+      display(`flex),
+      flex3(~grow=1., ~shrink=0., ~basis=`rem(0.000000001)),
+      flexDirection(`column),
+      unsafe("will-change", "opacity"),
+      unsafe("-webkit-overflow-scrolling", "touch"),
+      unsafe("-ms-overflow-style", "-ms-autohiding-scrollbar"),
+    ]);
+  let content =
+    style([
+      display(`flex),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
+      flexDirection(`column),
+      unsafe("will-change", "opacity"),
+    ]);
+  let locked =
+    style([
+      overflow(`hidden),
+      unsafe("-webkit-overflow-scrolling", "auto"),
+    ]);
+  let iOSScrollFix =
+    style([
+      flex3(~grow=1., ~shrink=0., ~basis=Calc.(+)(pct(100.), px(2))),
+    ]);
 };
 
 // Module mocks.
 let isIOSDevice = false;
-let preventRubberBandScroll = a => a;
-let baseScrollElementIfOnLimit = _element => ();
 
 let defaultScrollingTimeout: int = 100;
 
-type state = {
-  arePointerEventsEnabled: bool,
-};
+type state = {arePointerEventsEnabled: bool};
 
 type action =
-  | TogglePointerEvents(bool)
+  | TogglePointerEvents(bool);
 
 let initialState = {arePointerEventsEnabled: true};
 
-let reducer = (state: state, action: action) => {
+let reducer = (_state: state, action: action) => {
   switch (action) {
-  | TogglePointerEvents(nextState) => {
-      ...state,
-      arePointerEventsEnabled: nextState,
-    }
+  | TogglePointerEvents(nextState) => {arePointerEventsEnabled: nextState}
   };
 };
 
@@ -66,10 +74,18 @@ let make =
   let scrollingTimeoutId = useRef(None);
   let (state, dispatch) = useReducer(reducer, initialState);
   // let needIOSHackery = useMemo2(() => false, (isIOSDevice, ));
-  let scrollerAPI = ScrollContext.useScrollerAPI(wrapperRef);
-  let needIOSHackery = false;
-  let notifySubscribedListeners =
-    useCallback(() => List.map(((_component, listener)) => listener()));
+  let scrollContext = useContext(ScrollContext.scrollContext);
+  let (scrollerAPI, notifySubscribedListeners) =
+    ScrollContext.useScrollerAPI(wrapperRef);
+  let scrollContextToPassDown =
+    scrollContext.hasRootContainer
+      ? {...scrollContext, closestScroller: scrollerAPI}
+      : {
+        hasRootContainer: true,
+        closestScroller: scrollerAPI,
+        rootScroller: scrollerAPI,
+      };
+  let needIOSHackery = isIOSDevice && scrollContext.hasRootContainer;
   let handleTouchStart =
     useCallback(_event =>
       if (Ref.current(didTouchEnd)) {
@@ -84,7 +100,8 @@ let make =
         if (needIOSHackery) {
           switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
           | None => ()
-          | Some(element) => baseScrollElementIfOnLimit(element)
+          | Some(element) =>
+            ScrollContainerUtils.scrollElementIfOnLimit(element)
           };
         },
       [|needIOSHackery|],
@@ -156,7 +173,7 @@ let make =
   let (onTouchStart, onTouchEnd) =
     needIOSHackery
       ? (
-        Some(preventRubberBandScroll(handleTouchStart)),
+        Some(ScrollContainerUtils.preventRubberBandScroll(handleTouchStart)),
         Some(handleTouchEnd),
       )
       : (None, None);
@@ -184,49 +201,17 @@ let make =
     Some(detachScrollListener);
   });
 
-  <div
-    ref={ReactDOMRe.Ref.domRef(wrapperRef)}
-    ?className
-    ?style
-    ?onClick
-    ?onTouchStart
-    ?onTouchEnd>
-    <div className=?contentClassName style=contentStyle> children </div>
-  </div>;
-}
+  <ScrollContext value=scrollContextToPassDown>
+    <div
+      ref={ReactDOMRe.Ref.domRef(wrapperRef)}
+      ?className
+      ?style
+      ?onClick
+      ?onTouchStart
+      ?onTouchEnd>
+      <div className=?contentClassName style=contentStyle> children </div>
+    </div>
+  </ScrollContext>;
+};
 
-
-// getChildContext() {
-//     return {
-//         scrollContainers: {
-//             ...this.context.scrollContainers,
-//             hasRootContainer: true,
-//             ...this.getContextApi(),
-//         },
-//     };
-// }
-
-// getContextApi() {
-//     const scrollerApi = {
-//         registerScrollListener: this.registerScrollListener,
-//         unregisterScrollListener: this.unregisterScrollListener,
-//         getScrollPosition: this.getScrollPosition,
-//         getBoundingRect: this.getBoundingRect,
-//         scrollTo: this.scrollTo,
-//     };
-
-//     return !this.getHasRootContainer() ? {
-//         rootScroller: scrollerApi,
-//         closestScroller: scrollerApi,
-//     } : { closestScroller: scrollerApi };
-// }
-
-// getHasRootContainer() {
-//     const { hasRootContainer } = this.context.scrollContainers || {};
-
-//     return hasRootContainer;
-// }
-
-// getNeedIOSHackery() {
-//     return isIOSDevice() && !this.getHasRootContainer();
-// }
+let default = make;

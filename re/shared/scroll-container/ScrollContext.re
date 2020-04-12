@@ -32,14 +32,16 @@ let initialBoundingRect: boundingRect = {
   height: 0.,
 };
 
+type scrollListenerSubjectID = Ref.t(unit);
+
 type scrollListener = unit => unit;
 
 type scrollerAPI = {
-  registerScrollListener: option((React.component(unit), scrollListener) => unit),
-  unregisterScrollListener: option(React.component(unit) => unit),
-  getScrollPosition: option(unit),
-  getBoundingRect: option(unit),
-  scrollTo: option(unit),
+  registerScrollListener: (scrollListenerSubjectID, scrollListener) => unit,
+  unregisterScrollListener: scrollListenerSubjectID => unit,
+  getScrollPosition: unit => scrollPosition,
+  getBoundingRect: unit => boundingRect,
+  scrollTo: (option(float), option(float)) => unit,
 };
 
 type scrollContext = {
@@ -51,11 +53,11 @@ type scrollContext = {
 };
 
 let defaultScrollerAPI = {
-  registerScrollListener: None,
-  unregisterScrollListener: None,
-  getScrollPosition: None,
-  getBoundingRect: None,
-  scrollTo: None,
+  registerScrollListener: (_component, _handler) => (),
+  unregisterScrollListener: _component => (),
+  getScrollPosition: () => initialScrollPosition,
+  getBoundingRect: () => initialBoundingRect,
+  scrollTo: (_top, _left) => (),
 };
 
 let defaultScrollContextValue = {
@@ -75,47 +77,43 @@ let makeProps = (~value, ~children, ()) => {
 
 let make = Context.provider(scrollContext);
 
-type state = {
-  scrollListeners: list((React.component(unit), scrollListener)),
-};
-
-type action =
-  | RegisterScrollListener((React.component(unit), scrollListener))
-  | UnregisterScrollListener(React.component(unit));
-
-let initialState = {scrollListeners: []};
-
-let reducer = (state: state, action: action) => {
-  switch (action) {
-  | RegisterScrollListener(listener) => {
-      scrollListeners: [listener, ...state.scrollListeners],
-    }
-  | UnregisterScrollListener(component) => {
-      scrollListeners:
-        Belt.List.keep(state.scrollListeners, ((component', _listener)) =>
-          component' !== component
-        ),
-    }
-  };
-};
-
 let useScrollerAPI = wrapperRef => {
-  let (state, dispatch) = useReducer(reducer, initialState);
+  let scrollListeners = useRef([]);
   let registerScrollListener =
     useCallback1(
       (component, handler) => {
-        dispatch(RegisterScrollListener((component, handler)));
+        Ref.setCurrent(
+          scrollListeners,
+          [(component, handler), ...Ref.current(scrollListeners)],
+        );
         ();
       },
-      [|dispatch|],
+      [|scrollListeners|],
     );
   let unregisterScrollListener =
     useCallback1(
       component => {
-        dispatch(UnregisterScrollListener(component));
+        Ref.setCurrent(
+          scrollListeners,
+          Belt.List.keep(
+            Ref.current(scrollListeners), ((component', _listener)) =>
+            component' !== component
+          ),
+        );
         ();
       },
-      [|dispatch|],
+      [|scrollListeners|],
+    );
+  let notifySubscribedListeners =
+    useCallback1(
+      () => {
+        List.iter(
+          ((_component, listener)) => listener(),
+          Ref.current(scrollListeners),
+        );
+        ();
+      },
+      [|scrollListeners|],
     );
   let getScrollPosition =
     useCallback1(
@@ -166,13 +164,14 @@ let useScrollerAPI = wrapperRef => {
       }
     );
 
-  {
-    registerScrollListener: Some(registerScrollListener),
-    unregisterScrollListener: Some(unregisterScrollListener),
-    getScrollPosition: Some(getScrollPosition),
-    getBoundingRect: Some(getBoundingRect),
-    scrollTo: Some(scrollTo),
-  };
+  (
+    {
+      registerScrollListener,
+      unregisterScrollListener,
+      getScrollPosition,
+      getBoundingRect,
+      scrollTo,
+    },
+    notifySubscribedListeners,
+  );
 };
-
-let useContextAPI = () => {};
