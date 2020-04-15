@@ -237,8 +237,9 @@ module Styles = {
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
-let make = () => {
+let make = React.forwardRef((ref_: Js.nullable(React.Ref.t('a))) => {
   <FullPageSlide
+    ref=ref_
     className=Styles.wrapper
     backgroundImageUrl="/images/home/slide-1-background.jpg">
     <div className=Styles.content>
@@ -299,6 +300,6 @@ let make = () => {
       <SVG className=Styles.socialIcon asset=githubIcon height="16" />
     </div>
   </FullPageSlide>;
-};
+});
 
 let default = make;

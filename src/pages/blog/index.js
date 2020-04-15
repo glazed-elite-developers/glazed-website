@@ -1,35 +1,38 @@
 import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 
-import Layout from 'src/components/layout'
+import Layout from 're/Layout'
+import PageLayout from 're/PageLayout'
 import Blog from 're/Blog'
 
 const BlogPage = () => (
   <Layout>
-    <StaticQuery
-      query={graphql`
-        query AllMarkdownRemark {
-          allMarkdownRemark {
-            edges {
-              node {
-                tableOfContents(pathToSlugField: "frontmatter.path")
-                frontmatter {
-                  path
-                  title
-                  date
+    <PageLayout>
+      <StaticQuery
+        query={graphql`
+          query AllMarkdownRemark {
+            allMarkdownRemark {
+              edges {
+                node {
+                  tableOfContents(pathToSlugField: "frontmatter.path")
+                  frontmatter {
+                    path
+                    title
+                    date
+                  }
+                  id
+                  excerpt
                 }
-                id
-                excerpt
               }
             }
           }
-        }
-      `}
-      render={data => {
-        const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
-        return <Blog posts={posts} />
-      }}
-    />
+        `}
+        render={data => {
+          const posts = data.allMarkdownRemark.edges.map(edge => edge.node)
+          return <Blog posts={posts} />
+        }}
+      />
+    </PageLayout>
   </Layout>
 )
 

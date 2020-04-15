@@ -1,6 +1,7 @@
 import React from 'react'
 import TeamDetail from 're/TeamDetail'
-import Layout from 'src/components/layout'
+import Layout from 're/Layout'
+import PageLayout from 're/PageLayout'
 import { useStaticQuery, graphql } from 'gatsby'
 
 const developer = {
@@ -25,11 +26,10 @@ const IndexPage = () => {
   `)
 
   return (
-    <Layout useDarkNavBarLinks>
-      <TeamDetail
-        developer={developer}
-        image={data.developerImage.childImageSharp.fluid}
-      />
+    <Layout>
+      <PageLayout useDarkNavBarLinks>
+        <TeamDetail developer={developer} image={data.developerImage.childImageSharp.fluid} />
+      </PageLayout>
     </Layout>
   )
 }

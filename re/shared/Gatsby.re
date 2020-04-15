@@ -13,7 +13,7 @@ type imageQueryResult = {
   childImageSharp: Js.t(imageSharp),
 };
 
-type queryResult;
+type queryResult('a) = Js.t('a);
 
 module Link = {
   [@bs.module "gatsby"] [@react.component]
@@ -53,13 +53,13 @@ module Image = {
 };
 
 [@bs.module "gatsby"]
-external useStaticQuery: string => queryResult = "useStaticQuery";
+external useStaticQuery: string => queryResult('a) = "useStaticQuery";
 
 // @TODO: should be a nullable.
 [@bs.get_index]
-external getImage: (queryResult, string) => Js.t(imageQueryResult) = "";
+external getImage: (queryResult('a), string) => Js.t(imageQueryResult) = "";
 
-let getImageFluid = (result: queryResult, name: string) => {
+let getImageFluid = (result: queryResult('a), name: string) => {
   let image = getImage(result, name);
   image##childImageSharp##fluid;
 };

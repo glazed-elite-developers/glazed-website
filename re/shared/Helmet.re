@@ -1,6 +1,7 @@
 type metaTag = {
-  name: string,
-  content: string,
+  .
+  "name": string,
+  "content": string,
 };
 
 [@react.component] [@bs.module "react-helmet"]

@@ -13,11 +13,11 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~children, ~useDarkNavBarLinks) => {
+let make = (~children, ~useDarkNavBarLinks=false, ~currentPageIndex=0) => {
   <div className=Styles.wrapper>
     children
-    <Header className=Styles.header useDarkNavBarLinks currentPageIndex=0 />
-    <MobileFooter useDarkNavBarLinks currentPageIndex=0 />
+    <Header className=Styles.header useDarkNavBarLinks currentPageIndex />
+    <MobileFooter useDarkNavBarLinks currentPageIndex />
   </div>;
 };
 
