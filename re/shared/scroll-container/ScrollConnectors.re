@@ -55,5 +55,5 @@ let createUseScrollValues = (scrollerType: scroller) => {
   );
 };
 
-let useRootScrollValues = createUseScrollValues(Root);
-let useClosestScrollValues = createUseScrollValues(Closest);
+let useRootScrollValues: unit => scrollValues = createUseScrollValues(Root);
+let useClosestScrollValues: unit => scrollValues = createUseScrollValues(Closest);

@@ -167,8 +167,8 @@ module Styles = {
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
-let make = () => {
-  <FullPageSlide className=Styles.wrapper>
+let make = (~innerRef=?) => {
+  <FullPageSlide className=Styles.wrapper ?innerRef>
     <div className=Styles.about>
       <Heading level=Heading.H1 className=Styles.heading>
         {"// about us" |> ReasonReact.string}

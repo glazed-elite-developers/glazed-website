@@ -192,14 +192,14 @@ let backgroundImageQuery = [%raw
 ];
 
 [@react.component]
-let make = () => {
+let make = (~innerRef=?) => {
   let (selectedCaseStudy, selectCaseStudy) =
     React.useState(() => caseStudies[0]);
   let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
   let backgroundImage =
     Gatsby.getImageFluid(queryResult, selectedCaseStudy.name);
 
-  <FullPageSlide className=Styles.wrapper>
+  <FullPageSlide className=Styles.wrapper ?innerRef>
     // <Gatsby.BackgroundImage> could be wrapping the grid, but it remounts its children when
     // the image changes and that breaks the square hover animations we have on the grid.
 

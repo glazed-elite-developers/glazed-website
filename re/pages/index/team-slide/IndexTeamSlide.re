@@ -228,8 +228,8 @@ module DeveloperSquare = {
 };
 
 [@react.component]
-let make = () => {
-  <FullPageSlide className=Styles.wrapper>
+let make = (~innerRef=?) => {
+  <FullPageSlide className=Styles.wrapper ?innerRef>
     <div className=Styles.grid>
       {React.array(
          Array.mapi(

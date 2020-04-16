@@ -11,12 +11,11 @@ module Styles = {
 
 [@react.component]
 let make =
-  React.forwardRef(
     (
       ~children,
       ~className: option(string)=?,
       ~backgroundImageUrl: option(string)=?,
-      ref_,
+      ~innerRef=?,
     ) => {
     let inlineStyle =
       switch (backgroundImageUrl) {
@@ -27,9 +26,7 @@ let make =
 
     // TODO: we could be using <Gatsby.BackgroundImage> here instead of inline styles.
     <section
-      ref=?{
-        Js.Nullable.toOption(ref_)->Belt.Option.map(ReactDOMRe.Ref.domRef)
-      }
+      ref=?innerRef
       className={Utils.React.combineOptionalStyles(
         ~baseStyles=Styles.wrapper,
         ~className?,
@@ -37,6 +34,6 @@ let make =
       style=inlineStyle>
       children
     </section>;
-  });
+  };
 
 let default = make;
