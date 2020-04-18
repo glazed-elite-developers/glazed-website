@@ -13,66 +13,68 @@ module Styles = {
 };
 
 let usePagePositionController = numberOfPages => {
-  let positionsAndRefs =
-    Array.init(
-      numberOfPages,
-      _index => {
-        let positionState = useState(() => 0.);
-        let ref = useRef(Js.Nullable.null);
-        (positionState, ref);
-      },
+  let (positions, setPositions) =
+    useState(() => Array.make(numberOfPages, 0.));
+  let refs: Ref.t(array(option(Webapi.Dom.eventPhase))) = useRef(Array.make(numberOfPages, None));
+  let updateSlideRef = useCallback1((index, element) => {
+    let nextRefs = Array.mapi(
+      (slideIndex, slide) => index === slideIndex ? element : slide,
+      Ref.current(refs)
     );
-  let getPagePosition = (page: int) => {
-    switch (Belt.Array.get(positionsAndRefs, page)) {
-    | None => None
-    | Some(((position, _), _)) => Some(position)
-    };
-  };
-  let slideRef = (page: int) => {
-    switch (Belt.Array.get(positionsAndRefs, page)) {
-    | None => None
-    | Some((_, ref)) => Some(ref)
-    };
-  };
+    Ref.setCurrent(refs, nextRefs);
+  }, [|refs|]);
 
   useEffect(() => {
     open Webapi.Dom;
-    Array.iter(
-      (((_position, setPosition), pageRef)) =>
-        switch (pageRef |> Ref.current |> Js.Nullable.toOption) {
+    Array.iteri(
+      (index, slideRef) =>
+        switch (slideRef) {
         | None => ()
         | Some(element) =>
-          setPosition(_ =>
-            DomRect.top(Element.getBoundingClientRect(element))
-          )
+          setPositions(state => {
+            let nextPosition =
+              DomRect.top(Element.getBoundingClientRect(element));
+            Array.mapi(
+              (positionIndex, position) =>
+                index === positionIndex ? nextPosition : position,
+              state,
+            );
+          })
         },
-      positionsAndRefs,
+      Ref.current(refs),
     );
     None;
   });
 
-  (getPagePosition, slideRef);
+  (positions, updateSlideRef);
 };
 
-let useCurrentSlide = numberOfPages => {
-  let scrollValues = ScrollConnectors.useRootScrollValues();
-  let (getPagePosition, slideRef) = usePagePositionController(5);
-  let pagePositions =
-    Array.init(numberOfPages, index =>
-      switch (getPagePosition(index)) {
-      | None => 0.
-      | Some(position) => position
-      }
+let useCurrentSlide: int => (int, array(ReactDOMRe.Ref.t)) =
+  numberOfPages => {
+    let scrollValues = ScrollConnectors.useRootScrollValues();
+    let (positions, refs) = usePagePositionController(numberOfPages);
+    useMemo2(
+      () =>
+        Belt.Array.reduceReverse2(
+          positions,
+          refs,
+          (0, [||]),
+          ((currentPage, slideRefs), position, slideRef) =>
+            position > scrollValues.boundingRect.top ? index : currentPage,
+            Array.append(slideRefs, [|ReactDOMRe.Ref.domRef(slideRef)|])
+        ),
+        // Belt.Array.reduceWithIndex(
+        //   positions,
+        //   (0, [||]),
+        //   ((currentPage, slideRefs), position, index) =>
+        //   (
+        //     position > scrollValues.boundingRect.top ? index : currentPage,
+        //     Array.append(slideRefs, [|ReactDOMRe.Ref.domRef(slideRef)|]),
+        //   )
+        // ),
+      (scrollValues, positionsAndRefs),
     );
-  let currentPage =
-    Belt.Array.reduceWithIndex(pagePositions, 0, (result, position, index) =>
-      scrollValues.position.scrollTop
-      -. scrollValues.boundingRect.top > position
-        ? index : result
-    );
-
-  (currentPage, slideRef);
-};
+  };
 
 let pagesWithDarkNavBarLinks = Belt.Set.Int.fromArray([|2, 4|]);
 
@@ -80,28 +82,18 @@ let pagesWithDarkNavBarLinks = Belt.Set.Int.fromArray([|2, 4|]);
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  let (currentPage, slideRef) = useCurrentSlide(5);
+  let (currentPage, slideRefs) = useCurrentSlide(5);
   let useDarkNavBarLinks =
     Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPage);
 
   <Layout>
     <PageLayout useDarkNavBarLinks>
       <PageContent className=Styles.wrapper>
-        <IndexLandingSlide
-          innerRef=?{Belt.Option.map(slideRef(0), ReactDOMRe.Ref.domRef)}
-        />
-        <IndexCaseStudiesSlide
-          innerRef=?{Belt.Option.map(slideRef(1), ReactDOMRe.Ref.domRef)}
-        />
-        <IndexAboutSlide
-          innerRef=?{Belt.Option.map(slideRef(2), ReactDOMRe.Ref.domRef)}
-        />
-        <IndexTeamSlide
-          innerRef=?{Belt.Option.map(slideRef(3), ReactDOMRe.Ref.domRef)}
-        />
-        <IndexManifestoSlide
-          innerRef=?{Belt.Option.map(slideRef(4), ReactDOMRe.Ref.domRef)}
-        />
+        <IndexLandingSlide innerRef={Array.get(slideRefs, 0)} />
+        <IndexCaseStudiesSlide innerRef={Array.get(slideRefs, 1)} />
+        <IndexAboutSlide innerRef={Array.get(slideRefs, 2)} />
+        <IndexTeamSlide innerRef={Array.get(slideRefs, 3)} />
+        <IndexManifestoSlide innerRef={Array.get(slideRefs, 4)} />
       </PageContent>
     </PageLayout>
   </Layout>;

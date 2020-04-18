@@ -12,21 +12,21 @@ module Styles = {
       display(`flex),
       flex3(~grow=1., ~shrink=0., ~basis=`rem(0.000000001)),
       flexDirection(`column),
-      unsafe("will-change", "opacity"),
-      unsafe("-webkit-overflow-scrolling", "touch"),
-      unsafe("-ms-overflow-style", "-ms-autohiding-scrollbar"),
+      unsafe("willChange", "opacity"),
+      unsafe("-webkitOverflowScrolling", "auto"),
+      unsafe("msOverflowStyle", "-ms-autohiding-scrollbar"),
     ]);
   let content =
     style([
       display(`flex),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       flexDirection(`column),
-      unsafe("will-change", "opacity"),
+      unsafe("willChange", "opacity"),
     ]);
   let locked =
     style([
       overflow(`hidden),
-      unsafe("-webkit-overflow-scrolling", "auto"),
+      unsafe("webkitOverflowScrolling", "auto"),
     ]);
   let iOSScrollFix =
     style([
