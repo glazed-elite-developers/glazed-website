@@ -5,6 +5,7 @@ module Styles = {
     style([
       minHeight(pct(100.)),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
+      backgroundColor(hex(Theme.Colors.white)),
       backgroundSize(`cover),
     ]);
 };

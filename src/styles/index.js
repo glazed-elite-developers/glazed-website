@@ -2,6 +2,7 @@ import React from 'react'
 import { Global, css } from '@emotion/core'
 import ResetCSS from './reset'
 import fonts from './fonts'
+import { Colors } from 're/Theme'
 
 const GlobalStyles = () => (
   <>
@@ -45,6 +46,10 @@ const GlobalStyles = () => (
               url('${ fonts.ZonaProBoldWoff }') format('woff'), /* Modern Browsers */
               url('${ fonts.ZonaProBoldTtf }') format('truetype'), /* Safari, Android, iOS */
               url('${ fonts.ZonaProBoldSvg }#ZonaProBold') format('svg'); /* Legacy iOS */
+        }
+
+        html {
+          background-color: #${ Colors.glazedBabyBlueText };
         }
 
         html,
