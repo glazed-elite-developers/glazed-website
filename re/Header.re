@@ -21,7 +21,7 @@ module Styles = {
     style([
       display(`flex),
       flex3(~grow=0., ~shrink=0., ~basis=`auto),
-      paddingRight(rem(1.25)),
+      width(px(122)),
       pointerEvents(`auto),
     ]);
   let logo = style([height(rem(2.1875))]);
@@ -35,11 +35,16 @@ module Styles = {
       lineHeight(`rem(0.875)),
       media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
-  let sayHelloButton = (useDarkNavBarLinks) =>
+  let sayHelloButton = useDarkNavBarLinks =>
     style([
       display(`none),
       padding2(~v=`rem(0.875), ~h=`rem(1.75)),
-      color(hex(useDarkNavBarLinks ? Theme.Colors.darkGreyDarker : Theme.Colors.almostWhite)),
+      color(
+        hex(
+          useDarkNavBarLinks
+            ? Theme.Colors.darkGreyDarker : Theme.Colors.almostWhite,
+        ),
+      ),
       fontSize(`rem(0.75)),
       fontFamily(Theme.Fonts.heading),
       pointerEvents(`auto),
@@ -52,7 +57,7 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
 
   <nav className={Css.merge([Styles.nav, className])}>
-    <Gatsby.Link _to="/" className=Styles.logoWrapper>
+    <Gatsby.Link _to="/#welcome" className=Styles.logoWrapper>
       <SVG className=Styles.logo asset=logoToUse />
     </Gatsby.Link>
     <NavBarLinks
@@ -60,7 +65,9 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
       useDarkNavBarLinks
       currentPageIndex
     />
-    <Button _type=Button.Secondary className=Styles.sayHelloButton(useDarkNavBarLinks)>
+    <Button
+      _type=Button.Secondary
+      className={Styles.sayHelloButton(useDarkNavBarLinks)}>
       {React.string("> say hello")}
     </Button>
   </nav>;

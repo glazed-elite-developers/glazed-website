@@ -131,36 +131,37 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~innerRef=?, ~onResize) => {
-  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
-    <Heading level=Heading.H2 className=Styles.displayTitle>
-      {"// manifesto" |> ReasonReact.string}
-    </Heading>
-    <div className=Styles.content>
-      {Array.mapi(
-         (index, element) => {
-           let index = index + 1;
+let make =
+  React.memo((~innerRef=?, ~id=?, ~onResize) => {
+    <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
+      <Heading level=Heading.H2 className=Styles.displayTitle>
+        {"// manifesto" |> ReasonReact.string}
+      </Heading>
+      <div className=Styles.content>
+        {Array.mapi(
+           (index, element) => {
+             let index = index + 1;
 
-           <div className=Styles.block key={Belt.Int.toString(index)}>
-             <Heading level=Heading.H5 className=Styles.pre>
-               {{j|// 0$index|j} |> ReasonReact.string}
-             </Heading>
-             <Heading level=Heading.H3 className=Styles.title>
-               {"Great developers " |> ReasonReact.string}
-               <strong className=Styles.strong>
-                 {element.title |> ReasonReact.string}
-               </strong>
-             </Heading>
-             <p className=Styles.paragraph>
-               {element.content |> ReasonReact.string}
-             </p>
-           </div>;
-         },
-         manifestoContent,
-       )
-       |> ReasonReact.array}
-    </div>
-  </FullPageSlide>;
-};
+             <div className=Styles.block key={Belt.Int.toString(index)}>
+               <Heading level=Heading.H5 className=Styles.pre>
+                 {{j|// 0$index|j} |> ReasonReact.string}
+               </Heading>
+               <Heading level=Heading.H3 className=Styles.title>
+                 {"Great developers " |> ReasonReact.string}
+                 <strong className=Styles.strong>
+                   {element.title |> ReasonReact.string}
+                 </strong>
+               </Heading>
+               <p className=Styles.paragraph>
+                 {element.content |> ReasonReact.string}
+               </p>
+             </div>;
+           },
+           manifestoContent,
+         )
+         |> ReasonReact.array}
+      </div>
+    </FullPageSlide>
+  });
 
 let default = make;

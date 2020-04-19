@@ -305,10 +305,6 @@ let make =
       developerPhotoKey="overlay"
       className=Styles.overlayImage
     />
-    <div className=Styles.logoWrapper>
-      <SVG className=Styles.logo asset=logoOutline />
-    </div>
-    <CloseButton close />
     <Heading level=Heading.H1 className=Styles.heading>
       {React.array(
          Array.mapi(
@@ -359,6 +355,10 @@ let make =
          )}
       </p>
     </div>
+    <div className=Styles.logoWrapper>
+      <SVG className=Styles.logo asset=logoOutline />
+    </div>
+    <CloseButton close />
     <MobileFooter close />
   </BaseModal>;
 };

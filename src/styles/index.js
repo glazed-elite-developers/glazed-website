@@ -61,6 +61,10 @@ const GlobalStyles = () => (
           font-family: 'Muli', 'ZonaProBold', sans-serif;
           line-height: 1.5;
         }
+
+        a:focus {
+          outline: none;
+        }
       `}
     />
   </>

@@ -17,9 +17,10 @@ let usePagePositionController = (numberOfSlides: int) => {
   let (positions, setPositions) = positionsState;
   let refs: Ref.t(array(Ref.t(Js.Nullable.t('a)))) =
     useRef(Array.init(numberOfSlides, _index => createRef()));
+  let scrollerAPI = ScrollConnectors.useClosestScrollerAPI();
   let domSlideRefs = Array.map(ReactDOMRe.Ref.domRef, Ref.current(refs));
   let updatePositions =
-    useCallback2(
+    useCallback3(
       () =>
         Webapi.Dom.(
           Array.iteri(
@@ -28,8 +29,11 @@ let usePagePositionController = (numberOfSlides: int) => {
               | None => ()
               | Some(element) =>
                 setPositions(state => {
+                  // We add the scrollTop value to the element's top offset when reading the value so
+                  // that we always store the element's position relative to the scroll container.
                   let nextPosition =
-                    DomRect.top(Element.getBoundingClientRect(element));
+                    DomRect.top(Element.getBoundingClientRect(element))
+                    +. scrollerAPI.getScrollPosition().scrollTop;
                   Array.mapi(
                     (positionIndex, position) =>
                       index === positionIndex ? nextPosition : position,
@@ -40,7 +44,7 @@ let usePagePositionController = (numberOfSlides: int) => {
             Ref.current(refs),
           )
         ),
-      (positionsState, refs),
+      (positionsState, refs, scrollerAPI),
     );
   let handleResize =
     useCallback1(
@@ -58,15 +62,15 @@ let usePagePositionController = (numberOfSlides: int) => {
 };
 
 let useCurrentSlideIndex = (positions: array(float), offsetY: float): int => {
-  let scrollValues = ScrollConnectors.useRootScrollValues();
+  let scrollValues = ScrollConnectors.useClosestScrollValues();
   useMemo2(
     () =>
-      Belt.Array.reduceWithIndex(positions, 0, (currentPage, position, index) =>
+      Belt.Array.reduceWithIndex(positions, 0, (currentPage, position, index) => {
         scrollValues.position.scrollTop
         +. scrollValues.boundingRect.top >= position
         +. offsetY
           ? index : currentPage
-      ),
+      }),
     (scrollValues, positions),
   );
 };
@@ -75,11 +79,8 @@ let pagesWithDarkNavBarLinks = Belt.Set.Int.fromArray([|2, 4|]);
 let numberOfSlides = 5;
 let headerStyleTransitionOffsetY = (-65.);
 
-/* For a page of static text like this one, it would be easier to just use plain React
-   components since we don't get to take advantage of Reason's type system */
 [@react.component]
 let make = () => {
-  // @TODO: Update slide positions on content resize.
   let (positions, domSlideRefs, onResize) =
     usePagePositionController(numberOfSlides);
   let currentPageIndex =
@@ -90,14 +91,31 @@ let make = () => {
   <Layout>
     <PageLayout useDarkNavBarLinks currentPageIndex>
       <PageContent className=Styles.wrapper>
-        <IndexLandingSlide innerRef={Array.get(domSlideRefs, 0)} onResize />
+        <IndexLandingSlide
+          id="welcome"
+          innerRef={Array.get(domSlideRefs, 0)}
+          onResize
+        />
         <IndexCaseStudiesSlide
+          id="case-studies"
           innerRef={Array.get(domSlideRefs, 1)}
           onResize
         />
-        <IndexAboutSlide innerRef={Array.get(domSlideRefs, 2)} onResize />
-        <IndexTeamSlide innerRef={Array.get(domSlideRefs, 3)} onResize />
-        <IndexManifestoSlide innerRef={Array.get(domSlideRefs, 4)} onResize />
+        <IndexAboutSlide
+          id="about"
+          innerRef={Array.get(domSlideRefs, 2)}
+          onResize
+        />
+        <IndexTeamSlide
+          id="team"
+          innerRef={Array.get(domSlideRefs, 3)}
+          onResize
+        />
+        <IndexManifestoSlide
+          id="manifesto"
+          innerRef={Array.get(domSlideRefs, 4)}
+          onResize
+        />
       </PageContent>
     </PageLayout>
   </Layout>;

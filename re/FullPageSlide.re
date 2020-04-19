@@ -13,6 +13,7 @@ module Styles = {
 let make =
     (
       ~children,
+      ~id=?,
       ~className: option(string)=?,
       ~backgroundImageUrl: option(string)=?,
       ~innerRef=?,
@@ -28,6 +29,7 @@ let make =
   // TODO: we could be using <Gatsby.BackgroundImage> here instead of inline styles.
   <ResizeMonitorContainer
     componentTag="section"
+    ?id
     ?innerRef
     className=?{
       Utils.React.combineClassNames([Some(Styles.wrapper), className])
@@ -36,15 +38,6 @@ let make =
     onResize>
     children
   </ResizeMonitorContainer>;
-  // <section
-  //   ref=?innerRef
-  //   className=?{
-  //     Utils.React.combineClassNames([Some(Styles.wrapper), className])
-  //   }
-  //   style=inlineStyle>
-  //   <ResizeMonitor onResize={_a => ()} />
-  //   children
-  // </section>;
 };
 
 let default = make;

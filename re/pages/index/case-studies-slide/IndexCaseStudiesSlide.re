@@ -192,84 +192,86 @@ let backgroundImageQuery = [%raw
 ];
 
 [@react.component]
-let make = (~innerRef=?, ~onResize) => {
-  let (selectedCaseStudy, selectCaseStudy) =
-    React.useState(() => caseStudies[0]);
-  let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
-  let backgroundImage =
-    Gatsby.getImageFluid(queryResult, selectedCaseStudy.name);
+let make =
+  React.memo((~innerRef=?, ~id=?, ~onResize) => {
+    let (selectedCaseStudy, selectCaseStudy) =
+      React.useState(() => caseStudies[0]);
+    let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
+    let backgroundImage =
+      Gatsby.getImageFluid(queryResult, selectedCaseStudy.name);
 
-  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
-    // <Gatsby.BackgroundImage> could be wrapping the grid, but it remounts its children when
-    // the image changes and that breaks the square hover animations we have on the grid.
+    <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
+      // <Gatsby.BackgroundImage> could be wrapping the grid, but it remounts its children when
+      // the image changes and that breaks the square hover animations we have on the grid.
 
-      <Gatsby.BackgroundImage
-        className=Styles.backgroundImage
-        fluid=?backgroundImage
-        style={ReactDOMRe.Style.make(~position="absolute", ())}
-      />
-      <div className=Styles.grid>
-        <div className=Styles.backgroundGrid>
-          <div className=Styles.dimmedBackgroundSquareRow>
-            <Square className=Styles.squareWithBorder />
+        <Gatsby.BackgroundImage
+          className=Styles.backgroundImage
+          fluid=?backgroundImage
+          style={ReactDOMRe.Style.make(~position="absolute", ())}
+        />
+        <div className=Styles.grid>
+          <div className=Styles.backgroundGrid>
+            <div className=Styles.dimmedBackgroundSquareRow>
+              <Square className=Styles.squareWithBorder />
+            </div>
+            <div className=Styles.backgroundSquareRow>
+              {caseStudies
+               |> Array.mapi((index, _) =>
+                    <Square
+                      key={Belt.Int.toString(index)}
+                      className=Styles.squareWithBorder
+                    />
+                  )
+               |> React.array}
+            </div>
+            <div
+              className={Css.merge([
+                Styles.dimmedBackgroundSquareRow,
+                Styles.onlyInMobile,
+              ])}>
+              <Square
+                className=Styles.square
+                contentClassName=Styles.fakeSquareContent
+              />
+              <Square className=Styles.squareWithBorder />
+            </div>
           </div>
-          <div className=Styles.backgroundSquareRow>
-            {caseStudies
-             |> Array.mapi((index, _) =>
-                  <Square
-                    key={Belt.Int.toString(index)}
-                    className=Styles.squareWithBorder
-                  />
-                )
-             |> React.array}
-          </div>
-          <div
-            className={Css.merge([
-              Styles.dimmedBackgroundSquareRow,
-              Styles.onlyInMobile,
-            ])}>
-            <Square
-              className=Styles.square
-              contentClassName=Styles.fakeSquareContent
-            />
-            <Square className=Styles.squareWithBorder />
+          <div className=Styles.contentGrid>
+            <div className=Styles.squareRow>
+              <CaseStudiesSlideSquare
+                className=Styles.square
+                contentClassName=Styles.headingSquareContent>
+                <Heading level=Heading.H1 className=Styles.heading>
+                  {React.string("// case studies")}
+                </Heading>
+              </CaseStudiesSlideSquare>
+            </div>
+            <div className=Styles.squareRow>
+              {caseStudies
+               |> Array.mapi((index, caseStudy) =>
+                    <CaseStudySquare
+                      key={Belt.Int.toString(index)}
+                      caseStudy
+                      index
+                      className=Styles.square
+                      contentWrapperClassName=Styles.squareContent
+                      isSelected={caseStudy === selectedCaseStudy}
+                      onMouseEnter={_ => selectCaseStudy(_ => caseStudy)}
+                    />
+                  )
+               |> React.array}
+            </div>
+            <div
+              className={Css.merge([Styles.squareRow, Styles.onlyInMobile])}>
+              <CaseStudiesSlideSquare
+                className=Styles.square
+                contentClassName=Styles.fakeSquareContent
+              />
+              <CaseStudiesSlideSquare className=Styles.square />
+            </div>
           </div>
         </div>
-        <div className=Styles.contentGrid>
-          <div className=Styles.squareRow>
-            <CaseStudiesSlideSquare
-              className=Styles.square
-              contentClassName=Styles.headingSquareContent>
-              <Heading level=Heading.H1 className=Styles.heading>
-                {React.string("// case studies")}
-              </Heading>
-            </CaseStudiesSlideSquare>
-          </div>
-          <div className=Styles.squareRow>
-            {caseStudies
-             |> Array.mapi((index, caseStudy) =>
-                  <CaseStudySquare
-                    key={Belt.Int.toString(index)}
-                    caseStudy
-                    index
-                    className=Styles.square
-                    contentWrapperClassName=Styles.squareContent
-                    isSelected={caseStudy === selectedCaseStudy}
-                    onMouseEnter={_ => selectCaseStudy(_ => caseStudy)}
-                  />
-                )
-             |> React.array}
-          </div>
-          <div className={Css.merge([Styles.squareRow, Styles.onlyInMobile])}>
-            <CaseStudiesSlideSquare
-              className=Styles.square
-              contentClassName=Styles.fakeSquareContent
-            />
-            <CaseStudiesSlideSquare className=Styles.square />
-          </div>
-        </div>
-      </div>
-    </FullPageSlide>;
-};
+      </FullPageSlide>;
+  });
 
 let default = make;

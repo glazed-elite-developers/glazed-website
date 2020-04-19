@@ -167,35 +167,36 @@ module Styles = {
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
-let make = (~innerRef=?, ~onResize) => {
-  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
-    <div className=Styles.about>
-      <Heading level=Heading.H1 className=Styles.heading>
-        {"// about us" |> ReasonReact.string}
-      </Heading>
-      <div className=Styles.contentText>
-        <p className=Styles.contentTextLine>
-          {"Every team member is highly experienced (8y avg), strives for excellency and has access to the colossal combined knowledge of the whole team. "
-           |> ReasonReact.string}
-        </p>
-        <p
-          className={Css.merge([
-            Styles.contentTextLine,
-            Styles.dimmedOnDesktop,
-          ])}>
-          {"We act as (an extension of) your development team, in very flexible team sizes, and adapting to your processes and with a tight feedback loop."
-           |> React.string}
-        </p>
+let make =
+  React.memo((~innerRef=?, ~id=?, ~onResize) => {
+    <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
+      <div className=Styles.about>
+        <Heading level=Heading.H1 className=Styles.heading>
+          {"// about us" |> ReasonReact.string}
+        </Heading>
+        <div className=Styles.contentText>
+          <p className=Styles.contentTextLine>
+            {"Every team member is highly experienced (8y avg), strives for excellency and has access to the colossal combined knowledge of the whole team. "
+             |> ReasonReact.string}
+          </p>
+          <p
+            className={Css.merge([
+              Styles.contentTextLine,
+              Styles.dimmedOnDesktop,
+            ])}>
+            {"We act as (an extension of) your development team, in very flexible team sizes, and adapting to your processes and with a tight feedback loop."
+             |> React.string}
+          </p>
+        </div>
       </div>
-    </div>
-    <div className=Styles.htmlTextWrapper>
-      <HTMLText tag=HTMLText.H2 className=Styles.htmlTag>
-        {"It's your code, ready to hand off or build a team around at any time, but we care for it as it were ours."
-         |> ReasonReact.string}
-      </HTMLText>
-    </div>
-    <AboutSlideProjectList />
-  </FullPageSlide>;
-};
+      <div className=Styles.htmlTextWrapper>
+        <HTMLText tag=HTMLText.H2 className=Styles.htmlTag>
+          {"It's your code, ready to hand off or build a team around at any time, but we care for it as it were ours."
+           |> ReasonReact.string}
+        </HTMLText>
+      </div>
+      <AboutSlideProjectList />
+    </FullPageSlide>
+  });
 
 let default = make;

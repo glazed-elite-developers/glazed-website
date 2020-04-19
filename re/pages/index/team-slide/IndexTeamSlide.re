@@ -82,6 +82,15 @@ module Styles = {
       flexDirection(`row),
       color(hex(Colors.almostWhite)),
       backgroundColor(hex(Colors.glazedBlueDarkestish)),
+      media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
+    ]);
+  let developerSquareLink =
+    style([
+      padding(rem(0.9375)),
+      display(`flex),
+      flexDirection(`column),
+      flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
+      textDecoration(`none),
       before([
         contentRule(""),
         position(`absolute),
@@ -94,14 +103,8 @@ module Styles = {
         transition(~duration=300, "opacity"),
       ]),
       hover([before([opacity(1.)])]),
-      media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
-    ]);
-  let developerSquareLink =
-    style([
-      padding(rem(0.9375)),
-      display(`flex),
-      flexDirection(`column),
-      textDecoration(`none),
+      focus([before([opacity(1.)])]),
+      active([before([opacity(1.)])]),
       media(
         Theme.Breakpoints.tabletLandscape,
         [padding2(~h=rem(1.875), ~v=rem(2.1875))],
@@ -214,7 +217,7 @@ module SendApplicationSquare = {
 };
 
 let selectedDeveloperQueryStringKey = "unit";
-let developerLink = ({key}: IndexTeamSlideSquares.developer) => {j|/?$(selectedDeveloperQueryStringKey)=$(key)#team|j};
+let developerLink = ({key}: IndexTeamSlideSquares.developer) => {j|/?$(selectedDeveloperQueryStringKey)=$(key)|j};
 
 module DeveloperSquare = {
   [@react.component]
@@ -226,15 +229,12 @@ module DeveloperSquare = {
     <TeamSlideSquare contentClassName=Styles.developerSquare>
       <Gatsby.Link
         _to=link onClick className=Styles.developerSquareLink replace=true>
-          <DeveloperBackgroundImage
-            developerPhotoKey={developer.key}
-            className=Styles.developerBackgroundImageWrapper
-            gatsbyBackgroundImageClassName=Styles.developerBackgroundImage
-            style={ReactDOMRe.Style.make(
-              ~backgroundSize="150%",
-              (),
-            )}
-          />
+        <DeveloperBackgroundImage
+          developerPhotoKey={developer.key}
+          className=Styles.developerBackgroundImageWrapper
+          gatsbyBackgroundImageClassName=Styles.developerBackgroundImage
+          style={ReactDOMRe.Style.make(~backgroundSize="150%", ())}
+        />
         <div className=Styles.developerSquareContent>
           <Heading level=Heading.H6 className=Styles.developerName>
             {React.string(Js.String.replace(" ", "\n", developer.name))}
@@ -257,69 +257,73 @@ module DeveloperSquare = {
 };
 
 [@react.component]
-let make = (~innerRef=?, ~onResize) => {
-  open Webapi.Url;
-  let openedModalRef = useRef(None);
-  let modalsAPI = ModalsController.useContextAPI();
-  let url = ReasonReactRouter.useUrl();
-  let selectedDeveloper =
-    url.search
-    |> URLSearchParams.make
-    |> URLSearchParams.get(selectedDeveloperQueryStringKey);
+let make =
+  React.memo((~innerRef=?, ~id=?, ~onResize) => {
+    open Webapi.Url;
+    let openedModalRef = useRef(None);
+    let modalsAPI = ModalsController.useContextAPI();
+    let url = ReasonReactRouter.useUrl();
+    let selectedDeveloper =
+      url.search
+      |> URLSearchParams.make
+      |> URLSearchParams.get(selectedDeveloperQueryStringKey);
 
-  React.useEffect1(
-    () => {
-      // Close other developer modals if any are open.
-      switch (Ref.current(openedModalRef)) {
-      | None => ()
-      | Some(modal) => modalsAPI.closeModal(modal)
-      };
+    React.useEffect1(
+      () => {
+        // Close other developer modals if any are open.
+        switch (Ref.current(openedModalRef)) {
+        | None => ()
+        | Some(modal) => modalsAPI.closeModal(modal)
+        };
 
-      switch (
-        Belt.Option.flatMap(selectedDeveloper, developerKey =>
-          Belt.Map.get(IndexTeamSlideSquares.developers, developerKey)
-        )
-      ) {
-      | None => ()
-      | Some(developer) =>
-        let modal =
-          modalsAPI.openModal((~id as modalId, ~onClose) =>
-            <DeveloperModal modalId onClose developer />
-          );
-        Ref.setCurrent(openedModalRef, Some(modal));
-      };
-      ();
-      None;
-    },
-    [|selectedDeveloper|],
-  );
+        switch (
+          Belt.Option.flatMap(selectedDeveloper, developerKey =>
+            Belt.Map.get(IndexTeamSlideSquares.developers, developerKey)
+          )
+        ) {
+        | None => ()
+        | Some(developer) =>
+          let modal =
+            modalsAPI.openModal((~id as modalId, ~onClose) =>
+              <DeveloperModal modalId onClose developer />
+            );
+          Ref.setCurrent(openedModalRef, Some(modal));
+        };
+        ();
+        None;
+      },
+      [|selectedDeveloper|],
+    );
 
-  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
-    <div className=Styles.grid>
-      {React.array(
-         Array.mapi(
-           (index, square) =>
-             switch (square) {
-             | IndexTeamSlideSquares.TitleSquare(title) =>
-               <TitleSquare key={Belt.Int.toString(index)} title />
-             | IndexTeamSlideSquares.MottoSquare(motto) =>
-               <MottoSquare key={Belt.Int.toString(index)} motto />
-             | IndexTeamSlideSquares.SendApplicationSquare =>
-               <SendApplicationSquare key={Belt.Int.toString(index)} />
-             | IndexTeamSlideSquares.DeveloperSquare(developer) =>
-               switch (
-                 Belt.Map.get(IndexTeamSlideSquares.developers, developer)
-               ) {
-               | None => React.null
-               | Some(developer) =>
-                 <DeveloperSquare key={Belt.Int.toString(index)} developer />
-               }
-             },
-           IndexTeamSlideSquares.squares,
-         ),
-       )}
-    </div>
-  </FullPageSlide>;
-};
+    <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
+      <div className=Styles.grid>
+        {React.array(
+           Array.mapi(
+             (index, square) =>
+               switch (square) {
+               | IndexTeamSlideSquares.TitleSquare(title) =>
+                 <TitleSquare key={Belt.Int.toString(index)} title />
+               | IndexTeamSlideSquares.MottoSquare(motto) =>
+                 <MottoSquare key={Belt.Int.toString(index)} motto />
+               | IndexTeamSlideSquares.SendApplicationSquare =>
+                 <SendApplicationSquare key={Belt.Int.toString(index)} />
+               | IndexTeamSlideSquares.DeveloperSquare(developer) =>
+                 switch (
+                   Belt.Map.get(IndexTeamSlideSquares.developers, developer)
+                 ) {
+                 | None => React.null
+                 | Some(developer) =>
+                   <DeveloperSquare
+                     key={Belt.Int.toString(index)}
+                     developer
+                   />
+                 }
+               },
+             IndexTeamSlideSquares.squares,
+           ),
+         )}
+      </div>
+    </FullPageSlide>;
+  });
 
 let default = make;

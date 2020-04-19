@@ -12,8 +12,10 @@ let createUseScrollerAPI = (scrollerType: scroller, ()) => {
   };
 };
 
-let useRootScrollerAPI = createUseScrollerAPI(Root);
-let useClosestScrollerAPI = createUseScrollerAPI(Closest);
+let useRootScrollerAPI: unit => ScrollContext.scrollerAPI =
+  createUseScrollerAPI(Root);
+let useClosestScrollerAPI: unit => ScrollContext.scrollerAPI =
+  createUseScrollerAPI(Closest);
 
 type scrollValues = {
   position: ScrollContext.scrollPosition,
@@ -56,4 +58,5 @@ let createUseScrollValues = (scrollerType: scroller) => {
 };
 
 let useRootScrollValues: unit => scrollValues = createUseScrollValues(Root);
-let useClosestScrollValues: unit => scrollValues = createUseScrollValues(Closest);
+let useClosestScrollValues: unit => scrollValues =
+  createUseScrollValues(Closest);

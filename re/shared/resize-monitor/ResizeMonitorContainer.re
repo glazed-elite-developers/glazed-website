@@ -13,6 +13,7 @@ let make =
       ~children,
       ~onResize,
       ~className=?,
+      ~id=?,
       ~innerRef=?,
       ~style=?,
       ~componentTag="div",
@@ -24,6 +25,7 @@ let make =
         ~ref=?{
           Belt.Option.map(innerRef, Utils.React.Types.domRef);
         },
+        ~id?,
         ~style?,
         ~className=?combineClassNames([Some(Styles.wrapper), className]),
         (),
