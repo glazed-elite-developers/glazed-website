@@ -29,17 +29,17 @@ module Styles = {
 
 [@react.component]
 let make = (
-  ~image: unit,
-  _title: string,
-  _area: string,
-  _text: string,
-  _techs: array(string),
-  _year: string,
-  _brief: string
+  ~image: option(Gatsby.fluidImage)=?,
+  ~title: string,
+  ~area: string,
+  ~text: string,
+  ~techs: list(string),
+  ~year: string,
+  ~brief: string
 ) => {
   <header>
     <div className=Styles.image>
-      <Gatsby.Image fluid=image />
+      <Gatsby.Image fluid=?image />
       <div className=Styles.mask />
     </div>
   </header>;

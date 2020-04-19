@@ -97,19 +97,16 @@ let make =
           </Heading>
           <p className=Styles.area> {React.string(caseStudy.area)} </p>
         </div>
-        <Gatsby.Link _to={caseStudy.link} className=Styles.link replace=true>
+        <Gatsby.Link _to={caseStudy.link} className=Styles.link>
           {React.string("> explore case")}
         </Gatsby.Link>
       </React.Fragment>
     }>
-
-      <p className=Styles.number>
-        {"// 0" ++ Belt.Int.toString(index + 1) |> React.string}
-      </p>
-      <Heading level=Heading.H4 className=Styles.smallProjectName>
-        {React.string(caseStudy.name)}
-      </Heading>
-    </CaseStudiesSlideSquare>;
-    // <p className=Styles.projectArea> {caseStudy.area |> React.string} </p>
-    // <a className=Styles.link> {"> explore case" |> React.string} </a>
+    <p className=Styles.number>
+      {"// 0" ++ Belt.Int.toString(index + 1) |> React.string}
+    </p>
+    <Heading level=Heading.H4 className=Styles.smallProjectName>
+      {React.string(caseStudy.name)}
+    </Heading>
+  </CaseStudiesSlideSquare>;
 };

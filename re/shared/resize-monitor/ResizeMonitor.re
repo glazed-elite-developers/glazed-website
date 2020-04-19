@@ -26,7 +26,6 @@ let make =
     ) => {
   open Utils.React;
 
-  // open Utils.React;
   let placeholderObjectRef = useRef(Js.Nullable.null);
   let objectDefaultViewRef = useRef(Js.Nullable.null);
   let (withData, setWithData) = useState(() => false);
@@ -79,7 +78,7 @@ let make =
           Webapi.Dom.Element.removeEventListener(
             "resize",
             handleContentResize,
-            Ref.current(element),
+            element,
           )
         },
     );

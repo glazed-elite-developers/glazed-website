@@ -27,6 +27,7 @@ export const MediaContextProvider = ({ children }) => {
     for (const { query } of matchMediaQueries) {
       query.addListener(handleWindowResize)
     }
+    handleWindowResize()
 
     return () => {
       for (const { query } of matchMediaQueries) {
@@ -39,5 +40,3 @@ export const MediaContextProvider = ({ children }) => {
 }
 
 export const MediaContextConsumer = MediaContext.Consumer
-
-export default { MediaContext, MediaContextProvider, MediaContextConsumer }

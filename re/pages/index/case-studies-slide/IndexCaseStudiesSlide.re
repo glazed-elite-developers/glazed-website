@@ -133,7 +133,7 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     name: "LVMH",
     area: "Fashion - Ecommerce",
     backgroundImageUrl: "/images/case-studies/lvmh.jpg",
-    link: "/",
+    link: "/case-studies/farfetch",
   },
   {
     name: "Farfetch",

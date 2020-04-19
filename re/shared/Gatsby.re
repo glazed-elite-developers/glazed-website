@@ -50,7 +50,7 @@ module BackgroundImage = {
 
 module Image = {
   [@react.component] [@bs.module "gatsby-image"]
-  external make: (~fluid: unit) => React.element = "default";
+  external make: (~fluid: fluidImage=?) => React.element = "default";
 };
 
 [@bs.module "gatsby"]
