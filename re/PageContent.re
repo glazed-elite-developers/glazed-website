@@ -18,10 +18,9 @@ module Styles = {
 [@react.component]
 let make = (~className=?, ~children) => {
   <main
-    className={Utils.React.combineOptionalStyles(
-      ~baseStyles=Styles.wrapper,
-      ~className?,
-    )}>
+    className=?{
+      Utils.React.combineClassNames([Some(Styles.wrapper), className])
+    }>
     children
   </main>;
 };

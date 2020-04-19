@@ -32,7 +32,7 @@ module Styles = {
         ),
         // boxShadow(0 20px 20px 0 rgba(0, 0, 0, 0.24);
       ]),
-      backgroundColor(hex(Theme.Colors.glazedBlueDarker)),
+      backgroundColor(hex(Theme.Colors.glazedBlueDarkerish)),
       // boxShadow(),
       color(hex(Theme.Colors.almostWhite)),
       fontFamily(Theme.Fonts.heading),
@@ -53,7 +53,7 @@ module Styles = {
     | ImageBg =>
       style([
         color(hex(Theme.Colors.almostWhite)),
-        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarker)),
+        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarkerish)),
       ])
     };
 
@@ -63,7 +63,7 @@ module Styles = {
         color(hex(Theme.Colors.darkGreyDarker)),
         opacity(isDisabled ? 0.4 : 1.0),
         padding2(~h=rem(3.0), ~v=rem(0.875)),
-        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarker)),
+        border(px(1), `solid, hex(Theme.Colors.glazedBlueDarkerish)),
         backgroundColor(`transparent),
       ]),
       secondaryForBg(bg),
@@ -109,10 +109,12 @@ let make =
     };
 
   <button
-    className={Utils.React.combineOptionalStyles(
-      ~baseStyles=Css.merge([Styles.common, ownStyles]),
-      ~className?,
-    )}
+    className=?{
+      Utils.React.combineClassNames([
+        Some(Css.merge([Styles.common, ownStyles])),
+        className,
+      ])
+    }
     onClick=onClickHandler>
     children
   </button>;

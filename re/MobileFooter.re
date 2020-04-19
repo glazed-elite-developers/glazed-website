@@ -11,7 +11,6 @@ module Styles = {
       bottom(`zero),
       left(`zero),
       right(`zero),
-      backgroundColor(hex(Theme.Colors.glazedBlueMidnight)),
       media(Theme.Breakpoints.tabletLandscape, [display(`none)]),
     ]);
   let navBarLinks =
@@ -27,14 +26,13 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~useDarkNavBarLinks: bool, ~currentPageIndex) => {
-  <footer className=Styles.wrapper>
+let make = (~currentPageIndex) => {
+  <MobileFooterLayout className=Styles.wrapper>
     <NavBarLinks
       className=Styles.navBarLinks
-      useDarkNavBarLinks
       currentPageIndex
     />
-  </footer>;
+  </MobileFooterLayout>;
 };
 
 let default = make;

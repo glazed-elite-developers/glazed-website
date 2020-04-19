@@ -1,20 +1,8 @@
 open React;
 
-type scrollPosition = {
-  scrollTop: float,
-  scrollLeft: float,
-  scrollWidth: int,
-  scrollHeight: int,
-};
+type scrollPosition = Utils.Dom.Measurements.scrollPosition;
 
-type boundingRect = {
-  top: float,
-  right: float,
-  bottom: float,
-  left: float,
-  width: float,
-  height: float,
-};
+type boundingRect = Utils.Dom.Measurements.boundingRect;
 
 let initialScrollPosition: scrollPosition = {
   scrollTop: 0.,
@@ -44,7 +32,7 @@ type scrollerAPI = {
   scrollTo: (option(float), option(float)) => unit,
 };
 
-type scrollContext = {
+type context = {
   // Scroll container instances highest in the component tree set this flag to true,
   // which we then use to prevent the rubber band scroll animations in iOS.
   hasRootContainer: bool,
@@ -60,7 +48,7 @@ let defaultScrollerAPI = {
   scrollTo: (_top, _left) => (),
 };
 
-let defaultScrollContextValue = {
+let defaultContextValue = {
   // Scroll container instances highest in the component tree set this flag to true,
   // which we then use to prevent the rubber band scroll animations in iOS.
   hasRootContainer: false,
@@ -68,14 +56,15 @@ let defaultScrollContextValue = {
   rootScroller: defaultScrollerAPI,
 };
 
-let scrollContext = createContext(defaultScrollContextValue);
+let context = createContext(defaultContextValue);
 
-let makeProps = (~value, ~children, ()) => {
-  "value": value,
-  "children": children,
+module Provider = {
+  let makeProps = (~value, ~children, ()) => {
+    "value": value,
+    "children": children,
+  };
+  let make = Context.provider(context);
 };
-
-let make = Context.provider(scrollContext);
 
 let useScrollerAPI = wrapperRef => {
   let scrollListeners = useRef([]);
@@ -120,13 +109,7 @@ let useScrollerAPI = wrapperRef => {
       (): scrollPosition =>
         switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
         | None => initialScrollPosition
-        | Some(element) =>
-          Webapi.Dom.Element.{
-            scrollTop: scrollTop(element),
-            scrollLeft: scrollLeft(element),
-            scrollWidth: scrollWidth(element),
-            scrollHeight: scrollHeight(element),
-          }
+        | Some(element) => Utils.Dom.Measurements.getScrollPosition(element)
         },
       [|wrapperRef|],
     );
@@ -136,15 +119,7 @@ let useScrollerAPI = wrapperRef => {
         switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
         | None => initialBoundingRect
         | Some(element) =>
-          let domRect = Webapi.Dom.Element.getBoundingClientRect(element);
-          Webapi.Dom.DomRect.{
-            top: top(domRect),
-            right: right(domRect),
-            bottom: bottom(domRect),
-            left: left(domRect),
-            width: width(domRect),
-            height: height(domRect),
-          };
+          Utils.Dom.Measurements.getBoundingClientRect(element)
         },
       [|wrapperRef|],
     );
@@ -163,15 +138,24 @@ let useScrollerAPI = wrapperRef => {
         };
       }
     );
+  let scrollerAPI =
+    useMemo5(
+      () =>
+        {
+          registerScrollListener,
+          unregisterScrollListener,
+          getScrollPosition,
+          getBoundingRect,
+          scrollTo,
+        },
+      (
+        registerScrollListener,
+        unregisterScrollListener,
+        getScrollPosition,
+        getBoundingRect,
+        scrollTo,
+      ),
+    );
 
-  (
-    {
-      registerScrollListener,
-      unregisterScrollListener,
-      getScrollPosition,
-      getBoundingRect,
-      scrollTo,
-    },
-    notifySubscribedListeners,
-  );
+  (scrollerAPI, notifySubscribedListeners);
 };

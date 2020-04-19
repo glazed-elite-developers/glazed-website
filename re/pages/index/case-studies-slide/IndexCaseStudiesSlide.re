@@ -133,25 +133,25 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     name: "LVMH",
     area: "Fashion - Ecommerce",
     backgroundImageUrl: "/images/case-studies/lvmh.jpg",
-    link: "",
+    link: "/",
   },
   {
     name: "Farfetch",
     area: "Fashion - Ecommerce",
     backgroundImageUrl: "/images/case-studies/farfetch.jpg",
-    link: "",
+    link: "/",
   },
   {
     name: "Switch",
     area: "Fashion - Ecommerce",
     backgroundImageUrl: "/images/case-studies/switch-payments.jpg",
-    link: "",
+    link: "/",
   },
   {
     name: "Boston",
     area: "Fashion - Ecommerce",
     backgroundImageUrl: "/images/case-studies/boston.jpg",
-    link: "",
+    link: "/",
   },
 |];
 
@@ -192,20 +192,20 @@ let backgroundImageQuery = [%raw
 ];
 
 [@react.component]
-let make = (~innerRef=?) => {
+let make = (~innerRef=?, ~onResize) => {
   let (selectedCaseStudy, selectCaseStudy) =
     React.useState(() => caseStudies[0]);
   let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
   let backgroundImage =
     Gatsby.getImageFluid(queryResult, selectedCaseStudy.name);
 
-  <FullPageSlide className=Styles.wrapper ?innerRef>
+  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
     // <Gatsby.BackgroundImage> could be wrapping the grid, but it remounts its children when
     // the image changes and that breaks the square hover animations we have on the grid.
 
       <Gatsby.BackgroundImage
         className=Styles.backgroundImage
-        fluid=backgroundImage
+        fluid=?backgroundImage
         style={ReactDOMRe.Style.make(~position="absolute", ())}
       />
       <div className=Styles.grid>

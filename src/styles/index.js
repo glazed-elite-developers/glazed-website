@@ -56,8 +56,7 @@ const GlobalStyles = () => (
           flex-direction: column;
         }
 
-
-        #gatsby-focus-wrapper {
+        #___gatsby {
           font-size: 16px;
           font-family: 'Muli', 'ZonaProBold', sans-serif;
           line-height: 1.5;

@@ -50,7 +50,7 @@ module TextStyles = {
   let h2 =
     style([
       position(`relative),
-      color(hex(Colors.glazedBlueDarker)),
+      color(hex(Colors.glazedBlueDarkerish)),
       fontFamily(Fonts.heading),
       fontSize(rem(2.25)),
       lineHeight(rem(2.7)),

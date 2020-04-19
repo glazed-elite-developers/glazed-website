@@ -20,8 +20,9 @@ module Link = {
   external make:
     (
       ~_to: string,
-      ~className: string,
+      ~className: option(string)=?,
       ~children: React.element,
+      ~onClick: option(unit => unit)=?,
       ~replace: bool=?
     ) =>
     React.element =
@@ -38,10 +39,10 @@ module BackgroundImage = {
   [@react.component] [@bs.module "gatsby-background-image"]
   external make:
     (
-      ~fluid: fluidImage,
+      ~fluid: fluidImage=?,
       ~className: string=?,
-      ~children: React.element=?,
-      ~style: ReactDOMRe.style=?
+      ~children: option(React.element)=?,
+      ~style: option(ReactDOMRe.style)=?
     ) =>
     React.element =
     "default";
@@ -57,9 +58,11 @@ external useStaticQuery: string => queryResult('a) = "useStaticQuery";
 
 // @TODO: should be a nullable.
 [@bs.get_index]
-external getImage: (queryResult('a), string) => Js.t(imageQueryResult) = "";
+external getImage: (queryResult('a), string) => Js.t(imageQueryResult);
 
 let getImageFluid = (result: queryResult('a), name: string) => {
   let image = getImage(result, name);
-  image##childImageSharp##fluid;
+  try(Some(image##childImageSharp##fluid)) {
+  | Js.Exn.Error(_error) => None
+  };
 };

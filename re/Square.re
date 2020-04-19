@@ -1,5 +1,3 @@
-open Utils.React;
-
 module Styles = {
   open Css;
 
@@ -21,13 +19,17 @@ module Styles = {
 [@react.component]
 let make = (~children=?, ~className=?, ~contentClassName=?, ~onMouseEnter=?) => {
   <div
-    className={combineOptionalStyles(~baseStyles=Styles.wrapper, ~className?)}
+    className=?{
+      Utils.React.combineClassNames([Some(Styles.wrapper), className])
+    }
     ?onMouseEnter>
     <div
-      className={combineOptionalStyles(
-        ~baseStyles=Styles.content,
-        ~className=?contentClassName,
-      )}>
+      className=?{
+        Utils.React.combineClassNames([
+          Some(Styles.content),
+          contentClassName,
+        ])
+      }>
       {switch (children) {
        | None => React.null
        | Some(children') => children'

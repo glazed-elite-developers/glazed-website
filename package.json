@@ -7,7 +7,7 @@
     "@emotion/core": "^10.0.27",
     "bs-css": "^11.0.0",
     "bs-date-fns": "^0.1.6",
-    "bs-platform": "^5.0.0",
+    "bs-platform": "^7.2.2",
     "bs-webapi": "^0.15.9",
     "core-js": "^3.6.4",
     "emotion": "^10.0.27",
@@ -29,7 +29,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
-    "reason-react": "^0.7.0"
+    "react-transition-group": "^4.3.0",
+    "reason-react": "git://github.com:reasonml/reason-react.git#fa3df2d"
   },
   "keywords": [
     "gatsby"
@@ -50,7 +51,6 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "graphql_ppx": "^0.2.8",
     "prettier": "^1.19.1"
   },
   "repository": {

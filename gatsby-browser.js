@@ -3,6 +3,7 @@ import { css, cache } from 'emotion'
 import { CacheProvider } from '@emotion/core'
 import { MediaContextProvider } from 'src/components/mediaContext'
 import ScrollContainer from 're/shared/scroll-container/ScrollContainer'
+import ModalsController from 're/shared/modals/ModalsController'
 
 const styles = {
   wrapper: css`
@@ -17,9 +18,11 @@ export const wrapRootElement = ({ element }) => {
   return (
     <CacheProvider value={cache}>
       <MediaContextProvider>
-        <ScrollContainer className={styles.wrapper} contentClassName={styles.content}>
-          {element}
-        </ScrollContainer>
+        <ModalsController>
+          <ScrollContainer className={styles.wrapper} contentClassName={styles.content}>
+            {element}
+          </ScrollContainer>
+        </ModalsController>
       </MediaContextProvider>
     </CacheProvider>
   )

@@ -8,11 +8,12 @@ module Styles = {
   open Css;
 
   let wrapper = style([height(`percent(100.00))]);
-  let label = style([
-    color(hex("9FA8B3")),
-    fontSize(rem(0.625)),
-    fontWeight(`num(700)),
-    lineHeight(px(23)),
+  let label =
+    style([
+      color(hex("9FA8B3")),
+      fontSize(rem(0.625)),
+      fontWeight(`num(700)),
+      lineHeight(px(23)),
     ]);
   let labelInner = tint =>
     switch (tint) {
@@ -57,7 +58,6 @@ module Styles = {
       focus ? focusStyle : nonFocusStyle,
     ]);
 
-
   let textarea = (tint, focus) =>
     merge([
       inputNormal,
@@ -72,8 +72,8 @@ let make =
     (
       ~label,
       ~placeholder,
-      ~disabled=false,
-      ~error="",
+      ~disabled as _disabled=false,
+      ~error as _error="",
       ~value,
       ~onChange,
       ~tint,

@@ -33,10 +33,7 @@ module Styles = {
       style([
         fontSize(rem(1.125)),
         color(hex(Theme.Colors.grey)),
-        media(
-          Theme.Breakpoints.tabletPortrait,
-          [fontSize(rem(2.))],
-        ),
+        media(Theme.Breakpoints.tabletPortrait, [fontSize(rem(2.))]),
       ]),
     ]);
   let h3 =
@@ -66,12 +63,11 @@ let make = (~level: levels, ~className=?, ~children) => {
     | H6 => ("h6", Styles.h6)
     };
 
-  ReactDOMRe.createDOMElementVariadic(
+  ReactDOMRe.createElement(
     component,
     ~props=
-      ReactDOMRe.domProps(
-       ~className=
-          Utils.React.combineOptionalStyles(~baseStyles=styles, ~className?),
+      ReactDOMRe.props(
+        ~className=?Utils.React.combineClassNames([Some(styles), className]),
         (),
       ),
     [|children|],

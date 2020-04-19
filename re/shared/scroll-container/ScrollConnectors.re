@@ -5,7 +5,7 @@ type scroller =
   | Closest;
 
 let createUseScrollerAPI = (scrollerType: scroller, ()) => {
-  let scrollContext = useContext(ScrollContext.scrollContext);
+  let scrollContext = useContext(ScrollContext.context);
   switch (scrollerType) {
   | Root => scrollContext.rootScroller
   | Closest => scrollContext.closestScroller

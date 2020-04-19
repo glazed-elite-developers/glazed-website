@@ -17,7 +17,7 @@ let make = (~children, ~useDarkNavBarLinks=false, ~currentPageIndex=0) => {
   <div className=Styles.wrapper>
     children
     <Header className=Styles.header useDarkNavBarLinks currentPageIndex />
-    <MobileFooter useDarkNavBarLinks currentPageIndex />
+    <MobileFooter currentPageIndex />
   </div>;
 };
 

@@ -237,11 +237,12 @@ module Styles = {
 /* For a page of static text like this one, it would be easier to just use plain React
    components since we don't get to take advantage of Reason's type system */
 [@react.component]
-let make = (~innerRef=?) => {
+let make = (~innerRef=?, ~onResize) => {
   <FullPageSlide
     ?innerRef
     className=Styles.wrapper
-    backgroundImageUrl="/images/home/slide-1-background.jpg">
+    backgroundImageUrl="/images/home/slide-1-background.jpg"
+    onResize>
     <div className=Styles.content>
       <div className=Styles.backgroundCube />
       <div className=Styles.headingWrapper>

@@ -24,18 +24,12 @@ module Styles = {
       unsafe("willChange", "opacity"),
     ]);
   let locked =
-    style([
-      overflow(`hidden),
-      unsafe("webkitOverflowScrolling", "auto"),
-    ]);
+    style([overflow(`hidden), unsafe("webkitOverflowScrolling", "auto")]);
   let iOSScrollFix =
     style([
       flex3(~grow=1., ~shrink=0., ~basis=Calc.(+)(pct(100.), px(2))),
     ]);
 };
-
-// Module mocks.
-let isIOSDevice = false;
 
 let defaultScrollingTimeout: int = 100;
 
@@ -55,7 +49,7 @@ let reducer = (_state: state, action: action) => {
 [@react.component]
 let make =
     (
-      ~lock: bool,
+      ~lock: bool=false,
       ~disablePointerEventsOnScroll: bool=false,
       ~scrollingTimeout: int=defaultScrollingTimeout,
       // https://github.com/reasonml/reason-react/issues/497
@@ -73,19 +67,23 @@ let make =
   let didTouchEnd = useRef(false);
   let scrollingTimeoutId = useRef(None);
   let (state, dispatch) = useReducer(reducer, initialState);
-  // let needIOSHackery = useMemo2(() => false, (isIOSDevice, ));
-  let scrollContext = useContext(ScrollContext.scrollContext);
+  let isIOSDevice = useMemo0(Utils.Platform.isIOSDevice);
+  let scrollContext = useContext(ScrollContext.context);
   let (scrollerAPI, notifySubscribedListeners) =
     ScrollContext.useScrollerAPI(wrapperRef);
   let scrollContextToPassDown =
-    scrollContext.hasRootContainer
-      ? {...scrollContext, closestScroller: scrollerAPI}
-      : {
-        hasRootContainer: true,
-        closestScroller: scrollerAPI,
-        rootScroller: scrollerAPI,
-      };
-  let needIOSHackery = isIOSDevice && scrollContext.hasRootContainer;
+    useMemo2(
+      () =>
+        scrollContext.hasRootContainer
+          ? {...scrollContext, closestScroller: scrollerAPI}
+          : {
+            hasRootContainer: true,
+            closestScroller: scrollerAPI,
+            rootScroller: scrollerAPI,
+          },
+      (scrollerAPI, scrollContext.hasRootContainer),
+    );
+  let needIOSHackery = isIOSDevice && !scrollContext.hasRootContainer;
   let handleTouchStart =
     useCallback(_event =>
       if (Ref.current(didTouchEnd)) {
@@ -121,7 +119,7 @@ let make =
     );
   let handleScroll =
     useCallback3(
-      _event => {
+      Utils.Timing.throttle1(_event => {
         notifySubscribedListeners();
 
         if (disablePointerEventsOnScroll || needIOSHackery) {
@@ -141,7 +139,7 @@ let make =
         };
 
         ();
-      },
+      }),
       (notifySubscribedListeners, disablePointerEventsOnScroll, dispatch),
     );
   let attachScrollListener =
@@ -171,12 +169,27 @@ let make =
     );
 
   let (onTouchStart, onTouchEnd) =
-    needIOSHackery
-      ? (
-        Some(ScrollContainerUtils.preventRubberBandScroll(handleTouchStart)),
-        Some(handleTouchEnd),
-      )
-      : (None, None);
+    useMemo1(
+      () =>
+        needIOSHackery
+          ? (
+            Some(
+              event => {
+                switch (
+                  wrapperRef |> React.Ref.current |> Js.Nullable.toOption
+                ) {
+                | None => ()
+                | Some(element) =>
+                  ScrollContainerUtils.scrollElementIfOnLimit(element)
+                };
+                handleTouchStart(event);
+              },
+            ),
+            Some(handleTouchEnd),
+          )
+          : (None, None),
+      [|needIOSHackery|],
+    );
   let pointerEventsStyle =
     ReactDOMRe.Style.make(
       ~pointerEvents=?state.arePointerEventsEnabled ? None : Some("none"),
@@ -201,7 +214,7 @@ let make =
     Some(detachScrollListener);
   });
 
-  <ScrollContext value=scrollContextToPassDown>
+  <ScrollContext.Provider value=scrollContextToPassDown>
     <div
       ref={ReactDOMRe.Ref.domRef(wrapperRef)}
       ?className
@@ -211,7 +224,7 @@ let make =
       ?onTouchEnd>
       <div className=?contentClassName style=contentStyle> children </div>
     </div>
-  </ScrollContext>;
+  </ScrollContext.Provider>;
 };
 
 let default = make;

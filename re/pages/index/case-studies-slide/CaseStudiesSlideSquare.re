@@ -14,7 +14,7 @@ module Styles = {
       left(`px(1)),
       width(px(5)),
       height(px(5)),
-      backgroundColor(hex(Colors.glazedBlueDarker)),
+      backgroundColor(hex(Colors.glazedBlueDarkerish)),
       opacity(0.8),
     ]),
   ];
@@ -70,13 +70,13 @@ let make =
     ) => {
   let hasContentWhenSelected = contentWhenSelected !== None;
   let contentWrapperClassName =
-    combineOptionalStyles(
-      ~baseStyles=Styles.squareContent,
-      ~className=?baseContentWrapperClassName,
-    );
+    combineClassNames([
+      Some(Styles.squareContent),
+      baseContentWrapperClassName,
+    ]);
   let contentClassName =
-    combineOptionalStyles(
-      ~baseStyles=
+    combineClassNames([
+      Some(
         isSelected
           ? Css.merge([
               Styles.content(hasContentWhenSelected),
@@ -86,27 +86,29 @@ let make =
               Styles.content(hasContentWhenSelected),
               Styles.visible,
             ]),
-      ~className=?baseContentClassName,
-    );
+      ),
+      baseContentClassName,
+    ]);
   let contentWhenSelectedClassName =
-    combineOptionalStyles(
-      ~baseStyles=Styles.content(false),
-      ~className=
+    combineClassNames([
+      Some(Styles.content(false)),
+      Some(
         isSelected
           ? Css.merge([Styles.contentWhenSelected, Styles.visible])
           : Css.merge([Styles.contentWhenSelected, Styles.hidden]),
-    );
+      ),
+    ]);
   let wrappedChildren =
     switch (children) {
     | None => None
     | Some(children') =>
-      Some(<div className=contentClassName> children' </div>)
+      Some(<div className=?contentClassName> children' </div>)
     };
   let wrappedContentWhenSelected =
     switch (contentWhenSelected) {
     | None => None
     | Some(content) =>
-      Some(<div className=contentWhenSelectedClassName> content </div>)
+      Some(<div className=?contentWhenSelectedClassName> content </div>)
     };
 
   let childrenForSquare =
@@ -121,7 +123,7 @@ let make =
 
   <Square
     ?className
-    contentClassName=contentWrapperClassName
+    contentClassName=?contentWrapperClassName
     ?onMouseEnter
     children=?childrenForSquare
   />;

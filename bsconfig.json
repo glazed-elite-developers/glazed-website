@@ -19,8 +19,5 @@
     "bs-date-fns",
     "bs-webapi"
   ],
-  "ppx-flags": [
-    "graphql_ppx/ppx"
-  ],
   "refmt": 3
 }

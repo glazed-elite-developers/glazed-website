@@ -131,8 +131,8 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~innerRef=?) => {
-  <FullPageSlide className=Styles.wrapper ?innerRef>
+let make = (~innerRef=?, ~onResize) => {
+  <FullPageSlide className=Styles.wrapper ?innerRef onResize>
     <Heading level=Heading.H2 className=Styles.displayTitle>
       {"// manifesto" |> ReasonReact.string}
     </Heading>

@@ -89,10 +89,9 @@ module Styles = {
 [@react.component]
 let make = (~className=?, ~quote, ~imageSrc, ~name, ~position) => {
   <div
-    className={Utils.React.combineOptionalStyles(
-      ~baseStyles=Styles.wrapper,
-      ~className?,
-    )}>
+    className=?{
+      Utils.React.combineClassNames([Some(Styles.wrapper), className])
+    }>
     <p className=Styles.quote> {quote |> str} </p>
     <div className=Styles.quoter>
       <img src=imageSrc className=Styles.img />

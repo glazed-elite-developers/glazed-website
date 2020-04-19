@@ -34,7 +34,7 @@ let colors = [|
     ("glazedBlue", Theme.Colors.glazedBlue, Theme.Colors.black),
     ("glazedBlueLight", Theme.Colors.glazedBabyBlueLight, Theme.Colors.black),
     ("glazedBlueLighter", Theme.Colors.glazedBlueLighter, Theme.Colors.black),
-    ("glazedBlueDarker", Theme.Colors.glazedBabyBlueDarker, Theme.Colors.black),
+    ("glazedBlueDarkerish", Theme.Colors.glazedBabyBlueDarker, Theme.Colors.black),
     ("glazedBabyBlue", Theme.Colors.glazedBabyBlue, Theme.Colors.black),
     ("glazedBabyBlueLight", Theme.Colors.glazedBabyBlueLight, Theme.Colors.black),
     ("glazedBabyBlueDarker", Theme.Colors.glazedBabyBlueDarker, Theme.Colors.black),

@@ -30,22 +30,23 @@ let items = [|
 
 [@react.component]
 let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => {
-  let styles =
-    Utils.React.combineOptionalStyles(
-      ~baseStyles=Styles.wrapper,
-      ~className?,
-    );
   let contextualStyles =
     useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
+  let wrapperStyles =
+    Utils.React.combineClassNames([
+      Some(Styles.wrapper),
+      className,
+      Some(contextualStyles),
+    ]);
 
-  <div className={Css.merge([styles, contextualStyles])}>
+  <div className=?wrapperStyles>
     <div className={Css.merge([Styles.dimmed, Styles.item, Styles.explore])}>
       {React.string("explore:")}
     </div>
     {React.array(
        Array.mapi(
          (index, (link, label)) => {
-           let isDimmed = index > currentPageIndex;
+           let isDimmed = index >= currentPageIndex;
            let linkStyles =
              isDimmed
                ? Css.merge([

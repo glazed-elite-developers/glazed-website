@@ -57,7 +57,7 @@ module Styles = {
       display(`flex),
       flexDirection(`column),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
-      backgroundColor(hex(Colors.glazedBlueDarker)),
+      backgroundColor(hex(Colors.glazedBabyBlueText)),
       lineHeight(`rem(1.875)),
       media(
         Breakpoints.desktop,
