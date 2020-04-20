@@ -92,7 +92,7 @@ let make = () => {
     <PageLayout useDarkNavBarLinks currentPageIndex>
       <PageContent className=Styles.wrapper>
         <IndexLandingSlide
-          id="welcome"
+          id="hey"
           innerRef={Array.get(domSlideRefs, 0)}
           onResize
         />

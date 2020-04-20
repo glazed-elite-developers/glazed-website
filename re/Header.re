@@ -57,7 +57,7 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
 
   <nav className={Css.merge([Styles.nav, className])}>
-    <Gatsby.Link _to="/#welcome" className=Styles.logoWrapper>
+    <Gatsby.Link _to="/#hey" className=Styles.logoWrapper>
       <SVG className=Styles.logo asset=logoToUse />
     </Gatsby.Link>
     <NavBarLinks

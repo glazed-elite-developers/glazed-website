@@ -7,6 +7,7 @@ module Styles = {
       flexDirection(`column),
       position(`relative),
       height(pct(100.)),
+      backgroundColor(hex(Theme.Colors.white)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);
   let header = style([position(`fixed), top(`zero), right(`zero), left(`zero)]);
