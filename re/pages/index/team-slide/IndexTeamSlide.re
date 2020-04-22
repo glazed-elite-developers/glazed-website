@@ -209,7 +209,7 @@ module SendApplicationSquare = {
       <Heading level=Heading.H2 className=Styles.sendApplication>
         {React.string("<Your name could be here />")}
       </Heading>
-      <Gatsby.Link _to="/" className=Styles.link>
+      <Gatsby.Link _to="/?modal=say-hello" className=Styles.link>
         {React.string("> send application")}
       </Gatsby.Link>
     </TeamSlideSquare>;
@@ -217,7 +217,7 @@ module SendApplicationSquare = {
 };
 
 let selectedDeveloperQueryStringKey = "unit";
-let developerLink = ({key}: IndexTeamSlideSquares.developer) => {j|/?$(selectedDeveloperQueryStringKey)=$(key)|j};
+let developerLink = ({key}: IndexTeamSlideSquares.developer) => {j|/?modal=team&$(selectedDeveloperQueryStringKey)=$(key)|j};
 
 module DeveloperSquare = {
   [@react.component]

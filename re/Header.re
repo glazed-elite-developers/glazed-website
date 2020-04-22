@@ -1,3 +1,5 @@
+open Utils.React;
+
 [@bs.module "static/images/logo-glazed.svg"]
 external logo: SVG.asset = "default";
 [@bs.module "static/images/logo-glazed-outline.svg"]
@@ -35,28 +37,19 @@ module Styles = {
       lineHeight(`rem(0.875)),
       media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
     ]);
-  let sayHelloButton = useDarkNavBarLinks =>
-    style([
-      display(`none),
-      padding2(~v=`rem(0.875), ~h=`rem(1.75)),
-      color(
-        hex(
-          useDarkNavBarLinks
-            ? Theme.Colors.darkGreyDarker : Theme.Colors.almostWhite,
-        ),
-      ),
-      fontSize(`rem(0.75)),
-      fontFamily(Theme.Fonts.heading),
-      pointerEvents(`auto),
-      media(Theme.Breakpoints.tabletLandscape, [display(`block)]),
-    ]);
 };
 
 [@react.component]
-let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
+let make =
+    (
+      ~className=?,
+      ~componentAtTheRight=?,
+      ~useDarkNavBarLinks: bool=false,
+      ~currentPageIndex=0,
+    ) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
 
-  <nav className={Css.merge([Styles.nav, className])}>
+  <nav className=?{combineClassNames([Some(Styles.nav), className])}>
     <Gatsby.Link _to="/#hey" className=Styles.logoWrapper>
       <SVG className=Styles.logo asset=logoToUse />
     </Gatsby.Link>
@@ -65,11 +58,10 @@ let make = (~className, ~useDarkNavBarLinks: bool, ~currentPageIndex) => {
       useDarkNavBarLinks
       currentPageIndex
     />
-    <Button
-      _type=Button.Secondary
-      className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-      {React.string("> say hello")}
-    </Button>
+    {switch (componentAtTheRight) {
+     | None => React.null
+     | Some(componentAtTheRight') => componentAtTheRight'
+     }}
   </nav>;
 };
 

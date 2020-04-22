@@ -12,12 +12,8 @@ import { extractCritical } from 'emotion-server'
 import { cache } from 'emotion'
 import { CacheProvider } from '@emotion/core'
 
-export const replaceRenderer = ({
-  replaceBodyHTMLString,
-  bodyComponent,
-  setHeadComponents,
-}) => {
-  let { html, ids, css } = extractCritical(
+export const replaceRenderer = ({ replaceBodyHTMLString, bodyComponent, setHeadComponents }) => {
+  const { html, ids, css } = extractCritical(
     renderToString(<CacheProvider value={cache}>{bodyComponent}</CacheProvider>)
   )
   setHeadComponents([
