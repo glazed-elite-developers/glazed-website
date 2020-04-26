@@ -11,7 +11,6 @@ module Styles = {
       media(Theme.Breakpoints.tabletLandscape, [padding(rem(0.75))]),
     ]);
   let dimmed = style([opacity(0.6)]);
-  let link = style([textDecoration(`none)]);
   let explore =
     style([
       display(`none),
@@ -20,14 +19,20 @@ module Styles = {
 };
 
 let items = [|
-  ("#case-studies", "case studies"),
-  ("#about", "about"),
-  ("#team", "team"),
-  ("#manifesto", "manifesto"),
+  ("/#case-studies", "case studies"),
+  ("/#about", "about"),
+  ("/#team", "team"),
+  ("/#manifesto", "manifesto"),
 |];
 
 [@react.component]
-let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => {
+let make =
+    (
+      ~className=?,
+      ~useDarkNavBarLinks=false,
+      ~currentPageIndex: int,
+      ~onNavBarLinkClick=?,
+    ) => {
   let contextualStyles =
     useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
   let wrapperStyles =
@@ -47,18 +52,20 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int) => 
            let isDimmed = index >= currentPageIndex;
            let linkStyles =
              isDimmed
-               ? Css.merge([
-                   Styles.item,
-                   Styles.link,
-                   Styles.dimmed,
-                   contextualStyles,
-                 ])
-               : Css.merge([Styles.item, Styles.link, contextualStyles]);
+               ? Css.merge([Styles.item, Styles.dimmed, contextualStyles])
+               : Css.merge([Styles.item, contextualStyles]);
+           let onClick =
+             switch (onNavBarLinkClick) {
+             | None => None
+             | Some(handler) => Some(event => handler(event, link))
+             };
 
            <Gatsby.Link
              key={Belt.Int.toString(index)}
-             _to={"/" ++ link}
+             _to=link
              className=linkStyles
+             ?onClick
+             // @TODO: Use "replace" conditionally depending on if we're linking for the same page or a different one.
              replace=true>
              {React.string("// " ++ label)}
            </Gatsby.Link>;

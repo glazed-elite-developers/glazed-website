@@ -48,7 +48,6 @@ module Styles = {
       fontFamily(Fonts.heading),
       fontSize(`rem(0.75)),
       color(hex(Colors.glazedBabyBlue)),
-      textDecoration(`none),
     ]);
   let centeredContentWhenSelected =
     style([

@@ -66,13 +66,7 @@ module Styles = {
       display(`none),
       media(
         Breakpoints.tabletLandscape,
-        [
-          display(`flex),
-          position(`absolute),
-          top(`zero),
-          right(`zero),
-          textDecoration(`none),
-        ],
+        [display(`flex), position(`absolute), top(`zero), right(`zero)],
       ),
     ]);
   let closeButton =
@@ -221,7 +215,6 @@ module Styles = {
     style([
       fontFamily(Theme.Fonts.heading),
       color(hex(Colors.glazedBabyBlue)),
-      textDecoration(`none),
       media(
         Theme.Breakpoints.tabletLandscape,
         [fontSize(rem(0.75)), minWidth(rem(9.375))],
@@ -238,7 +231,6 @@ module Styles = {
       alignItems(`center),
       media(Breakpoints.tabletLandscape, [display(`none)]),
     ]);
-  let mobileCloseButtonWrapper = style([textDecoration(`none)]);
   let mobileCloseButton =
     style([
       padding(rem(1.25)),
@@ -267,10 +259,7 @@ module MobileFooter = {
   [@react.component]
   let make = (~close) => {
     <MobileFooterLayout className=Styles.mobileFooter>
-      <Gatsby.Link
-        className=Styles.mobileCloseButtonWrapper
-        _to=teamSlideLink
-        onClick=close>
+      <Gatsby.Link _to=teamSlideLink onClick=close>
         <Button className=Styles.mobileCloseButton>
           {React.string("< back team")}
         </Button>
@@ -288,7 +277,14 @@ let make =
       ~onExited=() => (),
       ~developer: IndexTeamSlideSquares.developer,
     ) => {
-  let close = useCallback0(() => {ReasonReactRouter.push(teamSlideLink)});
+  let close =
+    useCallback0(event => {
+      ReactEvent.Synthetic.preventDefault(event);
+      Routing.push(
+        teamSlideLink,
+        ~state={"preventDefaultScrollBehavior": true},
+      );
+    });
   <BaseModal
     modalId
     onClose

@@ -1,68 +1,152 @@
 open React;
 
+[@bs.module "static/images/icon_back_arrow.svg"]
+external backArrowIcon: SVG.asset = "default";
+
+// Social icons.
+[@bs.module "static/images/icon_twitter.svg"]
+external twitterIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_facebook.svg"]
+external facebookIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_linkedin.svg"]
+external linkedInIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_github.svg"]
+external githubIcon: SVG.asset = "default";
+
 module Styles = {
   open Css;
   open Theme;
 
-  let wrapper = style([backgroundColor(hex(Colors.glazedBlueDark))]);
+  let wrapper = style([backgroundColor(hex(Colors.almostAlmostWhite))]);
   let contentWrapper = style([alignItems(`stretch)]);
   let content =
     style([
-      position(`relative),
-      padding4(
-        ~top=rem(4.1875),
-        ~bottom=rem(4.1875),
-        ~left=rem(1.25),
-        ~right=rem(1.25),
-      ),
       display(`flex),
       flexDirection(`column),
-      justifyContent(`flexEnd),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
-      media(
-        Breakpoints.tabletLandscape,
-        [
-          justifyContent(`flexStart),
-          padding4(
-            ~top=rem(6.25),
-            ~bottom=rem(6.25),
-            ~left=rem(4.75),
-            ~right=rem(2.5),
-          ),
-        ],
-      ),
     ]);
+  let header =
+    style([position(`absolute), top(`zero), right(`zero), left(`zero)]);
   let closeButtonWrapper =
     style([
       display(`none),
       media(
         Breakpoints.tabletLandscape,
+        [display(`flex), pointerEvents(`auto)],
+      ),
+    ]);
+  let closeButton = style([opacity(0.6), padding(`zero)]);
+  let contacts =
+    style([
+      display(`flex),
+      flexDirection(`column),
+      paddingTop(Header.Styles.Variables.height),
+      flex3(~grow=1., ~shrink=1., ~basis=`auto),
+      media(Breakpoints.tabletLandscape, [flexDirection(`row)]),
+    ]);
+  let map =
+    style([
+      display(`flex),
+      flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
+      backgroundColor(hex("dddddd")),
+    ]);
+  let form =
+    style([
+      position(`relative),
+      display(`flex),
+      flexDirection(`column),
+      media(
+        Breakpoints.tabletLandscape,
         [
-          display(`flex),
+          justifyContent(`center),
+          padding4(
+            ~top=rem(3.75),
+            ~left=rem(5.),
+            ~bottom=rem(3.75),
+            ~right=rem(3.75),
+          ),
+          flex3(~grow=0., ~shrink=1., ~basis=pct(50.)),
+        ],
+      ),
+      media(
+        Breakpoints.desktop,
+        [flex3(~grow=0., ~shrink=1., ~basis=rem(40.))],
+      ),
+    ]);
+  let heading =
+    style([
+      fontSize(`rem(1.125)),
+      color(hex(Colors.darkGreyDarker)),
+      opacity(0.9),
+      media(Breakpoints.tabletLandscape, [fontSize(`rem(2.))]),
+    ]);
+  let formMessage =
+    style([
+      padding3(~top=rem(1.5625), ~bottom=rem(2.8126), ~h=`zero),
+      fontSize(rem(0.875)),
+      color(hex(Colors.darkGrey)),
+    ]);
+  let sendEmailParagraph = style([color(hex(Colors.grey))]);
+  let emailLink = style([color(hex(Colors.glazedBlueDarkish))]);
+  let socialNetworks =
+    style([
+      display(`none),
+      media(
+        Breakpoints.tabletLandscape,
+        [
           position(`absolute),
           top(`zero),
-          right(`zero),
-          textDecoration(`none),
+          right(rem(4.6875)),
+          margin(rem(-0.9375)),
+          display(`flex),
         ],
       ),
     ]);
-  let closeButton =
+  let socialIcon =
     style([
-      padding(`zero),
-      flex3(~grow=1., ~shrink=1., ~basis=`auto),
-      width(rem(8.5)),
-      height(rem(8.5)),
-      backgroundColor(hex(Colors.glazedBlueDarker)),
-      fontFamily(Theme.Fonts.heading),
-      fontSize(rem(0.625)),
-      opacity(0.6),
-      color(hex(Colors.white)),
+      margin(rem(0.9375)),
+      opacity(0.4),
+      Css.SVG.fill(hex(Theme.Colors.darkGrey)),
     ]);
+};
+
+module CloseButton = {
+  [@react.component]
+  let make = (~backToUrl, ~close) => {
+    <Gatsby.Link
+      className=Styles.closeButtonWrapper _to=backToUrl onClick=close>
+      <Button className=Styles.closeButton>
+        <SVG asset=backArrowIcon height="12" />
+      </Button>
+    </Gatsby.Link>;
+  };
 };
 
 [@react.component]
 let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
-  let close = useCallback0(() => {Js.log("Close")});
+  open Webapi.Url;
+  let url = ReasonReactRouter.useUrl();
+  let backToUrl =
+    switch (
+      url.search |> URLSearchParams.make |> URLSearchParams.get("backTo")
+    ) {
+    | None => "/"
+    | Some(path) => path
+    };
+  let close =
+    useCallback1(
+      event => {
+        ReactEvent.Synthetic.preventDefault(event);
+        Routing.push(
+          backToUrl,
+          ~state={"preventDefaultScrollBehavior": true},
+        );
+      },
+      [|backToUrl|],
+    );
+  let onNavBarLinkClick =
+    useCallback0((_event, link) => {Routing.push(link)});
+
   <BaseModal
     modalId
     onClose
@@ -71,7 +155,41 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     scrollContainerClassName=Styles.wrapper
     contentWrapperClassName=Styles.contentWrapper
     contentClassName=Styles.content>
-    <Header componentAtTheRight={React.string("sdasd")} />
+    <ScrollContainer>
+      <div className=Styles.contacts>
+        <div className=Styles.map />
+        <div className=Styles.form>
+          <div className=Styles.socialNetworks>
+            <SVG className=Styles.socialIcon asset=twitterIcon height="14" />
+            <SVG className=Styles.socialIcon asset=facebookIcon height="14" />
+            <SVG className=Styles.socialIcon asset=linkedInIcon height="14" />
+            <SVG className=Styles.socialIcon asset=githubIcon height="14" />
+          </div>
+          <Heading level=Heading.H1 className=Styles.heading>
+            {React.string("// say hello")}
+          </Heading>
+          <div className=Styles.formMessage>
+            <p> {React.string("Fill the form, or, if you prefer,")} </p>
+            <p className=Styles.sendEmailParagraph>
+              {React.string("<a>")}
+              <a
+                href="mailto:info@glazedsolutions.com"
+                className=Styles.emailLink>
+                {React.string("send us an email")}
+              </a>
+              {React.string("</a>")}
+            </p>
+          </div>
+          <ContactForm />
+        </div>
+      </div>
+    </ScrollContainer>
+    <Header
+      className=Styles.header
+      useDarkNavBarLinks=true
+      componentAtTheRight={<CloseButton backToUrl close />}
+      onNavBarLinkClick
+    />
   </BaseModal>;
 };
 

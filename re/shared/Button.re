@@ -14,7 +14,8 @@ module Styles = {
   open Css;
 
   let base = style([padding2(~h=rem(3.0), ~v=rem(0.875))]);
-  let common = style([border(px(1), `none, `transparent)]);
+  let common =
+    style([border(px(1), `none, `transparent), background(`none)]);
   let primary = isDisabled =>
     style([
       opacity(isDisabled ? 0.4 : 1.0),

@@ -16,13 +16,14 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~className=?, ~children) => {
-  <main
-    className=?{
-      Utils.React.combineClassNames([Some(Styles.wrapper), className])
-    }>
-    children
-  </main>;
-};
+let make =
+  React.memo((~className=?, ~children) => {
+    <main
+      className=?{
+        Utils.React.combineClassNames([Some(Styles.wrapper), className])
+      }>
+      children
+    </main>
+  });
 
 let default = make;

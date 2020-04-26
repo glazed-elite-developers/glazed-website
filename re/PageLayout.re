@@ -30,64 +30,62 @@ module Styles = {
       pointerEvents(`auto),
       media(Theme.Breakpoints.tabletLandscape, [display(`block)]),
     ]);
-  let link = style([textDecoration(`none)]);
 };
 
 [@react.component]
 let make =
+  memo(
     (~children, ~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex=0) => {
-  open Webapi.Url;
-  let openedModalRef = useRef(None);
-  let modalsAPI = ModalsController.useContextAPI();
-  let url = ReasonReactRouter.useUrl();
-  let selectedModal =
-    url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
-  Js.log(url);
-  let openSayHelloModal =
-    useCallback0(() => {ReasonReactRouter.push("/?modal=say-hello")});
+    open Webapi.Url;
+    let openedModalRef = useRef(None);
+    let modalsAPI = ModalsController.useContextAPI();
+    let url = ReasonReactRouter.useUrl();
+    let selectedModal =
+      url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
+    let openSayHelloModal =
+      useCallback0(_event => {ReasonReactRouter.push("/?modal=say-hello")});
 
-  useEffect1(
-    () => {
-      // Close other developer modals if any are open.
-      switch (Ref.current(openedModalRef)) {
-      | None => ()
-      | Some(modal) => modalsAPI.closeModal(modal)
-      };
+    useEffect1(
+      () => {
+        // Close other developer modals if any are open.
+        switch (Ref.current(openedModalRef)) {
+        | None => ()
+        | Some(modal) => modalsAPI.closeModal(modal)
+        };
 
-      switch (selectedModal) {
-      | Some("say-hello") =>
-        let modal =
-          modalsAPI.openModal((~id as modalId, ~onClose) =>
-            <SayHelloModal modalId onClose />
-          );
-        Ref.setCurrent(openedModalRef, Some(modal));
-      | _ => ()
-      };
-      ();
-      None;
-    },
-    [|selectedModal|],
-  );
+        switch (selectedModal) {
+        | Some("say-hello") =>
+          let modal =
+            modalsAPI.openModal((~id as modalId, ~onClose) =>
+              <SayHelloModal modalId onClose />
+            );
+          Ref.setCurrent(openedModalRef, Some(modal));
+        | _ => ()
+        };
+        ();
+        None;
+      },
+      [|selectedModal|],
+    );
 
-  <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
-    children
-    <Header
-      className=Styles.header
-      useDarkNavBarLinks
-      currentPageIndex
-      componentAtTheRight={
-        <Gatsby.Link
-          _to="/?modal=say-hello" className=Styles.link onClick=openSayHelloModal>
-          <Button
-            _type=Button.Secondary
-            className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-            {React.string("> say hello")}
-          </Button>
-        </Gatsby.Link>
-      }
-    />
-    <MobileFooter currentPageIndex />
-  </div>;
-};
+    <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
+      children
+      <Header
+        className=Styles.header
+        useDarkNavBarLinks
+        currentPageIndex
+        componentAtTheRight={
+          <Gatsby.Link _to="/?modal=say-hello" onClick=openSayHelloModal>
+            <Button
+              _type=Button.Secondary
+              className={Styles.sayHelloButton(useDarkNavBarLinks)}>
+              {React.string("> say hello")}
+            </Button>
+          </Gatsby.Link>
+        }
+      />
+      <MobileFooter currentPageIndex />
+    </div>;
+  });
 
 let default = make;

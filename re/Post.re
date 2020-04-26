@@ -4,10 +4,7 @@ module Styles = {
   open Css;
   let article = style([marginBottom(px(32))]);
   let link =
-    style([
-      textDecoration(`none),
-      hover([textDecoration(`underline), textDecorationColor(red)]),
-    ]);
+    style([hover([textDecoration(`underline), textDecorationColor(red)])]);
   let h2 = style([color(red)]);
   let p = style([color(black)]);
   let date = style([color(darkgray)]);

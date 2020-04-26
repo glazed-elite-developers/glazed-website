@@ -27,7 +27,7 @@ module Styles = {
       opacity(0.5),
       marginBottom(rem(1.)),
     ]);
-  let anchor = style([color(hex("2560F2")), textDecoration(`none)]);
+  let anchor = style([color(hex("2560F2"))]);
   let field = style([display(`flex), margin2(~v=rem(0.1), ~h=`zero)]);
   let fields =
     style([

@@ -48,7 +48,7 @@ let usePagePositionController = (numberOfSlides: int) => {
             Ref.current(refs),
           )
         ),
-      (positionsState, refs, scrollerAPI),
+      (setPositions, refs, scrollerAPI),
     );
   let handleResize =
     useCallback1(

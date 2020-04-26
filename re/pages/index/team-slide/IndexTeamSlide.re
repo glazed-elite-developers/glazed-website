@@ -74,7 +74,6 @@ module Styles = {
       fontFamily(Fonts.heading),
       fontSize(`rem(0.75)),
       color(hex(Colors.glazedBabyBlue)),
-      textDecoration(`none),
     ]);
   let developerSquare =
     style([
@@ -90,7 +89,6 @@ module Styles = {
       display(`flex),
       flexDirection(`column),
       flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
-      textDecoration(`none),
       before([
         contentRule(""),
         position(`absolute),
@@ -224,7 +222,7 @@ module DeveloperSquare = {
   let make = (~developer: IndexTeamSlideSquares.developer) => {
     let link = developerLink(developer);
     let onClick =
-      useCallback1(() => {ReasonReactRouter.push(link)}, [|developer|]);
+      useCallback1(_event => {ReasonReactRouter.push(link)}, [|developer|]);
 
     <TeamSlideSquare contentClassName=Styles.developerSquare>
       <Gatsby.Link

@@ -22,7 +22,7 @@ module Link = {
       ~_to: string,
       ~className: option(string)=?,
       ~children: React.element,
-      ~onClick: option(unit => unit)=?,
+      ~onClick: option(ReactEvent.Synthetic.t => unit)=?,
       ~replace: bool=?
     ) =>
     React.element =

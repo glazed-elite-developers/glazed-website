@@ -40,19 +40,20 @@ let metaTags: array(Helmet.metaTag) = [|
 |];
 
 [@react.component]
-let make = (~children) => {
-  let queryResult = Gatsby.useStaticQuery(query);
-  <>
-    <Helmet title={queryResult##site##siteMetadata##title} meta=metaTags>
-      <html lang="en" />
-      <link
-        href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swap"
-        rel="stylesheet"
-      />
-    </Helmet>
-    <GlobalStyles />
-    children
-  </>;
-};
+let make =
+  React.memo((~children) => {
+    let queryResult = Gatsby.useStaticQuery(query);
+    <>
+      <Helmet title={queryResult##site##siteMetadata##title} meta=metaTags>
+        <html lang="en" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
+      <GlobalStyles />
+      children
+    </>;
+  });
 
 let default = make;

@@ -8,6 +8,10 @@ external logoOutline: SVG.asset = "default";
 module Styles = {
   open Css;
 
+  module Variables = {
+    let height = px(117);
+  };
+
   let nav =
     style([
       display(`flex),
@@ -16,7 +20,10 @@ module Styles = {
       padding2(~v=rem(1.25), ~h=rem(1.25)),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [padding2(~v=rem(2.1875), ~h=rem(4.6875))],
+        [
+          padding2(~v=rem(2.1875), ~h=rem(4.6875)),
+          height(Variables.height),
+        ],
       ),
     ]);
   let logoWrapper =
@@ -44,19 +51,31 @@ let make =
     (
       ~className=?,
       ~componentAtTheRight=?,
+      ~onNavBarLinkClick: option((ReactEvent.Synthetic.t, string) => unit)=?,
       ~useDarkNavBarLinks: bool=false,
       ~currentPageIndex=0,
     ) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
+  let onLogoClick =
+    React.useMemo1(
+      () => {
+        switch (onNavBarLinkClick) {
+        | None => None
+        | Some(handler) => Some(event => handler(event, "/#hey"))
+        }
+      },
+      [|onNavBarLinkClick|],
+    );
 
   <nav className=?{combineClassNames([Some(Styles.nav), className])}>
-    <Gatsby.Link _to="/#hey" className=Styles.logoWrapper>
+    <Gatsby.Link _to="/#hey" className=Styles.logoWrapper onClick=?onLogoClick>
       <SVG className=Styles.logo asset=logoToUse />
     </Gatsby.Link>
     <NavBarLinks
       className=Styles.navBarLinks
       useDarkNavBarLinks
       currentPageIndex
+      ?onNavBarLinkClick
     />
     {switch (componentAtTheRight) {
      | None => React.null
