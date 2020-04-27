@@ -30,6 +30,21 @@ module React = {
     );
 };
 
+module Routing = {
+  let getPath = (url: ReasonReactRouter.url): string => {
+    Belt.List.reduce(url.path, "/", (result, segment) =>
+      {j|$(result)$(segment)/|j}
+    );
+  };
+
+  let getFullPath = (url: ReasonReactRouter.url): string => {
+    let {search, hash}: ReasonReactRouter.url = url;
+    let path = getPath(url);
+    let pathWithSearch = search === "" ? path : {j|$(path)?$(search)|j};
+    hash === "" ? pathWithSearch : {j|$(pathWithSearch)#$(hash)|j};
+  };
+};
+
 module Dom = {
   module Types = {
     external webApiElementToJsObject: Webapi.Dom.Element.t => Js.t({..}) =

@@ -40,10 +40,18 @@ let make =
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
+    Js.log(url);
     let selectedModal =
       url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
+    let currentPath = Utils.Routing.getPath(url);
+    let currentFullPath =
+      Js.Global.encodeURIComponent(Utils.Routing.getFullPath(url));
+    let sayHelloModalUrl = {j|$(currentPath)?modal=say-hello&backTo=$(currentFullPath)|j};
     let openSayHelloModal =
-      useCallback0(_event => {ReasonReactRouter.push("/?modal=say-hello")});
+      useCallback0(event => {
+        ReactEvent.Synthetic.preventDefault(event);
+        ReasonReactRouter.push(sayHelloModalUrl);
+      });
 
     useEffect1(
       () => {
@@ -75,7 +83,7 @@ let make =
         useDarkNavBarLinks
         currentPageIndex
         componentAtTheRight={
-          <Gatsby.Link _to="/?modal=say-hello" onClick=openSayHelloModal>
+          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
             <Button
               _type=Button.Secondary
               className={Styles.sayHelloButton(useDarkNavBarLinks)}>

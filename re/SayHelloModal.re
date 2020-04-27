@@ -46,6 +46,7 @@ module Styles = {
     ]);
   let map =
     style([
+      position(`relative),
       display(`flex),
       flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
       backgroundColor(hex("dddddd")),
@@ -87,7 +88,7 @@ module Styles = {
       color(hex(Colors.darkGrey)),
     ]);
   let sendEmailParagraph = style([color(hex(Colors.grey))]);
-  let emailLink = style([color(hex(Colors.glazedBlueDarkish))]);
+  let link = style([color(hex(Colors.glazedBlueDarkish))]);
   let socialNetworks =
     style([
       display(`none),
@@ -108,6 +109,31 @@ module Styles = {
       opacity(0.4),
       Css.SVG.fill(hex(Theme.Colors.darkGrey)),
     ]);
+  let addressDetails =
+    style([
+      position(`absolute),
+      top(rem(3.125)),
+      right(rem(3.125)),
+      width(rem(18.125)),
+      height(rem(18.125)),
+      padding4(
+        ~top=rem(3.125),
+        ~left=rem(2.5),
+        ~bottom=rem(3.4375),
+        ~right=rem(2.5),
+      ),
+      backgroundColor(hex(Colors.white)),
+      fontSize(rem(0.84375)),
+      fontFamily(Fonts.heading),
+      lineHeight(`abs(1.75)),
+    ]);
+  let address = style([whiteSpace(`preLine), color(hex(Colors.darkGrey))]);
+  let postalCode =
+    style([
+      padding3(~top=rem(1.875), ~bottom=rem(2.5), ~h=`zero),
+      color(hex(Colors.grey)),
+    ]);
+  let openInMapsLink = merge([link, style([fontSize(rem(0.75))])]);
 };
 
 module CloseButton = {
@@ -157,7 +183,21 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     contentClassName=Styles.content>
     <ScrollContainer>
       <div className=Styles.contacts>
-        <div className=Styles.map />
+        <div className=Styles.map>
+          <div className=Styles.addressDetails>
+            <p className=Styles.address>
+              {React.string(
+                 {j|Rua Mouzinho de Albuquerque\n nº 744, 3º andar|j},
+               )}
+            </p>
+            <p className=Styles.postalCode>
+              {React.string("4450-203  Matosinhos, PT")}
+            </p>
+            <a href="" className=Styles.openInMapsLink>
+              {React.string("> open in google maps")}
+            </a>
+          </div>
+        </div>
         <div className=Styles.form>
           <div className=Styles.socialNetworks>
             <SVG className=Styles.socialIcon asset=twitterIcon height="14" />
@@ -172,9 +212,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
             <p> {React.string("Fill the form, or, if you prefer,")} </p>
             <p className=Styles.sendEmailParagraph>
               {React.string("<a>")}
-              <a
-                href="mailto:info@glazedsolutions.com"
-                className=Styles.emailLink>
+              <a href="mailto:info@glazedsolutions.com" className=Styles.link>
                 {React.string("send us an email")}
               </a>
               {React.string("</a>")}

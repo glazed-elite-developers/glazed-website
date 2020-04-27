@@ -73,14 +73,6 @@ let make = (~mode=Normal) => {
   };
 
   <div className=Styles.container>
-    <div className=Styles.title> {"// say hello" |> str} </div>
-    <div className=Styles.subtitle>
-      {"Fill in the form, or, if you prefer <a>" |> str}
-      <a className=Styles.anchor href="mailto:info@glazedsolutions.com">
-        {"send us an email" |> str}
-      </a>
-      {"</a>" |> str}
-    </div>
     <div className={Styles.adaptiveFieldsContainer(mode)}>
       <div className=Styles.fields>
         <div className=Styles.field>
