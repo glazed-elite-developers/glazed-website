@@ -71,7 +71,7 @@ module Styles = {
       ),
       media(
         Breakpoints.desktop,
-        [flex3(~grow=0., ~shrink=1., ~basis=rem(40.))],
+        [flex3(~grow=0., ~shrink=1., ~basis=pct(40.))],
       ),
     ]);
   let heading =
@@ -134,6 +134,8 @@ module Styles = {
       color(hex(Colors.grey)),
     ]);
   let openInMapsLink = merge([link, style([fontSize(rem(0.75))])]);
+  let contactForm =
+    style([media(Breakpoints.desktop, [maxWidth(rem(28.125))])]);
 };
 
 module CloseButton = {
@@ -218,7 +220,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
               {React.string("</a>")}
             </p>
           </div>
-          <ContactForm />
+          <ContactForm className=Styles.contactForm />
         </div>
       </div>
     </ScrollContainer>

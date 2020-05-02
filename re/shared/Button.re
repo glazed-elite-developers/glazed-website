@@ -92,6 +92,7 @@ let make =
       ~isDisabled=false,
       ~className=?,
       ~onClick=?,
+      ~type_=?,
     ) => {
   let ownStyles =
     switch (_type) {
@@ -116,7 +117,8 @@ let make =
         className,
       ])
     }
-    onClick=onClickHandler>
+    onClick=onClickHandler
+    ?type_>
     children
   </button>;
 };

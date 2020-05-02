@@ -40,7 +40,6 @@ let make =
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
-    Js.log(url);
     let selectedModal =
       url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
     let currentPath = Utils.Routing.getPath(url);
