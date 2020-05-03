@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import HTMLText, { tags } from 're/shared/HTMLText'
-import Input, { tints } from 're/shared/Input'
+import Input from 're/shared/inputs/Input'
 import Button, { backgrounds } from 're/shared/Button'
 import Layout from 're/Layout'
 import PageLayout from 're/PageLayout'
 import { Colors } from 're/Theme'
 
 const withBG = color => ({ backgroundColor: `#${color}`, padding: '10px' })
-// const blueBG = { backgroundColor: `#${Theme.Colors.blueDarker}`};
+// const blueBG = { backgroundColor: `#${Colors.blueDarker}`};
 
-const IndexPage = () => {
+const tints = {}
+
+const ShowcasePage = () => {
   const [value, setVal] = useState('')
 
   return (
@@ -25,7 +27,7 @@ const IndexPage = () => {
           <Input label="your name" placeholder="Name" tint={tints.Light} value={value} onChange={setVal} />
         </div>
 
-        <div style={withBG(Theme.Colors.blueDarker)}>
+        <div style={withBG(Colors.blueDarker)}>
           <Input label="your email" placeholder="Email" tint={tints.Dark} value={value} onChange={setVal} />
         </div>
 
@@ -56,7 +58,7 @@ const IndexPage = () => {
             </Button>
           </div>
 
-          <div style={withBG(Theme.Colors.glazedBlue)}>
+          <div style={withBG(Colors.glazedBlue)}>
             <Button isSecondary bgColor={backgrounds.BlueBg}>
               > send
             </Button>
@@ -67,7 +69,7 @@ const IndexPage = () => {
             </Button>
           </div>
 
-          <div style={withBG(Theme.Colors.darkGreyDarker)}>
+          <div style={withBG(Colors.darkGreyDarker)}>
             <Button isSecondary bgColor={backgrounds.ImageBg}>
               > send
             </Button>
@@ -87,4 +89,6 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+// Uncomment to enable.
+// export default ShowcasePage
+export default () => null

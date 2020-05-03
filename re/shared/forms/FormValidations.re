@@ -114,9 +114,9 @@ module Validators = {
       value === ""
         ? Invalid(MissingRequired) : identity(result, value, values);
 
-  let createRegexValidator: Js.Re.t => validator(string, error(unit)) =
+  let createRegexValidator: Js.Re.t => validator(string, 'error) =
     (regex, result, value, values) =>
-      if (Js.Re.test_(regex, value)) {
+      if (!Js.Re.test_(regex, value)) {
         Invalid(FailedRegex);
       } else {
         identity(result, value, values);

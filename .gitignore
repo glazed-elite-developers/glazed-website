@@ -11,8 +11,11 @@ yarn-error.log
 # BuckleScript
 /lib
 
-#ReasonML
+# ReasonML
 /.merlin
 .merlin
 
 .bsb.lock
+
+# Netlify lambda build artifacts
+/.lambda

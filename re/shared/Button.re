@@ -19,28 +19,23 @@ module Styles = {
   let primary = isDisabled =>
     style([
       opacity(isDisabled ? 0.4 : 1.0),
-      transition(~duration=300, "box-shadow"),
-      hover([
-        boxShadow(
-          Shadow.box(
-            ~y=px(20),
-            ~blur=px(20),
-            // ~x=px(0),
-            // ~spread=px(0),
-            // ~inset=false,
-            rgba(0, 0, 0, 0.24),
-          ),
-        ),
-        // boxShadow(0 20px 20px 0 rgba(0, 0, 0, 0.24);
-      ]),
+      transition(~duration=1000, "box-shadow"),
       backgroundColor(hex(Theme.Colors.glazedBlueDarkerish)),
-      // boxShadow(),
       color(hex(Theme.Colors.almostWhite)),
       fontFamily(Theme.Fonts.heading),
       fontSize(rem(0.75)),
       lineHeight(rem(0.75)),
-      // letterSpacing: 0.2px;
       padding2(~h=rem(3.0), ~v=rem(0.875)),
+      ...!isDisabled
+           ? [
+             hover([
+               boxShadow(
+                 Shadow.box(~y=px(10), ~blur=px(20), rgba(0, 0, 0, 0.15)),
+               ),
+               transition(~duration=1000, "box-shadow"),
+             ]),
+           ]
+           : [],
     ]);
 
   let secondaryForBg = bg =>

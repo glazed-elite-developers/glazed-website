@@ -9,6 +9,7 @@ module Colors = {
   let darkGrey = "4E5C6B";
   let darkGreyDarker = "26313D";
   let blueDarker = "0E4AA0";
+  let whiteTurquoise = "F2F7FB";
   let glazedBlue = "024DD1";
   let glazedBlueLighter = "537EED";
   let glazedBlueDark = "235DEA";
@@ -21,8 +22,8 @@ module Colors = {
   let glazedBabyBlue = "53D3FF";
   let glazedBabyBlueLight = "7FDAFF";
   let glazedBabyBlueDarker = "69C0FE";
-  let glazedBabyBlueText= "2560F2";
-  let glazedGreyText= "0F1936";
+  let glazedBabyBlueText = "2560F2";
+  let glazedGreyText = "0F1936";
 };
 
 module Fonts = {
@@ -31,14 +32,14 @@ module Fonts = {
 };
 
 module Breakpoints = {
-  let phone = "(min-width: 0px)"
-  let phoneValue = 0
-  let phoneLandscape = "(min-width: 576px)"
-  let phoneLandscapeValue = 576
-  let tabletPortrait = "(min-width: 768px)"
-  let tabletPortraitValue = 768
-  let tabletLandscape = "(min-width: 992px)"
-  let tabletLandscapeValue = 992
-  let desktop = "(min-width: 1200px)"
-  let desktopValue = 1200
+  let phone = "(min-width: 0px)";
+  let phoneValue = 0;
+  let phoneLandscape = "(min-width: 576px)";
+  let phoneLandscapeValue = 576;
+  let tabletPortrait = "(min-width: 768px)";
+  let tabletPortraitValue = 768;
+  let tabletLandscape = "(min-width: 992px)";
+  let tabletLandscapeValue = 992;
+  let desktop = "(min-width: 1200px)";
+  let desktopValue = 1200;
 };

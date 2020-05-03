@@ -15,6 +15,11 @@ type imageQueryResult = {
 
 type queryResult('a) = Js.t('a);
 
+external fluidImageToObject: fluidImage => Js.t('a) = "%identity";
+external objectToFluidImage: Js.t('a) => fluidImage = "%identity";
+external fluidImageListToFluidImage: array(fluidImage) => fluidImage =
+  "%identity";
+
 module Link = {
   [@bs.module "gatsby"] [@react.component]
   external make:
@@ -50,7 +55,8 @@ module BackgroundImage = {
 
 module Image = {
   [@react.component] [@bs.module "gatsby-image"]
-  external make: (~fluid: fluidImage=?) => React.element = "default";
+  external make: (~fluid: fluidImage=?, ~className: string=?) => React.element =
+    "default";
 };
 
 [@bs.module "gatsby"]
@@ -65,4 +71,27 @@ let getImageFluid = (result: queryResult('a), name: string) => {
   try(Some(image##childImageSharp##fluid)) {
   | Js.Exn.Error(_error) => None
   };
+};
+
+let getResponsiveImageFluid =
+    (result: queryResult('a), images: array((string, option(string)))) => {
+  Belt.Array.map(
+    images,
+    ((name, mediaQuery)) => {
+      let image = getImage(result, name);
+      let fluidImage = image##childImageSharp##fluid;
+
+      switch (mediaQuery) {
+      | None => fluidImage
+      | Some(query) =>
+        Js.Obj.(
+          empty()
+          ->assign(fluidImageToObject(fluidImage))
+          ->assign({"media": query})
+        )
+        |> objectToFluidImage
+      };
+    },
+  )
+  |> fluidImageListToFluidImage;
 };

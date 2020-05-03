@@ -1,1 +1,2 @@
-export { default } from 're/pages/index/Index'
+import HomePage from 're/pages/index/Index'
+export default HomePage

@@ -1,1 +1,2 @@
-export { default } from 're/pages/case-studies/Farfetch'
+import Farfetch from 're/pages/case-studies/Farfetch'
+export default Farfetch

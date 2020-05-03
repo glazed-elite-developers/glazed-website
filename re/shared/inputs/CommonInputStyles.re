@@ -14,6 +14,7 @@ let label =
     fontSize(rem(0.625)),
     fontWeight(`num(700)),
     lineHeight(px(23)),
+    media(Breakpoints.tabletLandscape, [fontSize(rem(0.6875))]),
   ]);
 let labelInner = style([color(hex("000"))]);
 let error =
@@ -42,13 +43,13 @@ let input =
     color(hex("9FA8B3")),
     display(`block),
     fontFamily(Theme.Fonts.heading),
-    fontSize(rem(0.69)),
     lineHeight(rem(1.44)),
     marginTop(rem(0.625)),
     padding2(~h=rem(1.25), ~v=rem(0.93)),
-    fontSize(rem(0.93)),
+    fontSize(rem(0.75)),
     borderBottomWidth(px(1)),
     borderColor(`transparent),
     resize(`none),
     hover([borderColor(hex("2962F6")), borderBottomWidth(px(1))]),
+    media(Breakpoints.tabletLandscape, [fontSize(rem(0.93))]),
   ]);

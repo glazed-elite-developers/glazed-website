@@ -3,9 +3,7 @@ open React;
 module Styles = {
   open Css;
 
-  let pageLayout = style([
-    maxHeight(pct(100.)),
-  ]);
+  let pageLayout = style([maxHeight(pct(100.)), height(pct(100.))]);
   let wrapper =
     style([
       maxHeight(pct(100.)),
@@ -93,7 +91,8 @@ let make = () => {
     Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPageIndex);
 
   <Layout>
-    <PageLayout className=Styles.pageLayout useDarkNavBarLinks currentPageIndex>
+    <PageLayout
+      className=Styles.pageLayout useDarkNavBarLinks currentPageIndex>
       <PageContent className=Styles.wrapper>
         <IndexLandingSlide
           id="hey"

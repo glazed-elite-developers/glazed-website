@@ -3,14 +3,17 @@ import { Breakpoints } from 're/Theme'
 
 export const MediaContext = createContext(null)
 
-const matchMediaQueries = Object.entries(Breakpoints)
-  .filter(([name]) => {
-    return !name.includes('Value')
-  })
-  .map(([name, value]) => ({
-    name,
-    query: window.matchMedia(value),
-  }))
+const matchMediaQueries =
+  typeof window !== 'undefined'
+    ? Object.entries(Breakpoints)
+        .filter(([name]) => {
+          return !name.includes('Value')
+        })
+        .map(([name, value]) => ({
+          name,
+          query: window.matchMedia(value),
+        }))
+    : []
 
 export const MediaContextProvider = ({ children }) => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState('phone')

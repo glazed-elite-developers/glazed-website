@@ -23,16 +23,6 @@
     "max-len": ["error", { "code": 120 }],
     "arrow-parens": ["error", "as-needed"],
 
-    // standard.js
-    "space-before-function-paren": [
-      "error",
-      {
-        "named": "always",
-        "anonymous": "always",
-        "asyncArrow": "always"
-      }
-    ],
-
     // standard plugin - options
     "standard/object-curly-even-spacing": ["error", "either"],
     "standard/array-bracket-even-spacing": ["error", "either"],

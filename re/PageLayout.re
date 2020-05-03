@@ -3,14 +3,14 @@ open Utils.React;
 
 module Styles = {
   open Css;
+  open Theme;
 
   let wrapper =
     style([
       display(`flex),
       flexDirection(`column),
       position(`relative),
-      height(pct(100.)),
-      backgroundColor(hex(Theme.Colors.white)),
+      backgroundColor(hex(Colors.white)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);
   let header =
@@ -20,15 +20,20 @@ module Styles = {
       display(`none),
       padding2(~v=`rem(0.875), ~h=`rem(1.75)),
       color(
-        hex(
-          useDarkNavBarLinks
-            ? Theme.Colors.darkGreyDarker : Theme.Colors.almostWhite,
-        ),
+        hex(useDarkNavBarLinks ? Colors.darkGreyDarker : Colors.almostWhite),
       ),
       fontSize(`rem(0.75)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(Fonts.heading),
       pointerEvents(`auto),
-      media(Theme.Breakpoints.tabletLandscape, [display(`block)]),
+      media(Breakpoints.tabletLandscape, [display(`block)]),
+    ]);
+  let mobileCloseButton =
+    style([
+      padding(rem(1.25)),
+      background(`none),
+      color(hex(Colors.almostWhite)),
+      fontFamily(Fonts.heading),
+      fontSize(rem(0.625)),
     ]);
 };
 
@@ -91,7 +96,16 @@ let make =
           </Gatsby.Link>
         }
       />
-      <MobileFooter currentPageIndex />
+      <MobileFooter
+        currentPageIndex
+        componentAtTheRight={
+          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
+            <Button className=Styles.mobileCloseButton>
+              {React.string("> say hello")}
+            </Button>
+          </Gatsby.Link>
+        }
+      />
     </div>;
   });
 

@@ -7,17 +7,14 @@
     "dir": "re",
     "subdirs": true
   },
-  "package-specs": [{
-    "module": "es6",
-    "in-source": false
-  }],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": false
+    }
+  ],
   "suffix": ".js",
   "namespace": true,
-  "bs-dependencies": [
-    "reason-react",
-    "bs-css",
-    "bs-date-fns",
-    "bs-webapi"
-  ],
+  "bs-dependencies": ["reason-react", "bs-css", "bs-date-fns", "bs-webapi", "bs-fetch"],
   "refmt": 3
 }
