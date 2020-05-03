@@ -4,6 +4,7 @@ module Styles = {
 
   let pageLayout =
     style([
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundColor(hex(Colors.whiteTurquoise)),
       media(Theme.Breakpoints.tabletLandscape, [paddingTop(rem(6.875))]),
     ]);
