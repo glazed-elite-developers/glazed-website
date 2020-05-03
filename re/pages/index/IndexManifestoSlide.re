@@ -19,35 +19,83 @@ let manifestoContent = [|
 
 module Styles = {
   open Css;
+  open Theme;
 
   let wrapper =
     style([
       position(`relative),
-      padding3(~top=rem(4.1875), ~h=rem(1.25), ~bottom=`zero),
+      display(`flex),
+      flexDirection(`column),
+      padding3(~top=rem(4.1875), ~h=rem(2.5), ~bottom=rem(6.)),
       transform(`translateZ(`zero)),
       media(
-        Theme.Breakpoints.tabletLandscape,
-        [padding3(~top=rem(6.25), ~h=rem(4.75), ~bottom=`zero)],
+        Breakpoints.tabletLandscape,
+        [padding3(~top=rem(13.5625), ~h=rem(4.75), ~bottom=`zero)],
       ),
     ]);
   let section = style([position(`relative)]);
-
+  let contentWrapper =
+    style([
+      display(`flex),
+      flexDirection(`column),
+      media(
+        Breakpoints.tabletLandscape,
+        [
+          flexDirection(`row),
+          flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
+        ],
+      ),
+    ]);
+  let funPart =
+    style([
+      display(`flex),
+      height(rem(5.5)),
+      margin4(
+        ~top=rem(1.25),
+        ~right=rem(-2.5),
+        ~bottom=rem(-2.5),
+        ~left=rem(-1.25),
+      ),
+      backgroundColor(hex(Colors.glazedBabyBlueText)),
+      media(
+        Breakpoints.tabletLandscape,
+        [
+          height(`auto),
+          margin4(~top=`zero, ~right=rem(-4.75), ~bottom=`zero, ~left=`zero),
+          flex3(~grow=0., ~shrink=1., ~basis=pct(40.)),
+        ],
+      ),
+    ]);
+  let image =
+    style([
+      flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
+      display(`flex),
+      opacity(0.3),
+    ]);
   let content =
-    style([media(Theme.Breakpoints.tabletPortrait, [display(`flex)])]);
-
+    style([
+      media(
+        Breakpoints.tabletPortrait,
+        [
+          display(`flex),
+          flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
+        ],
+      ),
+    ]);
   let displayTitle =
     style([
       after([
         contentRule(""),
         position(`absolute),
         top(rem(-2.0)),
-        left(rem(-1.0)),
+        left(rem(-1.25)),
         width(rem(8.125)),
         height(rem(8.125)),
         border(px(1), `solid, rgba(159, 168, 179, 0.1)),
       ]),
+      paddingBottom(rem(1.25)),
       media(
-        Theme.Breakpoints.tabletPortrait,
+        Breakpoints.tabletPortrait,
         [
           after([display(`none)]),
           paddingLeft(rem(1.25)),
@@ -55,7 +103,6 @@ module Styles = {
         ],
       ),
     ]);
-
   let verticalLine = [
     contentRule(""),
     position(`fixed),
@@ -64,12 +111,11 @@ module Styles = {
     marginLeft(rem(-1.25)),
     border(px(1), `solid, rgba(159, 168, 179, 0.1)),
   ];
-
   let block =
     style([
       not_(":last-child", [marginBottom(rem(1.25))]),
       media(
-        Theme.Breakpoints.tabletPortrait,
+        Breakpoints.tabletPortrait,
         [
           position(`relative),
           flex3(~grow=1., ~shrink=1., ~basis=pct(33.)),
@@ -91,42 +137,40 @@ module Styles = {
         ],
       ),
     ]);
-
   let pre =
     style([
       display(`none),
       color(hex("2560F2")),
       fontSize(rem(0.75)),
       paddingBottom(rem(1.125)),
-      media(Theme.Breakpoints.tabletPortrait, [display(`block)]),
+      media(Breakpoints.tabletPortrait, [display(`block)]),
     ]);
-
   let title =
     style([
-      color(hex(Theme.Colors.darkGreyDarker)),
+      paddingBottom(rem(0.625)),
+      color(hex(Colors.darkGreyDarker)),
       lineHeight(rem(1.5)),
       media(
-        Theme.Breakpoints.tabletPortrait,
-        [color(hex(Theme.Colors.grey)), paddingBottom(rem(1.125))],
+        Breakpoints.tabletPortrait,
+        [color(hex(Colors.grey)), paddingBottom(rem(1.125))],
       ),
     ]);
-
   let strong =
     style([
       media(
-        Theme.Breakpoints.tabletPortrait,
-        [color(hex(Theme.Colors.darkGreyDarker))],
+        Breakpoints.tabletPortrait,
+        [color(hex(Colors.darkGreyDarker))],
       ),
     ]);
-
   let paragraph =
     style([
       fontWeight(`num(400)),
-      fontSize(rem(0.875)),
+      fontSize(rem(0.75)),
       letterSpacing(rem(-0.025)),
       lineHeight(rem(1.5)),
-      color(hex(Theme.Colors.darkGrey)),
-      media(Theme.Breakpoints.tabletPortrait, [lineHeight(rem(2.125))]),
+      color(hex(Colors.darkGrey)),
+      opacity(0.8),
+      media(Breakpoints.tabletPortrait, [lineHeight(rem(2.125))]),
     ]);
 };
 
@@ -137,29 +181,37 @@ let make =
       <Heading level=Heading.H2 className=Styles.displayTitle>
         {"// manifesto" |> ReasonReact.string}
       </Heading>
-      <div className=Styles.content>
-        {Array.mapi(
-           (index, element) => {
-             let index = index + 1;
+      <div className=Styles.contentWrapper>
+        <div className=Styles.content>
+          {Array.mapi(
+             (index, element) => {
+               let index = index + 1;
 
-             <div className=Styles.block key={Belt.Int.toString(index)}>
-               <Heading level=Heading.H5 className=Styles.pre>
-                 {{j|// 0$index|j} |> ReasonReact.string}
-               </Heading>
-               <Heading level=Heading.H3 className=Styles.title>
-                 {"Great developers " |> ReasonReact.string}
-                 <strong className=Styles.strong>
-                   {element.title |> ReasonReact.string}
-                 </strong>
-               </Heading>
-               <p className=Styles.paragraph>
-                 {element.content |> ReasonReact.string}
-               </p>
-             </div>;
-           },
-           manifestoContent,
-         )
-         |> ReasonReact.array}
+               <div className=Styles.block key={Belt.Int.toString(index)}>
+                 <Heading level=Heading.H5 className=Styles.pre>
+                   {{j|// 0$index|j} |> ReasonReact.string}
+                 </Heading>
+                 <Heading level=Heading.H3 className=Styles.title>
+                   {"Great developers " |> ReasonReact.string}
+                   <strong className=Styles.strong>
+                     {element.title |> ReasonReact.string}
+                   </strong>
+                 </Heading>
+                 <p className=Styles.paragraph>
+                   {element.content |> ReasonReact.string}
+                 </p>
+               </div>;
+             },
+             manifestoContent,
+           )
+           |> ReasonReact.array}
+        </div>
+        <div className=Styles.funPart>
+          <DeveloperBackgroundImage
+            className=Styles.image
+            developerPhotoKey="overlay"
+          />
+        </div>
       </div>
     </FullPageSlide>
   });

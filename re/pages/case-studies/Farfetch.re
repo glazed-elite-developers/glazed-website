@@ -26,6 +26,13 @@ let backgroundImageQuery = [%raw
            }
          }
        }
+       joseNeves: file(relativePath: { eq: "farfetch-header.jpg" }) {
+         childImageSharp {
+           fluid(maxWidth: 120) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
      }
   `|}
 ];
@@ -39,12 +46,22 @@ let techs: array(CaseStudyBrief.tech) = [|
   {name: "ios", icon: TechIcons.twitter},
 |];
 
+let genericText = "We built the storefront using isomorphic React and webpack, which allowed to build a component-based single-page application that is search-engine optimised, and that only servers the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several micro services, with a very scalable architecture, easy to deploy using docker.";
+
+let joseNevesQuote = "This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars. The first clients to use it were Manolo Blahnik and Rihanna.";
+
 [@react.component]
 let make = () => {
   let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let breakpoint = React.useContext(MediaContext.context);
+  let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
+  let quoteAuthor: CaseStudyQuoteCard.author = {
+    name: {j|José Neves|j},
+    title: "Farfetch CEO",
+    avatarImage: joseNevesAvatarImage,
+  };
 
   <Layout>
     <PageLayout
@@ -65,7 +82,14 @@ let make = () => {
         brief="Farfetch asked us to create a white label version of the their main e-commerce site for big brands that want to sell on their own website."
       />
       <CaseStudyBigImage image=?bigImage />
-      <CaseStudyNextCase image=?bigImage title="Switch" area="Fasion - Ecommerce" link="/" />
+      <CaseStudyTextAndImage text=genericText image=?bigImage />
+      <CaseStudyQuoteCard quote=joseNevesQuote author=quoteAuthor />
+      <CaseStudyNextCase
+        image=?bigImage
+        title="Switch"
+        area="Fasion - Ecommerce"
+        link="/"
+      />
     </PageLayout>
   </Layout>;
 };

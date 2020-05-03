@@ -51,6 +51,7 @@ module Styles = {
       ),
     ]);
   };
+  let maskContainer = style([backgroundColor(rgba(40, 40, 40, 0.8))]);
   let backgroundImage =
     style([
       position(`absolute),
@@ -204,11 +205,14 @@ let make =
       // <Gatsby.BackgroundImage> could be wrapping the grid, but it remounts its children when
       // the image changes and that breaks the square hover animations we have on the grid.
 
-        <Gatsby.BackgroundImage
-          className=Styles.backgroundImage
-          fluid=?backgroundImage
-          style={ReactDOMRe.Style.make(~position="absolute", ())}
-        />
+        <MaskContainer
+          className=Styles.backgroundImage maskClassName=Styles.maskContainer>
+          <Gatsby.BackgroundImage
+            className=Styles.backgroundImage
+            fluid=?backgroundImage
+            style={ReactDOMRe.Style.make(~position="absolute", ())}
+          />
+        </MaskContainer>
         <div className=Styles.grid>
           <div className=Styles.backgroundGrid>
             <div className=Styles.dimmedBackgroundSquareRow>

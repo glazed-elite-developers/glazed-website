@@ -120,12 +120,9 @@ module Styles = {
         ],
       ),
     ]);
+  let socialIconLink = style([display(`flex), margin(rem(0.9375))]);
   let socialIcon =
-    style([
-      margin(rem(0.9375)),
-      opacity(0.4),
-      Css.SVG.fill(hex(Theme.Colors.white)),
-    ]);
+    style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.white))]);
   let mainHeading =
     style([
       display(`flex),
@@ -297,10 +294,34 @@ let make =
         </div>
       </div>
       <div className=Styles.socialNetworks>
-        <SVG className=Styles.socialIcon asset=twitterIcon height="16" />
-        <SVG className=Styles.socialIcon asset=facebookIcon height="16" />
-        <SVG className=Styles.socialIcon asset=linkedInIcon height="16" />
-        <SVG className=Styles.socialIcon asset=githubIcon height="16" />
+        <a
+          href="https://twitter.com/glazedSolutions"
+          className=Styles.socialIconLink
+          target="_blank"
+          rel="nofollow">
+          <SVG className=Styles.socialIcon asset=twitterIcon height="16" />
+        </a>
+        <a
+          href="https://www.facebook.com/glazedEliteDevelopers/"
+          className=Styles.socialIconLink
+          target="_blank"
+          rel="nofollow">
+          <SVG className=Styles.socialIcon asset=facebookIcon height="16" />
+        </a>
+        <a
+          href="https://www.linkedin.com/company/glazed-solutions/"
+          className=Styles.socialIconLink
+          target="_blank"
+          rel="nofollow">
+          <SVG className=Styles.socialIcon asset=linkedInIcon height="16" />
+        </a>
+        <a
+          href="https://github.com/glazed-elite-developers"
+          className=Styles.socialIconLink
+          target="_blank"
+          rel="nofollow">
+          <SVG className=Styles.socialIcon asset=githubIcon height="16" />
+        </a>
       </div>
     </FullPageSlide>
   });

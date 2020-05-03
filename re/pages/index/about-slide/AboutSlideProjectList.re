@@ -15,7 +15,12 @@ module LineProjectElement = {
           [padding2(~v=rem(1.), ~h=rem(1.875))],
         ),
       ]);
-    let rowLeft = style([opacity(0.3), fontSize(`rem(0.625))]);
+    let rowLeft =
+      style([
+        opacity(0.3),
+        fontSize(`rem(0.625)),
+        media(Breakpoints.tabletLandscape, [fontSize(rem(0.75))]),
+      ]);
     let rowRight =
       style([
         paddingLeft(rem(0.9375)),

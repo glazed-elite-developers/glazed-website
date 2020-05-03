@@ -11,6 +11,7 @@ module Styles = {
       height(pct(100.)),
       top(`zero),
       left(`zero),
+      pointerEvents(`none),
       backgroundColor(rgba(255, 255, 255, 0.35)),
     ]);
 };

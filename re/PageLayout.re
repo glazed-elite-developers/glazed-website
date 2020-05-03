@@ -42,20 +42,13 @@ let make =
   memo(
     (~children, ~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex=0) => {
     open Webapi.Url;
+    let (sayHelloModalUrl, openSayHelloModal) =
+      OpenSayHelloModalHook.useOpenSayHelloModal();
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
     let selectedModal =
       url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
-    let currentPath = Utils.Routing.getPath(url);
-    let currentFullPath =
-      Js.Global.encodeURIComponent(Utils.Routing.getFullPath(url));
-    let sayHelloModalUrl = {j|$(currentPath)?modal=say-hello&backTo=$(currentFullPath)|j};
-    let openSayHelloModal =
-      useCallback0(event => {
-        ReactEvent.Synthetic.preventDefault(event);
-        ReasonReactRouter.push(sayHelloModalUrl);
-      });
 
     useEffect1(
       () => {

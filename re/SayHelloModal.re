@@ -173,12 +173,9 @@ module Styles = {
         ],
       ),
     ]);
+  let socialIconLink = style([display(`flex), margin(rem(0.9375))]);
   let socialIcon =
-    style([
-      margin(rem(0.9375)),
-      opacity(0.4),
-      Css.SVG.fill(hex(Theme.Colors.darkGrey)),
-    ]);
+    style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.darkGrey))]);
   let addressDetails =
     style([
       position(`absolute),
@@ -260,6 +257,7 @@ let backgroundImageQuery = [%raw
     }
   `|}
 ];
+
 module CloseButton = {
   [@react.component]
   let make = (~backToUrl, ~close) => {
@@ -400,10 +398,42 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
         </div>
         <div className=Styles.form>
           <div className=Styles.socialNetworks>
-            <SVG className=Styles.socialIcon asset=twitterIcon height="14" />
-            <SVG className=Styles.socialIcon asset=facebookIcon height="14" />
-            <SVG className=Styles.socialIcon asset=linkedInIcon height="14" />
-            <SVG className=Styles.socialIcon asset=githubIcon height="14" />
+            <a
+              href="https://twitter.com/glazedSolutions"
+              className=Styles.socialIconLink
+              target="_blank"
+              rel="nofollow">
+              <SVG className=Styles.socialIcon asset=twitterIcon height="14" />
+            </a>
+            <a
+              href="https://www.facebook.com/glazedEliteDevelopers/"
+              className=Styles.socialIconLink
+              target="_blank"
+              rel="nofollow">
+              <SVG
+                className=Styles.socialIcon
+                asset=facebookIcon
+                height="14"
+              />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/glazed-solutions/"
+              className=Styles.socialIconLink
+              target="_blank"
+              rel="nofollow">
+              <SVG
+                className=Styles.socialIcon
+                asset=linkedInIcon
+                height="14"
+              />
+            </a>
+            <a
+              href="https://github.com/glazed-elite-developers"
+              className=Styles.socialIconLink
+              target="_blank"
+              rel="nofollow">
+              <SVG className=Styles.socialIcon asset=githubIcon height="14" />
+            </a>
           </div>
           <Heading level=Heading.H1 className=Styles.heading>
             {React.string(headingMessage)}

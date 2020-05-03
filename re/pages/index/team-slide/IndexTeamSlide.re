@@ -203,11 +203,15 @@ module MottoSquare = {
 module SendApplicationSquare = {
   [@react.component]
   let make = () => {
+    let (sayHelloModalUrl, openSayHelloModal) =
+      OpenSayHelloModalHook.useOpenSayHelloModal();
+
     <TeamSlideSquare contentClassName=Styles.squareWithBorder>
       <Heading level=Heading.H2 className=Styles.sendApplication>
         {React.string("<Your name could be here />")}
       </Heading>
-      <Gatsby.Link _to="/?modal=say-hello" className=Styles.link>
+      <Gatsby.Link
+        _to=sayHelloModalUrl className=Styles.link onClick=openSayHelloModal>
         {React.string("> send application")}
       </Gatsby.Link>
     </TeamSlideSquare>;
