@@ -24,6 +24,18 @@ module Styles = {
 
 [@react.component]
 let make = (~children) => {
+  let url = ReasonReactRouter.useUrl();
+
+  React.useEffect0(() => {
+    if (url.hash !== "") {
+      Routing.replace(
+        Utils.Routing.getFullPath(url),
+        ~state={"preventDefaultScrollBehavior": false},
+      );
+    };
+    None;
+  });
+
   <CacheProvider value=emotionCache>
     <MediaContextProvider>
       <ModalsController>

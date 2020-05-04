@@ -6,6 +6,6 @@ export const wrapRootElement = ({ element }) => {
 }
 
 export const shouldUpdateScroll = ({ routerProps }) => {
-  const { state = {} } = routerProps.location.state || {}
-  return !state.preventDefaultScrollBehavior
+  const { state: { preventDefaultScrollBehavior = false } = {} } = routerProps.location.state || {}
+  return !preventDefaultScrollBehavior
 }

@@ -51,7 +51,7 @@ module Styles = {
       ),
     ]);
   };
-  let maskContainer = style([backgroundColor(rgba(40, 40, 40, 0.8))]);
+  let maskContainer = style([backgroundColor(rgba(34, 39, 63, 0.8))]);
   let backgroundImage =
     style([
       position(`absolute),

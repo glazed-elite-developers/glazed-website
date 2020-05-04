@@ -1,3 +1,5 @@
+open React;
+
 module Styles = {
   open Css;
   open Theme;
@@ -51,12 +53,29 @@ let genericText = "We built the storefront using isomorphic React and webpack, w
 
 let joseNevesQuote = "This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars. The first clients to use it were Manolo Blahnik and Rihanna.";
 
+let useShouldUseDarkNavbarLinks = () => {
+  let scrollValues: ScrollConnectors.scrollValues =
+    ScrollConnectors.useClosestScrollValues();
+  let {scrollTop}: ScrollContext.scrollPosition = scrollValues.position;
+  let breakpoint = React.useContext(MediaContext.context);
+  useMemo2(
+    () => {
+      switch (breakpoint) {
+      | "tabletLandscape"
+      | "desktop" => true
+      | _ => scrollTop > 305.
+      }
+    },
+    (scrollTop, breakpoint),
+  );
+};
+
 [@react.component]
 let make = () => {
+  let shouldUseDarkNavbarLinks = useShouldUseDarkNavbarLinks();
   let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
-  let breakpoint = React.useContext(MediaContext.context);
   let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
   let quoteAuthor: CaseStudyQuoteCard.author = {
     name: {j|José Neves|j},
@@ -66,11 +85,7 @@ let make = () => {
 
   <Layout>
     <PageLayout
-      className=Styles.pageLayout
-      useDarkNavBarLinks={Belt.Set.String.has(
-        breakpointsWithDarkNavBar,
-        breakpoint,
-      )}>
+      className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks>
       <CaseStudyHeader
         image=?headerImage
         title="Farfetch"
