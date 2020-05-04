@@ -391,7 +391,11 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
             <p className=Styles.postalCode>
               {React.string("4450-203  Matosinhos, PT")}
             </p>
-            <a href="" className=Styles.openInMapsLink>
+            <a
+              href="https://goo.gl/maps/V6Q8fQyzHStX6wGx7"
+              className=Styles.openInMapsLink
+              target="_blank"
+              rel="nofollow">
               {React.string("> open in google maps")}
             </a>
           </div>

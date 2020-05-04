@@ -3,14 +3,12 @@
  *
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
-
-// You can delete this file if you're not using it
-
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import { extractCritical } from 'emotion-server'
 import { cache } from 'emotion'
 import { CacheProvider } from '@emotion/core'
+import RootElementWrapper from 're/RootElementWrapper'
 
 export const replaceRenderer = ({ replaceBodyHTMLString, bodyComponent, setHeadComponents }) => {
   const { html, ids, css } = extractCritical(
@@ -25,4 +23,8 @@ export const replaceRenderer = ({ replaceBodyHTMLString, bodyComponent, setHeadC
     />,
   ])
   replaceBodyHTMLString(html)
+}
+
+export const wrapRootElement = ({ element }) => {
+  return <RootElementWrapper>{element}</RootElementWrapper>
 }

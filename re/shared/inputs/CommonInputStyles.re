@@ -49,6 +49,7 @@ let input =
     fontSize(rem(0.75)),
     borderBottomWidth(px(1)),
     borderColor(`transparent),
+    borderRadius(`zero),
     resize(`none),
     hover([borderColor(hex("2962F6")), borderBottomWidth(px(1))]),
     media(Breakpoints.tabletLandscape, [fontSize(rem(0.93))]),

@@ -146,9 +146,8 @@ module Platform = {
  * @returns {Boolean} Whether its a iOS platform or not.
  */
   let isIOSDevice = () => {
-    let window = Webapi.Dom.window;
     Js.typeof(Webapi.Dom.window) !== "undefined"
-    && window
+    && Webapi.Dom.window
     |> Webapi.Dom.Window.navigator
     |> getPlatform
     |> Belt.Set.String.has(iDevices);

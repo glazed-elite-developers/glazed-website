@@ -50,16 +50,15 @@ module Styles = {
     style([
       display(`flex),
       height(rem(5.5)),
-      margin4(
-        ~top=rem(1.25),
-        ~right=rem(-2.5),
-        ~bottom=rem(-2.5),
-        ~left=rem(-1.25),
-      ),
+      position(`absolute),
+      right(`zero),
+      bottom(`zero),
+      left(rem(2.5)),
       backgroundColor(hex(Colors.glazedBabyBlueText)),
       media(
         Breakpoints.tabletLandscape,
         [
+          position(`static),
           height(`auto),
           margin4(~top=`zero, ~right=rem(-4.75), ~bottom=`zero, ~left=`zero),
           flex3(~grow=0., ~shrink=1., ~basis=pct(40.)),
@@ -170,7 +169,10 @@ module Styles = {
       lineHeight(rem(1.5)),
       color(hex(Colors.darkGrey)),
       opacity(0.8),
-      media(Breakpoints.tabletPortrait, [lineHeight(rem(2.125))]),
+      media(
+        Breakpoints.tabletPortrait,
+        [fontSize(rem(0.875)), lineHeight(rem(2.125))],
+      ),
     ]);
 };
 
