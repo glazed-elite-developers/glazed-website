@@ -57,8 +57,16 @@ module Styles = {
         Theme.Breakpoints.tabletLandscape,
         [
           justifyContent(`flexEnd),
+          padding2(~h=rem(2.5), ~v=rem(2.5)),
+          width(rem(21.875)),
+          height(rem(21.875)),
+        ],
+      ),
+      media(
+        Theme.Breakpoints.desktop,
+        [
+          justifyContent(`flexEnd),
           padding2(~h=rem(2.5), ~v=rem(5.)),
-          height(rem(20.625)),
           width(rem(25.625)),
           height(rem(25.625)),
         ],
@@ -67,7 +75,7 @@ module Styles = {
   let heading =
     style([
       fontSize(rem(1.5)),
-      media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(3.))]),
+      media(Theme.Breakpoints.desktop, [fontSize(rem(3.))]),
     ]);
   let area =
     style([
