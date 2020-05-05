@@ -41,7 +41,8 @@ let useShouldUseDarkNavbarLinks = () => {
 type dynamicContentComponents =
   | BigImage(option(Gatsby.fluidImage))
   | TextAndImage(string, option(Gatsby.fluidImage))
-  | QuoteCard(string, CaseStudyQuoteCard.author);
+  | QuoteCard(string, CaseStudyQuoteCard.author)
+  | Custom(React.element);
 
 type hero = {
   image: option(Gatsby.fluidImage),
@@ -94,6 +95,7 @@ let make = (~content) => {
            | TextAndImage(text, image) =>
              <CaseStudyTextAndImage text ?image />
            | QuoteCard(quote, author) => <CaseStudyQuoteCard quote author />
+           | Custom(component) => component
            }
          }),
        )}

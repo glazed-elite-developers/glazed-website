@@ -1,5 +1,11 @@
 open CaseStudyPageTemplate;
 
+module Styles = {
+  open Css;
+
+  let adHocComponent = style([textAlign(`center)]);
+};
+
 let pageImagesQuery = [%raw
   {|Gatsby.graphql`
      query {
@@ -35,7 +41,7 @@ let make = () => {
   let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
 
-  // Replace the page contents here: 
+  // Replace the page contents here:
   let content: content = {
     hero: {
       image: headerImage,
@@ -66,6 +72,12 @@ let make = () => {
           title: "Farfetch CEO",
           avatarImage: joseNevesAvatarImage,
         },
+      ),
+      // We can also use custom components if we need something ad hoc:
+      Custom(
+        <Heading level=Heading.H1 className=Styles.adHocComponent>
+          {React.string("This is a custom component")}
+        </Heading>,
       ),
       TextAndImage(
         "We built the storefront using isomorphic React and webpack, which allowed to build a component-based single-page application that is search-engine optimised, and that only servers the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several micro services, with a very scalable architecture, easy to deploy using docker.",
