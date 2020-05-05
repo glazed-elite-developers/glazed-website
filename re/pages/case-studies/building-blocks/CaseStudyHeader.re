@@ -5,6 +5,7 @@ module Styles = {
   let wrapper =
     style([
       position(`relative),
+      overflow(`hidden),
       padding4(
         ~top=rem(7.1875),
         ~left=rem(1.25),

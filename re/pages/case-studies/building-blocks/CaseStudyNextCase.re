@@ -97,6 +97,8 @@ module Styles = {
     style([
       padding3(~h=`zero, ~bottom=rem(1.875), ~top=`zero),
       transform(rotate(deg(180.))),
+      Css.SVG.fill(hex(Colors.white)),
+      Css.SVG.stroke(hex(Colors.white)),
     ]);
 };
 

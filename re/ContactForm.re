@@ -147,7 +147,10 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
   let controlProps = Form.useController(~schema, ~onSubmit, ~onChange?, ());
   let formRenderer = FormRenderer.useRenderer(~controlProps, ());
 
-  <div className=?{combineClassNames([Some(Styles.container), className])}>
+  <form
+    noValidate=true
+    className=?{combineClassNames([Some(Styles.container), className])}
+    onSubmit={formRenderer.onSubmit}>
     <div className=Styles.fieldsContainer>
       <div className=Styles.fields>
         {formRenderer.getPropsForField("name")
@@ -242,7 +245,6 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
     <Button
       _type=Button.Primary
       className=Styles.button
-      onClick={formRenderer.onSubmit}
       type_="submit"
       isDisabled={
         submissionStatus === Pending
@@ -259,7 +261,7 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
        </div>
      | _ => <div className=Styles.error />
      }}
-  </div>;
+  </form>;
 };
 
 let default = make;

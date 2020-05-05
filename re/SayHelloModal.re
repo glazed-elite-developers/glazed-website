@@ -39,7 +39,13 @@ module Styles = {
         [display(`flex), pointerEvents(`auto)],
       ),
     ]);
-  let closeButton = style([opacity(0.6), padding(`zero)]);
+  let closeButton =
+    style([
+      opacity(0.3),
+      padding(`zero),
+      Css.SVG.fill(hex(Colors.darkGrey)),
+      Css.SVG.stroke(hex(Colors.darkGrey)),
+    ]);
   let contacts =
     style([
       display(`flex),
@@ -153,6 +159,12 @@ module Styles = {
         ),
       ]),
       visible,
+    ]);
+  let formMessageHidden =
+    merge([
+      formMessage,
+      hidden,
+      style([media(Breakpoints.tabletLandscape, [opacity(0.)])]),
     ]);
   let fillFormMessage =
     style([display(`inline), paddingRight(rem(0.3125))]);
@@ -288,7 +300,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
         Routing.push(
           backToUrl,
           ~state={"preventDefaultScrollBehavior": true},
-        )
+        );
       },
       [|backToUrl|],
     );
@@ -358,7 +370,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
   let (formMessageClassName, formClassName, headingMessage) =
     submissionStatus === Success
       ? (
-        Css.merge([Styles.formMessage, Styles.hidden]),
+        Styles.formMessageHidden,
         Css.merge([Styles.contactForm, Styles.hidden]),
         "we'll get in touch soon!",
       )

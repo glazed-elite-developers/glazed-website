@@ -106,7 +106,13 @@ let useRenderer =
       (values, touched, onFieldBlur, onFieldTouch),
     );
   let onSubmit =
-    useCallback2(_event => onSubmit(values), (onSubmit, values));
+    useCallback2(
+      event => {
+        ReactEvent.Synthetic.preventDefault(event);
+        onSubmit(values);
+      },
+      (onSubmit, values),
+    );
   let getPropsForField =
     useCallback5(
       (fieldName: string, fieldSchema: fieldSchema('value, 'error)) => {

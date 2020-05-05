@@ -89,15 +89,22 @@ let make = (~content) => {
         brief={content.brief.brief}
       />
       {React.array(
-         Belt.Array.map(content.content, contentComponent => {
-           switch (contentComponent) {
-           | BigImage(image) => <CaseStudyBigImage ?image />
-           | TextAndImage(text, image) =>
-             <CaseStudyTextAndImage text ?image />
-           | QuoteCard(quote, author) => <CaseStudyQuoteCard quote author />
-           | Custom(component) => component
-           }
-         }),
+         Belt.Array.mapWithIndex(
+           content.content,
+           (index, contentComponent) => {
+             let key = Belt.Int.toString(index);
+
+             switch (contentComponent) {
+             | BigImage(image) => <CaseStudyBigImage key ?image />
+             | TextAndImage(text, image) =>
+               <CaseStudyTextAndImage key text ?image />
+             | QuoteCard(quote, author) =>
+               <CaseStudyQuoteCard key quote author />
+             | Custom(component) =>
+               cloneElement(component, ReactDOMRe.props(~key, ()))
+             };
+           },
+         ),
        )}
       <CaseStudyNextCase
         image=?{content.nextCase.image}

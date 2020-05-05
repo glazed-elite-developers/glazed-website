@@ -27,9 +27,12 @@ module Styles = {
       pointerEvents(`auto),
       media(Breakpoints.tabletLandscape, [display(`block)]),
     ]);
+  let mobileCloseButtonWrapper =
+    style([flex3(~grow=0., ~shrink=0., ~basis=`auto)]);
   let mobileCloseButton =
     style([
-      padding(rem(1.25)),
+      padding(rem(0.625)),
+      margin2(~v=`zero, ~h=rem(0.9375)),
       background(`none),
       color(hex(Colors.almostWhite)),
       fontFamily(Fonts.heading),
@@ -92,8 +95,11 @@ let make =
       <MobileFooter
         currentPageIndex
         componentAtTheRight={
-          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
-            <Button className=Styles.mobileCloseButton>
+          <Gatsby.Link
+            _to=sayHelloModalUrl
+            onClick=openSayHelloModal
+            className=Styles.mobileCloseButtonWrapper>
+            <Button _type=Button.Secondary className=Styles.mobileCloseButton>
               {React.string("> say hello")}
             </Button>
           </Gatsby.Link>
