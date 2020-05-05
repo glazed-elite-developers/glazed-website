@@ -1,5 +1,3 @@
-open React;
-
 module Styles = {
   open Css;
 
@@ -22,36 +20,12 @@ let make =
       ~onModalClose: ModalsContext.modal => unit,
       ~openedModals: array(ModalsContext.modal),
     ) => {
-  let onKeyDown =
-    useCallback2(
-      event => {
-        let eventKeyCode = ReactEvent.Keyboard.keyCode(event);
-        let openedModalsCount = Belt.Array.length(openedModals);
-
-        if (eventKeyCode === 27 && openedModalsCount > 0) {
-          ReactEvent.Synthetic.preventDefault(event);
-          switch (
-            Belt.Array.get(openedModals, Belt.Array.length(openedModals) - 1)
-          ) {
-          | None => ()
-          | Some(modal) => onModalClose(modal)
-          };
-        } else {
-          switch (onKeyDown) {
-          | None => ()
-          | Some(callback) => callback(event)
-          };
-        };
-      },
-      (openedModals, onModalClose),
-    );
-
   <div
     className=?{
       Utils.React.combineClassNames([Some(Styles.wrapper), className])
     }
     role="presentation"
-    onKeyDown>
+    ?onKeyDown>
     children
     <div className=Styles.overlayContainer tabIndex=0>
       <ReactTransitionGroup.TransitionGroup>

@@ -278,18 +278,27 @@ let make =
       ~developer: IndexTeamSlideSquares.developer,
     ) => {
   let close =
-    useCallback0(event => {
-      ReactEvent.Synthetic.preventDefault(event);
+    useCallback0(() => {
+      onExited();
       Routing.push(
         teamSlideLink,
         ~state={"preventDefaultScrollBehavior": true},
-      );
+      )
     });
+  let handleCloseButtonClick =
+    useCallback1(
+      event => {
+        ReactEvent.Synthetic.preventDefault(event);
+        close();
+      },
+      [|close|],
+    );
+
   <BaseModal
     modalId
     onClose
     _in
-    onExited
+    onExited=close
     scrollContainerClassName=Styles.wrapper
     contentWrapperClassName=Styles.contentWrapper
     contentClassName=Styles.content>
@@ -354,8 +363,8 @@ let make =
     <div className=Styles.logoWrapper>
       <SVG className=Styles.logo asset=logoOutline />
     </div>
-    <CloseButton close />
-    <MobileFooter close />
+    <CloseButton close=handleCloseButtonClick />
+    <MobileFooter close=handleCloseButtonClick />
   </BaseModal>;
 };
 

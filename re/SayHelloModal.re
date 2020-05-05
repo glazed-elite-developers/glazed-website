@@ -283,14 +283,22 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     };
   let close =
     useCallback1(
-      event => {
-        ReactEvent.Synthetic.preventDefault(event);
+      () => {
+        onExited();
         Routing.push(
           backToUrl,
           ~state={"preventDefaultScrollBehavior": true},
-        );
+        )
       },
       [|backToUrl|],
+    );
+  let handleCloseButtonClick =
+    useCallback1(
+      event => {
+        ReactEvent.Synthetic.preventDefault(event);
+        close();
+      },
+      [|close|],
     );
   let onNavBarLinkClick =
     useCallback0((_event, link) => {Routing.push(link)});
@@ -369,7 +377,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     modalId
     onClose
     _in
-    onExited
+    onExited=close
     scrollContainerClassName=Styles.wrapper
     contentWrapperClassName=Styles.contentWrapper
     contentClassName=Styles.content>
@@ -466,12 +474,14 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     <Header
       className=Styles.header
       useDarkNavBarLinks=true
-      componentAtTheRight={<CloseButton backToUrl close />}
+      componentAtTheRight={
+        <CloseButton backToUrl close=handleCloseButtonClick />
+      }
       onNavBarLinkClick
     />
     <MobileFooter
       componentAtTheRight={
-        <Gatsby.Link _to=backToUrl onClick=close>
+        <Gatsby.Link _to=backToUrl onClick=handleCloseButtonClick>
           <Button className=Styles.mobileCloseButton>
             {React.string("< back team")}
           </Button>

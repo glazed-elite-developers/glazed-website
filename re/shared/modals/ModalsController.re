@@ -56,11 +56,34 @@ let make =
         {openedModals: state.openedModals, openModal, closeModal},
       (state.openedModals, openModal, closeModal),
     );
+  let onKeyDown =
+    useCallback2(
+      event => {
+        let eventKeyCode = ReactEvent.Keyboard.keyCode(event);
+        let openedModalsCount = Belt.Array.length(state.openedModals);
+
+        if (eventKeyCode === 27 && openedModalsCount > 0) {
+          ReactEvent.Synthetic.preventDefault(event);
+          switch (
+            Belt.Array.get(state.openedModals, Belt.Array.length(state.openedModals) - 1)
+          ) {
+          | None => ()
+          | Some(modal) => closeModal(modal)
+          };
+        } else {
+          switch (onKeyDown) {
+          | None => ()
+          | Some(callback) => callback(event)
+          };
+        };
+      },
+      (state, closeModal),
+    );
 
   <ModalsContext.Provider value=contextAPI>
     <StatelessModalController
       ?className
-      ?onKeyDown
+      onKeyDown
       onModalClose=closeModal
       openedModals={state.openedModals}>
       children
