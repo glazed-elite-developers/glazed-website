@@ -35,8 +35,7 @@ module Styles = {
   let wrapperBeforeAppearingAnimation = style([opacity(0.)]);
   let contentBeforeAppearingAnimation =
     style([opacity(0.), transform(translate3d(`zero, rem(1.), `zero))]);
-  let wrapperVisible =
-    style([opacity(1.), transition(~duration=300, "opacity")]);
+  let wrapperVisible = style([opacity(1.), transition(~duration=300, "opacity")]);
   let contentVisible =
     style([
       opacity(1.),
@@ -46,8 +45,7 @@ module Styles = {
         Transition.shorthand(~duration=300, "opacity"),
       ]),
     ]);
-  let wrapperLeaving =
-    style([opacity(0.), transition(~duration=300, "opacity")]);
+  let wrapperLeaving = style([opacity(0.), transition(~duration=300, "opacity")]);
   let contentLeaving =
     style([
       opacity(0.),
@@ -65,14 +63,8 @@ let getAnimationClassNames = animationState => {
       Styles.wrapperBeforeAppearingAnimation,
       Styles.contentBeforeAppearingAnimation,
     )
-  | InOutCSSTransition.Visible => (
-      Styles.wrapperVisible,
-      Styles.contentVisible,
-    )
-  | InOutCSSTransition.Leaving => (
-      Styles.wrapperLeaving,
-      Styles.contentLeaving,
-    )
+  | InOutCSSTransition.Visible => (Styles.wrapperVisible, Styles.contentVisible)
+  | InOutCSSTransition.Leaving => (Styles.wrapperLeaving, Styles.contentLeaving)
   };
 };
 
@@ -95,8 +87,7 @@ module Wrapper = {
 module Content = {
   [@react.component]
   let make = (~children, ~className=?) => {
-    let onClick =
-      useCallback0(event => ReactEvent.Synthetic.stopPropagation(event));
+    let onClick = useCallback0(event => ReactEvent.Synthetic.stopPropagation(event));
     <div role="dialog" ?className onClick> children </div>;
   };
 };
@@ -121,33 +112,18 @@ let make =
 
        <Wrapper
          className=?{
-           combineClassNames([
-             Some(Styles.wrapper),
-             Some(animationWrapperClassName),
-             className,
-           ])
+           combineClassNames([Some(Styles.wrapper), Some(animationWrapperClassName), className])
          }
          onClose>
          <ScrollContainer
            className=?{
-             combineClassNames([
-               Some(Styles.scrollContainer),
-               scrollContainerClassName,
-             ])
+             combineClassNames([Some(Styles.scrollContainer), scrollContainerClassName])
            }
            contentClassName=?{
-             combineClassNames([
-               Some(Styles.scrollContent),
-               contentWrapperClassName,
-             ])
+             combineClassNames([Some(Styles.scrollContent), contentWrapperClassName])
            }>
            <Content
-             className=?{
-               combineClassNames([
-                 Some(animationContentClassName),
-                 contentClassName,
-               ])
-             }>
+             className=?{combineClassNames([Some(animationContentClassName), contentClassName])}>
              children
            </Content>
          </ScrollContainer>

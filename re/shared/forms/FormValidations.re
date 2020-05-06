@@ -26,37 +26,25 @@ type validationResult('error) =
   | Invalid('error);
 
 type validator('value, 'error) =
-  (validationResult('error), 'value, values('value)) =>
-  validationResult('error);
+  (validationResult('error), 'value, values('value)) => validationResult('error);
 
-type fieldSchema('value, 'error) = {
-  validators: list(validator('value, 'error)),
-};
+type fieldSchema('value, 'error) = {validators: list(validator('value, 'error))};
 
-type schema('fieldSchema) =
-  Belt.Map.t(string, 'fieldSchema, FieldNameCompare.identity);
+type schema('fieldSchema) = Belt.Map.t(string, 'fieldSchema, FieldNameCompare.identity);
 
 module type InternalMap = {
-  type map('element) =
-    Belt.Map.t(string, 'element, FieldNameCompare.identity);
+  type map('element) = Belt.Map.t(string, 'element, FieldNameCompare.identity);
 };
 
 module InternalMap = (Type: InternalMap) => {
-  let make: unit => Type.map('element) =
-    () => Belt.Map.make(~id=(module FieldNameCompare));
+  let make: unit => Type.map('element) = () => Belt.Map.make(~id=(module FieldNameCompare));
   let fromArray: array((string, 'element)) => Type.map('element) =
     Belt.Map.fromArray(~id=(module FieldNameCompare));
   let toArray: Type.map('element) => array((string, 'element)) = Belt.Map.toArray;
   let reduce:
-    (
-      Type.map('element),
-      'reduceResult,
-      ('reduceResult, string, 'element) => 'reduceResult
-    ) =>
+    (Type.map('element), 'reduceResult, ('reduceResult, string, 'element) => 'reduceResult) =>
     'reduceResult = Belt.Map.reduce;
-  let map:
-    (Type.map('element), (string, 'element) => 'mappedElement) =>
-    Type.map('mappedElement) = Belt.Map.mapWithKey;
+  let map: (Type.map('element), (string, 'element) => 'mappedElement) => Type.map('mappedElement) = Belt.Map.mapWithKey;
   let set: (Type.map('element), string, 'element) => Type.map('element) = Belt.Map.set;
   let get: (Type.map('element), string) => option('element) = Belt.Map.get;
 };
@@ -81,8 +69,7 @@ module Errors = {
 
 // @TODO: Figure out wat to reuse InternalMap here as well? Should we just expose the full Map API?
 module Touched = {
-  let make: unit => touched =
-    () => Belt.Map.make(~id=(module FieldNameCompare));
+  let make: unit => touched = () => Belt.Map.make(~id=(module FieldNameCompare));
   let fromArray: array((string, bool)) => touched =
     Belt.Map.fromArray(~id=(module FieldNameCompare));
   let reduce: touched => 'reduceResult = Belt.Map.reduce;
@@ -92,8 +79,7 @@ module Touched = {
 
 // @TODO: Figure out wat to reuse InternalMap here as well? Should we just expose the full Map API?
 module Visited = {
-  let make: unit => visited =
-    () => Belt.Map.make(~id=(module FieldNameCompare));
+  let make: unit => visited = () => Belt.Map.make(~id=(module FieldNameCompare));
   let fromArray: array((string, bool)) => visited =
     Belt.Map.fromArray(~id=(module FieldNameCompare));
   let reduce: visited => 'reduceResult = Belt.Map.reduce;
@@ -102,8 +88,7 @@ module Visited = {
 };
 
 module Validators = {
-  let identity: validator('value, 'error) =
-    (_result, _value, _values) => Valid;
+  let identity: validator('value, 'error) = (_result, _value, _values) => Valid;
 
   // let required: validator('value, 'error) =
   //   (result, value, values) =>
@@ -111,8 +96,7 @@ module Validators = {
   //       ? Invalid(MissingRequired) : identity(result, value, values);
   let required: validator('value, 'error) =
     (result, value, values) =>
-      value === ""
-        ? Invalid(MissingRequired) : identity(result, value, values);
+      value === "" ? Invalid(MissingRequired) : identity(result, value, values);
 
   let createRegexValidator: Js.Re.t => validator(string, 'error) =
     (regex, result, value, values) =>
@@ -130,12 +114,7 @@ module Validators = {
  * @param {any} value - Field value.
  * @returns {validationResult} Validation result.
  */
-let validateField =
-    (
-      field: fieldSchema('value, 'error),
-      value: 'value,
-      values: values('value),
-    ) =>
+let validateField = (field: fieldSchema('value, 'error), value: 'value, values: values('value)) =>
   Belt.List.reduce(field.validators, Valid, (result, validator) =>
     validator(result, value, values)
   );
@@ -177,14 +156,12 @@ let validate =
       | FormValid =>
         switch (fieldValidationResult) {
         | Valid => FormValid
-        | Invalid(error) =>
-          FormInvalid(Errors.fromArray([|(fieldName, error)|]))
+        | Invalid(error) => FormInvalid(Errors.fromArray([|(fieldName, error)|]))
         }
       | FormInvalid(formErrors) =>
         switch (fieldValidationResult) {
         | Valid => formValidationResult
-        | Invalid(error) =>
-          FormInvalid(Errors.set(formErrors, fieldName, error))
+        | Invalid(error) => FormInvalid(Errors.set(formErrors, fieldName, error))
         }
       };
     },

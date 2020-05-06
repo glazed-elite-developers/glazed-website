@@ -12,8 +12,7 @@ module Styles = {
     ]);
 };
 
-let breakpointsWithDarkNavBar =
-  Belt.Set.String.fromArray([|"tabletLandscape", "desktop"|]);
+let breakpointsWithDarkNavBar = Belt.Set.String.fromArray([|"tabletLandscape", "desktop"|]);
 
 let techs: array(CaseStudyBrief.tech) = [|
   {name: "react", icon: TechIcons.twitter},
@@ -22,8 +21,7 @@ let techs: array(CaseStudyBrief.tech) = [|
 |];
 
 let useShouldUseDarkNavbarLinks = () => {
-  let scrollValues: ScrollConnectors.scrollValues =
-    ScrollConnectors.useClosestScrollValues();
+  let scrollValues: ScrollConnectors.scrollValues = ScrollConnectors.useClosestScrollValues();
   let {scrollTop}: ScrollContext.scrollPosition = scrollValues.position;
   let breakpoint = React.useContext(MediaContext.context);
   useMemo2(
@@ -75,8 +73,7 @@ type content = {
 let make = (~content) => {
   let shouldUseDarkNavbarLinks = useShouldUseDarkNavbarLinks();
   <Layout>
-    <PageLayout
-      className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks>
+    <PageLayout className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks>
       <CaseStudyHeader
         image=?{content.hero.image}
         title={content.hero.title}
@@ -96,12 +93,9 @@ let make = (~content) => {
 
              switch (contentComponent) {
              | BigImage(image) => <CaseStudyBigImage key ?image />
-             | TextAndImage(text, image) =>
-               <CaseStudyTextAndImage key text ?image />
-             | QuoteCard(quote, author) =>
-               <CaseStudyQuoteCard key quote author />
-             | Custom(component) =>
-               cloneElement(component, ReactDOMRe.props(~key, ()))
+             | TextAndImage(text, image) => <CaseStudyTextAndImage key text ?image />
+             | QuoteCard(quote, author) => <CaseStudyQuoteCard key quote author />
+             | Custom(component) => cloneElement(component, ReactDOMRe.props(~key, ()))
              };
            },
          ),

@@ -12,10 +12,8 @@ let createUseScrollerAPI = (scrollerType: scroller, ()) => {
   };
 };
 
-let useRootScrollerAPI: unit => ScrollContext.scrollerAPI =
-  createUseScrollerAPI(Root);
-let useClosestScrollerAPI: unit => ScrollContext.scrollerAPI =
-  createUseScrollerAPI(Closest);
+let useRootScrollerAPI: unit => ScrollContext.scrollerAPI = createUseScrollerAPI(Root);
+let useClosestScrollerAPI: unit => ScrollContext.scrollerAPI = createUseScrollerAPI(Closest);
 
 type scrollValues = {
   position: ScrollContext.scrollPosition,
@@ -42,10 +40,7 @@ let createUseScrollValues = (scrollerType: scroller) => {
         );
       let (state, setState) = useState(getScrollValues);
       let handleScroll =
-        useCallback2(
-          () => setState(_state => getScrollValues()),
-          (getScrollValues, setState),
-        );
+        useCallback2(() => setState(_state => getScrollValues()), (getScrollValues, setState));
 
       useEffect(() => {
         scrollerAPI.registerScrollListener(listenerRef, handleScroll);
@@ -58,5 +53,4 @@ let createUseScrollValues = (scrollerType: scroller) => {
 };
 
 let useRootScrollValues: unit => scrollValues = createUseScrollValues(Root);
-let useClosestScrollValues: unit => scrollValues =
-  createUseScrollValues(Closest);
+let useClosestScrollValues: unit => scrollValues = createUseScrollValues(Closest);

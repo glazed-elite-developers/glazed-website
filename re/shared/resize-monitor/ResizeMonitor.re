@@ -19,11 +19,7 @@ module Styles = {
 };
 
 [@react.component]
-let make =
-    (
-      ~className=?,
-      ~onResize: option(Utils.Dom.Measurements.boundingRect) => unit,
-    ) => {
+let make = (~className=?, ~onResize: option(Utils.Dom.Measurements.boundingRect) => unit) => {
   open Utils.React;
 
   let placeholderObjectRef = useRef(Js.Nullable.null);
@@ -33,10 +29,9 @@ let make =
     useCallback1(
       Utils.Timing.throttle(() => {
         let boundingClientRect =
-          switch (placeholderObjectRef |> Ref.current |> Js.Nullable.toOption) {
+          switch (Js.Nullable.toOption(placeholderObjectRef.current)) {
           | None => None
-          | Some(element) =>
-            Some(Utils.Dom.Measurements.getBoundingClientRect(element))
+          | Some(element) => Some(Utils.Dom.Measurements.getBoundingClientRect(element))
           };
         onResize(boundingClientRect);
       }),
@@ -47,17 +42,13 @@ let make =
   let handleLoad =
     useCallback1(
       _event =>
-        switch (placeholderObjectRef |> Ref.current |> Js.Nullable.toOption) {
+        switch (Js.Nullable.toOption(placeholderObjectRef.current)) {
         | None => ()
         | Some(element) =>
           let jsElement = Utils.Dom.Types.webApiElementToJsObject(element);
           let objectDefaultView = jsElement##contentDocument##defaultView;
-          Ref.setCurrent(objectDefaultViewRef, objectDefaultView);
-          Webapi.Dom.Element.addEventListener(
-            "resize",
-            handleContentResize,
-            objectDefaultView,
-          );
+          objectDefaultViewRef.current = objectDefaultView;
+          Webapi.Dom.Element.addEventListener("resize", handleContentResize, objectDefaultView);
           dispatchResizeEvent();
         },
       [|handleContentResize|],
@@ -72,14 +63,10 @@ let make =
     setWithData(_state => true);
     Some(
       () =>
-        switch (objectDefaultViewRef |> Ref.current |> Js.Nullable.toOption) {
+        switch (Js.Nullable.toOption(objectDefaultViewRef.current)) {
         | None => ()
         | Some(element) =>
-          Webapi.Dom.Element.removeEventListener(
-            "resize",
-            handleContentResize,
-            element,
-          )
+          Webapi.Dom.Element.removeEventListener("resize", handleContentResize, element)
         },
     );
   });

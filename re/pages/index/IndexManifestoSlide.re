@@ -40,10 +40,7 @@ module Styles = {
       flexDirection(`column),
       media(
         Breakpoints.tabletLandscape,
-        [
-          flexDirection(`row),
-          flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
-        ],
+        [flexDirection(`row), flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001))],
       ),
     ]);
   let funPart =
@@ -66,19 +63,12 @@ module Styles = {
       ),
     ]);
   let image =
-    style([
-      flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
-      display(`flex),
-      opacity(0.3),
-    ]);
+    style([flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)), display(`flex), opacity(0.3)]);
   let content =
     style([
       media(
         Breakpoints.tabletPortrait,
-        [
-          display(`flex),
-          flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001)),
-        ],
+        [display(`flex), flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001))],
       ),
     ]);
   let displayTitle =
@@ -95,11 +85,7 @@ module Styles = {
       paddingBottom(rem(1.25)),
       media(
         Breakpoints.tabletPortrait,
-        [
-          after([display(`none)]),
-          paddingLeft(rem(1.25)),
-          paddingBottom(rem(6.25)),
-        ],
+        [after([display(`none)]), paddingLeft(rem(1.25)), paddingBottom(rem(6.25))],
       ),
     ]);
   let verticalLine = [
@@ -155,12 +141,7 @@ module Styles = {
       ),
     ]);
   let strong =
-    style([
-      media(
-        Breakpoints.tabletPortrait,
-        [color(hex(Colors.darkGreyDarker))],
-      ),
-    ]);
+    style([media(Breakpoints.tabletPortrait, [color(hex(Colors.darkGreyDarker))])]);
   let paragraph =
     style([
       fontWeight(`num(400)),
@@ -169,10 +150,7 @@ module Styles = {
       lineHeight(rem(1.5)),
       color(hex(Colors.darkGrey)),
       opacity(0.8),
-      media(
-        Breakpoints.tabletPortrait,
-        [fontSize(rem(0.875)), lineHeight(rem(2.125))],
-      ),
+      media(Breakpoints.tabletPortrait, [fontSize(rem(0.875)), lineHeight(rem(2.125))]),
     ]);
 };
 
@@ -195,13 +173,9 @@ let make =
                  </Heading>
                  <Heading level=Heading.H3 className=Styles.title>
                    {"Great developers " |> ReasonReact.string}
-                   <strong className=Styles.strong>
-                     {element.title |> ReasonReact.string}
-                   </strong>
+                   <strong className=Styles.strong> {element.title |> ReasonReact.string} </strong>
                  </Heading>
-                 <p className=Styles.paragraph>
-                   {element.content |> ReasonReact.string}
-                 </p>
+                 <p className=Styles.paragraph> {element.content |> ReasonReact.string} </p>
                </div>;
              },
              manifestoContent,
@@ -209,10 +183,7 @@ let make =
            |> ReasonReact.array}
         </div>
         <div className=Styles.funPart>
-          <DeveloperBackgroundImage
-            className=Styles.image
-            developerPhotoKey="overlay"
-          />
+          <DeveloperBackgroundImage className=Styles.image developerPhotoKey="overlay" />
         </div>
       </div>
     </FullPageSlide>

@@ -37,18 +37,12 @@ module Styles = {
           order(2),
           fontSize(rem(1.5)),
           lineHeight(rem(3.125)),
-          margin4(
-            ~top=rem(10.),
-            ~right=rem(9.625),
-            ~bottom=rem(8.8125),
-            ~left=rem(0.),
-          ),
+          margin4(~top=rem(10.), ~right=rem(9.625), ~bottom=rem(8.8125), ~left=rem(0.)),
         ],
       ),
     ]);
 
-  let img =
-    style([width(px(50)), height(px(50)), borderRadius(px(25))]);
+  let img = style([width(px(50)), height(px(50)), borderRadius(px(25))]);
 
   let quoter =
     style([
@@ -88,10 +82,7 @@ module Styles = {
 
 [@react.component]
 let make = (~className=?, ~quote, ~imageSrc, ~name, ~position) => {
-  <div
-    className=?{
-      Utils.React.combineClassNames([Some(Styles.wrapper), className])
-    }>
+  <div className=?{Utils.React.combineClassNames([Some(Styles.wrapper), className])}>
     <p className=Styles.quote> {quote |> str} </p>
     <div className=Styles.quoter>
       <img src=imageSrc className=Styles.img />

@@ -7,30 +7,17 @@ module Styles = {
       display(`grid),
       gridTemplateRows([`auto, `auto, `fr(1.)]),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
-      padding4(
-        ~top=rem(4.1875),
-        ~right=`zero,
-        ~left=rem(1.25),
-        ~bottom=`zero,
-      ),
+      padding4(~top=rem(4.1875), ~right=`zero, ~left=rem(1.25), ~bottom=`zero),
       overflow(`hidden),
       media(
         Breakpoints.tabletLandscape,
         [
           gridTemplateRows([`auto, `fr(1.)]),
           gridTemplateColumns([`fr(1.), `fr(1.)]),
-          padding4(
-            ~top=rem(6.25),
-            ~right=`zero,
-            ~bottom=`zero,
-            ~left=rem(4.75),
-          ),
+          padding4(~top=rem(6.25), ~right=`zero, ~bottom=`zero, ~left=rem(4.75)),
         ],
       ),
-      media(
-        Breakpoints.desktop,
-        [gridTemplateColumns([`fr(6.), `fr(4.)])],
-      ),
+      media(Breakpoints.desktop, [gridTemplateColumns([`fr(6.), `fr(4.)])]),
     ]);
   let about =
     style([
@@ -41,12 +28,7 @@ module Styles = {
         Breakpoints.tabletLandscape,
         [
           gridColumn(1, 3),
-          padding4(
-            ~top=`zero,
-            ~right=rem(4.75),
-            ~bottom=rem(4.75),
-            ~left=`zero,
-          ),
+          padding4(~top=`zero, ~right=rem(4.75), ~bottom=rem(4.75), ~left=`zero),
         ],
       ),
       media(Breakpoints.desktop, [gridColumn(1, 2)]),
@@ -54,12 +36,7 @@ module Styles = {
   let heading =
     style([
       position(`relative),
-      padding4(
-        ~top=`rem(1.875),
-        ~left=`rem(0.9375),
-        ~bottom=`rem(0.625),
-        ~right=`zero,
-      ),
+      padding4(~top=`rem(1.875), ~left=`rem(0.9375), ~bottom=`rem(0.625), ~right=`zero),
       fontSize(`rem(1.125)),
       color(hex(Colors.grey)),
       before([
@@ -72,20 +49,12 @@ module Styles = {
         height(px(130)),
         border(px(1), `solid, hex(Colors.glazedBabyBlueText)),
         opacity(0.1),
-        media(
-          Breakpoints.tabletLandscape,
-          [width(`px(258)), height(`px(258))],
-        ),
+        media(Breakpoints.tabletLandscape, [width(`px(258)), height(`px(258))]),
       ]),
       media(
         Breakpoints.tabletLandscape,
         [
-          padding4(
-            ~top=`rem(5.625),
-            ~left=`rem(0.9375),
-            ~bottom=`rem(1.875),
-            ~right=`zero,
-          ),
+          padding4(~top=`rem(5.625), ~left=`rem(0.9375), ~bottom=`rem(1.875), ~right=`zero),
           width(`auto),
           color(hex(Colors.darkGrey)),
           fontSize(`rem(2.)),
@@ -94,63 +63,34 @@ module Styles = {
     ]);
   let contentText =
     style([
-      padding4(
-        ~top=`zero,
-        ~right=`rem(0.9375),
-        ~bottom=`zero,
-        ~left=`rem(0.9375),
-      ),
+      padding4(~top=`zero, ~right=`rem(0.9375), ~bottom=`zero, ~left=`rem(0.9375)),
       opacity(0.6),
       fontSize(`rem(0.75)),
       lineHeight(`abs(2.)),
       color(hex(Colors.glazedGreyText)),
-      media(
-        Breakpoints.tabletLandscape,
-        [display(`block), fontSize(`rem(1.5))],
-      ),
+      media(Breakpoints.tabletLandscape, [display(`block), fontSize(`rem(1.5))]),
     ]);
   let contentTextLine =
-    style([
-      display(`inline),
-      media(Breakpoints.tabletLandscape, [display(`block)]),
-    ]);
-  let dimmedOnDesktop =
-    style([media(Breakpoints.tabletLandscape, [opacity(0.6)])]);
+    style([display(`inline), media(Breakpoints.tabletLandscape, [display(`block)])]);
+  let dimmedOnDesktop = style([media(Breakpoints.tabletLandscape, [opacity(0.6)])]);
   let htmlTextWrapper =
     style([
       media(
         Breakpoints.tabletLandscape,
-        [
-          padding4(
-            ~top=rem(4.75),
-            ~right=rem(2.5),
-            ~bottom=`zero,
-            ~left=`zero,
-          ),
-        ],
+        [padding4(~top=rem(4.75), ~right=rem(2.5), ~bottom=`zero, ~left=`zero)],
       ),
       media(
         Breakpoints.desktop,
         [
           gridColumn(1, 2),
-          padding4(
-            ~top=rem(4.75),
-            ~right=rem(4.75),
-            ~bottom=`zero,
-            ~left=rem(2.5),
-          ),
+          padding4(~top=rem(4.75), ~right=rem(4.75), ~bottom=`zero, ~left=rem(2.5)),
           maxWidth(rem(47.5)),
         ],
       ),
     ]);
   let htmlTag =
     style([
-      padding4(
-        ~top=`rem(0.625),
-        ~left=`rem(0.9375),
-        ~bottom=`rem(1.25),
-        ~right=`rem(0.9375),
-      ),
+      padding4(~top=`rem(0.625), ~left=`rem(0.9375), ~bottom=`rem(1.25), ~right=`rem(0.9375)),
       color(hex(Colors.glazedBabyBlueText)),
       fontSize(rem(1.125)),
       lineHeight(`abs(1.5)),
@@ -179,11 +119,7 @@ let make =
             {"Every team member is highly experienced (8y avg), strives for excellency and has access to the colossal combined knowledge of the whole team. "
              |> ReasonReact.string}
           </p>
-          <p
-            className={Css.merge([
-              Styles.contentTextLine,
-              Styles.dimmedOnDesktop,
-            ])}>
+          <p className={Css.merge([Styles.contentTextLine, Styles.dimmedOnDesktop])}>
             {"We act as (an extension of) your development team, in very flexible team sizes, and adapting to your processes and with a tight feedback loop."
              |> React.string}
           </p>

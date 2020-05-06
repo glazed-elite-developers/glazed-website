@@ -5,12 +5,7 @@ module Styles = {
   open Theme;
 
   let container = style([display(`flex), flexDirection(`column)]);
-  let title =
-    style([
-      color(hex("ffffff")),
-      fontSize(rem(1.125)),
-      marginBottom(rem(2.0)),
-    ]);
+  let title = style([color(hex("ffffff")), fontSize(rem(1.125)), marginBottom(rem(2.0))]);
   let subtitle =
     style([
       color(hex("feffef")),
@@ -45,8 +40,7 @@ module Styles = {
     ]);
 };
 
-type fieldSchema =
-  FormValidations.fieldSchema(string, FormValidations.error(string));
+type fieldSchema = FormValidations.fieldSchema(string, FormValidations.error(string));
 
 type field = {
   schema: fieldSchema,
@@ -72,9 +66,7 @@ let fields: Belt.Map.String.t(field) =
         schema: {
           validators: [
             FormValidations.Validators.required,
-            FormValidations.Validators.createRegexValidator(
-              Utils.Regex.email,
-            ),
+            FormValidations.Validators.createRegexValidator(Utils.Regex.email),
           ],
         },
         label: "your email",
@@ -111,8 +103,7 @@ type propsForInput('value, 'error, 'event) = {
 };
 
 let getPropsForInput = (propsForField): propsForInput('value, 'error, 'event) => {
-  let {name, value, error, onChange, onFocus, onBlur}:
-    FormRenderer.propsForField('value, 'error) = propsForField;
+  let {name, value, error, onChange, onFocus, onBlur}: FormRenderer.propsForField('value, 'error) = propsForField;
   let error =
     switch (error) {
     | None => None
@@ -155,19 +146,7 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
       <div className=Styles.fields>
         {formRenderer.getPropsForField("name")
          ->Belt.Option.map(getPropsForInput)
-         ->Belt.Option.map(
-             (
-               {
-                 name,
-                 label,
-                 placeholder,
-                 value,
-                 error,
-                 onChange,
-                 onFocus,
-                 onBlur,
-               },
-             ) => {
+         ->Belt.Option.map(({name, label, placeholder, value, error, onChange, onFocus, onBlur}) => {
              <Input
                key=name
                className=Styles.field
@@ -184,19 +163,7 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
          ->Belt.Option.getWithDefault(React.null)}
         {formRenderer.getPropsForField("email")
          ->Belt.Option.map(getPropsForInput)
-         ->Belt.Option.map(
-             (
-               {
-                 name,
-                 label,
-                 placeholder,
-                 value,
-                 error,
-                 onChange,
-                 onFocus,
-                 onBlur,
-               },
-             ) => {
+         ->Belt.Option.map(({name, label, placeholder, value, error, onChange, onFocus, onBlur}) => {
              <Input
                key=name
                className=Styles.field
@@ -213,19 +180,7 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
          ->Belt.Option.getWithDefault(React.null)}
         {formRenderer.getPropsForField("message")
          ->Belt.Option.map(getPropsForInput)
-         ->Belt.Option.map(
-             (
-               {
-                 name,
-                 label,
-                 placeholder,
-                 value,
-                 error,
-                 onChange,
-                 onFocus,
-                 onBlur,
-               },
-             ) => {
+         ->Belt.Option.map(({name, label, placeholder, value, error, onChange, onFocus, onBlur}) => {
              <Input
                key=name
                className=Styles.field

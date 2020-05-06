@@ -3,18 +3,15 @@ module Styles = {
 
   module Variables = {
     let height = rem(3.75);
-  }
+  };
 
   let wrapper =
-    style([
-      backgroundColor(hex(Theme.Colors.glazedBlueMidnight)),
-      height(Variables.height),
-    ]);
+    style([backgroundColor(hex(Theme.Colors.glazedBlueMidnight)), height(Variables.height)]);
 };
 
 [@react.component]
 let make = (~className=?, ~children) => {
-  <footer className=?Utils.React.combineClassNames([Some(Styles.wrapper), className])>
+  <footer className=?{Utils.React.combineClassNames([Some(Styles.wrapper), className])}>
     children
   </footer>;
 };

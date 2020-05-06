@@ -6,6 +6,5 @@ type metaTag = {
 
 [@react.component] [@bs.module "react-helmet"]
 external make:
-  (~title: string=?, ~meta: array(metaTag)=?, ~children: React.element=?) =>
-  React.element =
+  (~title: string=?, ~meta: array(metaTag)=?, ~children: React.element=?) => React.element =
   "default";

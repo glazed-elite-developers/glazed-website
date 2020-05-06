@@ -1,36 +1,19 @@
 // Tech icons.
-[@bs.module "static/images/icon_angular_shield.svg"]
-external angularIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_android.svg"]
-external androidIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_ruby.svg"]
-external rubyIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_apple.svg"]
-external appleIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_react.svg"]
-external reactIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_nodejs.svg"]
-external nodeJSIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_angular_shield.svg"] external angularIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_android.svg"] external androidIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_ruby.svg"] external rubyIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_apple.svg"] external appleIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_react.svg"] external reactIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_nodejs.svg"] external nodeJSIcon: SVG.asset = "default";
 
 // Social icons.
-[@bs.module "static/images/icon_twitter.svg"]
-external twitterIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_facebook.svg"]
-external facebookIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_linkedin.svg"]
-external linkedInIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_github.svg"]
-external githubIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_twitter.svg"] external twitterIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_facebook.svg"] external facebookIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_linkedin.svg"] external linkedInIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_github.svg"] external githubIcon: SVG.asset = "default";
 
 // Variables.
-let techIcons = [|
-  angularIcon,
-  androidIcon,
-  rubyIcon,
-  appleIcon,
-  reactIcon,
-  nodeJSIcon,
-|];
+let techIcons = [|angularIcon, androidIcon, rubyIcon, appleIcon, reactIcon, nodeJSIcon|];
 let socialIcons = [|twitterIcon, facebookIcon, linkedInIcon, githubIcon|];
 let cubeOuterEdge = 37.5;
 let cubeContentProjectionLength = 8.125;
@@ -63,6 +46,9 @@ module Styles = {
         ],
       ),
     ]);
+  let maskContainer = style([backgroundColor(rgba(34, 39, 63, 0.))]);
+  let backgroundImage =
+    style([position(`absolute), top(`zero), right(`zero), bottom(`zero), left(`zero)]);
   let backgroundCube =
     style([
       position(`absolute),
@@ -77,10 +63,7 @@ module Styles = {
       before([contentRule(""), display(`block), paddingTop(pct(100.))]),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          right(`rem(cubeContentProjectionLength)),
-          left(`rem(cubeContentProjectionLength)),
-        ],
+        [right(`rem(cubeContentProjectionLength)), left(`rem(cubeContentProjectionLength))],
       ),
     ]);
   let htmlText =
@@ -97,12 +80,7 @@ module Styles = {
       marginRight(`rem(-0.9375)),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          position(`absolute),
-          padding(`zero),
-          alignSelf(`initial),
-          marginRight(`zero),
-        ],
+        [position(`absolute), padding(`zero), alignSelf(`initial), marginRight(`zero)],
       ),
     ]);
   let socialNetworks =
@@ -121,8 +99,7 @@ module Styles = {
       ),
     ]);
   let socialIconLink = style([display(`flex), margin(rem(0.9375))]);
-  let socialIcon =
-    style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.white))]);
+  let socialIcon = style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.white))]);
   let mainHeading =
     style([
       display(`flex),
@@ -167,11 +144,7 @@ module Styles = {
       marginTop(rem(5.)),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          maxWidth(rem(70.)),
-          marginTop(rem(20.)),
-          marginBottom(rem(5.)),
-        ],
+        [maxWidth(rem(70.)), marginTop(rem(20.)), marginBottom(rem(5.))],
       ),
     ]);
   let techStackIcons =
@@ -231,24 +204,39 @@ module Styles = {
     ]);
 };
 
-/* For a page of static text like this one, it would be easier to just use plain React
-   components since we don't get to take advantage of Reason's type system */
+let backgroundImageQuery = [%raw
+  {|Gatsby.graphql`
+    query {
+      backgroundImage: file(relativePath: { eq: "home/slide-1-background.jpg" }) {
+        childImageSharp {
+          fluid(maxWidth: 1200) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
+  `|}
+];
+
 [@react.component]
 let make =
   React.memo((~id=?, ~innerRef=?, ~onResize) => {
-    <FullPageSlide
-      ?id
-      ?innerRef
-      className=Styles.wrapper
-      backgroundImageUrl="/images/home/slide-1-background.jpg"
-      onResize>
+    let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
+    let backgroundImage = Gatsby.getImageFluid(queryResult, "backgroundImage");
+
+    <FullPageSlide ?id ?innerRef className=Styles.wrapper onResize>
+      <MaskContainer className=Styles.backgroundImage maskClassName=Styles.maskContainer>
+        <Gatsby.BackgroundImage
+          className=Styles.backgroundImage
+          fluid=?backgroundImage
+          style={ReactDOMRe.Style.make(~position="absolute", ())}
+        />
+      </MaskContainer>
       <div className=Styles.content>
         <div className=Styles.backgroundCube />
         <div className=Styles.headingWrapper>
           <Heading level=Heading.H1 className=Styles.mainHeading>
-            <span className=Styles.commentedText>
-              {React.string("// Some projects")}
-            </span>
+            <span className=Styles.commentedText> {React.string("// Some projects")} </span>
             {React.string("require elite mobile and web developers")}
           </Heading>
           <div className=Styles.exploreCasesButtonWrapper>
@@ -323,7 +311,7 @@ let make =
           <SVG className=Styles.socialIcon asset=githubIcon height="16" />
         </a>
       </div>
-    </FullPageSlide>
+    </FullPageSlide>;
   });
 
 let default = make;

@@ -26,12 +26,7 @@ module Styles = {
       media(
         Theme.Breakpoints.tabletLandscape,
         [
-          padding4(
-            ~top=rem(1.875),
-            ~right=rem(5.625),
-            ~bottom=`zero,
-            ~left=rem(6.25),
-          ),
+          padding4(~top=rem(1.875), ~right=rem(5.625), ~bottom=`zero, ~left=rem(6.25)),
           flex3(~grow=4., ~shrink=1., ~basis=rem(0.0000001)),
           fontSize(rem(1.)),
         ],
@@ -49,12 +44,9 @@ module Styles = {
 
 [@react.component]
 let make = (~className=?, ~text: string, ~image: option(Gatsby.fluidImage)=?) => {
-  <CaseStudySection
-    className=?{combineClassNames([Some(Styles.wrapper), className])}>
+  <CaseStudySection className=?{combineClassNames([Some(Styles.wrapper), className])}>
     <Gatsby.Image className=Styles.image fluid=?image />
-    <div className=Styles.textWrapper>
-      <p className=Styles.text> {React.string(text)} </p>
-    </div>
+    <div className=Styles.textWrapper> <p className=Styles.text> {React.string(text)} </p> </div>
   </CaseStudySection>;
 };
 

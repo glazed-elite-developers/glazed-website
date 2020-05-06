@@ -1,9 +1,6 @@
 module Date = {
   let formatDate = (isoDateString: string) => {
-    DateFns.internal_format(
-      Js.Date.fromString(isoDateString),
-      "dddd, MMMM D, YYYY",
-    );
+    DateFns.internal_format(Js.Date.fromString(isoDateString), "dddd, MMMM D, YYYY");
   };
 };
 
@@ -11,8 +8,7 @@ module React = {
   module Types = {
     // It looks like, at the moment and when using ReactDOMRe directly, there's no support for using refs created with the
     // ReactDOMRe.domRef type. Could be a ReasonReact bug. We're converting the types here to add support for it.
-    external domRef: ReactDOMRe.domRef => ReactDOMRe.Ref.callbackDomRef =
-      "%identity";
+    external domRef: ReactDOMRe.domRef => ReactDOMRe.Ref.callbackDomRef = "%identity";
   };
 
   let combineClassNames: list(option(string)) => option(string) =
@@ -32,9 +28,7 @@ module React = {
 
 module Routing = {
   let getPath = (url: ReasonReactRouter.url): string => {
-    Belt.List.reduce(url.path, "/", (result, segment) =>
-      {j|$(result)$(segment)/|j}
-    );
+    Belt.List.reduce(url.path, "/", (result, segment) => {j|$(result)$(segment)/|j});
   };
 
   let getFullPath = (url: ReasonReactRouter.url): string => {
@@ -47,8 +41,7 @@ module Routing = {
 
 module Dom = {
   module Types = {
-    external webApiElementToJsObject: Webapi.Dom.Element.t => Js.t({..}) =
-      "%identity";
+    external webApiElementToJsObject: Webapi.Dom.Element.t => Js.t({..}) = "%identity";
     // external domElementToWebapiElement: Dom.element => Webapi.Dom.Element.t =
     //   "%identity";
   };
@@ -101,9 +94,7 @@ module Timing = {
       if (! isAlreadyScheduled^) {
         isAlreadyScheduled := true;
         runTask();
-        Webapi.requestAnimationFrame(_timestamp =>
-          isAlreadyScheduled := false
-        );
+        Webapi.requestAnimationFrame(_timestamp => isAlreadyScheduled := false);
       };
   };
 
@@ -114,9 +105,7 @@ module Timing = {
       if (! isAlreadyScheduled^) {
         isAlreadyScheduled := true;
         runTask(argument1);
-        Webapi.requestAnimationFrame(_timestamp =>
-          isAlreadyScheduled := false
-        );
+        Webapi.requestAnimationFrame(_timestamp => isAlreadyScheduled := false);
       };
   };
 };
@@ -124,8 +113,7 @@ module Timing = {
 module Platform = {
   type platform = string;
 
-  [@bs.get]
-  external getPlatform: Webapi.Dom.Window.navigator => platform = "platform";
+  [@bs.get] external getPlatform: Webapi.Dom.Window.navigator => platform = "platform";
 
   /**
  * List of iOS devices that need the scroll fix.
@@ -157,6 +145,6 @@ module Platform = {
 module Regex = {
   let email =
     Js.Re.fromString(
-      "^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$",
+      "/^(([^<>()\\[\\]\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/",
     );
 };

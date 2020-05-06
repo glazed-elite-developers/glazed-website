@@ -43,11 +43,7 @@ module Styles = {
       ]),
     ]);
   let navBarLinksScrollerContent =
-    style([
-      flexDirection(`row),
-      fontFamily(Theme.Fonts.heading),
-      fontSize(rem(0.625)),
-    ]);
+    style([flexDirection(`row), fontFamily(Theme.Fonts.heading), fontSize(rem(0.625))]);
   let navBarLinks =
     style([
       display(`flex),
@@ -59,24 +55,12 @@ module Styles = {
 };
 
 [@react.component]
-let make =
-    (
-      ~className=?,
-      ~navBarLinksClassName=?,
-      ~currentPageIndex=0,
-      ~componentAtTheRight=?,
-    ) => {
-  <MobileFooterLayout
-    className=?{combineClassNames([Some(Styles.wrapper), className])}>
+let make = (~className=?, ~navBarLinksClassName=?, ~currentPageIndex=0, ~componentAtTheRight=?) => {
+  <MobileFooterLayout className=?{combineClassNames([Some(Styles.wrapper), className])}>
     <div className=Styles.navBarLinksWrapper>
       <ScrollContainer contentClassName=Styles.navBarLinksScrollerContent>
         <NavBarLinks
-          className=?{
-            combineClassNames([
-              Some(Styles.navBarLinks),
-              navBarLinksClassName,
-            ])
-          }
+          className=?{combineClassNames([Some(Styles.navBarLinks), navBarLinksClassName])}
           currentPageIndex
         />
       </ScrollContainer>

@@ -1,9 +1,7 @@
 open Utils.React;
 
-[@bs.module "static/images/logo-glazed.svg"]
-external logo: SVG.asset = "default";
-[@bs.module "static/images/logo-glazed-outline.svg"]
-external logoOutline: SVG.asset = "default";
+[@bs.module "static/images/logo-glazed.svg"] external logo: SVG.asset = "default";
+[@bs.module "static/images/logo-glazed-outline.svg"] external logoOutline: SVG.asset = "default";
 
 module Styles = {
   open Css;
@@ -20,10 +18,7 @@ module Styles = {
       padding2(~v=rem(1.25), ~h=rem(1.25)),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          padding2(~v=rem(2.1875), ~h=rem(4.6875)),
-          height(Variables.height),
-        ],
+        [padding2(~v=rem(2.1875), ~h=rem(4.6875)), height(Variables.height)],
       ),
     ]);
   let logoWrapper =

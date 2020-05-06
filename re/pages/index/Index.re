@@ -17,17 +17,17 @@ module Styles = {
 let usePagePositionController = (numberOfSlides: int) => {
   let positionsState = useState(() => Array.make(numberOfSlides, 0.));
   let (positions, setPositions) = positionsState;
-  let refs: Ref.t(array(Ref.t(Js.Nullable.t('a)))) =
+  let refs: React.ref(array(React.ref(Js.Nullable.t('a)))) =
     useRef(Array.init(numberOfSlides, _index => createRef()));
   let scrollerAPI = ScrollConnectors.useClosestScrollerAPI();
-  let domSlideRefs = Array.map(ReactDOMRe.Ref.domRef, Ref.current(refs));
+  let domSlideRefs = Array.map(ReactDOMRe.Ref.domRef, refs.current);
   let updatePositions =
     useCallback3(
       () =>
         Webapi.Dom.(
           Array.iteri(
             (index, slideRef) =>
-              switch (slideRef |> Ref.current |> Js.Nullable.toOption) {
+              switch (slideRef.current |> Js.Nullable.toOption) {
               | None => ()
               | Some(element) =>
                 setPositions(state => {
@@ -43,15 +43,14 @@ let usePagePositionController = (numberOfSlides: int) => {
                   );
                 })
               },
-            Ref.current(refs),
+            refs.current,
           )
         ),
       (setPositions, refs, scrollerAPI),
     );
   let handleResize =
     useCallback1(
-      (_nextBoundingRect: option(Utils.Dom.Measurements.boundingRect)) =>
-        updatePositions(),
+      (_nextBoundingRect: option(Utils.Dom.Measurements.boundingRect)) => updatePositions(),
       [|updatePositions|],
     );
 
@@ -68,9 +67,7 @@ let useCurrentSlideIndex = (positions: array(float), offsetY: float): int => {
   useMemo2(
     () =>
       Belt.Array.reduceWithIndex(positions, 0, (currentPage, position, index) => {
-        scrollValues.position.scrollTop
-        +. scrollValues.boundingRect.top >= position
-        +. offsetY
+        scrollValues.position.scrollTop +. scrollValues.boundingRect.top >= position +. offsetY
           ? index : currentPage
       }),
     (scrollValues, positions),
@@ -83,42 +80,18 @@ let headerStyleTransitionOffsetY = (-65.);
 
 [@react.component]
 let make = () => {
-  let (positions, domSlideRefs, onResize) =
-    usePagePositionController(numberOfSlides);
-  let currentPageIndex =
-    useCurrentSlideIndex(positions, headerStyleTransitionOffsetY);
-  let useDarkNavBarLinks =
-    Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPageIndex);
+  let (positions, domSlideRefs, onResize) = usePagePositionController(numberOfSlides);
+  let currentPageIndex = useCurrentSlideIndex(positions, headerStyleTransitionOffsetY);
+  let useDarkNavBarLinks = Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPageIndex);
 
   <Layout>
-    <PageLayout
-      className=Styles.pageLayout useDarkNavBarLinks currentPageIndex>
+    <PageLayout className=Styles.pageLayout useDarkNavBarLinks currentPageIndex>
       <PageContent className=Styles.wrapper>
-        <IndexLandingSlide
-          id="hey"
-          innerRef={Array.get(domSlideRefs, 0)}
-          onResize
-        />
-        <IndexCaseStudiesSlide
-          id="case-studies"
-          innerRef={Array.get(domSlideRefs, 1)}
-          onResize
-        />
-        <IndexAboutSlide
-          id="about"
-          innerRef={Array.get(domSlideRefs, 2)}
-          onResize
-        />
-        <IndexTeamSlide
-          id="team"
-          innerRef={Array.get(domSlideRefs, 3)}
-          onResize
-        />
-        <IndexManifestoSlide
-          id="manifesto"
-          innerRef={Array.get(domSlideRefs, 4)}
-          onResize
-        />
+        <IndexLandingSlide id="hey" innerRef={Array.get(domSlideRefs, 0)} onResize />
+        <IndexCaseStudiesSlide id="case-studies" innerRef={Array.get(domSlideRefs, 1)} onResize />
+        <IndexAboutSlide id="about" innerRef={Array.get(domSlideRefs, 2)} onResize />
+        <IndexTeamSlide id="team" innerRef={Array.get(domSlideRefs, 3)} onResize />
+        <IndexManifestoSlide id="manifesto" innerRef={Array.get(domSlideRefs, 4)} onResize />
       </PageContent>
     </PageLayout>
   </Layout>;

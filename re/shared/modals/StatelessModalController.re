@@ -21,9 +21,7 @@ let make =
       ~openedModals: array(ModalsContext.modal),
     ) => {
   <div
-    className=?{
-      Utils.React.combineClassNames([Some(Styles.wrapper), className])
-    }
+    className=?{Utils.React.combineClassNames([Some(Styles.wrapper), className])}
     role="presentation"
     ?onKeyDown>
     children

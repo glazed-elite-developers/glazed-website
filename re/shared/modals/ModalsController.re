@@ -17,43 +17,29 @@ let reducer = (state: state, action: action) => {
       counter: state.counter + 1,
     }
   | CloseModal(modal) => {
-      openedModals:
-        Belt.Array.keep(state.openedModals, openedModal =>
-          openedModal !== modal
-        ),
+      openedModals: Belt.Array.keep(state.openedModals, openedModal => openedModal !== modal),
       counter: state.counter + 1,
     }
   };
 };
 
 [@react.component]
-let make =
-    (
-      ~children,
-      ~className=?,
-      ~onKeyDown=?,
-      ~getInitialOpenedModals=() => [||],
-    ) => {
+let make = (~children, ~className=?, ~onKeyDown=?, ~getInitialOpenedModals=() => [||]) => {
   let initialState = {openedModals: getInitialOpenedModals(), counter: 0};
   let (state, dispatch) = useReducer(reducer, initialState);
   let openModal =
     useCallback1(
       (modalRenderer: ModalsContext.modalRenderer) => {
-        let newModal: ModalsContext.modal = {
-          id: state.counter,
-          renderer: modalRenderer,
-        };
+        let newModal: ModalsContext.modal = {id: state.counter, renderer: modalRenderer};
         dispatch(OpenModal(newModal));
         newModal;
       },
       [|dispatch|],
     );
-  let closeModal =
-    useCallback1(modal => dispatch(CloseModal(modal)), [|dispatch|]);
+  let closeModal = useCallback1(modal => dispatch(CloseModal(modal)), [|dispatch|]);
   let contextAPI =
     useMemo3(
-      (): ModalsContext.context =>
-        {openedModals: state.openedModals, openModal, closeModal},
+      (): ModalsContext.context => {openedModals: state.openedModals, openModal, closeModal},
       (state.openedModals, openModal, closeModal),
     );
   let onKeyDown =
@@ -64,9 +50,7 @@ let make =
 
         if (eventKeyCode === 27 && openedModalsCount > 0) {
           ReactEvent.Synthetic.preventDefault(event);
-          switch (
-            Belt.Array.get(state.openedModals, Belt.Array.length(state.openedModals) - 1)
-          ) {
+          switch (Belt.Array.get(state.openedModals, Belt.Array.length(state.openedModals) - 1)) {
           | None => ()
           | Some(modal) => closeModal(modal)
           };
@@ -82,10 +66,7 @@ let make =
 
   <ModalsContext.Provider value=contextAPI>
     <StatelessModalController
-      ?className
-      onKeyDown
-      onModalClose=closeModal
-      openedModals={state.openedModals}>
+      ?className onKeyDown onModalClose=closeModal openedModals={state.openedModals}>
       children
     </StatelessModalController>
   </ModalsContext.Provider>;

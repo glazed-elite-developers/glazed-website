@@ -40,11 +40,7 @@ module Styles = {
       ]),
     ]);
   let visible =
-    style([
-      visibility(`visible),
-      opacity(1.),
-      transition(~duration=150, "opacity"),
-    ]);
+    style([visibility(`visible), opacity(1.), transition(~duration=150, "opacity")]);
   let contentWhenSelected =
     style([
       position(`absolute),
@@ -70,22 +66,13 @@ let make =
     ) => {
   let hasContentWhenSelected = contentWhenSelected !== None;
   let contentWrapperClassName =
-    combineClassNames([
-      Some(Styles.squareContent),
-      baseContentWrapperClassName,
-    ]);
+    combineClassNames([Some(Styles.squareContent), baseContentWrapperClassName]);
   let contentClassName =
     combineClassNames([
       Some(
         isSelected
-          ? Css.merge([
-              Styles.content(hasContentWhenSelected),
-              Styles.hidden,
-            ])
-          : Css.merge([
-              Styles.content(hasContentWhenSelected),
-              Styles.visible,
-            ]),
+          ? Css.merge([Styles.content(hasContentWhenSelected), Styles.hidden])
+          : Css.merge([Styles.content(hasContentWhenSelected), Styles.visible]),
       ),
       baseContentClassName,
     ]);
@@ -101,14 +88,12 @@ let make =
   let wrappedChildren =
     switch (children) {
     | None => None
-    | Some(children') =>
-      Some(<div className=?contentClassName> children' </div>)
+    | Some(children') => Some(<div className=?contentClassName> children' </div>)
     };
   let wrappedContentWhenSelected =
     switch (contentWhenSelected) {
     | None => None
-    | Some(content) =>
-      Some(<div className=?contentWhenSelectedClassName> content </div>)
+    | Some(content) => Some(<div className=?contentWhenSelectedClassName> content </div>)
     };
 
   let childrenForSquare =

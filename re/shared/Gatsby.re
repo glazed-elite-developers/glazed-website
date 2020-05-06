@@ -17,8 +17,7 @@ type queryResult('a) = Js.t('a);
 
 external fluidImageToObject: fluidImage => Js.t('a) = "%identity";
 external objectToFluidImage: Js.t('a) => fluidImage = "%identity";
-external fluidImageListToFluidImage: array(fluidImage) => fluidImage =
-  "%identity";
+external fluidImageListToFluidImage: array(fluidImage) => fluidImage = "%identity";
 
 module Link = {
   [@bs.module "gatsby"] [@react.component]
@@ -36,8 +35,7 @@ module Link = {
 
 module StaticQuery = {
   [@bs.module "gatsby"] [@react.component]
-  external make: (~query: string, ~children: React.element) => React.element =
-    "StaticQuery";
+  external make: (~query: string, ~children: React.element) => React.element = "StaticQuery";
 };
 
 module BackgroundImage = {
@@ -55,16 +53,13 @@ module BackgroundImage = {
 
 module Image = {
   [@react.component] [@bs.module "gatsby-image"]
-  external make: (~fluid: fluidImage=?, ~className: string=?) => React.element =
-    "default";
+  external make: (~fluid: fluidImage=?, ~className: string=?) => React.element = "default";
 };
 
-[@bs.module "gatsby"]
-external useStaticQuery: string => queryResult('a) = "useStaticQuery";
+[@bs.module "gatsby"] external useStaticQuery: string => queryResult('a) = "useStaticQuery";
 
 // @TODO: should be a nullable.
-[@bs.get_index]
-external getImage: (queryResult('a), string) => Js.t(imageQueryResult);
+[@bs.get_index] external getImage: (queryResult('a), string) => Js.t(imageQueryResult);
 
 let getImageFluid = (result: queryResult('a), name: string) => {
   let image = getImage(result, name);
@@ -84,11 +79,7 @@ let getResponsiveImageFluid =
       switch (mediaQuery) {
       | None => fluidImage
       | Some(query) =>
-        Js.Obj.(
-          empty()
-          ->assign(fluidImageToObject(fluidImage))
-          ->assign({"media": query})
-        )
+        Js.Obj.(empty()->assign(fluidImageToObject(fluidImage))->assign({"media": query}))
         |> objectToFluidImage
       };
     },

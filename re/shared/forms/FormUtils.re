@@ -7,17 +7,12 @@ let getAllFieldsTouched = (schema: schema(fieldSchema('value, 'error))) => {
 };
 
 let getInitialTouched =
-    (schema: schema(fieldSchema('value, 'error)), validateOnInit: bool)
-    : touched => {
+    (schema: schema(fieldSchema('value, 'error)), validateOnInit: bool): touched => {
   validateOnInit ? getAllFieldsTouched(schema) : Touched.make();
 };
 
-let getInitialValues =
-    (schema: schema(fieldSchema('value, 'error))): values('value) =>
-  Values.map(
-    Values.fromArray(Schema.toArray(schema)), (_fieldName, _fieldSchema) =>
-    ""
-  );
+let getInitialValues = (schema: schema(fieldSchema('value, 'error))): values('value) =>
+  Values.map(Values.fromArray(Schema.toArray(schema)), (_fieldName, _fieldSchema) => "");
 
 let getValidationResult =
     (
@@ -44,7 +39,6 @@ let getValidationResult =
   };
 };
 
-let wrapOnChange = (onChange, event) =>
-  onChange(ReactEvent.Form.target(event)##value);
+let wrapOnChange = (onChange, event) => onChange(ReactEvent.Form.target(event)##value);
 let wrapOnFocus = (onFocus, _event) => onFocus();
 let wrapOnBlur = (onBlur, _event) => onBlur();

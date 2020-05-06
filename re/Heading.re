@@ -9,11 +9,7 @@ type levels =
 module Styles = {
   open Css;
   let commonStyles =
-    style([
-      position(`relative),
-      fontWeight(`num(700)),
-      fontFamily(Theme.Fonts.heading),
-    ]);
+    style([position(`relative), fontWeight(`num(700)), fontFamily(Theme.Fonts.heading)]);
 
   let h1 =
     merge([
@@ -40,10 +36,7 @@ module Styles = {
     merge([
       commonStyles,
       style([
-        media(
-          Theme.Breakpoints.tabletPortrait,
-          [fontSize(rem(1.5)), lineHeight(rem(2.75))],
-        ),
+        media(Theme.Breakpoints.tabletPortrait, [fontSize(rem(1.5)), lineHeight(rem(2.75))]),
       ]),
     ]);
   let h4 = merge([commonStyles, style([])]);

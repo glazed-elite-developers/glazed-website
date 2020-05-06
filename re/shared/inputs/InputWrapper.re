@@ -16,29 +16,17 @@ let make =
       ? CommonInputStyles.error
       : Css.merge([CommonInputStyles.error, CommonInputStyles.errorVisible]);
 
-  <label
-    className=?{
-      combineClassNames([Some(CommonInputStyles.wrapper), className])
-    }>
+  <label className=?{combineClassNames([Some(CommonInputStyles.wrapper), className])}>
     <div
       className=?{
-        combineClassNames([
-          Some(CommonInputStyles.labelWrapper),
-          labelWrapperClassName,
-        ])
+        combineClassNames([Some(CommonInputStyles.labelWrapper), labelWrapperClassName])
       }>
-      <div
-        className=?{
-          combineClassNames([Some(CommonInputStyles.label), labelClassName])
-        }>
+      <div className=?{combineClassNames([Some(CommonInputStyles.label), labelClassName])}>
         {"<input \"" |> ReasonReact.string}
         <span className=CommonInputStyles.labelInner> label </span>
         {"\">" |> ReasonReact.string}
       </div>
-      <div
-        className=?{
-          combineClassNames([Some(ownErrorClassName), errorClassName])
-        }>
+      <div className=?{combineClassNames([Some(ownErrorClassName), errorClassName])}>
         {switch (error) {
          | None => React.null
          | Some(message) => <p> {React.string(message)} </p>

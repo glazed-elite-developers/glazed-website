@@ -1,5 +1,4 @@
-[@bs.module "static/images/icon_back_arrow.svg"]
-external backArrowIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_back_arrow.svg"] external backArrowIcon: SVG.asset = "default";
 
 module Styles = {
   open Css;
@@ -63,24 +62,14 @@ module Styles = {
     ]);
   let area =
     style([
-      padding4(
-        ~top=rem(0.9375),
-        ~left=`zero,
-        ~bottom=rem(0.625),
-        ~right=`zero,
-      ),
+      padding4(~top=rem(0.9375), ~left=`zero, ~bottom=rem(0.625), ~right=`zero),
       color(hex(Colors.almostWhite)),
       fontSize(rem(0.75)),
       opacity(0.3),
       media(
         Theme.Breakpoints.tabletLandscape,
         [
-          padding4(
-            ~top=rem(1.875),
-            ~left=`zero,
-            ~bottom=rem(1.25),
-            ~right=`zero,
-          ),
+          padding4(~top=rem(1.875), ~left=`zero, ~bottom=rem(1.25), ~right=`zero),
           fontSize(rem(0.875)),
         ],
       ),
@@ -106,21 +95,13 @@ module ArrowButton = {
   [@react.component]
   let make = (~link) => {
     <Gatsby.Link className=Styles.nextButtonWraper _to=link>
-      <Button className=Styles.nextButton>
-        <SVG asset=backArrowIcon height="12" />
-      </Button>
+      <Button className=Styles.nextButton> <SVG asset=backArrowIcon height="12" /> </Button>
     </Gatsby.Link>;
   };
 };
 
 [@react.component]
-let make =
-    (
-      ~image: option(Gatsby.fluidImage)=?,
-      ~title: string,
-      ~area: string,
-      ~link: string,
-    ) => {
+let make = (~image: option(Gatsby.fluidImage)=?, ~title: string, ~area: string, ~link: string) => {
   <div className=Styles.wrapper>
     <MaskContainer className=Styles.imageContainer maskClassName=Styles.mask>
       <Gatsby.Image className=Styles.image fluid=?image />
@@ -129,9 +110,7 @@ let make =
       <Heading level=Heading.H6 className=Styles.nextProjectLabel>
         {React.string(title)}
       </Heading>
-      <Heading level=Heading.H1 className=Styles.heading>
-        {React.string(title)}
-      </Heading>
+      <Heading level=Heading.H1 className=Styles.heading> {React.string(title)} </Heading>
       <p className=Styles.area> {React.string(area)} </p>
       <ArrowButton link />
     </div>

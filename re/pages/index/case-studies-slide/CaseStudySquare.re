@@ -87,9 +87,7 @@ let make =
     ?onMouseEnter
     contentWhenSelected={
       <React.Fragment>
-        <p className=Styles.number>
-          {"// 0" ++ Belt.Int.toString(index + 1) |> React.string}
-        </p>
+        <p className=Styles.number> {"// 0" ++ Belt.Int.toString(index + 1) |> React.string} </p>
         <div className=Styles.centeredContentWhenSelected>
           <Heading level=Heading.H2 className=Styles.bigProjectName>
             {React.string(caseStudy.name)}
@@ -101,9 +99,7 @@ let make =
         </Gatsby.Link>
       </React.Fragment>
     }>
-    <p className=Styles.number>
-      {"// 0" ++ Belt.Int.toString(index + 1) |> React.string}
-    </p>
+    <p className=Styles.number> {"// 0" ++ Belt.Int.toString(index + 1) |> React.string} </p>
     <Heading level=Heading.H4 className=Styles.smallProjectName>
       {React.string(caseStudy.name)}
     </Heading>

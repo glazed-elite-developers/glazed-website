@@ -1,5 +1,4 @@
-[@bs.module "static/images/logo-glazed-outline.svg"]
-external logoOutline: SVG.asset = "default";
+[@bs.module "static/images/logo-glazed-outline.svg"] external logoOutline: SVG.asset = "default";
 
 open React;
 
@@ -12,12 +11,7 @@ module Styles = {
   let content =
     style([
       position(`relative),
-      padding4(
-        ~top=rem(4.1875),
-        ~bottom=rem(4.1875),
-        ~left=rem(1.25),
-        ~right=rem(1.25),
-      ),
+      padding4(~top=rem(4.1875), ~bottom=rem(4.1875), ~left=rem(1.25), ~right=rem(1.25)),
       display(`flex),
       flexDirection(`column),
       justifyContent(`flexEnd),
@@ -26,12 +20,7 @@ module Styles = {
         Breakpoints.tabletLandscape,
         [
           justifyContent(`flexStart),
-          padding4(
-            ~top=rem(6.25),
-            ~bottom=rem(6.25),
-            ~left=rem(4.75),
-            ~right=rem(2.5),
-          ),
+          padding4(~top=rem(6.25), ~bottom=rem(6.25), ~left=rem(4.75), ~right=rem(2.5)),
         ],
       ),
     ]);
@@ -44,13 +33,9 @@ module Styles = {
       width(pct(100.)),
       maxWidth(pct(90.)),
       zIndex(0),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [maxWidth(rem(64.)), left(`unset)],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [maxWidth(rem(64.)), left(`unset)]),
     ]);
-  let developerBackgroundImage =
-    merge([backgroundImage, style([opacity(0.6)])]);
+  let developerBackgroundImage = merge([backgroundImage, style([opacity(0.6)])]);
   let overlayImage = merge([backgroundImage, style([opacity(0.1)])]);
   let logoWrapper =
     style([
@@ -84,12 +69,7 @@ module Styles = {
   let heading =
     style([
       position(`relative),
-      padding4(
-        ~top=`rem(1.875),
-        ~left=`rem(0.9375),
-        ~bottom=`rem(5.625),
-        ~right=`zero,
-      ),
+      padding4(~top=`rem(1.875), ~left=`rem(0.9375), ~bottom=`rem(5.625), ~right=`zero),
       fontSize(`rem(1.125)),
       color(hex(Colors.almostWhite)),
       before([
@@ -102,20 +82,12 @@ module Styles = {
         height(px(130)),
         border(px(1), `solid, hex(Colors.glazedBabyBlueDarker)),
         opacity(0.1),
-        media(
-          Breakpoints.tabletLandscape,
-          [width(`px(258)), height(`px(258))],
-        ),
+        media(Breakpoints.tabletLandscape, [width(`px(258)), height(`px(258))]),
       ]),
       media(
         Breakpoints.tabletLandscape,
         [
-          padding4(
-            ~top=`rem(5.625),
-            ~left=`rem(0.9375),
-            ~bottom=`rem(1.875),
-            ~right=`zero,
-          ),
+          padding4(~top=`rem(5.625), ~left=`rem(0.9375), ~bottom=`rem(1.875), ~right=`zero),
           width(`auto),
           fontSize(`rem(2.)),
         ],
@@ -125,12 +97,7 @@ module Styles = {
     style([
       display(`flex),
       flexDirection(`column),
-      padding4(
-        ~left=rem(0.9375),
-        ~right=rem(3.125),
-        ~top=`zero,
-        ~bottom=`zero,
-      ),
+      padding4(~left=rem(0.9375), ~right=rem(3.125), ~top=`zero, ~bottom=`zero),
       media(
         Theme.Breakpoints.tabletLandscape,
         [maxWidth(rem(37.5)), flex3(~grow=1., ~shrink=0., ~basis=`auto)],
@@ -163,10 +130,7 @@ module Styles = {
       fontSize(rem(0.75)),
       color(hex(Colors.white)),
       opacity(0.7),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [order(1), fontSize(rem(1.5))],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [order(1), fontSize(rem(1.5))]),
     ]);
   let skillsAndLinkedIn =
     style([
@@ -174,12 +138,7 @@ module Styles = {
       flexDirection(`rowReverse),
       alignItems(`center),
       justifyContent(`spaceBetween),
-      padding4(
-        ~top=`rem(1.875),
-        ~left=`rem(0.9375),
-        ~bottom=`rem(1.875),
-        ~right=`zero,
-      ),
+      padding4(~top=`rem(1.875), ~left=`rem(0.9375), ~bottom=`rem(1.875), ~right=`zero),
       fontSize(rem(0.625)),
       zIndex(0),
       media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
@@ -215,10 +174,7 @@ module Styles = {
     style([
       fontFamily(Theme.Fonts.heading),
       color(hex(Colors.glazedBabyBlue)),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [fontSize(rem(0.75)), minWidth(rem(9.375))],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(0.75)), minWidth(rem(9.375))]),
     ]);
   let mobileFooter =
     style([
@@ -246,11 +202,8 @@ let teamSlideLink = "/#team";
 module CloseButton = {
   [@react.component]
   let make = (~close) => {
-    <Gatsby.Link
-      className=Styles.closeButtonWrapper _to=teamSlideLink onClick=close>
-      <Button className=Styles.closeButton>
-        {React.string("< back team")}
-      </Button>
+    <Gatsby.Link className=Styles.closeButtonWrapper _to=teamSlideLink onClick=close>
+      <Button className=Styles.closeButton> {React.string("< back team")} </Button>
     </Gatsby.Link>;
   };
 };
@@ -260,9 +213,7 @@ module MobileFooter = {
   let make = (~close) => {
     <MobileFooterLayout className=Styles.mobileFooter>
       <Gatsby.Link _to=teamSlideLink onClick=close>
-        <Button className=Styles.mobileCloseButton>
-          {React.string("< back team")}
-        </Button>
+        <Button className=Styles.mobileCloseButton> {React.string("< back team")} </Button>
       </Gatsby.Link>
     </MobileFooterLayout>;
   };
@@ -280,10 +231,7 @@ let make =
   let close =
     useCallback0(() => {
       onExited();
-      Routing.push(
-        teamSlideLink,
-        ~state={"preventDefaultScrollBehavior": true},
-      )
+      Routing.push(teamSlideLink, ~state={"preventDefaultScrollBehavior": true});
     });
   let handleCloseButtonClick =
     useCallback1(
@@ -306,17 +254,11 @@ let make =
       developerPhotoKey={developer.key}
       className=Styles.developerBackgroundImage
     />
-    <DeveloperBackgroundImage
-      developerPhotoKey="overlay"
-      className=Styles.overlayImage
-    />
+    <DeveloperBackgroundImage developerPhotoKey="overlay" className=Styles.overlayImage />
     <Heading level=Heading.H1 className=Styles.heading>
       {React.array(
          Array.mapi(
-           (index, name) =>
-             <div key={Belt.Int.toString(index)}>
-               {React.string(name)}
-             </div>,
+           (index, name) => <div key={Belt.Int.toString(index)}> {React.string(name)} </div>,
            Js.String.split(" ", developer.name),
          ),
        )}
@@ -325,26 +267,16 @@ let make =
       <Heading level=Heading.H3 className=Styles.shortDescription>
         {React.string(developer.shortDescription)}
       </Heading>
-      <p className=Styles.description>
-        {React.string(developer.description)}
-      </p>
+      <p className=Styles.description> {React.string(developer.description)} </p>
     </div>
     <div className=Styles.skillsAndLinkedIn>
-      <a
-        className=Styles.linkedinLink
-        href={developer.linkedIn}
-        rel="nofollow"
-        target="_blank">
+      <a className=Styles.linkedinLink href={developer.linkedIn} rel="nofollow" target="_blank">
         {React.string("> LinkedIn")}
       </a>
       <p className=Styles.skills>
         {React.string(
            "{ "
-           ++ Array.fold_left(
-                (result, skill) => {j|$(result) $(skill)|j},
-                "",
-                developer.skills,
-              )
+           ++ Array.fold_left((result, skill) => {j|$(result) $(skill)|j}, "", developer.skills)
            ++ " }",
          )}
       </p>
@@ -360,9 +292,7 @@ let make =
          )}
       </p>
     </div>
-    <div className=Styles.logoWrapper>
-      <SVG className=Styles.logo asset=logoOutline />
-    </div>
+    <div className=Styles.logoWrapper> <SVG className=Styles.logo asset=logoOutline /> </div>
     <CloseButton close=handleCloseButtonClick />
     <MobileFooter close=handleCloseButtonClick />
   </BaseModal>;

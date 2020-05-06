@@ -171,14 +171,7 @@ let developers =
         {
           key: "jose",
           name: {j|José Magalhães|j},
-          skills: [|
-            "AI",
-            "IOT",
-            "Machine Learning",
-            "Backend",
-            "Java",
-            "Javascript",
-          |],
+          skills: [|"AI", "IOT", "Machine Learning", "Backend", "Java", "Javascript"|],
           description: "",
           shortDescription: "",
           linkedIn: "",

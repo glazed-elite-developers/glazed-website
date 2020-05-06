@@ -1,19 +1,13 @@
 open React;
 
-[@bs.module "static/images/icon_back_arrow.svg"]
-external backArrowIcon: SVG.asset = "default";
-[@bs.module "static/images/logo-glazed-small.svg"]
-external glazedMapPin: SVG.asset = "default";
+[@bs.module "static/images/icon_back_arrow.svg"] external backArrowIcon: SVG.asset = "default";
+[@bs.module "static/images/logo-glazed-small.svg"] external glazedMapPin: SVG.asset = "default";
 
 // Social icons.
-[@bs.module "static/images/icon_twitter.svg"]
-external twitterIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_facebook.svg"]
-external facebookIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_linkedin.svg"]
-external linkedInIcon: SVG.asset = "default";
-[@bs.module "static/images/icon_github.svg"]
-external githubIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_twitter.svg"] external twitterIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_facebook.svg"] external facebookIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_linkedin.svg"] external linkedInIcon: SVG.asset = "default";
+[@bs.module "static/images/icon_github.svg"] external githubIcon: SVG.asset = "default";
 
 let emailSubject = "Glazed Mail";
 
@@ -24,20 +18,12 @@ module Styles = {
   let wrapper = style([backgroundColor(hex(Colors.almostAlmostWhite))]);
   let contentWrapper = style([alignItems(`stretch)]);
   let content =
-    style([
-      display(`flex),
-      flexDirection(`column),
-      flex3(~grow=1., ~shrink=0., ~basis=`auto),
-    ]);
-  let header =
-    style([position(`absolute), top(`zero), right(`zero), left(`zero)]);
+    style([display(`flex), flexDirection(`column), flex3(~grow=1., ~shrink=0., ~basis=`auto)]);
+  let header = style([position(`absolute), top(`zero), right(`zero), left(`zero)]);
   let closeButtonWrapper =
     style([
       display(`none),
-      media(
-        Breakpoints.tabletLandscape,
-        [display(`flex), pointerEvents(`auto)],
-      ),
+      media(Breakpoints.tabletLandscape, [display(`flex), pointerEvents(`auto)]),
     ]);
   let closeButton =
     style([
@@ -71,13 +57,7 @@ module Styles = {
       ),
     ]);
   let mapImage =
-    style([
-      position(`absolute),
-      top(`zero),
-      right(`zero),
-      bottom(`zero),
-      left(`zero),
-    ]);
+    style([position(`absolute), top(`zero), right(`zero), bottom(`zero), left(`zero)]);
   let mapPin =
     style([
       position(`absolute),
@@ -99,19 +79,11 @@ module Styles = {
         Breakpoints.tabletLandscape,
         [
           justifyContent(`center),
-          padding4(
-            ~top=rem(3.75),
-            ~left=rem(5.),
-            ~bottom=rem(3.75),
-            ~right=rem(3.75),
-          ),
+          padding4(~top=rem(3.75), ~left=rem(5.), ~bottom=rem(3.75), ~right=rem(3.75)),
           flex3(~grow=0., ~shrink=1., ~basis=pct(50.)),
         ],
       ),
-      media(
-        Breakpoints.desktop,
-        [flex3(~grow=0., ~shrink=1., ~basis=pct(40.))],
-      ),
+      media(Breakpoints.desktop, [flex3(~grow=0., ~shrink=1., ~basis=pct(40.))]),
     ]);
   let heading =
     style([
@@ -119,10 +91,7 @@ module Styles = {
       color(hex(Colors.darkGreyDarker)),
       opacity(0.9),
       before([contentRule("// ")]),
-      media(
-        Breakpoints.tabletLandscape,
-        [fontSize(`rem(2.)), before([display(`none)])],
-      ),
+      media(Breakpoints.tabletLandscape, [fontSize(`rem(2.)), before([display(`none)])]),
     ]);
   let hidden =
     style([
@@ -161,15 +130,9 @@ module Styles = {
       visible,
     ]);
   let formMessageHidden =
-    merge([
-      formMessage,
-      hidden,
-      style([media(Breakpoints.tabletLandscape, [opacity(0.)])]),
-    ]);
-  let fillFormMessage =
-    style([display(`inline), paddingRight(rem(0.3125))]);
-  let sendEmailParagraph =
-    style([display(`inline), color(hex(Colors.grey))]);
+    merge([formMessage, hidden, style([media(Breakpoints.tabletLandscape, [opacity(0.)])])]);
+  let fillFormMessage = style([display(`inline), paddingRight(rem(0.3125))]);
+  let sendEmailParagraph = style([display(`inline), color(hex(Colors.grey))]);
   let link = style([color(hex(Colors.glazedBlueDarkish))]);
   let socialNetworks =
     style([
@@ -186,8 +149,7 @@ module Styles = {
       ),
     ]);
   let socialIconLink = style([display(`flex), margin(rem(0.9375))]);
-  let socialIcon =
-    style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.darkGrey))]);
+  let socialIcon = style([opacity(0.4), Css.SVG.fill(hex(Theme.Colors.darkGrey))]);
   let addressDetails =
     style([
       position(`absolute),
@@ -195,12 +157,7 @@ module Styles = {
       right(rem(1.25)),
       width(rem(12.875)),
       height(rem(12.875)),
-      padding4(
-        ~top=rem(1.5625),
-        ~left=rem(1.25),
-        ~bottom=rem(1.5625),
-        ~right=rem(2.5),
-      ),
+      padding4(~top=rem(1.5625), ~left=rem(1.25), ~bottom=rem(1.5625), ~right=rem(2.5)),
       backgroundColor(hex(Colors.white)),
       fontSize(rem(0.75)),
       fontFamily(Fonts.heading),
@@ -212,12 +169,7 @@ module Styles = {
           right(rem(3.125)),
           width(rem(18.125)),
           height(rem(18.125)),
-          padding4(
-            ~top=rem(3.125),
-            ~left=rem(2.5),
-            ~bottom=rem(3.4375),
-            ~right=rem(2.5),
-          ),
+          padding4(~top=rem(3.125), ~left=rem(2.5), ~bottom=rem(3.4375), ~right=rem(2.5)),
           fontSize(rem(0.84375)),
         ],
       ),
@@ -234,10 +186,7 @@ module Styles = {
     ]);
   let openInMapsLink = merge([link, style([fontSize(rem(0.75))])]);
   let contactForm =
-    merge([
-      visible,
-      style([media(Breakpoints.desktop, [maxWidth(rem(28.125))])]),
-    ]);
+    merge([visible, style([media(Breakpoints.desktop, [maxWidth(rem(28.125))])])]);
   let mobileCloseButton =
     style([
       padding(rem(1.25)),
@@ -273,11 +222,8 @@ let backgroundImageQuery = [%raw
 module CloseButton = {
   [@react.component]
   let make = (~backToUrl, ~close) => {
-    <Gatsby.Link
-      className=Styles.closeButtonWrapper _to=backToUrl onClick=close>
-      <Button className=Styles.closeButton>
-        <SVG asset=backArrowIcon height="12" />
-      </Button>
+    <Gatsby.Link className=Styles.closeButtonWrapper _to=backToUrl onClick=close>
+      <Button className=Styles.closeButton> <SVG asset=backArrowIcon height="12" /> </Button>
     </Gatsby.Link>;
   };
 };
@@ -287,9 +233,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
   open Webapi.Url;
   let url = ReasonReactRouter.useUrl();
   let backToUrl =
-    switch (
-      url.search |> URLSearchParams.make |> URLSearchParams.get("backTo")
-    ) {
+    switch (url.search |> URLSearchParams.make |> URLSearchParams.get("backTo")) {
     | None => "/"
     | Some(path) => path
     };
@@ -297,10 +241,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     useCallback1(
       () => {
         onExited();
-        Routing.push(
-          backToUrl,
-          ~state={"preventDefaultScrollBehavior": true},
-        );
+        Routing.push(backToUrl, ~state={"preventDefaultScrollBehavior": true});
       },
       [|backToUrl|],
     );
@@ -312,10 +253,8 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
       },
       [|close|],
     );
-  let onNavBarLinkClick =
-    useCallback0((_event, link) => {Routing.push(link)});
-  let (submissionStatus, setSubmissionStatus) =
-    useState(() => ContactForm.Pristine);
+  let onNavBarLinkClick = useCallback0((_event, link) => {Routing.push(link)});
+  let (submissionStatus, setSubmissionStatus) = useState(() => ContactForm.Pristine);
   let onSubmit =
     useCallback1(
       (values: FormValidations.values(string)) => {
@@ -333,24 +272,14 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
               "/.netlify/functions/sendEmail",
               Fetch.RequestInit.make(
                 ~method_=Post,
-                ~body=
-                  Fetch.BodyInit.make(
-                    Js.Json.stringify(Js.Json.object_(payload)),
-                  ),
-                ~headers=
-                  Fetch.HeadersInit.make({
-                    "Content-Type": "application/json",
-                  }),
+                ~body=Fetch.BodyInit.make(Js.Json.stringify(Js.Json.object_(payload))),
+                ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
                 (),
               ),
             )
             |> then_(Fetch.Response.json)
-            |> then_(_response => {
-                 resolve(setSubmissionStatus(_status => Success))
-               })
-            |> catch(_error => {
-                 resolve(setSubmissionStatus(_status => Failed(Unexpected)))
-               })
+            |> then_(_response => {resolve(setSubmissionStatus(_status => Success))})
+            |> catch(_error => {resolve(setSubmissionStatus(_status => Failed(Unexpected)))})
           );
         ();
       },
@@ -360,8 +289,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     useCallback2(
       (_values, _eventMetadata) => {
         switch (submissionStatus) {
-        | ContactForm.Failed(_) =>
-          setSubmissionStatus(_status => ContactForm.Pristine)
+        | ContactForm.Failed(_) => setSubmissionStatus(_status => ContactForm.Pristine)
         | _ => ()
         }
       },
@@ -379,10 +307,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
   let fluidMapImage =
     Gatsby.getResponsiveImageFluid(
       queryResult,
-      [|
-        ("map_mobile", None),
-        ("map_desktop", Some("(min-width: 1024px)")),
-      |],
+      [|("map_mobile", None), ("map_desktop", Some("(min-width: 1024px)"))|],
     );
 
   <BaseModal
@@ -404,13 +329,9 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
           <SVG className=Styles.mapPin asset=glazedMapPin />
           <div className=Styles.addressDetails>
             <p className=Styles.address>
-              {React.string(
-                 {j|Rua Mouzinho de Albuquerque\n nº 744, 3º andar|j},
-               )}
+              {React.string({j|Rua Mouzinho de Albuquerque\n nº 744, 3º andar|j})}
             </p>
-            <p className=Styles.postalCode>
-              {React.string("4450-203  Matosinhos, PT")}
-            </p>
+            <p className=Styles.postalCode> {React.string("4450-203  Matosinhos, PT")} </p>
             <a
               href="https://goo.gl/maps/V6Q8fQyzHStX6wGx7"
               className=Styles.openInMapsLink
@@ -434,22 +355,14 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
               className=Styles.socialIconLink
               target="_blank"
               rel="nofollow">
-              <SVG
-                className=Styles.socialIcon
-                asset=facebookIcon
-                height="14"
-              />
+              <SVG className=Styles.socialIcon asset=facebookIcon height="14" />
             </a>
             <a
               href="https://www.linkedin.com/company/glazed-solutions/"
               className=Styles.socialIconLink
               target="_blank"
               rel="nofollow">
-              <SVG
-                className=Styles.socialIcon
-                asset=linkedInIcon
-                height="14"
-              />
+              <SVG className=Styles.socialIcon asset=linkedInIcon height="14" />
             </a>
             <a
               href="https://github.com/glazed-elite-developers"
@@ -474,29 +387,20 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
               {React.string("</a>")}
             </p>
           </div>
-          <ContactForm
-            className=formClassName
-            onSubmit
-            onChange
-            submissionStatus
-          />
+          <ContactForm className=formClassName onSubmit onChange submissionStatus />
         </div>
       </div>
     </ScrollContainer>
     <Header
       className=Styles.header
       useDarkNavBarLinks=true
-      componentAtTheRight={
-        <CloseButton backToUrl close=handleCloseButtonClick />
-      }
+      componentAtTheRight={<CloseButton backToUrl close=handleCloseButtonClick />}
       onNavBarLinkClick
     />
     <MobileFooter
       componentAtTheRight={
         <Gatsby.Link _to=backToUrl onClick=handleCloseButtonClick>
-          <Button className=Styles.mobileCloseButton>
-            {React.string("< back team")}
-          </Button>
+          <Button className=Styles.mobileCloseButton> {React.string("< back team")} </Button>
         </Gatsby.Link>
       }
     />

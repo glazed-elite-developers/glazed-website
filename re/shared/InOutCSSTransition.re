@@ -34,11 +34,7 @@ let make =
   let handleEnter =
     useCallback2(
       () => {
-        let _timeoutID =
-          Js.Global.setTimeout(
-            () => setAnimationState(_state => Visible),
-            tick,
-          );
+        let _timeoutID = Js.Global.setTimeout(() => setAnimationState(_state => Visible), tick);
         switch (onEnter) {
         | None => ()
         | Some(handler) => handler()
@@ -59,13 +55,7 @@ let make =
     );
 
   <ReactTransitionGroup.Transition
-    _in
-    timeout
-    onEnter=handleEnter
-    ?onEntering
-    onExit=handleExit
-    ?onExiting
-    ?onExited>
+    _in timeout onEnter=handleEnter ?onEntering onExit=handleExit ?onExiting ?onExited>
     {children(animationState)}
   </ReactTransitionGroup.Transition>;
 };

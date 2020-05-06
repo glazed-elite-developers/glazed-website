@@ -23,12 +23,8 @@ module Styles = {
       flexDirection(`column),
       unsafe("willChange", "opacity"),
     ]);
-  let locked =
-    style([overflow(`hidden), unsafe("webkitOverflowScrolling", "auto")]);
-  let iOSScrollFix =
-    style([
-      flex3(~grow=1., ~shrink=0., ~basis=Calc.(+)(pct(100.), px(2))),
-    ]);
+  let locked = style([overflow(`hidden), unsafe("webkitOverflowScrolling", "auto")]);
+  let iOSScrollFix = style([flex3(~grow=1., ~shrink=0., ~basis=Calc.(+)(pct(100.), px(2)))]);
 };
 
 let defaultScrollingTimeout: int = 100;
@@ -69,37 +65,30 @@ let make =
   let (state, dispatch) = useReducer(reducer, initialState);
   let isIOSDevice = useMemo0(Utils.Platform.isIOSDevice);
   let scrollContext = useContext(ScrollContext.context);
-  let (scrollerAPI, notifySubscribedListeners) =
-    ScrollContext.useScrollerAPI(wrapperRef);
+  let (scrollerAPI, notifySubscribedListeners) = ScrollContext.useScrollerAPI(wrapperRef);
   let scrollContextToPassDown =
     useMemo2(
       () =>
         scrollContext.hasRootContainer
           ? {...scrollContext, closestScroller: scrollerAPI}
-          : {
-            hasRootContainer: true,
-            closestScroller: scrollerAPI,
-            rootScroller: scrollerAPI,
-          },
+          : {hasRootContainer: true, closestScroller: scrollerAPI, rootScroller: scrollerAPI},
       (scrollerAPI, scrollContext.hasRootContainer),
     );
   let needIOSHackery = isIOSDevice && !scrollContext.hasRootContainer;
   let handleTouchStart =
     useCallback(_event =>
-      if (Ref.current(didTouchEnd)) {
-        Ref.setCurrent(didTouchEnd, false);
+      if (didTouchEnd.current) {
+        didTouchEnd.current = false;
       }
     );
-  let handleTouchEnd =
-    useCallback(_event => Ref.setCurrent(didTouchEnd, true));
+  let handleTouchEnd = useCallback(_event => didTouchEnd.current = true);
   let scrollElementIfOnLimit =
     useCallback1(
       () =>
         if (needIOSHackery) {
-          switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+          switch (Js.Nullable.toOption(wrapperRef.current)) {
           | None => ()
-          | Some(element) =>
-            ScrollContainerUtils.scrollElementIfOnLimit(element)
+          | Some(element) => ScrollContainerUtils.scrollElementIfOnLimit(element)
           };
         },
       [|needIOSHackery|],
@@ -111,7 +100,7 @@ let make =
           dispatch(TogglePointerEvents(true));
         };
 
-        if (Ref.current(didTouchEnd)) {
+        if (didTouchEnd.current) {
           scrollElementIfOnLimit();
         };
       },
@@ -123,15 +112,13 @@ let make =
         notifySubscribedListeners();
 
         if (disablePointerEventsOnScroll || needIOSHackery) {
-          switch (Ref.current(scrollingTimeoutId)) {
+          switch (scrollingTimeoutId.current) {
           | None => ()
           | Some(id) => Js.Global.clearTimeout(id)
           };
 
-          Ref.setCurrent(
-            scrollingTimeoutId,
-            Some(Js.Global.setTimeout(handleScrollEnd, scrollingTimeout)),
-          );
+          scrollingTimeoutId.current =
+            Some(Js.Global.setTimeout(handleScrollEnd, scrollingTimeout));
 
           if (disablePointerEventsOnScroll) {
             dispatch(TogglePointerEvents(false));
@@ -144,7 +131,7 @@ let make =
     );
   let attachScrollListener =
     useCallback(() =>
-      switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+      switch (Js.Nullable.toOption(wrapperRef.current)) {
       | None => ()
       | Some(element) =>
         Webapi.Dom.Element.addEventListenerWithOptions(
@@ -157,14 +144,9 @@ let make =
     );
   let detachScrollListener =
     useCallback(() =>
-      switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+      switch (Js.Nullable.toOption(wrapperRef.current)) {
       | None => ()
-      | Some(element) =>
-        Webapi.Dom.Element.removeEventListener(
-          "scroll",
-          handleScroll,
-          element,
-        )
+      | Some(element) => Webapi.Dom.Element.removeEventListener("scroll", handleScroll, element)
       }
     );
 
@@ -175,12 +157,9 @@ let make =
           ? (
             Some(
               event => {
-                switch (
-                  wrapperRef |> React.Ref.current |> Js.Nullable.toOption
-                ) {
+                switch (Js.Nullable.toOption(wrapperRef.current)) {
                 | None => ()
-                | Some(element) =>
-                  ScrollContainerUtils.scrollElementIfOnLimit(element)
+                | Some(element) => ScrollContainerUtils.scrollElementIfOnLimit(element)
                 };
                 handleTouchStart(event);
               },
@@ -196,13 +175,8 @@ let make =
       (),
     );
   let className =
-    combineClassNames([
-      Some(Styles.wrapper),
-      className,
-      lock ? Some(Styles.locked) : None,
-    ]);
-  let contentClassName =
-    combineClassNames([Some(Styles.content), contentClassName]);
+    combineClassNames([Some(Styles.wrapper), className, lock ? Some(Styles.locked) : None]);
+  let contentClassName = combineClassNames([Some(Styles.content), contentClassName]);
   let contentStyle =
     switch (contentStyle) {
     | None => pointerEventsStyle

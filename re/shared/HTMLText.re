@@ -11,8 +11,7 @@ module Tag = {
     open Css;
     open Theme;
 
-    let h1 =
-      style([position(`absolute), color(hex(Colors.glazedBlueLighter))]);
+    let h1 = style([position(`absolute), color(hex(Colors.glazedBlueLighter))]);
 
     let h2 =
       style([
@@ -24,8 +23,7 @@ module Tag = {
         opacity(0.2),
       ]);
 
-    let p =
-      style([position(`absolute), color(hex(Colors.glazedBlueLighter))]);
+    let p = style([position(`absolute), color(hex(Colors.glazedBlueLighter))]);
   };
 
   [@react.component]
@@ -72,8 +70,7 @@ module TextContent = {
   let make = (~children, ~inline=?) => {
     let className =
       switch (inline) {
-      | None =>
-        Css.(style([paddingLeft(rem(1.56)), display(`inlineBlock)]))
+      | None => Css.(style([paddingLeft(rem(1.56)), display(`inlineBlock)]))
       | Some () => Css.(style([paddingLeft(rem(1.56))]))
       };
 

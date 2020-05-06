@@ -12,12 +12,7 @@ module Styles = {
       backgroundRepeat(noRepeat),
       before([
         //backgroundSize(pct(250.)),
-        backgroundPosition4(
-          ~x=`left,
-          ~offsetX=pct(40.),
-          ~y=`top,
-          ~offsetY=rem(0.),
-        ),
+        backgroundPosition4(~x=`left, ~offsetX=pct(40.), ~y=`top, ~offsetY=rem(0.)),
       ]),
       media(
         Theme.Breakpoints.tabletLandscape,
@@ -114,12 +109,8 @@ let make = (~developer, ~image) => {
          )}
       </div>
       <div className=Styles.descriptionWrapper>
-        <div className=Styles.description>
-          {React.string(developer##description)}
-        </div>
-        <div className=Styles.headline>
-          {React.string(developer##headline)}
-        </div>
+        <div className=Styles.description> {React.string(developer##description)} </div>
+        <div className=Styles.headline> {React.string(developer##headline)} </div>
       </div>
     </Gatsby.BackgroundImage>
   </PageContent>;

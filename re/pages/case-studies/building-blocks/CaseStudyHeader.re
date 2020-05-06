@@ -6,22 +6,10 @@ module Styles = {
     style([
       position(`relative),
       overflow(`hidden),
-      padding4(
-        ~top=rem(7.1875),
-        ~left=rem(1.25),
-        ~bottom=`zero,
-        ~right=`zero,
-      ),
+      padding4(~top=rem(7.1875), ~left=rem(1.25), ~bottom=`zero, ~right=`zero),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          padding4(
-            ~top=rem(14.375),
-            ~left=rem(11.25),
-            ~bottom=`zero,
-            ~right=`zero,
-          ),
-        ],
+        [padding4(~top=rem(14.375), ~left=rem(11.25), ~bottom=`zero, ~right=`zero)],
       ),
     ]);
   let imageContainer =
@@ -32,10 +20,7 @@ module Styles = {
       height(rem(17.5)),
       width(pct(100.)),
       zIndex(0),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [left(rem(3.125)), height(rem(34.375))],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [left(rem(3.125)), height(rem(34.375))]),
     ]);
   let image =
     style([
@@ -74,30 +59,17 @@ module Styles = {
       ),
     ]);
   let heading =
-    style([
-      fontSize(rem(1.5)),
-      media(Theme.Breakpoints.desktop, [fontSize(rem(3.))]),
-    ]);
+    style([fontSize(rem(1.5)), media(Theme.Breakpoints.desktop, [fontSize(rem(3.))])]);
   let area =
     style([
-      padding4(
-        ~top=rem(0.9375),
-        ~left=`zero,
-        ~bottom=rem(0.625),
-        ~right=`zero,
-      ),
+      padding4(~top=rem(0.9375), ~left=`zero, ~bottom=rem(0.625), ~right=`zero),
       color(hex(Colors.almostWhite)),
       fontSize(rem(0.75)),
       opacity(0.3),
       media(
         Theme.Breakpoints.tabletLandscape,
         [
-          padding4(
-            ~top=rem(1.875),
-            ~left=`zero,
-            ~bottom=rem(1.25),
-            ~right=`zero,
-          ),
+          padding4(~top=rem(1.875), ~left=`zero, ~bottom=rem(1.25), ~right=`zero),
           fontSize(rem(0.875)),
         ],
       ),
@@ -113,21 +85,13 @@ module Styles = {
 };
 
 [@react.component]
-let make =
-    (
-      ~image: option(Gatsby.fluidImage)=?,
-      ~title: string,
-      ~area: string,
-      ~text: string,
-    ) => {
+let make = (~image: option(Gatsby.fluidImage)=?, ~title: string, ~area: string, ~text: string) => {
   <div className=Styles.wrapper>
     <MaskContainer className=Styles.imageContainer maskClassName=Styles.mask>
       <Gatsby.Image className=Styles.image fluid=?image />
     </MaskContainer>
     <div className=Styles.titleCard>
-      <Heading level=Heading.H1 className=Styles.heading>
-        {React.string(title)}
-      </Heading>
+      <Heading level=Heading.H1 className=Styles.heading> {React.string(title)} </Heading>
       <p className=Styles.area> {React.string(area)} </p>
       <p className=Styles.text> {React.string(text)} </p>
     </div>

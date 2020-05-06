@@ -15,13 +15,7 @@ let make =
       ~onFocus=?,
       ~onBlur=?,
     ) => {
-  <InputWrapper
-    ?className
-    ?labelWrapperClassName
-    ?labelClassName
-    ?errorClassName
-    label
-    ?error>
+  <InputWrapper ?className ?labelWrapperClassName ?labelClassName ?errorClassName label ?error>
     <textarea
       className=CommonInputStyles.input
       disabled

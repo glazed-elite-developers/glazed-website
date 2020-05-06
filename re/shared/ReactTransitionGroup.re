@@ -1,7 +1,6 @@
 module TransitionGroup = {
   [@bs.module "react-transition-group"] [@react.component]
-  external make: (~children: React.element) => React.element =
-    "TransitionGroup";
+  external make: (~children: React.element) => React.element = "TransitionGroup";
 };
 
 module Transition = {

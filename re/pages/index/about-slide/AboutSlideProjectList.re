@@ -10,10 +10,7 @@ module LineProjectElement = {
         flexDirection(row),
         color(hex(Colors.almostWhite)),
         opacity(0.8),
-        media(
-          Breakpoints.tabletLandscape,
-          [padding2(~v=rem(1.), ~h=rem(1.875))],
-        ),
+        media(Breakpoints.tabletLandscape, [padding2(~v=rem(1.), ~h=rem(1.875))]),
       ]);
     let rowLeft =
       style([
@@ -27,11 +24,7 @@ module LineProjectElement = {
         fontSize(rem(0.75)),
         media(
           Breakpoints.tabletLandscape,
-          [
-            paddingLeft(rem(2.0625)),
-            fontSize(rem(1.125)),
-            fontWeight(`num(700)),
-          ],
+          [paddingLeft(rem(2.0625)), fontSize(rem(1.125)), fontWeight(`num(700))],
         ),
       ]);
   };
@@ -71,33 +64,20 @@ module Styles = {
           gridColumn(2, 3),
           alignSelf(`flexEnd),
           height(pct(80.)),
-          padding4(
-            ~top=`zero,
-            ~right=rem(5.),
-            ~bottom=rem(10.),
-            ~left=`zero,
-          ),
+          padding4(~top=`zero, ~right=rem(5.), ~bottom=rem(10.), ~left=`zero),
         ],
       ),
     ]);
 
   let heading =
     style([
-      padding4(
-        ~top=`rem(1.25),
-        ~left=`rem(3.5),
-        ~bottom=`rem(0.625),
-        ~right=`zero,
-      ),
+      padding4(~top=`rem(1.25), ~left=`rem(3.5), ~bottom=`rem(0.625), ~right=`zero),
       fontSize(`rem(0.625)),
       color(hex(Colors.almostWhite)),
       opacity(0.3),
       media(
         Breakpoints.tabletLandscape,
-        [
-          padding3(~top=rem(5.), ~bottom=rem(4.), ~h=rem(5.)),
-          fontSize(rem(0.8125)),
-        ],
+        [padding3(~top=rem(5.), ~bottom=rem(4.), ~h=rem(5.)), fontSize(rem(0.8125))],
       ),
     ]);
 };

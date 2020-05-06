@@ -5,13 +5,7 @@ module Styles = {
 
   let wrapper = style([position(`relative)]);
   let backgroundImage =
-    style([
-      position(`absolute),
-      top(`zero),
-      right(`zero),
-      bottom(`zero),
-      left(`zero),
-    ]);
+    style([position(`absolute), top(`zero), right(`zero), bottom(`zero), left(`zero)]);
 };
 
 let backgroundImageQuery = [%raw
@@ -69,10 +63,7 @@ let make =
   <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
     <Gatsby.BackgroundImage
       className=?{
-        combineClassNames([
-          Some(Styles.backgroundImage),
-          gatsbyBackgroundImageClassName,
-        ])
+        combineClassNames([Some(Styles.backgroundImage), gatsbyBackgroundImageClassName])
       }
       ?children
       fluid=?backgroundImage

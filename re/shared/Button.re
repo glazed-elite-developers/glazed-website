@@ -14,8 +14,7 @@ module Styles = {
   open Css;
 
   let base = style([padding2(~h=rem(3.0), ~v=rem(0.875))]);
-  let common =
-    style([border(px(1), `none, `transparent), background(`none)]);
+  let common = style([border(px(1), `none, `transparent), background(`none)]);
   let primary = isDisabled =>
     style([
       opacity(isDisabled ? 0.4 : 1.0),
@@ -29,9 +28,7 @@ module Styles = {
       ...!isDisabled
            ? [
              hover([
-               boxShadow(
-                 Shadow.box(~y=px(10), ~blur=px(20), rgba(0, 0, 0, 0.15)),
-               ),
+               boxShadow(Shadow.box(~y=px(10), ~blur=px(20), rgba(0, 0, 0, 0.15))),
                transition(~duration=1000, "box-shadow"),
              ]),
            ]
@@ -107,10 +104,7 @@ let make =
 
   <button
     className=?{
-      Utils.React.combineClassNames([
-        Some(Css.merge([Styles.common, ownStyles])),
-        className,
-      ])
+      Utils.React.combineClassNames([Some(Css.merge([Styles.common, ownStyles])), className])
     }
     onClick=onClickHandler
     ?type_>

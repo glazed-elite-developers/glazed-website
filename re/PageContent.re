@@ -18,10 +18,7 @@ module Styles = {
 [@react.component]
 let make =
   React.memo((~className=?, ~children) => {
-    <main
-      className=?{
-        Utils.React.combineClassNames([Some(Styles.wrapper), className])
-      }>
+    <main className=?{Utils.React.combineClassNames([Some(Styles.wrapper), className])}>
       children
     </main>
   });

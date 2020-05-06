@@ -1,14 +1,11 @@
-[@bs.send]
-external dispatchEvent: (Dom.window, Dom.event) => unit = "dispatchEvent";
+[@bs.send] external dispatchEvent: (Dom.window, Dom.event) => unit = "dispatchEvent";
 
 [@bs.send]
-external pushState:
-  (Dom.history, ~state: Js.t({..}), [@bs.as ""] _, ~href: string) => unit =
+external pushState: (Dom.history, ~state: Js.t({..}), [@bs.as ""] _, ~href: string) => unit =
   "pushState";
 
 [@bs.send]
-external replaceState:
-  (Dom.history, ~state: Js.t({..}), [@bs.as ""] _, ~href: string) => unit =
+external replaceState: (Dom.history, ~state: Js.t({..}), [@bs.as ""] _, ~href: string) => unit =
   "replaceState";
 
 [@bs.val] external event: 'a = "Event";
@@ -18,16 +15,12 @@ external replaceState:
 [@bs.val] [@bs.scope "document"]
 external createEventNonIEBrowsers: string => Dom.event = "createEvent";
 
-[@bs.send]
-external initEventNonIEBrowsers: (Dom.event, string, bool, bool) => unit =
-  "initEvent";
+[@bs.send] external initEventNonIEBrowsers: (Dom.event, string, bool, bool) => unit = "initEvent";
 
 let keyLength = 6;
 
 let createKey = () =>
-  Js.Math.random()
-  |> Belt.Float.toString
-  |> Js.String.substrAtMost(~from=2, ~length=keyLength);
+  Js.Math.random() |> Belt.Float.toString |> Js.String.substrAtMost(~from=2, ~length=keyLength);
 
 let safeMakeEvent = eventName =>
   if (Js.typeof(event) == "function") {

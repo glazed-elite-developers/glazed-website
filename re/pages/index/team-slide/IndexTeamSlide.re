@@ -7,19 +7,11 @@ module Styles = {
 
   let wrapper =
     style([
-      padding4(
-        ~top=rem(4.1875),
-        ~bottom=rem(4.1875),
-        ~left=rem(1.25),
-        ~right=rem(2.5),
-      ),
+      padding4(~top=rem(4.1875), ~bottom=rem(4.1875), ~left=rem(1.25), ~right=rem(2.5)),
       height(`auto),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundColor(hex(Colors.glazedBabyBlueText)),
-      media(
-        Breakpoints.tabletLandscape,
-        [padding2(~v=rem(6.25), ~h=rem(4.75))],
-      ),
+      media(Breakpoints.tabletLandscape, [padding2(~v=rem(6.25), ~h=rem(4.75))]),
     ]);
   let heading =
     style([
@@ -35,31 +27,18 @@ module Styles = {
   let square =
     style([
       flex3(~grow=0., ~shrink=0., ~basis=pct(50.)),
-      media(
-        Breakpoints.tabletPortrait,
-        [flex3(~grow=0., ~shrink=0., ~basis=pct(33.3333333))],
-      ),
-      media(
-        Breakpoints.tabletLandscape,
-        [flex3(~grow=0., ~shrink=0., ~basis=pct(25.))],
-      ),
-      media(
-        Breakpoints.desktop,
-        [flex3(~grow=0., ~shrink=0., ~basis=pct(20.))],
-      ),
+      media(Breakpoints.tabletPortrait, [flex3(~grow=0., ~shrink=0., ~basis=pct(33.3333333))]),
+      media(Breakpoints.tabletLandscape, [flex3(~grow=0., ~shrink=0., ~basis=pct(25.))]),
+      media(Breakpoints.desktop, [flex3(~grow=0., ~shrink=0., ~basis=pct(20.))]),
     ]);
   let squareContent =
     style([
       padding(rem(0.9375)),
       display(`flex),
       flexDirection(`column),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [padding2(~h=rem(1.875), ~v=rem(2.1875))],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [padding2(~h=rem(1.875), ~v=rem(2.1875))]),
     ]);
-  let squareWithBorder =
-    style([border(px(1), `solid, rgba(105, 192, 254, 0.1))]);
+  let squareWithBorder = style([border(px(1), `solid, rgba(105, 192, 254, 0.1))]);
   let headingSquare =
     style([
       color(hex(Colors.almostWhite)),
@@ -103,10 +82,7 @@ module Styles = {
       hover([before([opacity(1.)])]),
       focus([before([opacity(1.)])]),
       active([before([opacity(1.)])]),
-      media(
-        Theme.Breakpoints.tabletLandscape,
-        [padding2(~h=rem(1.875), ~v=rem(2.1875))],
-      ),
+      media(Theme.Breakpoints.tabletLandscape, [padding2(~h=rem(1.875), ~v=rem(2.1875))]),
     ]);
   let developerSquareContent =
     style([
@@ -134,13 +110,8 @@ module Styles = {
   let developerBackgroundImage =
     style([top(`zero), right(`zero), bottom(`zero), left(`zero)]);
   let developerName =
-    style([
-      fontSize(rem(0.875)),
-      paddingBottom(rem(0.875)),
-      whiteSpace(`preLine),
-    ]);
-  let developerSkills =
-    style([fontSize(rem(0.625)), fontFamily(Fonts.heading)]);
+    style([fontSize(rem(0.875)), paddingBottom(rem(0.875)), whiteSpace(`preLine)]);
+  let developerSkills = style([fontSize(rem(0.625)), fontFamily(Fonts.heading)]);
   let sendApplication =
     style([
       paddingTop(rem(1.)),
@@ -166,9 +137,7 @@ module TeamSlideSquare = {
   let make = (~children: React.element, ~contentClassName=?) => {
     <Square
       className=Styles.square
-      contentClassName=?{
-        combineClassNames([Some(Styles.squareContent), contentClassName])
-      }>
+      contentClassName=?{combineClassNames([Some(Styles.squareContent), contentClassName])}>
       children
     </Square>;
   };
@@ -178,13 +147,8 @@ module TitleSquare = {
   [@react.component]
   let make = (~title: string) => {
     <TeamSlideSquare
-      contentClassName={Css.merge([
-        Styles.headingSquare,
-        Styles.squareWithBorder,
-      ])}>
-      <Heading level=Heading.H1 className=Styles.heading>
-        {React.string(title)}
-      </Heading>
+      contentClassName={Css.merge([Styles.headingSquare, Styles.squareWithBorder])}>
+      <Heading level=Heading.H1 className=Styles.heading> {React.string(title)} </Heading>
     </TeamSlideSquare>;
   };
 };
@@ -193,9 +157,7 @@ module MottoSquare = {
   [@react.component]
   let make = (~motto: string) => {
     <TeamSlideSquare contentClassName=Styles.squareWithBorder>
-      <Heading level=Heading.H2 className=Styles.motto>
-        {React.string(motto)}
-      </Heading>
+      <Heading level=Heading.H2 className=Styles.motto> {React.string(motto)} </Heading>
     </TeamSlideSquare>;
   };
 };
@@ -203,15 +165,13 @@ module MottoSquare = {
 module SendApplicationSquare = {
   [@react.component]
   let make = () => {
-    let (sayHelloModalUrl, openSayHelloModal) =
-      OpenSayHelloModalHook.useOpenSayHelloModal();
+    let (sayHelloModalUrl, openSayHelloModal) = OpenSayHelloModalHook.useOpenSayHelloModal();
 
     <TeamSlideSquare contentClassName=Styles.squareWithBorder>
       <Heading level=Heading.H2 className=Styles.sendApplication>
         {React.string("<Your name could be here />")}
       </Heading>
-      <Gatsby.Link
-        _to=sayHelloModalUrl className=Styles.link onClick=openSayHelloModal>
+      <Gatsby.Link _to=sayHelloModalUrl className=Styles.link onClick=openSayHelloModal>
         {React.string("> send application")}
       </Gatsby.Link>
     </TeamSlideSquare>;
@@ -225,12 +185,10 @@ module DeveloperSquare = {
   [@react.component]
   let make = (~developer: IndexTeamSlideSquares.developer) => {
     let link = developerLink(developer);
-    let onClick =
-      useCallback1(_event => {ReasonReactRouter.push(link)}, [|developer|]);
+    let onClick = useCallback1(_event => {ReasonReactRouter.push(link)}, [|developer|]);
 
     <TeamSlideSquare contentClassName=Styles.developerSquare>
-      <Gatsby.Link
-        _to=link onClick className=Styles.developerSquareLink replace=true>
+      <Gatsby.Link _to=link onClick className=Styles.developerSquareLink replace=true>
         <DeveloperBackgroundImage
           developerPhotoKey={developer.key}
           className=Styles.developerBackgroundImageWrapper
@@ -266,14 +224,12 @@ let make =
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
     let selectedDeveloper =
-      url.search
-      |> URLSearchParams.make
-      |> URLSearchParams.get(selectedDeveloperQueryStringKey);
+      url.search |> URLSearchParams.make |> URLSearchParams.get(selectedDeveloperQueryStringKey);
 
     React.useEffect1(
       () => {
         // Close other developer modals if any are open.
-        switch (Ref.current(openedModalRef)) {
+        switch (openedModalRef.current) {
         | None => ()
         | Some(modal) => modalsAPI.closeModal(modal)
         };
@@ -289,7 +245,7 @@ let make =
             modalsAPI.openModal((~id as modalId, ~onClose) =>
               <DeveloperModal modalId onClose developer />
             );
-          Ref.setCurrent(openedModalRef, Some(modal));
+          openedModalRef.current = Some(modal);
         };
         ();
         None;
@@ -310,15 +266,10 @@ let make =
                | IndexTeamSlideSquares.SendApplicationSquare =>
                  <SendApplicationSquare key={Belt.Int.toString(index)} />
                | IndexTeamSlideSquares.DeveloperSquare(developer) =>
-                 switch (
-                   Belt.Map.get(IndexTeamSlideSquares.developers, developer)
-                 ) {
+                 switch (Belt.Map.get(IndexTeamSlideSquares.developers, developer)) {
                  | None => React.null
                  | Some(developer) =>
-                   <DeveloperSquare
-                     key={Belt.Int.toString(index)}
-                     developer
-                   />
+                   <DeveloperSquare key={Belt.Int.toString(index)} developer />
                  }
                },
              IndexTeamSlideSquares.squares,

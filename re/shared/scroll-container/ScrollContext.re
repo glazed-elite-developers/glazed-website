@@ -20,7 +20,7 @@ let initialBoundingRect: boundingRect = {
   height: 0.,
 };
 
-type scrollListenerSubjectID = Ref.t(unit);
+type scrollListenerSubjectID = React.ref(unit);
 
 type scrollListener = unit => unit;
 
@@ -59,10 +59,7 @@ let defaultContextValue = {
 let context = createContext(defaultContextValue);
 
 module Provider = {
-  let makeProps = (~value, ~children, ()) => {
-    "value": value,
-    "children": children,
-  };
+  let makeProps = (~value, ~children, ()) => {"value": value, "children": children};
   let make = Context.provider(context);
 };
 
@@ -71,10 +68,7 @@ let useScrollerAPI = wrapperRef => {
   let registerScrollListener =
     useCallback1(
       (component, handler) => {
-        Ref.setCurrent(
-          scrollListeners,
-          [(component, handler), ...Ref.current(scrollListeners)],
-        );
+        scrollListeners.current = [(component, handler), ...scrollListeners.current];
         ();
       },
       [|scrollListeners|],
@@ -82,13 +76,10 @@ let useScrollerAPI = wrapperRef => {
   let unregisterScrollListener =
     useCallback1(
       component => {
-        Ref.setCurrent(
-          scrollListeners,
-          Belt.List.keep(
-            Ref.current(scrollListeners), ((component', _listener)) =>
+        scrollListeners.current =
+          Belt.List.keep(scrollListeners.current, ((component', _listener)) =>
             component' !== component
-          ),
-        );
+          );
         ();
       },
       [|scrollListeners|],
@@ -96,10 +87,7 @@ let useScrollerAPI = wrapperRef => {
   let notifySubscribedListeners =
     useCallback1(
       () => {
-        List.iter(
-          ((_component, listener)) => listener(),
-          Ref.current(scrollListeners),
-        );
+        List.iter(((_component, listener)) => listener(), scrollListeners.current);
         ();
       },
       [|scrollListeners|],
@@ -107,7 +95,7 @@ let useScrollerAPI = wrapperRef => {
   let getScrollPosition =
     useCallback1(
       (): scrollPosition =>
-        switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+        switch (Js.Nullable.toOption(wrapperRef.current)) {
         | None => initialScrollPosition
         | Some(element) => Utils.Dom.Measurements.getScrollPosition(element)
         },
@@ -116,16 +104,15 @@ let useScrollerAPI = wrapperRef => {
   let getBoundingRect =
     useCallback1(
       (): boundingRect =>
-        switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+        switch (Js.Nullable.toOption(wrapperRef.current)) {
         | None => initialBoundingRect
-        | Some(element) =>
-          Utils.Dom.Measurements.getBoundingClientRect(element)
+        | Some(element) => Utils.Dom.Measurements.getBoundingClientRect(element)
         },
       [|wrapperRef|],
     );
   let scrollTo =
     useCallback((top, left) =>
-      switch (wrapperRef |> Ref.current |> Js.Nullable.toOption) {
+      switch (Js.Nullable.toOption(wrapperRef.current)) {
       | None => ()
       | Some(element) =>
         switch (top) {

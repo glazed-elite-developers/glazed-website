@@ -16,19 +16,13 @@ type context = {
 
 let defaultContextValue: context = {
   openedModals: [||],
-  openModal: _modal => {
-    id: -1,
-    renderer: (~id as _, ~onClose as _) => React.null
-  },
+  openModal: _modal => {id: (-1), renderer: (~id as _, ~onClose as _) => React.null},
   closeModal: _modal => (),
 };
 
 let context = createContext(defaultContextValue);
 
 module Provider = {
-  let makeProps = (~value, ~children, ()) => {
-    "value": value,
-    "children": children,
-  };
+  let makeProps = (~value, ~children, ()) => {"value": value, "children": children};
   let make = Context.provider(context);
 };

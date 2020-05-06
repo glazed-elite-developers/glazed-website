@@ -4,15 +4,13 @@ type emotionCache;
 
 module CacheProvider = {
   [@bs.module "@emotion/core"] [@react.component]
-  external make:
-    (~children: React.element, ~value: emotionCache) => React.element =
+  external make: (~children: React.element, ~value: emotionCache) => React.element =
     "CacheProvider";
 };
 
 module MediaContextProvider = {
   [@bs.module "src/components/mediaContext"] [@react.component]
-  external make: (~children: React.element) => React.element =
-    "MediaContextProvider";
+  external make: (~children: React.element) => React.element = "MediaContextProvider";
 };
 
 module Styles = {
@@ -39,8 +37,7 @@ let make = (~children) => {
   <CacheProvider value=emotionCache>
     <MediaContextProvider>
       <ModalsController>
-        <ScrollContainer
-          className=Styles.wrapper contentClassName=Styles.content>
+        <ScrollContainer className=Styles.wrapper contentClassName=Styles.content>
           children
         </ScrollContainer>
       </ModalsController>

@@ -2,12 +2,7 @@ open Css;
 open Theme;
 
 let wrapper = style([display(`flex), flexDirection(`column)]);
-let labelWrapper =
-  style([
-    display(`flex),
-    alignItems(`center),
-    justifyContent(`spaceBetween),
-  ]);
+let labelWrapper = style([display(`flex), alignItems(`center), justifyContent(`spaceBetween)]);
 let label =
   style([
     color(hex("9FA8B3")),

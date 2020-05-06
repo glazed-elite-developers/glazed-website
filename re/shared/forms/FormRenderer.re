@@ -45,12 +45,12 @@ let useRenderer =
     (
       ~renderField as
         baseRenderField:
-          (
-            string,
-            fieldSchema('value, 'error),
-            propsForField('value, 'error)
-          ) =>
-          React.element=(_, _, _) => React.null,
+          (string, fieldSchema('value, 'error), propsForField('value, 'error)) => React.element=(
+                                                                    _,
+                                                                    _,
+                                                                    _,
+                                                                    ) =>
+                                                                    React.null,
       ~controlProps: controlProps('value, 'error, 'submitEvent),
       (),
     )
@@ -133,21 +133,14 @@ let useRenderer =
           onBlur: makeOnFieldBlur(fieldName, fieldSchema),
         };
       },
-      (
-        values,
-        formValidationResult,
-        makeOnFieldChange,
-        makeOnFieldFocus,
-        makeOnFieldBlur,
-      ),
+      (values, formValidationResult, makeOnFieldChange, makeOnFieldFocus, makeOnFieldBlur),
     );
   let getPropsForFieldWithName =
     useCallback2(
       fieldName => {
         switch (Schema.get(schema, fieldName)) {
         | None => None
-        | Some(fieldSchema) =>
-          Some(getPropsForField(fieldName, fieldSchema))
+        | Some(fieldSchema) => Some(getPropsForField(fieldName, fieldSchema))
         }
       },
       (schema, getPropsForField),
@@ -155,11 +148,7 @@ let useRenderer =
   let renderField =
     useCallback6(
       (fieldName, fieldSchema) => {
-        baseRenderField(
-          fieldName,
-          fieldSchema,
-          getPropsForField(fieldName, fieldSchema),
-        )
+        baseRenderField(fieldName, fieldSchema, getPropsForField(fieldName, fieldSchema))
       },
       (
         baseRenderField,

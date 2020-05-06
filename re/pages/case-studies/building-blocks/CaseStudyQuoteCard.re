@@ -29,18 +29,10 @@ module Styles = {
       paddingTop(rem(0.625)),
       media(
         Theme.Breakpoints.tabletLandscape,
-        [
-          alignItems(`flexStart),
-          flex3(~grow=0., ~shrink=1., ~basis=rem(10.)),
-        ],
+        [alignItems(`flexStart), flex3(~grow=0., ~shrink=1., ~basis=rem(10.))],
       ),
     ]);
-  let avatarImage =
-    style([
-      width(rem(3.125)),
-      height(rem(3.125)),
-      borderRadius(pct(50.)),
-    ]);
+  let avatarImage = style([width(rem(3.125)), height(rem(3.125)), borderRadius(pct(50.))]);
   let authorName =
     style([
       padding3(~top=rem(0.625), ~bottom=rem(0.625), ~h=`zero),
@@ -49,11 +41,7 @@ module Styles = {
       color(hex(Colors.darkGreyDarker)),
     ]);
   let authorTitle =
-    style([
-      fontSize(rem(0.6875)),
-      fontFamily(Fonts.heading),
-      color(hex(Colors.grey)),
-    ]);
+    style([fontSize(rem(0.6875)), fontFamily(Fonts.heading), color(hex(Colors.grey))]);
   let quote =
     style([
       fontSize(rem(1.)),
@@ -81,8 +69,7 @@ type author = {
 
 [@react.component]
 let make = (~className=?, ~author: author, ~quote: string) => {
-  <CaseStudySection
-    className=?{combineClassNames([Some(Styles.wrapper), className])}>
+  <CaseStudySection className=?{combineClassNames([Some(Styles.wrapper), className])}>
     <p className=Styles.quote> {React.string(quote)} </p>
     <div className=Styles.author>
       <Gatsby.Image className=Styles.avatarImage fluid=?{author.avatarImage} />

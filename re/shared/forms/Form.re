@@ -45,9 +45,7 @@ let useController =
   let onFieldTouch =
     useCallback2(
       (eventMetadata: FormRenderer.eventMetadata('value, 'error)) => {
-        setTouched(touched =>
-          Touched.set(touched, eventMetadata.fieldName, true)
-        );
+        setTouched(touched => Touched.set(touched, eventMetadata.fieldName, true));
         baseOnFieldTouch(eventMetadata);
       },
       (baseOnFieldTouch, setTouched),
@@ -61,9 +59,7 @@ let useController =
   let onFieldVisit =
     useCallback2(
       (eventMetadata: FormRenderer.eventMetadata('value, 'error)) => {
-        setVisited(visited =>
-          Visited.set(visited, eventMetadata.fieldName, true)
-        );
+        setVisited(visited => Visited.set(visited, eventMetadata.fieldName, true));
         baseOnFieldVisit(eventMetadata);
       },
       (baseOnFieldVisit, setVisited),
@@ -76,10 +72,7 @@ let useController =
    */
   let onChange =
     useCallback2(
-      (
-        nextValues: values('value),
-        eventMetadata: FormRenderer.eventMetadata('value, 'error),
-      ) => {
+      (nextValues: values('value), eventMetadata: FormRenderer.eventMetadata('value, 'error)) => {
         setValues(_values => nextValues);
         baseOnChange(nextValues, eventMetadata);
       },
@@ -112,13 +105,7 @@ let useController =
     useMemo5(
       () => {
         switch (formValidationResult) {
-        | None =>
-          FormUtils.getValidationResult(
-            schema,
-            values,
-            touched,
-            additionalErrors,
-          )
+        | None => FormUtils.getValidationResult(schema, values, touched, additionalErrors)
         | Some(validationResult) => validationResult
         }
       },

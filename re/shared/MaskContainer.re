@@ -20,9 +20,7 @@ module Styles = {
 let make = (~className=?, ~maskClassName=?, ~children) => {
   <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
     children
-    <div
-      className=?{combineClassNames([Some(Styles.mask), maskClassName])}
-    />
+    <div className=?{combineClassNames([Some(Styles.mask), maskClassName])} />
   </div>;
 };
 

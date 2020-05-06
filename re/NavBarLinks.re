@@ -12,10 +12,7 @@ module Styles = {
     ]);
   let dimmed = style([opacity(0.6)]);
   let explore =
-    style([
-      display(`none),
-      media(Theme.Breakpoints.tabletLandscape, [display(`flex)]),
-    ]);
+    style([display(`none), media(Theme.Breakpoints.tabletLandscape, [display(`flex)])]);
 };
 
 let items = [|
@@ -26,21 +23,10 @@ let items = [|
 |];
 
 [@react.component]
-let make =
-    (
-      ~className=?,
-      ~useDarkNavBarLinks=false,
-      ~currentPageIndex: int,
-      ~onNavBarLinkClick=?,
-    ) => {
-  let contextualStyles =
-    useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
+let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int, ~onNavBarLinkClick=?) => {
+  let contextualStyles = useDarkNavBarLinks ? Styles.darkTheme : Styles.lightTheme;
   let wrapperStyles =
-    Utils.React.combineClassNames([
-      Some(Styles.wrapper),
-      className,
-      Some(contextualStyles),
-    ]);
+    Utils.React.combineClassNames([Some(Styles.wrapper), className, Some(contextualStyles)]);
 
   <div className=?wrapperStyles>
     <div className={Css.merge([Styles.dimmed, Styles.item, Styles.explore])}>

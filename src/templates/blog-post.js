@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import Layout from 're/Layout'
 import PageLayout from 're/PageLayout'
 import { Link, graphql } from 'gatsby'
-import Bio from 're/Bio'
+// import Bio from 're/Bio'
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -29,7 +29,7 @@ class BlogPostTemplate extends React.Component {
           </p>
           <div dangerouslySetInnerHTML={{ __html: post.html }} />
           <hr style={{}} />
-          <Bio />
+          {/* <Bio /> */}
         </PageLayout>
       </Layout>
     )
