@@ -33,59 +33,53 @@ type fieldSchema('value, 'error) = {validators: list(validator('value, 'error))}
 type schema('fieldSchema) = Belt.Map.t(string, 'fieldSchema, FieldNameCompare.identity);
 
 module type InternalMap = {
-  type map('element) = Belt.Map.t(string, 'element, FieldNameCompare.identity);
+  type element('a);
+  type map('a) = Belt.Map.t(string, element('a), FieldNameCompare.identity);
 };
 
 module InternalMap = (Type: InternalMap) => {
-  let make: unit => Type.map('element) = () => Belt.Map.make(~id=(module FieldNameCompare));
-  let fromArray: array((string, 'element)) => Type.map('element) =
+  let make: unit => Type.map('a) = () => Belt.Map.make(~id=(module FieldNameCompare));
+  let fromArray: array((string, Type.element('a))) => Type.map('a) =
     Belt.Map.fromArray(~id=(module FieldNameCompare));
-  let toArray: Type.map('element) => array((string, 'element)) = Belt.Map.toArray;
+  let toArray: Type.map('a) => array((string, Type.element('a))) = Belt.Map.toArray;
   let reduce:
-    (Type.map('element), 'reduceResult, ('reduceResult, string, 'element) => 'reduceResult) =>
+    (Type.map('a), 'reduceResult, ('reduceResult, string, Type.element('a)) => 'reduceResult) =>
     'reduceResult = Belt.Map.reduce;
-  let map: (Type.map('element), (string, 'element) => 'mappedElement) => Type.map('mappedElement) = Belt.Map.mapWithKey;
-  let set: (Type.map('element), string, 'element) => Type.map('element) = Belt.Map.set;
-  let get: (Type.map('element), string) => option('element) = Belt.Map.get;
+  let map: (Type.map('a), (string, Type.element('a)) => 'mappedElement) => 'mapResult = Belt.Map.mapWithKey;
+  let set: (Type.map('a), string, Type.element('a)) => Type.map('a) = Belt.Map.set;
+  let get: (Type.map('a), string) => option(Type.element('a)) = Belt.Map.get;
+  let has: (Type.map('a), string) => bool = Belt.Map.has;
 };
 
-module Schema = {
-  include InternalMap({
-    type map('fieldSchema) = schema('fieldSchema);
+module Schema =
+  InternalMap({
+    type element('fieldSchema) = 'fieldSchema;
+    type map('fieldSchema) = schema(element('fieldSchema));
   });
-};
 
-module Values = {
-  include InternalMap({
-    type map('value) = values('value);
+module Values =
+  InternalMap({
+    type element('value) = 'value;
+    type map('value) = values(element('value));
   });
-};
 
-module Errors = {
-  include InternalMap({
-    type map('error) = errors('error);
+module Errors =
+  InternalMap({
+    type element('error) = 'error;
+    type map('error) = errors(element('error));
   });
-};
 
-// @TODO: Figure out wat to reuse InternalMap here as well? Should we just expose the full Map API?
-module Touched = {
-  let make: unit => touched = () => Belt.Map.make(~id=(module FieldNameCompare));
-  let fromArray: array((string, bool)) => touched =
-    Belt.Map.fromArray(~id=(module FieldNameCompare));
-  let reduce: touched => 'reduceResult = Belt.Map.reduce;
-  let set: (touched, string, bool) => touched = Belt.Map.set;
-  let has: (touched, string) => bool = Belt.Map.has;
-};
+module Touched =
+  InternalMap({
+    type element('a) = bool;
+    type map('a) = touched;
+  });
 
-// @TODO: Figure out wat to reuse InternalMap here as well? Should we just expose the full Map API?
-module Visited = {
-  let make: unit => visited = () => Belt.Map.make(~id=(module FieldNameCompare));
-  let fromArray: array((string, bool)) => visited =
-    Belt.Map.fromArray(~id=(module FieldNameCompare));
-  let reduce: visited => 'reduceResult = Belt.Map.reduce;
-  let set: (visited, string, bool) => visited = Belt.Map.set;
-  let has: (visited, string) => bool = Belt.Map.has;
-};
+module Visited =
+  InternalMap({
+    type element('a) = bool;
+    type map('a) = visited;
+  });
 
 module Validators = {
   let identity: validator('value, 'error) = (_result, _value, _values) => Valid;
