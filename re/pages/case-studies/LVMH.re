@@ -18,7 +18,7 @@ let pageImagesQuery = [%raw
        }
        bigImage: file(relativePath: { eq: "case-studies/lvmh.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
+           fluid(maxWidth: 600, maxHeight: 420) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -50,17 +50,21 @@ let make = () => {
       year: "2020",
       brief: "The goal was to leverage a conversational approach and NLU (Natural Language Understanding) to provide customers with valuable, engaging and personalised experiences.",
     },
-    // We can declare a dynamic list of components here. There are 3 components types currently available: BigImage, TextAndImage and QuoteCard:
+    // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
-      BigImage(bigImage),
       TextAndImage(
         "We focused on getting off the ground quickly, by integrating with the best available 3rd party services for our core needs, including the NLU and Dialogue handling, where we started by integrating with IBM Watson. We also started by developing the connector for Facebook Messenger, which was the most used and complete service at the time, to validate our design approach and develop our first chatbots. As we learned more about the technology and as our requirements for new projects evolved, we ended up building our own dialogue engine. This allowed us to push the boundaries on this front, delivering new features to our customers and responding quickly to feature requests. An example was when we were asked to integrate a live chat with human handover seamlessly into our chatbot experience for a project. Ownership of the dialogue engine allowed us to extend it to fully support this feature, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible.  
 .",
         bigImage,
       ),
+     Custom(
+        <Heading level=Heading.H2 className=Styles.adHocComponent>
+          {React.string("We built a modular chatbot platform following a driver-based approach for the main components")}
+        </Heading>,
+      ),
+      BigImage(bigImage),
       TextAndImage(
-        "The storefront is using isomorphic ( because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
-React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
+        "Each project that we did the baseline for each project’s NLU understanding was better than the last and that all projects were constantly evolving and improving from an always growing shared pool of examples obtained from not only training but also real chats. A smart variable replacement system also allowed us to more easily reuse examples for multiple projects with similar needs but different contexts (e.g. booking an appointment on a hairdresser or on a cosmetics store).",
         bigImage,
       ),
     |],

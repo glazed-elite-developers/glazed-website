@@ -9,23 +9,16 @@ module Styles = {
 let pageImagesQuery = [%raw
   {|Gatsby.graphql`
      query {
-       headerImage: file(relativePath: { eq: "farfetch-header.jpg" }) {
+       headerImage: file(relativePath: { eq: "case-studies/switch-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       bigImage: file(relativePath: { eq: "farfetch-header.jpg" }) {
+       bigImage: file(relativePath: { eq: "case-studies/switch-3.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
-           }
-         }
-       }
-       joseNeves: file(relativePath: { eq: "farfetch-header.jpg" }) {
-         childImageSharp {
-           fluid(maxWidth: 120) {
+           fluid(maxWidth: 800) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -38,59 +31,41 @@ let pageImagesQuery = [%raw
 let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
-  let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
-  let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
+  let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
 
   // Replace the page contents here:
   let content: content = {
     hero: {
       image: headerImage,
-      title: "Farfetch",
-      area: "Fashion - Ecommerce",
-      text: "An international fashion website that sells products from 400 independent boutiques around the world.",
+      title: "Switch",
+      area: "FinTech - Payments",
+      text: "Switch provides the technical infrastructure for transaction orchestration across the entire payments value chain.",
     },
     brief: {
       techs: [|
-        {name: "react", icon: TechIcons.twitter},
-        {name: "angular", icon: TechIcons.twitter},
-        {name: "ios", icon: TechIcons.twitter},
+        {name: "elixir", icon: TechIcons.twitter},
+        {name: "python", icon: TechIcons.twitter},
+        {name: "react", icon: TechIcons.twitter}
       |],
-      year: "2019",
-      brief: "Farfetch asked Glazed to create a white label version of their main e-commerce site for big brands that want to sell on their own website.
-This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it was Manolo Blahnik and Rihanna.",
+      year: "2020",
+      brief: "Glazed worked with Switch to conceive and implement the 2nd and current version of its technological offer, moving from a credit cards only solution to its current unified payment API.
+Glazed integrated more than 20 payment methods and entities across the world, with very different integrations.",
     },
-    // We can declare a dynamic list of components here. There are 3 components types currently available: BigImage, TextAndImage and QuoteCard:
+    // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
-      BigImage(bigImage),
       TextAndImage(
-        "Glazed built a multi-tenant fashion eCommerce store, with a large feature set:  Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics, Boutiques listing.
-All was integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support. 			
-
-The storefront is using isomorphic ( because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks) 
-React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
-        bigImage,
-      ),
-      QuoteCard(
-        "Culture really trumps everything else.",
-        {name: {j|José Neves|j}, title: "Farfetch CEO", avatarImage: joseNevesAvatarImage},
-      ),
-      // We can also use custom components if we need something ad hoc:
-      // Custom(
-      //   <Heading level=Heading.H1 className=Styles.adHocComponent>
-      //     {React.string("This is a custom component")}
-      //   </Heading>,
-      // ),
-      TextAndImage(
-        "The storefront is using isomorphic ( because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
-React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
+        "We developed the core architecture, that unites all the very different payment method flows into a single integration, and allows having several providers per payment method, for cost optimisation and redundancy.</p>
+We created REST and real-time APIs, using Python and Elixir, and developed integration libraries for Ruby, Python, Elixir, Node, iOS, Android and client-side JS.</p>
+Glazed developed Switch’s website, merchant dashboard, documentation page and support platform.
+Glazed also handled Switch’s PCI certification, developing bank-grade security, fraud protection and data handling processes. We implemented automatic tests, continuous integration, high-availability, redundancy and scalability.",
         bigImage,
       ),
     |],
     nextCase: {
       image: bigImage,
-      title: "Switch",
-      area: "Fashion - Ecommerce",
-      link: "/",
+      title: "Boston Children's Hospital",
+      area: "HealthTech - IoT",
+      link: "/case-studies/boston",
     },
   };
 
