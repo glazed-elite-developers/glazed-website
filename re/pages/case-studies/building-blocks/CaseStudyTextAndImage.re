@@ -23,6 +23,7 @@ module Styles = {
       fontSize(rem(0.875)),
       color(hex(Colors.grey)),
       lineHeight(`abs(2.)),
+      whiteSpace(`preLine),
       media(
         Theme.Breakpoints.tabletLandscape,
         [

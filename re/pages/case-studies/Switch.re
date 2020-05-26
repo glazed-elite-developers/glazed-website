@@ -45,7 +45,7 @@ let make = () => {
       techs: [|
         {name: "elixir", icon: TechIcons.twitter},
         {name: "python", icon: TechIcons.twitter},
-        {name: "react", icon: TechIcons.twitter}
+        {name: "react", icon: TechIcons.twitter},
       |],
       year: "2020",
       brief: "Glazed worked with Switch to conceive and implement the 2nd and current version of its technological offer, moving from a credit cards only solution to its current unified payment API.
@@ -54,10 +54,10 @@ Glazed integrated more than 20 payment methods and entities across the world, wi
     // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
       TextAndImage(
-        "We developed the core architecture, that unites all the very different payment method flows into a single integration, and allows having several providers per payment method, for cost optimisation and redundancy.</p>
-We created REST and real-time APIs, using Python and Elixir, and developed integration libraries for Ruby, Python, Elixir, Node, iOS, Android and client-side JS.</p>
-Glazed developed Switch’s website, merchant dashboard, documentation page and support platform.
-Glazed also handled Switch’s PCI certification, developing bank-grade security, fraud protection and data handling processes. We implemented automatic tests, continuous integration, high-availability, redundancy and scalability.",
+        {j|We developed the core architecture, that unites all the very different payment method flows into a single integration, and allows having several providers per payment method, for cost optimisation and redundancy.
+          We created REST and real-time APIs, using Python and Elixir, and developed integration libraries for Ruby, Python, Elixir, Node, iOS, Android and client-side JS.
+          Glazed developed Switch’s website, merchant dashboard, documentation page and support platform.
+          Glazed also handled Switch’s PCI certification, developing bank-grade security, fraud protection and data handling processes. We implemented automatic tests, continuous integration, high-availability, redundancy and scalability.|j},
         bigImage,
       ),
     |],
