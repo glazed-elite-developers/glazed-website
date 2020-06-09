@@ -127,7 +127,7 @@ let developers =
         {
           key: "nelson",
           name: "Nelson Sachse",
-          skills: [|"iOS", "Android", "World Domination"|],
+          skills: [|"iOS", "Android", "Strategy", "Startups"|],
           description: "",
           shortDescription: "",
           linkedIn: "",

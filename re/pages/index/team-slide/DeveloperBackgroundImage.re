@@ -18,7 +18,112 @@ let backgroundImageQuery = [%raw
           }
         }
       }
+      filipe: file(relativePath: { eq: "team/filipe.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      nuno: file(relativePath: { eq: "team/nuno.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      ismael: file(relativePath: { eq: "team/ismael.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      miguel: file(relativePath: { eq: "team/miguel.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
       diogo: file(relativePath: { eq: "team/diogo.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      figo: file(relativePath: { eq: "team/figo.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      pedro: file(relativePath: { eq: "team/pedro.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      raspa: file(relativePath: { eq: "team/raspa.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      goncalo: file(relativePath: { eq: "team/goncalo.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      jose: file(relativePath: { eq: "team/jose.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      cristiano: file(relativePath: { eq: "team/cristiano.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      joao: file(relativePath: { eq: "team/joao.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      maria: file(relativePath: { eq: "team/maria.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      rick: file(relativePath: { eq: "team/rick.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      torres: file(relativePath: { eq: "team/torres.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+      nelson: file(relativePath: { eq: "team/nelson.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
             ...GatsbyImageSharpFluid
