@@ -56,17 +56,15 @@ let make = () => {
         {name: "ios", icon: TechIcons.twitter},
       |],
       year: "2019",
-      brief: "Farfetch asked Glazed to create a white label version of their main e-commerce site for big brands that want to sell on their own website.
-This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it were Manolo Blahnik and Rihanna.",
+      brief: "Farfetch asked Glazed to create a white label version of their main e-commerce site for big brands that want to sell on their own website. 
+      This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it were Manolo Blahnik and Rihanna.",
     },
     // We can declare a dynamic list of components here. There are 3 components types currently available: BigImage, TextAndImage and QuoteCard:
     content: [|
       BigImage(bigImage),
       TextAndImage(
-        "Glazed built a multi-tenant fashion eCommerce store, with a large feature set:  Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics, Boutiques listing.
-All of them were integrated with Farfetch's internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support. 			
-
-The storefront is using isomorphic React (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks) and webpack (since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easily deployed using docker.",
+        "Glazed built a multi-tenant fashion eCommerce store, with a large feature set:  Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics, Boutiques listing. 
+        All of them were integrated with Farfetch's internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support.",
         bigImage,
       ),
       QuoteCard(
@@ -80,8 +78,9 @@ The storefront is using isomorphic React (because SEO was vital for the type of 
       //   </Heading>,
       // ),
       TextAndImage(
-        "The storefront is using isomorphic ( because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
-React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
+        "The storefront is using isomorphic React (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks) and webpack (since 2015), 
+        which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. 
+        Our codebase was split across several microservices, with a very scalable architecture, easily deployed using docker.",
         bigImage,
       ),
     |],

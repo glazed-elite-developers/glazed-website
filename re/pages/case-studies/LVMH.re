@@ -39,16 +39,20 @@ let make = () => {
       image: headerImage,
       title: "LVMH",
       area: "Fashion - Chatbots",
-      text: "LVMH Moët Hennessy is a French multinational corporation and conglomerate specializing in luxury goods.",
+      text: "Moët Hennessy Louis Vuitton is a French multinational corporation and conglomerate specializing in luxury goods.",
     },
     brief: {
       techs: [|
-        {name: "react", icon: TechIcons.twitter},
-        {name: "angular", icon: TechIcons.twitter},
-        {name: "ios", icon: TechIcons.twitter},
+        {name: "Node.js", icon: TechIcons.twitter},
+        {name: "Google Assistant", icon: TechIcons.twitter},
+        {name: "Alexa Skills", icon: TechIcons.twitter},
+        {name: "IBM Watson Assistant", icon: TechIcons.twitter},
+        {name: "Dialogflow", icon: TechIcons.twitter},
+        {name: "Elixir", icon: TechIcons.twitter},
+        {name: "React", icon: TechIcons.twitter},
       |],
       year: "2020",
-      brief: "The goal was to leverage a conversational approach and NLU (Natural Language Understanding) to provide customers with valuable, engaging and personalised experiences.",
+      brief: "The goal was to leverage conversational technologies and NLU (Natural Language Understanding) to provide customers with valuable, engaging and personalised experiences available 24/7 through the messaging and voice channels they already use.",
     },
     // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
