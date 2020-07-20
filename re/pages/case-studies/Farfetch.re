@@ -81,7 +81,7 @@ React and webpack (using since ‘15), which allowed building a component-based 
       //   </Heading>,
       // ),
       TextAndImage(
-        "The storefront is using isomorphic ( because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
+        "The storefront is using isomorphic (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
 React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
         bigImage,
       ),
