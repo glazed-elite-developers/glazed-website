@@ -71,16 +71,9 @@ let make = () => {
         "Culture really trumps everything else.",
         {name: {j|José Neves|j}, title: "Farfetch CEO", avatarImage: joseNevesAvatarImage},
       ),
-      // We can also use custom components if we need something ad hoc:
-      // Custom(
-      //   <Heading level=Heading.H1 className=Styles.adHocComponent>
-      //     {React.string("This is a custom component")}
-      //   </Heading>,
-      // ),
       TextAndImage(
-        "The storefront is using isomorphic React (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks) and webpack (since 2015), 
-        which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. 
-        Our codebase was split across several microservices, with a very scalable architecture, easily deployed using docker.",
+        "The storefront is using isomorphic React (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
+React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.",
         bigImage,
       ),
     |],
