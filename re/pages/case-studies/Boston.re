@@ -30,6 +30,13 @@ let pageImagesQuery = [%raw
            }
          }
        }
+       nextCaseImage: file(relativePath: { eq: "case-studies/lvmh.jpg" }) {
+         childImageSharp {
+           fluid(maxWidth: 1200, maxHeight: 820) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
      }
   `|}
 ];
@@ -40,8 +47,7 @@ let make = () => {
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let image = Gatsby.getImageFluid(queryResult, "image");
-
-  // Replace the page contents here:
+  let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
     hero: {
       image: headerImage,
@@ -59,36 +65,39 @@ let make = () => {
       year: "2019",
       brief: "We've developed a technological solution for physicians to provide live updates to their patients concerning their next appointment, including dynamically rescheduling appointments - all using positional tracking, beacons and machine learning capabilities.",
     },
-    // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
       TextAndImage(
-        "It's easy to triangulate locations while outdoors, but as soon as we get walls into the mix, the situation changes. This project's main challenge resided in being able to provide the accurate positioning of physicians within the hospital.
-The project's full scope can be broken down into the following main tasks:
-1. Calculate the physician position within the hospital
-2. Manipulate live data points
-3. Deliver results back to the patients
-4. Trigger changes if significant thresholds were reached",
+        {j|
+        It's easy to triangulate locations while outdoors, but as soon as we get walls into the mix, the situation changes. This project's main challenge resided in being able to provide the accurate positioning of physicians within the hospital.
+            The project's full scope can be broken down into the following main tasks:
+            1. Calculate the physician position within the hospital
+            2. Manipulate live data points
+            3. Deliver results back to the patients
+            4. Trigger changes if significant thresholds were reached
+        |j},
         bigImage,
       ),
       Custom(
         <Heading level=Heading.H3 className=Styles.adHocComponent>
-          { React.string(
+          {React.string(
              "Technological solution for live updates using positional tracking, beacons and machine learning capabilities.",
            )}
         </Heading>,
       ),
       TextAndImage(
-        "To capture the most accurate position possible we've used iBeacons connected to a native iOS application through Bluetooth.
+        {j|
+        To capture the most accurate position possible we've used iBeacons connected to a native iOS application through Bluetooth.
         Bluetooth low energy (BLE) beacons are a cost-effective way for apps to obtain the device's position while indoors where other methods like GPS are not available. Beacons emit a signal, and apps can roughly estimate how far a user is from them, judging by the strength of that signal; this makes it possible to triangulate the user position from several signals.
-        That position estimate is very rough though, since physical objects and electronic devices can interfere with transmitted signals.",
+        That position estimate is very rough though, since physical objects and electronic devices can interfere with transmitted signals.
+        |j},
         image,
       ),
     |],
     nextCase: {
-      image: bigImage,
-      title: "Switch",
-      area: "Fashion - Ecommerce",
-      link: "/",
+      image: nextCaseImage,
+      title: "LVMH",
+      area: "Fashion - Chatbots",
+      link: "/case-studies/lvmh",
     },
   };
 

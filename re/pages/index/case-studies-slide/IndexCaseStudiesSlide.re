@@ -140,7 +140,7 @@ let backgroundImageQuery = [%raw
           }
         }
       }
-      Boston: file(relativePath: { eq: "case-studies/boston.jpg" }) {
+      Boston: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 1200) {
             ...GatsbyImageSharpFluid

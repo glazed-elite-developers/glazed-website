@@ -1,9 +1,3 @@
-module Date = {
-  let formatDate = (isoDateString: string) => {
-    DateFns.internal_format(Js.Date.fromString(isoDateString), "dddd, MMMM D, YYYY");
-  };
-};
-
 module React = {
   module Types = {
     // It looks like, at the moment and when using ReactDOMRe directly, there's no support for using refs created with the

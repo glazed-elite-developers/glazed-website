@@ -1,5 +1,5 @@
 {
-  "name": "react-template",
+  "name": "glazed-website",
   "reason": {
     "react-jsx": 3
   },
@@ -15,6 +15,6 @@
   ],
   "suffix": ".js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-css", "bs-date-fns", "bs-webapi", "bs-fetch"],
+  "bs-dependencies": ["reason-react", "bs-css", "bs-webapi", "bs-fetch"],
   "refmt": 3
 }

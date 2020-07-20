@@ -23,6 +23,13 @@ let pageImagesQuery = [%raw
            }
          }
        }
+       nextCaseImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
+         childImageSharp {
+           fluid(maxWidth: 1200, maxHeight: 820) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
      }
   `|}
 ];
@@ -32,6 +39,7 @@ let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
+  let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
 
   // Replace the page contents here:
   let content: content = {
@@ -62,7 +70,7 @@ Glazed integrated more than 20 payment methods and entities across the world, wi
       ),
     |],
     nextCase: {
-      image: bigImage,
+      image: nextCaseImage,
       title: "Boston Children's Hospital",
       area: "HealthTech - IoT",
       link: "/case-studies/boston",

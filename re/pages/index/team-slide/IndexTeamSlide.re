@@ -193,7 +193,12 @@ module DeveloperSquare = {
           developerPhotoKey={developer.key}
           className=Styles.developerBackgroundImageWrapper
           gatsbyBackgroundImageClassName=Styles.developerBackgroundImage
-          style={ReactDOMRe.Style.make(~backgroundSize="150%", ())}
+          style={ReactDOMRe.Style.make(
+            ~marginTop="10%",
+            ~backgroundSize="auto 250%",
+            ~backgroundPosition="top center",
+            (),
+          )}
         />
         <div className=Styles.developerSquareContent>
           <Heading level=Heading.H6 className=Styles.developerName>

@@ -156,6 +156,7 @@ let make =
     ReactDOMRe.Style.make(
       ~position="absolute",
       ~marginTop="10%",
+      ~backgroundSize="auto 100%",
       ~backgroundPosition="top center",
       (),
     );
