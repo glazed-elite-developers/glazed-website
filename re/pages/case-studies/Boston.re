@@ -53,33 +53,36 @@ let make = () => {
       techs: [|
         {name: "TensorFlow", icon: TechIcons.twitter},
         {name: "iOS", icon: TechIcons.twitter},
-        {name: "iBeacons", icon: TechIcons.twitter}
+        {name: "BLE", icon: TechIcons.twitter},
+        {name: "iBeacons", icon: TechIcons.twitter},
       |],
       year: "2019",
-      brief: "We’ve developed a technological solution for physicians to give live updates to their patients concerning their next appointment and even appointments dynamically rescheduling – all using positional tracking, beacons and machine learning capabilities.",
+      brief: "We've developed a technological solution for physicians to provide live updates to their patients concerning their next appointment, including dynamically rescheduling appointments - all using positional tracking, beacons and machine learning capabilities.",
     },
     // We can declare a dynamic list of components here. There are 3 components types currently availablBigImage, TextAndImage and QuoteCard:
     content: [|
       TextAndImage(
-        "It’s fairly easy to triangulate geo positions of people or places in the world but as soon as we get walls into the mix that’s when we struggle. The challenge of this project occurs when we want to obtain an accurate position within a building.
-Thus, when we were tasked with developing a solution that was able to capture live data from moving targets (physicians), process those inputs into meaningful data and then present back to users we broke it down to the following points:
- Fetch the physician position within the hospital
-Manipulate live data points
-Deliver results back to the patients
-Trigger changes if significant thresholds were reached",
+        "It's easy to triangulate locations while outdoors, but as soon as we get walls into the mix, the situation changes. This project's main challenge resided in being able to provide the accurate positioning of physicians within the hospital.
+The project's full scope can be broken down into the following main tasks:
+1. Calculate the physician position within the hospital
+2. Manipulate live data points
+3. Deliver results back to the patients
+4. Trigger changes if significant thresholds were reached",
         bigImage,
       ),
-           Custom(
-        <Heading level=Heading.H2 className=Styles.adHocComponent>
-          {React.string("technological solution for physicians live updates using positional tracking, beacons and machine learning capabilities.
-")}
+      Custom(
+        <Heading level=Heading.H3 className=Styles.adHocComponent>
+          { React.string(
+             "Technological solution for live updates using positional tracking, beacons and machine learning capabilities.",
+           )}
         </Heading>,
       ),
       TextAndImage(
-        "To capture the most accurate position we’ve used iBeacons connecting to a native iOS application through Bluetooth. 
-        Bluetooth low energy (BLE) beacons are a cost-effective way for apps to know the position of a user indoors when other methods like GPS are not available. Beacons emit a signal, and apps can very roughly estimate how far a user is from one beacon, depending on the strength of that signal; or triangulate the user position from several signals. 
-        That position estimate is very rough though since physical objects and electronic devices interfere with transmitted signals.", 
-        image),
+        "To capture the most accurate position possible we've used iBeacons connected to a native iOS application through Bluetooth.
+        Bluetooth low energy (BLE) beacons are a cost-effective way for apps to obtain the device's position while indoors where other methods like GPS are not available. Beacons emit a signal, and apps can roughly estimate how far a user is from them, judging by the strength of that signal; this makes it possible to triangulate the user position from several signals.
+        That position estimate is very rough though, since physical objects and electronic devices can interfere with transmitted signals.",
+        image,
+      ),
     |],
     nextCase: {
       image: bigImage,
