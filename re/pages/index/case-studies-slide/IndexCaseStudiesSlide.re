@@ -91,27 +91,27 @@ module Styles = {
 let caseStudies: array(CaseStudySquare.caseStudy) = [|
   {
     name: "LVMH",
-    area: "Fashion - Ecommerce",
-    backgroundImageUrl: "/images/case-studies/lvmh.jpg",
-    link: "/case-studies/farfetch",
+    area: "Fashion - Chatbots",
+    backgroundImageUrl: "/images/case-studies/lvmh-hero.jpg",
+    link: "/case-studies/lvmh",
   },
   {
     name: "Farfetch",
     area: "Fashion - Ecommerce",
-    backgroundImageUrl: "/images/case-studies/farfetch.jpg",
-    link: "/",
+    backgroundImageUrl: "/images/case-studies/farfetch-hero.jpg",
+    link: "/case-studies/farfetch",
   },
   {
     name: "Switch",
-    area: "Fashion - Ecommerce",
-    backgroundImageUrl: "/images/case-studies/switch-payments.jpg",
-    link: "/",
+    area: "FinTech - Payments",
+    backgroundImageUrl: "/images/case-studies/switch-hero.jpg",
+    link: "/case-studies/switch",
   },
   {
     name: "Boston",
-    area: "Fashion - Ecommerce",
+    area: "HealthTech - IoT",
     backgroundImageUrl: "/images/case-studies/boston.jpg",
-    link: "/",
+    link: "/case-studies/boston",
   },
 |];
 
@@ -119,21 +119,21 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
 let backgroundImageQuery = [%raw
   {|Gatsby.graphql`
     query {
-      LVMH: file(relativePath: { eq: "home/slide-1-background.jpg" }) {
+      LVMH: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 1200) {
             ...GatsbyImageSharpFluid
           }
         }
       }
-      Farfetch: file(relativePath: { eq: "case-studies/farfetch.jpg" }) {
+      Farfetch: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 1200) {
             ...GatsbyImageSharpFluid
           }
         }
       }
-      Switch: file(relativePath: { eq: "case-studies/switch-payments.jpg" }) {
+      Switch: file(relativePath: { eq: "case-studies/switch-hero.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 1200) {
             ...GatsbyImageSharpFluid
