@@ -103,9 +103,10 @@ let make =
       ~contentWrapperClassName=?,
       ~contentClassName=?,
       ~_in,
+      ~onExit=?,
       ~onExited,
     ) => {
-  <InOutCSSTransition _in onExited>
+  <InOutCSSTransition _in ?onExit onExited>
     {animationState => {
        let (animationWrapperClassName, animationContentClassName) =
          getAnimationClassNames(animationState);

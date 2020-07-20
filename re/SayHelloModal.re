@@ -237,21 +237,25 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     | None => "/"
     | Some(path) => path
     };
-  let close =
-    useCallback1(
+  let onExited =
+    useCallback3(
       () => {
         onExited();
-        Routing.push(backToUrl, ~state={"preventDefaultScrollBehavior": true});
+        switch (url.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
+        | Some("say-hello") =>
+          Routing.push(backToUrl, ~state={"preventDefaultScrollBehavior": true})
+        | _ => ()
+        };
       },
-      [|backToUrl|],
+      (onExited, backToUrl, url),
     );
   let handleCloseButtonClick =
     useCallback1(
       event => {
         ReactEvent.Synthetic.preventDefault(event);
-        close();
+        onClose();
       },
-      [|close|],
+      [|onClose|],
     );
   let onNavBarLinkClick = useCallback0((_event, link) => {Routing.push(link)});
   let (submissionStatus, setSubmissionStatus) = useState(() => ContactForm.Pristine);
@@ -314,7 +318,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     modalId
     onClose
     _in
-    onExited=close
+    onExited
     scrollContainerClassName=Styles.wrapper
     contentWrapperClassName=Styles.contentWrapper
     contentClassName=Styles.content>

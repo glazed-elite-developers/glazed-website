@@ -228,25 +228,34 @@ let make =
       ~onExited=() => (),
       ~developer: IndexTeamSlideSquares.developer,
     ) => {
-  let close =
-    useCallback0(() => {
-      onExited();
-      Routing.push(teamSlideLink, ~state={"preventDefaultScrollBehavior": true});
-    });
+  open Webapi.Url;
+  let url = ReasonReactRouter.useUrl();
+  let exit =
+    useCallback2(
+      () => {
+        onExited();
+        switch (url.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
+        | Some("team") =>
+          Routing.push(teamSlideLink, ~state={"preventDefaultScrollBehavior": true})
+        | _ => ()
+        };
+      },
+      (onExited, url),
+    );
   let handleCloseButtonClick =
     useCallback1(
       event => {
         ReactEvent.Synthetic.preventDefault(event);
-        close();
+        onClose();
       },
-      [|close|],
+      [|onClose|],
     );
 
   <BaseModal
     modalId
-    onClose
     _in
-    onExited=close
+    onClose
+    onExited=exit
     scrollContainerClassName=Styles.wrapper
     contentWrapperClassName=Styles.contentWrapper
     contentClassName=Styles.content>
