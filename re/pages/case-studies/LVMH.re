@@ -9,6 +9,7 @@ module Styles = {
       maxWidth(rem(64.)),
       padding2(~h=rem(1.875), ~v=`zero),
       margin(`auto),
+      color(hex(Theme.Colors.grey)),
     ]);
 };
 

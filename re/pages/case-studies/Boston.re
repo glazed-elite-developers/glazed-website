@@ -3,7 +3,14 @@ open CaseStudyPageTemplate;
 module Styles = {
   open Css;
 
-  let adHocComponent = style([textAlign(`center)]);
+  let inPageHeading =
+    style([
+      textAlign(`center),
+      maxWidth(rem(64.)),
+      padding2(~h=rem(1.875), ~v=`zero),
+      margin(`auto),
+      color(hex(Theme.Colors.grey)),
+    ]);
 };
 
 let pageImagesQuery = [%raw
@@ -78,7 +85,7 @@ let make = () => {
         bigImage,
       ),
       Custom(
-        <Heading level=Heading.H3 className=Styles.adHocComponent>
+        <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(
              "Technological solution for live updates using positional tracking, beacons and machine learning capabilities.",
            )}
