@@ -22,7 +22,6 @@ const headers = {
 
 export async function handler(event, context, callback) {
   try {
-    console.log(event)
     const { name, email, subject, message } = JSON.parse(event.body)
 
     if (

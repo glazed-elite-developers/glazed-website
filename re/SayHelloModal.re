@@ -281,6 +281,14 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
                 (),
               ),
             )
+            |> then_(response =>
+                 if (Fetch.Response.status(response) < 200
+                     || Fetch.Response.status(response) >= 300) {
+                   reject(Js.Exn.raiseError(Fetch.Response.statusText(response)));
+                 } else {
+                   resolve(response);
+                 }
+               )
             |> then_(Fetch.Response.json)
             |> then_(_response => {resolve(setSubmissionStatus(_status => Success))})
             |> catch(_error => {resolve(setSubmissionStatus(_status => Failed(Unexpected)))})
