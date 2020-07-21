@@ -53,7 +53,7 @@ let make = () => {
       image: headerImage,
       title: "Boston Hospital",
       area: "HealthTech - IoT",
-      text: "A bespoke iOS application from the ground up to communicate with iBeacons to correctly display the position of the physician inside the hospital.",
+      text: "A bespoke iOS application to display the position of the physician inside the hospital.",
     },
     brief: {
       techs: [|

@@ -50,7 +50,7 @@ module Styles = {
     ]);
   let nextProjectLabel =
     style([
-      flex3(~grow=1., ~shrink=1., ~basis=`rem(0.000000001)),
+      flex3(~grow=1., ~shrink=1., ~basis=`auto),
       fontSize(rem(0.625)),
       color(hex(Colors.almostWhite)),
       opacity(0.5),
@@ -58,11 +58,16 @@ module Styles = {
   let heading =
     style([
       fontSize(rem(1.5)),
-      media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(3.))]),
+      lineHeight(`abs(1.25)),
+      display(`flex),
+      alignItems(`flexEnd),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
+      media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(3.)), lineHeight(`abs(1.25))]),
     ]);
   let area =
     style([
       padding4(~top=rem(0.9375), ~left=`zero, ~bottom=rem(0.625), ~right=`zero),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       color(hex(Colors.almostWhite)),
       fontSize(rem(0.75)),
       opacity(0.3),
@@ -80,11 +85,14 @@ module Styles = {
       fontSize(rem(0.75)),
       opacity(0.7),
       lineHeight(`abs(2.)),
+      display(`flex),
+      alignItems(`flexEnd),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(1.))]),
     ]);
   let nextButton =
     style([
-      padding3(~h=`zero, ~bottom=rem(1.875), ~top=`zero),
+      padding3(~h=`zero, ~bottom=rem(0.625), ~top=`zero),
       transform(rotate(deg(180.))),
       Css.SVG.fill(hex(Colors.white)),
       Css.SVG.stroke(hex(Colors.white)),

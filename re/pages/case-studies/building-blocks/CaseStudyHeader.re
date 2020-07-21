@@ -59,7 +59,11 @@ module Styles = {
       ),
     ]);
   let heading =
-    style([fontSize(rem(1.5)), media(Theme.Breakpoints.desktop, [fontSize(rem(3.))])]);
+    style([
+      fontSize(rem(1.5)),
+      lineHeight(`abs(1.25)),
+      media(Theme.Breakpoints.desktop, [fontSize(rem(3.)), lineHeight(`abs(1.25))]),
+    ]);
   let area =
     style([
       padding4(~top=rem(0.9375), ~left=`zero, ~bottom=rem(0.625), ~right=`zero),

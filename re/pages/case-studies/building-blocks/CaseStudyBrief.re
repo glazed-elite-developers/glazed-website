@@ -50,6 +50,7 @@ module Styles = {
   let techs =
     style([
       display(`flex),
+      flexWrap(`wrap),
       margin2(~v=`zero, ~h=rem(-0.875)),
       media(
         Breakpoints.tabletLandscape,

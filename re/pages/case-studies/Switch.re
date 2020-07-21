@@ -71,7 +71,7 @@ Glazed integrated more than 20 payment methods and entities across the world, wi
     |],
     nextCase: {
       image: nextCaseImage,
-      title: "Boston Children's Hospital",
+      title: "Boston Hospital",
       area: "HealthTech - IoT",
       link: "/case-studies/boston",
     },
