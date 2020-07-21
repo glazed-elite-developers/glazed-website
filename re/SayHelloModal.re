@@ -90,7 +90,7 @@ module Styles = {
       fontSize(`rem(1.125)),
       color(hex(Colors.darkGreyDarker)),
       opacity(0.9),
-      before([contentRule("// ")]),
+      before([contentRule(`text("// "))]),
       media(Breakpoints.tabletLandscape, [fontSize(`rem(2.)), before([display(`none)])]),
     ]);
   let hidden =
@@ -160,7 +160,7 @@ module Styles = {
       padding4(~top=rem(1.5625), ~left=rem(1.25), ~bottom=rem(1.5625), ~right=rem(2.5)),
       backgroundColor(hex(Colors.white)),
       fontSize(rem(0.75)),
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       lineHeight(`abs(1.75)),
       media(
         Breakpoints.tabletLandscape,
@@ -192,7 +192,7 @@ module Styles = {
       padding(rem(1.25)),
       background(`none),
       color(hex(Colors.almostWhite)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(rem(0.625)),
     ]);
 };

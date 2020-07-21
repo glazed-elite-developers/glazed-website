@@ -28,10 +28,10 @@ module Styles = {
   let name =
     style([
       fontSize(rem(1.)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       position(relative),
       after([
-        contentRule(""),
+        contentRule(`text("")),
         position(`absolute),
         top(rem(-4.0)),
         left(rem(-1.0)),
@@ -45,7 +45,7 @@ module Styles = {
         [
           fontSize(rem(2.)),
           after([
-            contentRule(""),
+            contentRule(`text("")),
             position(`absolute),
             width(rem(16.125)),
             height(rem(16.125)),
@@ -59,7 +59,7 @@ module Styles = {
   let description =
     style([
       fontSize(rem(0.875)),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       color(hex(Theme.Colors.grey)),
       order(2),
       paddingTop(rem(1.)),
@@ -78,7 +78,7 @@ module Styles = {
   let headline =
     style([
       fontSize(rem(1.)),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       fontWeight(`num(700)),
       paddingTop(rem(6.1875)),
       maxWidth(px(407)),
@@ -90,7 +90,7 @@ module Styles = {
           paddingTop(rem(4.5)),
           paddingLeft(rem(6.9375)),
           fontSize(rem(2.)),
-          before([contentRule("// ")]),
+          before([contentRule(`text("// "))]),
         ],
       ),
     ]);

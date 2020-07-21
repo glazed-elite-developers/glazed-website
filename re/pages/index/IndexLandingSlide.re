@@ -60,7 +60,7 @@ module Styles = {
       border(px(1), `solid, hex(Theme.Colors.glazedBabyBlue)),
       boxShadow(Shadow.box(~blur=px(2), hex(Theme.Colors.glazedBabyBlue))),
       opacity(0.1),
-      before([contentRule(""), display(`block), paddingTop(pct(100.))]),
+      before([contentRule(`text("")), display(`block), paddingTop(pct(100.))]),
       media(
         Theme.Breakpoints.tabletLandscape,
         [right(`rem(cubeContentProjectionLength)), left(`rem(cubeContentProjectionLength))],
@@ -121,7 +121,7 @@ module Styles = {
   let commentedText =
     style([
       opacity(0.5),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       fontSize(rem(0.75)),
       media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(0.875))]),
     ]);
@@ -197,7 +197,7 @@ module Styles = {
       paddingTop(`rem(5.)),
       color(hex(Theme.Colors.almostWhite)),
       lineHeight(`abs(2.4)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(`rem(0.6875)),
       fontWeight(`num(700)),
       media(Theme.Breakpoints.tabletLandscape, [display(`block)]),

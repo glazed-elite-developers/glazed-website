@@ -37,11 +37,11 @@ module Styles = {
     style([
       padding3(~top=rem(0.625), ~bottom=rem(0.625), ~h=`zero),
       fontSize(rem(0.6875)),
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       color(hex(Colors.darkGreyDarker)),
     ]);
   let authorTitle =
-    style([fontSize(rem(0.6875)), fontFamily(Fonts.heading), color(hex(Colors.grey))]);
+    style([fontSize(rem(0.6875)), fontFamily(`custom(Fonts.heading)), color(hex(Colors.grey))]);
   let quote =
     style([
       fontSize(rem(1.)),

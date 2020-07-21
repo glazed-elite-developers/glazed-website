@@ -2,6 +2,14 @@ type emotionCache;
 
 [@bs.module "emotion"] external emotionCache: emotionCache = "cache";
 
+type scrollRestorationProps = {
+  ref: React.ref(Js.nullable(Webapi.Dom.Element.t)),
+  onScroll: unit => unit,
+};
+
+[@bs.module "gatsby"]
+external useScrollRestoration: string => scrollRestorationProps = "useScrollRestoration";
+
 module CacheProvider = {
   [@bs.module "@emotion/core"] [@react.component]
   external make: (~children: React.element, ~value: emotionCache) => React.element =
@@ -23,6 +31,7 @@ module Styles = {
 [@react.component]
 let make = (~children) => {
   let url = ReasonReactRouter.useUrl();
+  // let scrollRestorationProps: scrollRestorationProps = useScrollRestoration("scrollContainer");
 
   React.useEffect0(() => {
     if (url.hash !== "") {
@@ -37,7 +46,11 @@ let make = (~children) => {
   <CacheProvider value=emotionCache>
     <MediaContextProvider>
       <ModalsController>
-        <ScrollContainer className=Styles.wrapper contentClassName=Styles.content>
+        <ScrollContainer
+          className=Styles.wrapper
+          contentClassName=Styles.content>
+          // innerRef={scrollRestorationProps.ref}
+          // onScroll={scrollRestorationProps.onScroll}>
           children
         </ScrollContainer>
       </ModalsController>

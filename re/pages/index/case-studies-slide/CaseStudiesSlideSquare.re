@@ -7,7 +7,7 @@ module Styles = {
   let squareContent = style([display(`flex), flexDirection(`column)]);
   let leftBlueSquareStyles = [
     before([
-      contentRule(""),
+      contentRule(`text("")),
       display(`block),
       position(`absolute),
       bottom(`px(1)),

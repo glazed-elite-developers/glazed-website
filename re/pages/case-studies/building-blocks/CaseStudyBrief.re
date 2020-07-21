@@ -62,7 +62,7 @@ module Styles = {
       display(`flex),
       alignItems(`center),
       fontSize(rem(0.875)),
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       padding2(~v=`zero, ~h=rem(0.875)),
       color(hex(Colors.darkGrey)),
       opacity(0.7),

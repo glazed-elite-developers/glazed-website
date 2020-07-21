@@ -33,7 +33,7 @@ module Styles = {
     style([
       display(`none),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.000000001)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(`rem(0.75)),
       fontWeight(`num(700)),
       lineHeight(`rem(0.875)),

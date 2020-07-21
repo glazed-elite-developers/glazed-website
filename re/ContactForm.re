@@ -21,7 +21,7 @@ module Styles = {
   let error =
     style([
       fontSize(rem(0.6875)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       color(hex(Colors.orange)),
       opacity(0.),
       paddingTop(rem(0.625)),

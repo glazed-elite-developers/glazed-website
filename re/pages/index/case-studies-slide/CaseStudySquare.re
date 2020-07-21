@@ -11,7 +11,7 @@ module Styles = {
 
   let number =
     style([
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       fontSize(`rem(0.5)),
       opacity(0.3),
       color(hex(Colors.almostWhite)),
@@ -45,7 +45,7 @@ module Styles = {
     ]);
   let link =
     style([
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       fontSize(`rem(0.75)),
       color(hex(Colors.glazedBabyBlue)),
     ]);

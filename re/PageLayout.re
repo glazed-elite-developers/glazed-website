@@ -20,7 +20,7 @@ module Styles = {
       padding2(~v=`rem(0.875), ~h=`rem(1.75)),
       color(hex(useDarkNavBarLinks ? Colors.darkGreyDarker : Colors.almostWhite)),
       fontSize(`rem(0.75)),
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       pointerEvents(`auto),
       media(Breakpoints.tabletLandscape, [display(`block)]),
     ]);
@@ -31,7 +31,7 @@ module Styles = {
       margin2(~v=`zero, ~h=rem(0.9375)),
       background(`none),
       color(hex(Colors.almostWhite)),
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       fontSize(rem(0.625)),
     ]);
 };

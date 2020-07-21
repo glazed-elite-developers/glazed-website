@@ -50,7 +50,7 @@ module Styles = {
     ]);
   let link =
     style([
-      fontFamily(Fonts.heading),
+      fontFamily(`custom(Fonts.heading)),
       fontSize(`rem(0.75)),
       color(hex(Colors.glazedBabyBlue)),
     ]);
@@ -69,7 +69,7 @@ module Styles = {
       flexDirection(`column),
       flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
       before([
-        contentRule(""),
+        contentRule(`text("")),
         position(`absolute),
         top(`zero),
         right(`zero),
@@ -111,7 +111,7 @@ module Styles = {
     style([top(`zero), right(`zero), bottom(`zero), left(`zero)]);
   let developerName =
     style([fontSize(rem(0.875)), paddingBottom(rem(0.875)), whiteSpace(`preLine)]);
-  let developerSkills = style([fontSize(rem(0.625)), fontFamily(Fonts.heading)]);
+  let developerSkills = style([fontSize(rem(0.625)), fontFamily(`custom(Fonts.heading))]);
   let sendApplication =
     style([
       paddingTop(rem(1.)),

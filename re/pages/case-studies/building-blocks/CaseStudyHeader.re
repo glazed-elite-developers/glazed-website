@@ -40,9 +40,16 @@ module Styles = {
       backgroundColor(hex(Colors.glazedBabyBlueText)),
       zIndex(0),
       media(
-        Theme.Breakpoints.tabletLandscape,
+        Theme.Breakpoints.tabletPortrait,
         [
           justifyContent(`flexEnd),
+          width(rem(17.5)),
+          height(rem(17.5)),
+        ],
+      ),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [
           padding2(~h=rem(2.5), ~v=rem(2.5)),
           width(rem(21.875)),
           height(rem(21.875)),
@@ -51,7 +58,6 @@ module Styles = {
       media(
         Theme.Breakpoints.desktop,
         [
-          justifyContent(`flexEnd),
           padding2(~h=rem(2.5), ~v=rem(5.)),
           width(rem(25.625)),
           height(rem(25.625)),

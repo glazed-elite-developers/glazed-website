@@ -74,7 +74,7 @@ module Styles = {
   let displayTitle =
     style([
       after([
-        contentRule(""),
+        contentRule(`text("")),
         position(`absolute),
         top(rem(-2.0)),
         left(rem(-1.25)),
@@ -89,7 +89,7 @@ module Styles = {
       ),
     ]);
   let verticalLine = [
-    contentRule(""),
+    contentRule(`text("")),
     position(`fixed),
     top(`zero),
     bottom(`zero),
@@ -110,7 +110,7 @@ module Styles = {
           flexDirection(`column),
           lastChild([
             after([
-              contentRule(""),
+              contentRule(`text("")),
               position(`fixed),
               top(`zero),
               bottom(`zero),

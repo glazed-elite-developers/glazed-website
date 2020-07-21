@@ -15,7 +15,7 @@ let labelInner = style([color(hex("000"))]);
 let error =
   style([
     fontSize(rem(0.6875)),
-    fontFamily(Theme.Fonts.heading),
+    fontFamily(`custom(Theme.Fonts.heading)),
     color(hex(Colors.orange)),
     opacity(0.),
     visibility(`hidden),
@@ -37,7 +37,7 @@ let input =
     borderWidth(px(0)),
     color(hex("9FA8B3")),
     display(`block),
-    fontFamily(Theme.Fonts.heading),
+    fontFamily(`custom(Theme.Fonts.heading)),
     lineHeight(rem(1.44)),
     marginTop(rem(0.625)),
     padding2(~h=rem(1.25), ~v=rem(0.93)),

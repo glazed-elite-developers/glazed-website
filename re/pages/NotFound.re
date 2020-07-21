@@ -26,7 +26,7 @@ module Styles = {
       fontSize(`rem(4.125)),
       color(hex(Colors.glazedBabyBlueText)),
       before([
-        contentRule(""),
+        contentRule(`text("")),
         display(`block),
         position(`absolute),
         top(`px(0)),
@@ -57,7 +57,7 @@ module Styles = {
     style([
       lineHeight(`abs(2.)),
       fontSize(rem(0.875)),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       color(hex(Colors.grey)),
       paddingBottom(rem(0.625)),
       media(

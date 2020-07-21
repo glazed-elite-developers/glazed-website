@@ -25,7 +25,7 @@ module Styles = {
       overflow(`hidden),
       flex3(~grow=1., ~shrink=1., ~basis=`auto),
       after([
-        contentRule(""),
+        contentRule(`text("")),
         position(`absolute),
         top(`zero),
         right(`zero),
@@ -43,7 +43,7 @@ module Styles = {
       ]),
     ]);
   let navBarLinksScrollerContent =
-    style([flexDirection(`row), fontFamily(Theme.Fonts.heading), fontSize(rem(0.625))]);
+    style([flexDirection(`row), fontFamily(`custom(Theme.Fonts.heading)), fontSize(rem(0.625))]);
   let navBarLinks =
     style([
       display(`flex),

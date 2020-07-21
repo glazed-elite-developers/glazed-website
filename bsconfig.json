@@ -15,6 +15,6 @@
   ],
   "suffix": ".js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-css", "bs-webapi", "bs-fetch"],
+  "bs-dependencies": ["reason-react", "bs-css", "bs-css-emotion", "bs-webapi", "bs-fetch"],
   "refmt": 3
 }

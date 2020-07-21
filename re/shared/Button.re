@@ -21,7 +21,7 @@ module Styles = {
       transition(~duration=1000, "box-shadow"),
       backgroundColor(hex(Theme.Colors.glazedBlueDarkerish)),
       color(hex(Theme.Colors.almostWhite)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(rem(0.75)),
       lineHeight(rem(0.75)),
       padding2(~h=rem(3.0), ~v=rem(0.875)),
@@ -66,8 +66,7 @@ module Styles = {
     style([
       color(hex(Theme.Colors.glazedBabyBlue)),
       borderWidth(px(0)),
-      // opacity(0.1),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(rem(0.75)),
       lineHeight(rem(1.5)),
       textAlign(`left),

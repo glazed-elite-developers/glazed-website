@@ -9,7 +9,7 @@ type levels =
 module Styles = {
   open Css;
   let commonStyles =
-    style([position(`relative), fontWeight(`num(700)), fontFamily(Theme.Fonts.heading)]);
+    style([position(`relative), fontWeight(`num(700)), fontFamily(`custom(Theme.Fonts.heading))]);
 
   let h1 =
     merge([

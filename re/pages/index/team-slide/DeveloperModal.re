@@ -61,7 +61,7 @@ module Styles = {
       width(rem(8.5)),
       height(rem(8.5)),
       backgroundColor(hex(Colors.glazedBlueDarker)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(rem(0.625)),
       opacity(0.6),
       color(hex(Colors.white)),
@@ -73,7 +73,7 @@ module Styles = {
       fontSize(`rem(1.125)),
       color(hex(Colors.almostWhite)),
       before([
-        contentRule(""),
+        contentRule(`text("")),
         display(`block),
         position(`absolute),
         top(`px(0)),
@@ -107,7 +107,7 @@ module Styles = {
     style([
       lineHeight(`abs(2.)),
       fontSize(rem(0.875)),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       color(hex(Colors.almostWhite)),
       paddingBottom(rem(0.625)),
       media(
@@ -147,7 +147,7 @@ module Styles = {
     style([
       color(hex(Colors.almostWhite)),
       opacity(0.4),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       media(Theme.Breakpoints.tabletLandscape, [display(`none)]),
     ]);
   let desktopSkills =
@@ -172,7 +172,7 @@ module Styles = {
     ]);
   let linkedinLink =
     style([
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       color(hex(Colors.glazedBabyBlue)),
       media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(0.75)), minWidth(rem(9.375))]),
     ]);
@@ -192,7 +192,7 @@ module Styles = {
       padding(rem(1.25)),
       background(`none),
       color(hex(Colors.almostWhite)),
-      fontFamily(Theme.Fonts.heading),
+      fontFamily(`custom(Theme.Fonts.heading)),
       fontSize(rem(0.625)),
     ]);
 };

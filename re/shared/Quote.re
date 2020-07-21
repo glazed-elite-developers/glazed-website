@@ -24,7 +24,7 @@ module Styles = {
     style([
       order(1),
       margin3(~h=rem(3.75), ~bottom=rem(1.12), ~top=rem(3.125)),
-      fontFamily(Theme.Fonts.text),
+      fontFamily(`custom(Theme.Fonts.text)),
       fontSize(rem(1.)),
       color(hex("9FA8B3")),
       fontWeight(`num(400)),

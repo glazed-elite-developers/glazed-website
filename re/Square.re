@@ -4,7 +4,7 @@ module Styles = {
   let wrapper =
     style([
       position(`relative),
-      before([contentRule(""), display(`block), paddingTop(pct(100.))]),
+      before([contentRule(`text("")), display(`block), paddingTop(pct(100.))]),
     ]);
   let content =
     style([position(`absolute), top(`zero), right(`zero), bottom(`zero), left(`zero)]);

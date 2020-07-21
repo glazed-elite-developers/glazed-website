@@ -48,14 +48,14 @@ let make =
       ~lock: bool=false,
       ~disablePointerEventsOnScroll: bool=false,
       ~scrollingTimeout: int=defaultScrollingTimeout,
-      // https://github.com/reasonml/reason-react/issues/497
-      // ~innerRef=?,
+      ~innerRef=?,
       ~children,
       ~className=?,
       ~contentClassName=?,
       ~style=?,
       ~contentStyle=?,
       ~onClick=?,
+      ~onScroll=?,
     ) => {
   open Utils.React;
 
@@ -125,6 +125,11 @@ let make =
           };
         };
 
+        switch (onScroll) {
+        | None => ()
+        | Some(onScroll) => onScroll()
+        };
+
         ();
       }),
       (notifySubscribedListeners, disablePointerEventsOnScroll, dispatch),
@@ -169,6 +174,14 @@ let make =
           : (None, None),
       [|needIOSHackery|],
     );
+  let callbackDomRef =
+    ReactDOMRe.Ref.callbackDomRef(element => {
+      wrapperRef.current = element;
+      switch (innerRef) {
+      | None => ()
+      | Some(innerRef) => innerRef.current = element
+      };
+    });
   let pointerEventsStyle =
     ReactDOMRe.Style.make(
       ~pointerEvents=?state.arePointerEventsEnabled ? None : Some("none"),
@@ -189,13 +202,7 @@ let make =
   });
 
   <ScrollContext.Provider value=scrollContextToPassDown>
-    <div
-      ref={ReactDOMRe.Ref.domRef(wrapperRef)}
-      ?className
-      ?style
-      ?onClick
-      ?onTouchStart
-      ?onTouchEnd>
+    <div ref=callbackDomRef ?className ?style ?onClick ?onTouchStart ?onTouchEnd>
       <div className=?contentClassName style=contentStyle> children </div>
     </div>
   </ScrollContext.Provider>;

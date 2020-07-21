@@ -40,7 +40,7 @@ module Styles = {
       fontSize(`rem(1.125)),
       color(hex(Colors.grey)),
       before([
-        contentRule(""),
+        contentRule(`text("")),
         display(`block),
         position(`absolute),
         top(`px(0)),
