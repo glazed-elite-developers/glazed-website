@@ -39,6 +39,12 @@ module.exports = {
     'gatsby-plugin-offline',
     'gatsby-plugin-svg-sprite',
     'gatsby-bucklescript-output-linker',
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: process.env.GA_TRACKING_ID,
+      },
+    },
   ],
   // For avoiding CORS while developing Netlify Functions locally.
   // Read more: https://www.gatsbyjs.org/docs/api-proxy/#advanced-proxying
