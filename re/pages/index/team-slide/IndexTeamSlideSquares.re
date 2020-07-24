@@ -217,6 +217,17 @@ let developers =
           linkedIn: "",
         },
       ),
+      (
+        "daniela",
+        {
+          key: "daniela",
+          name: "Daniela Dias",
+          skills: [|"iOS", "React Native", "React", "Angular"|],
+          description: "",
+          shortDescription: "",
+          linkedIn: "",
+        },
+      ),
     |],
   );
 
@@ -232,7 +243,7 @@ let squares = [|
   DeveloperSquare("figo"),
   DeveloperSquare("miguel"),
   DeveloperSquare("joao"),
-  DeveloperSquare("nelson"),
+  DeveloperSquare("daniela"),
   DeveloperSquare("nuno"),
   DeveloperSquare("goncalo"),
   MottoSquare("Great developers love their work"),
@@ -242,4 +253,5 @@ let squares = [|
   DeveloperSquare("pedro"),
   DeveloperSquare("raspa"),
   DeveloperSquare("maria"),
+  DeveloperSquare("nelson"),
 |];

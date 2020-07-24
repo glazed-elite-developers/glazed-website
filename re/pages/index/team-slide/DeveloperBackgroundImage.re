@@ -130,6 +130,13 @@ let backgroundImageQuery = [%raw
           }
         }
       }
+      daniela: file(relativePath: { eq: "team/daniela.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
       overlay: file(relativePath: { eq: "team/overlay.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
