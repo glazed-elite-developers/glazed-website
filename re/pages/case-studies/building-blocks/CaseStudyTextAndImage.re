@@ -21,7 +21,7 @@ module Styles = {
       justifyContent(`center),
       padding2(~h=rem(1.25), ~v=rem(2.5)),
       fontSize(rem(0.875)),
-      color(hex(Colors.grey)),
+      color(hex(Colors.darkGrey)),
       lineHeight(`abs(2.)),
       whiteSpace(`preLine),
       media(
