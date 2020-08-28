@@ -10,18 +10,24 @@ module LineProjectElement = {
         flexDirection(row),
         color(hex(Colors.almostWhite)),
         opacity(0.8),
+        media(Breakpoints.tabletPortrait, [padding2(~v=rem(0.625), ~h=rem(1.875))]),
         media(Breakpoints.tabletLandscape, [padding2(~v=rem(1.), ~h=rem(1.875))]),
       ]);
     let rowLeft =
       style([
         opacity(0.3),
         fontSize(`rem(0.625)),
+        media(Breakpoints.tabletPortrait, [fontSize(rem(0.625))]),
         media(Breakpoints.tabletLandscape, [fontSize(rem(0.75))]),
       ]);
     let rowRight =
       style([
         paddingLeft(rem(0.9375)),
         fontSize(rem(0.75)),
+        media(
+          Breakpoints.tabletPortrait,
+          [paddingLeft(rem(2.0625)), fontSize(rem(1.)), fontWeight(`num(700))],
+        ),
         media(
           Breakpoints.tabletLandscape,
           [paddingLeft(rem(2.0625)), fontSize(rem(1.125)), fontWeight(`num(700))],
@@ -39,7 +45,6 @@ module LineProjectElement = {
 };
 
 let kindsOfProjects = [|
-  "Our kind of projects:",
   "Technically complex",
   "Highly customised and detailed",
   "Innovative and using recent technologies",
@@ -57,6 +62,8 @@ module Styles = {
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
       backgroundColor(hex(Colors.glazedBabyBlueText)),
       lineHeight(`rem(1.875)),
+      paddingBottom(rem(1.25)),
+      media(Breakpoints.tabletPortrait, [paddingBottom(rem(3.75))]),
       media(
         Breakpoints.desktop,
         [
@@ -75,6 +82,10 @@ module Styles = {
       fontSize(`rem(0.625)),
       color(hex(Colors.almostWhite)),
       opacity(0.3),
+      media(
+        Breakpoints.tabletPortrait,
+        [padding3(~top=`rem(3.75), ~h=rem(5.), ~bottom=`rem(0.625)), fontSize(rem(0.75))],
+      ),
       media(
         Breakpoints.tabletLandscape,
         [padding3(~top=rem(5.), ~bottom=rem(4.), ~h=rem(5.)), fontSize(rem(0.8125))],

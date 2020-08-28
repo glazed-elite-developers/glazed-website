@@ -73,7 +73,8 @@ type content = {
 let make = (~content) => {
   let shouldUseDarkNavbarLinks = useShouldUseDarkNavbarLinks();
   <Layout>
-    <PageLayout className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks>
+    <PageLayout
+      className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks currentPageIndex=1>
       <CaseStudyHeader
         image=?{content.hero.image}
         title={content.hero.title}

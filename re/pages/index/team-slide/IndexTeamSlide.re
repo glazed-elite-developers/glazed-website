@@ -114,20 +114,20 @@ module Styles = {
   let developerSkills = style([fontSize(rem(0.625)), fontFamily(`custom(Fonts.heading))]);
   let sendApplication =
     style([
-      paddingTop(rem(1.)),
       flex3(~grow=1., ~shrink=1., ~basis=rem(0.000000001)),
       color(hex(Colors.almostWhite)),
       fontSize(rem(1.)),
       lineHeight(`abs(1.5)),
+      media(Theme.Breakpoints.phone, [paddingTop(rem(1.))]),
       media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(1.6))]),
     ]);
   let motto =
     style([
-      paddingTop(rem(1.)),
       color(hex(Colors.almostWhite)),
       fontSize(rem(1.)),
       lineHeight(`abs(1.5)),
       opacity(0.7),
+      media(Theme.Breakpoints.phone, [paddingTop(rem(1.))]),
       media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(1.6))]),
     ]);
 };
