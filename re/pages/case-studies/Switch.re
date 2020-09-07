@@ -74,36 +74,36 @@ let make = () => {
         {name: "docker", icon: TechIcons.twitter},
       |],
       year: "2020",
-      brief: "Switch offers access to every payment method, POS terminal, financial institution, and third-party risk provider, as well as the most modern payment management tools to improve acceptance rates, processing fees, security, dynamic routing, reconciliation, and reporting.",
+      brief: "Switch Payments was founded by Glazed team members and spun off to become one of the world’s leading Payment companies.",
     },
     content: [|
       TextAndImage(
         {j|
-        Switch Payments was founded by Glazed team members and spun off to become one of the world’s leading Payment companies.
-
         Glazed has a lot of experience in building MVPs and innovative products.
+
         From conception to seed rounds, from seed to series A, all the way up to IPOs Glazed dealt with the technical challenges startups go through.
         Building Switch put all that experience to the test.
 
         Switch’s founding story is also a testament to Glazed team members expertise in creating highly complex and demanding software for areas like Fintech, where stability and security are critical.
-        |j},
-        bigImage,
-      ),
-      TextAndImage(
-        {j|
+        
         Switch Payments was incubated at Glazed when its core payment abstraction evolved from processing credit cards to supporting every payment method existent in the industry.
-
-        Different payment methods and payment providers have different usability flows, possibly going through multiple steps to collect authentication data and capture funds, requiring offline actions by the customer or redirecting to payment providers’ web pages, and having synchronous or asynchronous responses.
-
-        Dealing with all these flows is a nightmare for merchants, and so a single abstraction and integration flow was conceived to support all of them.
         |j},
         productImage,
       ),
       TextAndImage(
         {j|
-        To make things simpler for merchants, this abstraction was then made available via REST and Real-time APIs, as well as SDKs in several frontends, backend and native mobile programming languages.
+        Switch offers access to every payment method, POS terminal, financial institution, and third-party risk provider, as well as the most modern payment management tools to improve acceptance rates, processing fees, security, dynamic routing, reconciliation, and reporting.
         
-        We also developed Switch’s initial website and technical documentation platforms.
+        Different payment methods and payment providers have different usability flows, possibly going through multiple steps to collect authentication data and capture funds, requiring offline actions by the customer or redirecting to payment providers’ web pages, and having synchronous or asynchronous responses.
+
+        Dealing with all these flows is a nightmare for merchants, and so a single abstraction and integration flow was conceived to support all of them.
+        |j},
+        bigImage,
+      ),
+      TextAndImage(
+        {j|
+        To make things simpler for merchants, this abstraction was then made available via REST and Real-time APIs, as well as SDKs in several frontends, backend and native mobile programming languages. We also developed Switch’s initial website and technical documentation platforms.
+        
         Payments are a very critical part of any business, and their stability has a direct impact on sales, therefore it was especially important to have a performant, highly-available and resistant micro-services architecture.
 
         Security requirements were also at the highest level, and we had to integrate with numerous banks, financial institutions, and comply with the corresponding security requirements. This included going through the PCI DSS certifications and implementing highly secure infrastructure, communications, and software development practices.
