@@ -32,8 +32,10 @@ module Fonts = {
 };
 
 module Breakpoints = {
-  let phone = "(min-width: 0px)";
-  let phoneValue = 0;
+  let smallPhone = "(min-width: 0px)";
+  let smallPhoneValue = 0;
+  let phone = "(min-width: 375px)";
+  let phoneValue = 375;
   let phoneLandscape = "(min-width: 576px)";
   let phoneLandscapeValue = 576;
   let tabletPortrait = "(min-width: 768px)";

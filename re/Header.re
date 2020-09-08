@@ -44,11 +44,14 @@ module Styles = {
 [@react.component]
 let make =
     (
+      ~innerRef=?,
       ~className=?,
+      ~style=?,
       ~componentAtTheRight=?,
       ~onNavBarLinkClick: option((ReactEvent.Synthetic.t, string) => unit)=?,
       ~useDarkNavBarLinks: bool=false,
       ~currentPageIndex=0,
+      ~onResize=?,
     ) => {
   let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
   let onLogoClick =
@@ -62,7 +65,12 @@ let make =
       [|onNavBarLinkClick|],
     );
 
-  <nav className=?{combineClassNames([Some(Styles.nav), className])}>
+  <ResizeMonitorContainer
+    componentTag="nav"
+    ?innerRef
+    className=?{combineClassNames([Some(Styles.nav), className])}
+    ?style
+    ?onResize>
     <Gatsby.Link _to="/#hey" className=Styles.logoWrapper onClick=?onLogoClick>
       <SVG className=Styles.logo asset=logoToUse />
     </Gatsby.Link>
@@ -76,7 +84,7 @@ let make =
      | None => React.null
      | Some(componentAtTheRight') => componentAtTheRight'
      }}
-  </nav>;
+  </ResizeMonitorContainer>;
 };
 
 let default = make;

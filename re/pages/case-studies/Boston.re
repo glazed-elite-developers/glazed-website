@@ -87,7 +87,7 @@ let make = () => {
       Custom(
         <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(
-             "Technological solution for live updates using positional tracking, beacons and machine learning capabilities.",
+              {j|With captured data, we calculate scheduling problems to assist staff, and patients through a mobile app to reduce delays and unpredictability.|j},
            )}
         </Heading>,
       ),

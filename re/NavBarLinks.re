@@ -35,7 +35,7 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int, ~on
     {React.array(
        Array.mapi(
          (index, (link, label)) => {
-           let isDimmed = index >= currentPageIndex;
+           let isDimmed = index !== currentPageIndex - 1;
            let linkStyles =
              isDimmed
                ? Css.merge([Styles.item, Styles.dimmed, contextualStyles])

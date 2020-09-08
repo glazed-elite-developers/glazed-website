@@ -8,7 +8,7 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~children, ~onResize, ~className=?, ~id=?, ~innerRef=?, ~style=?, ~componentTag="div") => {
+let make = (~children, ~onResize=?, ~className=?, ~id=?, ~innerRef=?, ~style=?, ~componentTag="div") => {
   ReactDOMRe.createElement(
     componentTag,
     ~props=
@@ -21,6 +21,6 @@ let make = (~children, ~onResize, ~className=?, ~id=?, ~innerRef=?, ~style=?, ~c
         ~className=?combineClassNames([Some(Styles.wrapper), className]),
         (),
       ),
-    [|<Fragment> children <ResizeMonitor onResize /> </Fragment>|],
+    [|<Fragment> children <ResizeMonitor ?onResize /> </Fragment>|],
   );
 };

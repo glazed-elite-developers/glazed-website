@@ -40,7 +40,7 @@ module Styles = {
       flexDirection(`column),
       media(
         Breakpoints.tabletLandscape,
-        [flexDirection(`row), flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001))],
+        [flexDirection(`row), flex3(~grow=1., ~shrink=1., ~basis=`auto)],
       ),
     ]);
   let funPart =
@@ -68,7 +68,7 @@ module Styles = {
     style([
       media(
         Breakpoints.tabletPortrait,
-        [display(`flex), flex3(~grow=1., ~shrink=1., ~basis=rem(0.0000001))],
+        [display(`flex), flex3(~grow=1., ~shrink=1., ~basis=`auto)],
       ),
     ]);
   let displayTitle =

@@ -9,14 +9,14 @@ module Styles = {
 let pageImagesQuery = [%raw
   {|Gatsby.graphql`
      query {
-       headerImage: file(relativePath: { eq: "case-studies/farfetch-header.jpg" }) {
+       headerImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/farfetch-header.jpg" }) {
+       bigImage: file(relativePath: { eq: "case-studies/farfetch-1.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -68,18 +68,24 @@ let make = () => {
     content: [|
       BigImage(bigImage),
       TextAndImage(
-        "Glazed built a multi-tenant fashion eCommerce store, with a large feature set:  Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics, Boutiques listing.
-        All of them were integrated with Farfetch's internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support.",
+        "There are many ways to optimise the conversion funnel – the path that invites the customers into the store – and finally converting to a sale, hence, a responsive design, converged in performance and search engine & app store optimisation is vital to getting users in with the less amount of friction possible.
+
+        Since SEO was a vital requirement for the type of search the company wanted to achieve, the storefronts are using isomorphic React and webpack (since 2015). This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile. The codebase was split across several microservices, with a very scalable architecture and easily deployed using docker.",
         bigImage,
       ),
       QuoteCard(
         "Culture really trumps everything else.",
         {name: {j|José Neves|j}, title: "Farfetch CEO", avatarImage: joseNevesAvatarImage},
       ),
+      BigVideo("https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
+      TextAndVideo("Text example", "https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
       TextAndImage(
         {j|
-        The storefront is using isomorphic React (because SEO was vital for the type of search that the company wanted to achieve and performance optimization via caching and mobile-specific code chunks)
-        React and webpack (using since ‘15), which allowed building a component-based single-page application that is search-engine optimised, and that only serves the content needed for each context, with a fast and light first-load which is great for mobile. Our codebase was split across several microservices, with a very scalable architecture, easy to deploy using docker.
+        As a result, Glazed created a custom eCommerce CMS, where each tenant could change the look and content of the storefront in real-time.
+
+        The multi-tenant fashion eCommerce store that could host a large feature including Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics and Boutiques listing.
+
+        All of them integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support. 	
         |j},
         bigImage,
       ),

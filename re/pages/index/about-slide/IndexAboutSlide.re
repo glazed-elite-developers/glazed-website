@@ -5,7 +5,7 @@ module Styles = {
   let wrapper =
     style([
       display(`grid),
-      gridTemplateRows([`auto, `auto, `fr(1.)]),
+      gridTemplateRows([`auto, `minmax((`auto, rem(11.25))), `fr(1.)]),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       padding4(~top=rem(4.1875), ~right=`zero, ~left=rem(1.25), ~bottom=`zero),
       overflow(`hidden),
@@ -75,9 +75,14 @@ module Styles = {
   let dimmedOnDesktop = style([media(Breakpoints.tabletLandscape, [opacity(0.6)])]);
   let htmlTextWrapper =
     style([
+      display(`flex),
+      alignItems(`center),
       media(
         Breakpoints.tabletLandscape,
-        [padding4(~top=rem(4.75), ~right=rem(2.5), ~bottom=`zero, ~left=`zero)],
+        [
+          display(`block),
+          padding4(~top=rem(4.75), ~right=rem(2.5), ~bottom=`zero, ~left=`zero),
+        ],
       ),
       media(
         Breakpoints.desktop,
@@ -94,12 +99,12 @@ module Styles = {
       color(hex(Colors.glazedBabyBlueText)),
       fontSize(rem(1.125)),
       lineHeight(`abs(1.5)),
-      width(`rem(21.875)),
+      maxWidth(`rem(21.875)),
       textAlign(`left),
-      alignSelf(`flexEnd),
+      media(Breakpoints.tabletPortrait, [maxWidth(rem(30.))]),
       media(
         Breakpoints.tabletLandscape,
-        [width(`auto), fontSize(rem(2.125)), padding(`zero)],
+        [maxWidth(`none), fontSize(rem(2.125)), padding(`zero), alignSelf(`flexEnd)],
       ),
     ]);
 };
