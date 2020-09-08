@@ -80,10 +80,8 @@ type headerPosition =
 let useHeaderPosition = () => {
   let scrollValues = ScrollConnectors.useClosestScrollValues();
   let scrollTop = scrollValues.position.scrollTop;
-  let (position, setPosition) = useState(() => Static(scrollTop));
+  let lastPositionRef = useRef(Static(scrollTop));
   let (headerHeight, setHeaderHeight) = useState(() => 0.);
-  // let (position, setPosition) =
-  //   useState(() => {position: Static(scrollTop), withBackgound: scrollTop > 0.});
   let lastScrollDataRef = useRef((scrollTop, Down));
   let (lastScrollTop, lastScrollDirection) = lastScrollDataRef.current;
   let scrollDirection =
@@ -100,23 +98,20 @@ let useHeaderPosition = () => {
       },
       [|setHeaderHeight|],
     );
-
-  useEffect3(
-    () => {
-      switch (scrollDirection, position) {
-      | (Down, Fixed) => setPosition(_ => Static(scrollTop))
-      | (Up, Static(offset)) =>
-        if (offset +. headerHeight < scrollTop) {
-          setPosition(_ => Static(scrollTop -. headerHeight));
-        } else if (offset >= scrollTop) {
-          setPosition(_ => Fixed);
-        }
-      | _ => ()
-      };
-      None;
-    },
-    (scrollTop, scrollDirection, setPosition),
-  );
+  let position =
+    switch (scrollDirection, lastPositionRef.current) {
+    | (Down, Fixed) => Static(scrollTop);
+    | (Up, Static(offset)) =>
+      if (offset +. headerHeight < scrollTop) {
+        Static(scrollTop -. headerHeight);
+      } else if (offset >= scrollTop) {
+        Fixed;
+      } else {
+        lastPositionRef.current;
+      }
+    | _ => lastPositionRef.current
+    };
+  lastPositionRef.current = position;
 
   (position, shouldHaveBackground, onHeaderResize);
 };
