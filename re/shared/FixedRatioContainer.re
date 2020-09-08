@@ -22,14 +22,6 @@ type stretchDirection =
   | Horizontal
   | Vertical;
 
-let getClassName = (stretchDirection, className) =>
-  combineClassNames([
-    className,
-    Some(Styles.wrapper),
-    stretchDirection === Horizontal
-      ? Some(Styles.stretchHorizontally) : Some(Styles.stretchVertically),
-  ]);
-
 /**
  * IE forces us to use an image with an inlined svg to be able to scale an svg mantaining its
  * aspect ratio.
@@ -67,7 +59,7 @@ module ImagePlaceholder = {
 let make =
     (
       ~className=?,
-      ~heightRegulatorClassName=?,
+      ~heightRegulatorClassName as baseHeightRegulatorClassName=?,
       ~imagePlaceholderClassName=?,
       ~contentClassName=?,
       ~stretchDirection: stretchDirection,
@@ -76,9 +68,16 @@ let make =
       ~height: int,
       ~children,
     ) => {
-  <div className=?{getClassName(stretchDirection, className)}>
-    <div
-      className=?{combineClassNames([Some(Styles.heightRegulator), heightRegulatorClassName])}>
+  let heightRegulatorClassName =
+    combineClassNames([
+      baseHeightRegulatorClassName,
+      Some(Styles.heightRegulator),
+      stretchDirection === Horizontal
+        ? Some(Styles.stretchHorizontally) : Some(Styles.stretchVertically),
+    ]);
+
+  <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
+    <div className=?heightRegulatorClassName>
       <ImagePlaceholder
         innerRef=?placeholderRef
         className=?imagePlaceholderClassName
