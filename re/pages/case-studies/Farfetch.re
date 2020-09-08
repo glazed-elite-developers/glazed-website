@@ -77,6 +77,8 @@ let make = () => {
         "Culture really trumps everything else.",
         {name: {j|José Neves|j}, title: "Farfetch CEO", avatarImage: joseNevesAvatarImage},
       ),
+      BigVideo("https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
+      TextAndVideo("Text example", "https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
       TextAndImage(
         {j|
         As a result, Glazed created a custom eCommerce CMS, where each tenant could change the look and content of the storefront in real-time.

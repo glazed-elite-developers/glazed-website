@@ -8,8 +8,11 @@ module Styles = {
     style([
       display(`flex),
       flexWrap(`wrap),
-      padding2(~h=rem(1.25), ~v=rem(2.5)),
-      media(Theme.Breakpoints.tabletLandscape, [padding2(~h=rem(11.25), ~v=rem(6.25))]),
+      padding3(~h=rem(1.25), ~top=rem(2.5), ~bottom=`zero),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [padding3(~h=rem(11.25), ~top=rem(6.25), ~bottom=`zero)],
+      ),
     ]);
   let section =
     style([

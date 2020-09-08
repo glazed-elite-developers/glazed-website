@@ -40,6 +40,8 @@ type dynamicContentComponents =
   | BigImage(option(Gatsby.fluidImage))
   | TextAndImage(string, option(Gatsby.fluidImage))
   | QuoteCard(string, CaseStudyQuoteCard.author)
+  | BigVideo(string)
+  | TextAndVideo(string, string)
   | Custom(React.element);
 
 type hero = {
@@ -96,6 +98,8 @@ let make = (~content) => {
              | BigImage(image) => <CaseStudyBigImage key ?image />
              | TextAndImage(text, image) => <CaseStudyTextAndImage key text ?image />
              | QuoteCard(quote, author) => <CaseStudyQuoteCard key quote author />
+             | BigVideo(src) => <CaseStudyBigVideo key src />
+             | TextAndVideo(text, videoSrc) => <CaseStudyTextAndVideo key text videoSrc />
              | Custom(component) => cloneElement(component, ReactDOMRe.props(~key, ()))
              };
            },
