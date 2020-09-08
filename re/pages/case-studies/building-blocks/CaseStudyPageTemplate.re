@@ -8,33 +8,31 @@ module Styles = {
     style([
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundColor(hex(Colors.whiteTurquoise)),
-      media(Theme.Breakpoints.tabletLandscape, [paddingTop(rem(6.875))]),
     ]);
+  let header =
+    style([
+      position(`sticky),
+      transform(`translateZ(`zero)),
+      backgroundColor(hex(Colors.whiteTurquoise)),
+      before([
+        contentRule(`text("")),
+        display(`block),
+        position(`absolute),
+        bottom(pct(100.)),
+        width(pct(100.)),
+        height(px(200)),
+        backgroundColor(hex(Colors.whiteTurquoise)),
+      ]),
+    ]);
+  let headerWithShadow =
+    style([boxShadow(Shadow.box(~y=px(7), ~blur=px(15), rgba(0, 0, 0, 0.04)))]);
 };
-
-let breakpointsWithDarkNavBar = Belt.Set.String.fromArray([|"tabletLandscape", "desktop"|]);
 
 let techs: array(CaseStudyBrief.tech) = [|
   {name: "react", icon: TechIcons.twitter},
   {name: "angular", icon: TechIcons.twitter},
   {name: "ios", icon: TechIcons.twitter},
 |];
-
-let useShouldUseDarkNavbarLinks = () => {
-  let scrollValues: ScrollConnectors.scrollValues = ScrollConnectors.useClosestScrollValues();
-  let {scrollTop}: ScrollContext.scrollPosition = scrollValues.position;
-  let breakpoint = React.useContext(MediaContext.context);
-  useMemo2(
-    () => {
-      switch (breakpoint) {
-      | "tabletLandscape"
-      | "desktop" => true
-      | _ => scrollTop > 305.
-      }
-    },
-    (scrollTop, breakpoint),
-  );
-};
 
 type dynamicContentComponents =
   | BigImage(option(Gatsby.fluidImage))
@@ -71,12 +69,84 @@ type content = {
   nextCase,
 };
 
+type scrollDirection =
+  | Up
+  | Down;
+
+type headerPosition =
+  | Static(float)
+  | Fixed;
+
+let useHeaderPosition = () => {
+  let scrollValues = ScrollConnectors.useClosestScrollValues();
+  let scrollTop = scrollValues.position.scrollTop;
+  let (position, setPosition) = useState(() => Static(scrollTop));
+  let (headerHeight, setHeaderHeight) = useState(() => 0.);
+  // let (position, setPosition) =
+  //   useState(() => {position: Static(scrollTop), withBackgound: scrollTop > 0.});
+  let lastScrollDataRef = useRef((scrollTop, Down));
+  let (lastScrollTop, lastScrollDirection) = lastScrollDataRef.current;
+  let scrollDirection =
+    scrollTop > lastScrollTop ? Down : lastScrollTop === scrollTop ? lastScrollDirection : Up;
+  let shouldHaveBackground = scrollTop > 0.;
+  lastScrollDataRef.current = (scrollTop, scrollDirection);
+  let onHeaderResize =
+    useCallback1(
+      (nextBoundingRect: option(Utils.Dom.Measurements.boundingRect)) => {
+        switch (nextBoundingRect) {
+        | Some(boundingRect) => setHeaderHeight(_state => boundingRect.height)
+        | None => ()
+        }
+      },
+      [|setHeaderHeight|],
+    );
+
+  useEffect3(
+    () => {
+      switch (scrollDirection, position) {
+      | (Down, Fixed) => setPosition(_ => Static(scrollTop))
+      | (Up, Static(offset)) =>
+        if (offset +. headerHeight < scrollTop) {
+          setPosition(_ => Static(scrollTop -. headerHeight));
+        } else if (offset >= scrollTop) {
+          setPosition(_ => Fixed);
+        }
+      | _ => ()
+      };
+      None;
+    },
+    (scrollTop, scrollDirection, setPosition),
+  );
+
+  (position, shouldHaveBackground, onHeaderResize);
+};
+
 [@react.component]
 let make = (~content) => {
-  let shouldUseDarkNavbarLinks = useShouldUseDarkNavbarLinks();
+  let (headerPosition, shouldHaveBackground, onHeaderResize) = useHeaderPosition();
+  let headerStyle =
+    switch (headerPosition) {
+    | Static(offsetTop) =>
+      Some(
+        ReactDOMRe.Style.make(
+          ~position="relative",
+          ~transform={j|translateY($(offsetTop)px)|j},
+          (),
+        ),
+      )
+    | Fixed => None
+    };
+  let headerClassName =
+    shouldHaveBackground ? Css.merge([Styles.header, Styles.headerWithShadow]) : Styles.header;
+
   <Layout>
     <PageLayout
-      className=Styles.pageLayout useDarkNavBarLinks=shouldUseDarkNavbarLinks currentPageIndex=1>
+      className=Styles.pageLayout
+      headerClassName
+      ?headerStyle
+      onHeaderResize
+      useDarkNavBarLinks=true
+      currentPageIndex=1>
       <CaseStudyHeader
         image=?{content.hero.image}
         title={content.hero.title}
