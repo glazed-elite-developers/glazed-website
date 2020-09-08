@@ -37,7 +37,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/lvmh.jpg" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
              ...GatsbyImageSharpFluid
@@ -70,7 +70,9 @@ let make = () => {
         {name: "iBeacons", icon: TechIcons.twitter},
       |],
       year: "2019",
-      brief: "We've developed a technological solution for physicians to provide live updates to their patients concerning their next appointment, including dynamically rescheduling appointments - all using positional tracking, beacons and machine learning capabilities.",
+      brief: {j|
+      We've developed a technological solution for physicians to provide live updates to their patients concerning their next appointment, including dynamically rescheduling appointments - all using positional tracking, beacons and machine learning capabilities.
+      |j},
     },
     content: [|
       TextAndImage(
@@ -85,11 +87,7 @@ let make = () => {
         bigImage,
       ),
       Custom(
-        <Heading level=Heading.H3 className=Styles.inPageHeading>
-          {React.string(
-              {j|With captured data, we calculate scheduling problems to assist staff, and patients through a mobile app to reduce delays and unpredictability.|j},
-           )}
-        </Heading>,
+        <iframe src="https://player.vimeo.com/video/455760404" width="640" height="456"/>
       ),
       TextAndImage(
         {j|

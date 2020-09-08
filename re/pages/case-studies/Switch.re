@@ -65,16 +65,16 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "angular", icon: TechIcons.twitter},
-        {name: "nodeJS", icon: TechIcons.twitter},
-        {name: "django", icon: TechIcons.twitter},
-        {name: "java", icon: TechIcons.twitter},
-        {name: "objective c", icon: TechIcons.twitter},
-        {name: "php", icon: TechIcons.twitter},
-        {name: "docker", icon: TechIcons.twitter},
+        {name: "angular", icon: TechIcons.angular},
+        {name: "nodeJS", icon: TechIcons.nodejs},
+        {name: "django", icon: TechIcons.generic},
+        {name: "java", icon: TechIcons.generic},
+        {name: "objective c", icon: TechIcons.apple},
+        {name: "php", icon: TechIcons.generic},
+        {name: "docker", icon: TechIcons.generic},
       |],
       year: "2020",
-      brief: "Switch Payments was founded by Glazed team members and spun off to become one of the world’s leading Payment companies.",
+      brief: {j|Switch Payments was founded by Glazed team members and spun off to become one of the world’s leading Payment companies.|j},
     },
     content: [|
       TextAndImage(

@@ -16,9 +16,30 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/farfetch-1.png" }) {
+       bigImage: file(relativePath: { eq: "case-studies/farfetch-01.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
+       productImage2: file(relativePath: { eq: "case-studies/farfetch-02.png" }) {
+         childImageSharp {
+           fluid(maxWidth: 1200, maxHeight: 800) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
+       productImage3: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
+         childImageSharp {
+           fluid(maxWidth: 1200, maxHeight: 800) {
+             ...GatsbyImageSharpFluid
+           }
+         }
+       }
+       productImage4: file(relativePath: { eq: "case-studies/farfetch-04.png" }) {
+         childImageSharp {
+           fluid(maxWidth: 1200, maxHeight: 800) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -46,6 +67,10 @@ let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
+  let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
+  let productImage3 = Gatsby.getImageFluid(queryResult, "productImage3");
+  let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
+  let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
@@ -57,25 +82,35 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "react", icon: TechIcons.twitter},
-        {name: "angular", icon: TechIcons.twitter},
-        {name: "ios", icon: TechIcons.twitter},
+        {name: "react", icon: TechIcons.react},
+        {name: "angular", icon: TechIcons.angular},
+        {name: "ios", icon: TechIcons.apple},
       |],
       year: "2019",
       brief: "Farfetch asked Glazed to create a white label version of their main e-commerce site for big brands that want to sell on their own website.
       This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it were Manolo Blahnik and Rihanna.",
     },
     content: [|
-      BigImage(bigImage),
+      BigImage(productImage3),
       TextAndImage(
-        "There are many ways to optimise the conversion funnel – the path that invites the customers into the store – and finally converting to a sale, hence, a responsive design, converged in performance and search engine & app store optimisation is vital to getting users in with the less amount of friction possible.
+        {j|
+        There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.
 
-        Since SEO was a vital requirement for the type of search the company wanted to achieve, the storefronts are using isomorphic React and webpack (since 2015). This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile. The codebase was split across several microservices, with a very scalable architecture and easily deployed using docker.",
-        bigImage,
+Therefore, a responsive design solution, converged in performance with search engine and app store optimisation was vital. 
+
+Since SEO was an essential requirement for the type of search the company wanted to achieve, we implemented an isomorphic React storefront with webpack. This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile. 
+
+Considering the codebase was split across several microservices with a very scalable architecture it allowed us to easily deploy via docker. 
+        |j},
+        productImage4,
       ),
       QuoteCard(
         "Culture really trumps everything else.",
-        {name: {j|José Neves|j}, title: "Farfetch CEO", avatarImage: joseNevesAvatarImage},
+        {
+          name: {j|José Neves|j},
+          title: "Farfetch CEO",
+          avatarImage: joseNevesAvatarImage,
+        },
       ),
       TextAndImage(
         {j|
@@ -83,9 +118,9 @@ let make = () => {
 
         The multi-tenant fashion eCommerce store that could host a large feature including Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics and Boutiques listing.
 
-        All of them integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support. 	
+        All of them integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support.
         |j},
-        bigImage,
+        productImage2,
       ),
     |],
     nextCase: {

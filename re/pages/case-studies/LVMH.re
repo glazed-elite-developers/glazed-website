@@ -88,11 +88,11 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "Google Assistant", icon: TechIcons.twitter},
-        {name: "Alexa Skills", icon: TechIcons.twitter},
-        {name: "IBM Watson Assistant", icon: TechIcons.twitter},
-        {name: "Dialogflow", icon: TechIcons.twitter},
-        {name: "Elixir", icon: TechIcons.twitter},
+        {name: "Google Assistant", icon: TechIcons.generic},
+        {name: "Alexa Skills", icon: TechIcons.generic},
+        {name: "IBM Watson Assistant", icon: TechIcons.generic},
+        {name: "Dialogflow", icon: TechIcons.generic},
+        {name: "Elixir", icon: TechIcons.generic},
       |],
       year: "2016 - 2020",
       brief: {j|Develop a conversational solution to engage and create personalised experiences for customers.|j},
