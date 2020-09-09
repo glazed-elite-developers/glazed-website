@@ -52,8 +52,8 @@ let make =
     let (sayHelloModalUrl, openSayHelloModal) = OpenSayHelloModalHook.useOpenSayHelloModal();
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
-    let location: Routing.location = Routing.useLocation();
-    let selectedModal = location.search |> URLSearchParams.make |> URLSearchParams.get("modal");
+    let url = ReasonReactRouter.useUrl();
+    let selectedModal = url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
     // Need to memoize this to avoid unnecessary header rerenders.
     let headerComponentAtTheRight =
       useMemo3(

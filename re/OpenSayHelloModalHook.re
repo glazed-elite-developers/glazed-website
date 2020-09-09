@@ -1,14 +1,14 @@
 open React;
 
 let useOpenSayHelloModal = () => {
-  let location: Routing.location = Routing.useLocation();
-  let currentPath = location.pathname;
-  let currentFullPath = Js.Global.encodeURIComponent(Utils.Routing.getFullPath(location));
+  let url = ReasonReactRouter.useUrl();
+  let currentPath = Utils.Routing.getPath(url);
+  let currentFullPath = Js.Global.encodeURIComponent(Utils.Routing.getFullPath(url));
   let sayHelloModalUrl = {j|$(currentPath)?modal=say-hello&backTo=$(currentFullPath)|j};
   let openSayHelloModal =
     useCallback0(event => {
       ReactEvent.Synthetic.preventDefault(event);
-      Routing.navigate(sayHelloModalUrl, ~state={"preventDefaultScrollBehavior": true});
+      Routing.push(sayHelloModalUrl, ~state={"preventDefaultScrollBehavior": true});
     });
 
   (sayHelloModalUrl, openSayHelloModal);

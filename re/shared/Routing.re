@@ -1,18 +1,3 @@
-type routeStatePayload = {preventDefaultScrollBehavior: bool};
-
-type routeState = {
-  key: string,
-  state: option(routeStatePayload),
-};
-
-type location = {
-  action: string,
-  pathname: string,
-  hash: string,
-  search: string,
-  state: Js.Nullable.t(routeState),
-};
-
 [@bs.send] external dispatchEvent: (Dom.window, Dom.event) => unit = "dispatchEvent";
 
 [@bs.send]
@@ -32,10 +17,6 @@ external createEventNonIEBrowsers: string => Dom.event = "createEvent";
 
 [@bs.send] external initEventNonIEBrowsers: (Dom.event, string, bool, bool) => unit = "initEvent";
 
-[@bs.module "@reach/router"] external useLocation: unit => location = "useLocation";
-
-[@bs.module "gatsby"] external navigate: (string, Js.t({..})) => unit = "navigate";
-
 let keyLength = 6;
 
 let createKey = () =>
@@ -50,11 +31,30 @@ let safeMakeEvent = eventName =>
     event;
   };
 
-let navigate = (~state=?, ~replace=false, path) => {
-  let nextState =
-    switch (state) {
-    | None => Js.Obj.empty()
-    | Some(state') => {"key": createKey(), "state": state'}
-    };
-  navigate(path, {"replace": replace, "state": nextState});
-};
+let push = (~state=?, path) =>
+  switch ([%external history], [%external window]) {
+  | (None, _)
+  | (_, None) => ()
+  | (Some((history: Dom.history)), Some((window: Dom.window))) =>
+    let nextState =
+      switch (state) {
+      | None => Js.Obj.empty()
+      | Some(state') => {"key": createKey(), "state": state'}
+      };
+    pushState(history, ~state=nextState, ~href=path);
+    dispatchEvent(window, safeMakeEvent("popstate"));
+  };
+
+let replace = (~state=?, path) =>
+  switch ([%external history], [%external window]) {
+  | (None, _)
+  | (_, None) => ()
+  | (Some((history: Dom.history)), Some((window: Dom.window))) =>
+    let nextState =
+      switch (state) {
+      | None => Js.Obj.empty()
+      | Some(state') => {"key": createKey(), "state": state'}
+      };
+    replaceState(history, ~state=nextState, ~href=path);
+    dispatchEvent(window, safeMakeEvent("popstate"));
+  };
