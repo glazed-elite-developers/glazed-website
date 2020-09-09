@@ -14,13 +14,6 @@ type location = {
 
 [@bs.module "@reach/router"] external useLocation: unit => location = "useLocation";
 
-module Styles = {
-  open Css;
-
-  let wrapper = style([height(pct(100.))]);
-  let content = style([height(pct(100.))]);
-};
-
 [@react.component]
 let make = (~children) => {
   let url = ReasonReactRouter.useUrl();
