@@ -90,18 +90,23 @@ let useHeaderPosition = () => {
       [|setHeaderHeight|],
     );
   let position =
-    switch (scrollDirection, lastPositionRef.current) {
-    | (Down, Fixed) => Static(Js.Math.max_float(scrollTop -. headerHeight, 0.))
-    | (Up, Static(offset)) =>
-      if (offset +. headerHeight < scrollTop) {
-        Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
-      } else if (offset >= scrollTop) {
-        Fixed;
-      } else {
-        lastPositionRef.current;
-      }
-    | _ => lastPositionRef.current
-    };
+    useMemo4(
+      () => {
+        switch (scrollDirection, lastPositionRef.current) {
+        | (Down, Fixed) => Static(Js.Math.max_float(scrollTop, 0.))
+        | (Up, Static(offset)) =>
+          if (offset +. headerHeight < scrollTop) {
+            Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
+          } else if (offset >= scrollTop) {
+            Fixed;
+          } else {
+            lastPositionRef.current;
+          }
+        | _ => lastPositionRef.current
+        }
+      },
+      (scrollDirection, lastPositionRef.current, headerHeight, scrollTop),
+    );
   lastPositionRef.current = position;
 
   (position, shouldHaveBackground, onHeaderResize);
@@ -111,17 +116,22 @@ let useHeaderPosition = () => {
 let make = (~content) => {
   let (headerPosition, shouldHaveBackground, onHeaderResize) = useHeaderPosition();
   let headerStyle =
-    switch (headerPosition) {
-    | Static(offsetTop) =>
-      Some(
-        ReactDOMRe.Style.make(
-          ~position="relative",
-          ~transform={j|translateY($(offsetTop)px)|j},
-          (),
-        ),
-      )
-    | Fixed => None
-    };
+    useMemo1(
+      () => {
+        switch (headerPosition) {
+        | Static(offsetTop) =>
+          Some(
+            ReactDOMRe.Style.make(
+              ~position="relative",
+              ~transform={j|translateY($(offsetTop)px)|j},
+              (),
+            ),
+          )
+        | Fixed => None
+        }
+      },
+      [|headerPosition|],
+    );
   let headerClassName =
     shouldHaveBackground ? Css.merge([Styles.header, Styles.headerWithShadow]) : Styles.header;
 

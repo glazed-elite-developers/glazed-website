@@ -54,6 +54,18 @@ let make =
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
     let selectedModal = url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
+    // Need to memoize this to avoid unnecessary header rerenders.
+    let headerComponentAtTheRight =
+      useMemo3(
+        () => {
+          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
+            <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
+              {React.string("> say hello")}
+            </Button>
+          </Gatsby.Link>
+        },
+        (sayHelloModalUrl, openSayHelloModal, useDarkNavBarLinks),
+      );
 
     useEffect1(
       () => {
@@ -83,13 +95,7 @@ let make =
         useDarkNavBarLinks
         currentPageIndex
         onResize=?onHeaderResize
-        componentAtTheRight={
-          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
-            <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-              {React.string("> say hello")}
-            </Button>
-          </Gatsby.Link>
-        }
+        componentAtTheRight=headerComponentAtTheRight
       />
       children
       <MobileFooter
