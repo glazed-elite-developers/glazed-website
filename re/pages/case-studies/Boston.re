@@ -75,21 +75,24 @@ let make = () => {
       |j},
     },
     content: [|
-      TextAndVideo({j|
+      TextAndImage(
+        {j|
         It's easy to triangulate locations while outdoors, but as soon as we get walls into the mix, the situation changes. This project's main challenge resided in being able to provide the accurate positioning of physicians within the hospital.
-        
-        The project's full scope can be broken down into the following main tasks:
+            The project's full scope can be broken down into the following main tasks:
             1. Calculate the physician position within the hospital
             2. Manipulate live data points
             3. Deliver results back to the patients
             4. Trigger changes if significant thresholds were reached
-        |j}, "https://player.vimeo.com/video/455760404"),
+        |j},
+        bigImage,
+      ),
+      Custom(
+        <iframe src="https://player.vimeo.com/video/455760404" width="640" height="456"/>
+      ),
       TextAndImage(
         {j|
         To capture the most accurate position possible we've used iBeacons connected to a native iOS application through Bluetooth.
-        
         Bluetooth low energy (BLE) beacons are a cost-effective way for apps to obtain the device's position while indoors where other methods like GPS are not available. Beacons emit a signal, and apps can roughly estimate how far a user is from them, judging by the strength of that signal; this makes it possible to triangulate the user position from several signals.
-        
         That position estimate is very rough though, since physical objects and electronic devices can interfere with transmitted signals.
         |j},
         image,
