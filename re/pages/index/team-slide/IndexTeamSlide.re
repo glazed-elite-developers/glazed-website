@@ -195,7 +195,7 @@ module DeveloperSquare = {
     let link = developerLink(developer);
     let onClick =
       useCallback1(
-        _event => {Routing.push(link, ~state={"preventDefaultScrollBehavior": true})},
+        _event => {Routing.navigate(link, ~state={"preventDefaultScrollBehavior": true})},
         [|developer|],
       );
 
@@ -248,9 +248,11 @@ let make =
     open Webapi.Url;
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
-    let url = ReasonReactRouter.useUrl();
+    let location: Routing.location = Routing.useLocation();
     let selectedDeveloper =
-      url.search |> URLSearchParams.make |> URLSearchParams.get(selectedDeveloperQueryStringKey);
+      location.search
+      |> URLSearchParams.make
+      |> URLSearchParams.get(selectedDeveloperQueryStringKey);
 
     React.useEffect1(
       () => {

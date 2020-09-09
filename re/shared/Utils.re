@@ -21,15 +21,10 @@ module React = {
 };
 
 module Routing = {
-  let getPath = (url: ReasonReactRouter.url): string => {
-    Belt.List.reduce(url.path, "/", (result, segment) => {j|$(result)$(segment)/|j});
-  };
-
-  let getFullPath = (url: ReasonReactRouter.url): string => {
-    let {search, hash}: ReasonReactRouter.url = url;
-    let path = getPath(url);
-    let pathWithSearch = search === "" ? path : {j|$(path)?$(search)|j};
-    hash === "" ? pathWithSearch : {j|$(pathWithSearch)#$(hash)|j};
+  let getFullPath = (location: Routing.location): string => {
+    let {search, hash, pathname}: Routing.location = location;
+    let pathWithSearch = search === "" ? pathname : {j|$(pathname)?$(search)|j};
+    hash === "" ? pathWithSearch : {j|$(pathWithSearch)$(hash)|j};
   };
 };
 
