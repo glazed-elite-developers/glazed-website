@@ -171,7 +171,15 @@ module SendApplicationSquare = {
       <Heading level=Heading.H2 className=Styles.sendApplication>
         {React.string("<Your name could be here />")}
       </Heading>
-      <Gatsby.Link _to=sayHelloModalUrl className=Styles.link onClick=openSayHelloModal>
+      <Gatsby.Link
+        _to=sayHelloModalUrl
+        className=Styles.link
+        onClick=openSayHelloModal
+        state={
+          "state": {
+            "preventDefaultScrollBehavior": true,
+          },
+        }>
         {React.string("> send application")}
       </Gatsby.Link>
     </TeamSlideSquare>;
@@ -185,10 +193,23 @@ module DeveloperSquare = {
   [@react.component]
   let make = (~developer: IndexTeamSlideSquares.developer) => {
     let link = developerLink(developer);
-    let onClick = useCallback1(_event => {ReasonReactRouter.push(link)}, [|developer|]);
+    let onClick =
+      useCallback1(
+        _event => {Routing.push(link, ~state={"preventDefaultScrollBehavior": true})},
+        [|developer|],
+      );
 
     <TeamSlideSquare contentClassName=Styles.developerSquare>
-      <Gatsby.Link _to=link onClick className=Styles.developerSquareLink replace=true>
+      <Gatsby.Link
+        _to=link
+        onClick
+        className=Styles.developerSquareLink
+        state={
+          "state": {
+            "preventDefaultScrollBehavior": true,
+          },
+        }
+        replace=true>
         <DeveloperBackgroundImage
           developerPhotoKey={developer.key}
           className=Styles.developerBackgroundImageWrapper

@@ -27,7 +27,8 @@ module Link = {
       ~className: option(string)=?,
       ~children: React.element,
       ~onClick: option(ReactEvent.Synthetic.t => unit)=?,
-      ~replace: bool=?
+      ~replace: bool=?,
+      ~state: option(Js.t('a))=?
     ) =>
     React.element =
     "Link";

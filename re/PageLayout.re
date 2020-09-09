@@ -58,7 +58,14 @@ let make =
     let headerComponentAtTheRight =
       useMemo3(
         () => {
-          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
+          <Gatsby.Link
+            _to=sayHelloModalUrl
+            onClick=openSayHelloModal
+            state={
+              "state": {
+                "preventDefaultScrollBehavior": true,
+              },
+            }>
             <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
               {React.string("> say hello")}
             </Button>

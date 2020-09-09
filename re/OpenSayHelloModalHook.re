@@ -8,7 +8,7 @@ let useOpenSayHelloModal = () => {
   let openSayHelloModal =
     useCallback0(event => {
       ReactEvent.Synthetic.preventDefault(event);
-      ReasonReactRouter.push(sayHelloModalUrl);
+      Routing.push(sayHelloModalUrl, ~state={"preventDefaultScrollBehavior": true});
     });
 
   (sayHelloModalUrl, openSayHelloModal);
