@@ -87,7 +87,7 @@ let make = () => {
         {name: "ios", icon: TechIcons.apple},
       |],
       year: "2019",
-      brief: "Farfetch asked Glazed to create a white label version of their main e-commerce site for big brands that want to sell on their own website.
+      brief: "Create a white label version of their main e-commerce site for big brands that want to sell on their own website.
       This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it were Manolo Blahnik and Rihanna.",
     },
     content: [|
@@ -112,11 +112,8 @@ Considering the codebase was split across several microservices with a very scal
           avatarImage: joseNevesAvatarImage,
         },
       ),
-      BigVideo("https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
-      TextAndVideo("Text example", "https://player.vimeo.com/video/336812660?title=0&byline=0&portrait=0"),
       TextAndImage(
-        {j|
-        As a result, Glazed created a custom eCommerce CMS, where each tenant could change the look and content of the storefront in real-time.
+        {j|As a result, Glazed created a custom eCommerce CMS, where each tenant could change the look and content of the storefront in real-time.
 
         The multi-tenant fashion eCommerce store that could host a large feature including Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics and Boutiques listing.
 

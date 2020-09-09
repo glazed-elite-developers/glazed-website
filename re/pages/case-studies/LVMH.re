@@ -25,7 +25,7 @@ let pageImagesQuery = [%raw
        }
        bigImage: file(relativePath: { eq: "case-studies/LVMH001.jpeg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -100,15 +100,10 @@ let make = () => {
     content: [|
     BigImage(productImage2),
       TextAndImage(
-        {j|We wanted to hit the floor running, as such, we looked for the best 3rd party services that would be able to aids with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
+        {j|We wanted to hit the floor running, as such, we looked for the best third party services that would be able to aid us with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
 
-
-Over time we started focusing more on service use cases as it represented the higher value for our customers, as such: 
-  • Integrating live chat support and handover
-  • Improve flows for acting as the first line of customer service/triage or cope with customer centre’s out of hours schedules
-  • Handle user data gathering and GDPR compliance 
-
-.|j},
+      At the time, Facebook Messenger was the most used and complete service, and since we wanted to validate our design approach this was a good option to develop our first chatbots. As we learned more about the technology and the requirements evolved, we ended up building our own dialogue engine.
+      |j},
         bigImage,
       ),
       Custom(
@@ -120,15 +115,12 @@ Over time we started focusing more on service use cases as it represented the hi
       ),
       TextAndImage(
         {j| 
-        
-        At the time, Facebook Messenger was the most used and complete service, and since we wanted to validate our design approach this was a good option to develop our first chatbots. As we learned more about the technology and the requirements evolved, we ended up building our own dialogue engine. 
-    
-        Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic
-
+        Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic.        
+      
+        From here we started focusing more on service use cases, handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules. 
         |j},
-        productImage3,
+        productImage,
       ),
-      BigImage(productImage),
       TextAndImage(
         {j|
         
@@ -139,6 +131,7 @@ Over time we started focusing more on service use cases as it represented the hi
         |j},
         productImage4,
       ),
+      BigVideo("https://player.vimeo.com/video/455530260?title=0&byline=0&portrait=0"),
     |],
     nextCase: {
       image: nextCaseImage,

@@ -30,7 +30,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       productImage2: file(relativePath: { eq: "case-studies/switch-3.jpg" }) {
+       productImage2: file(relativePath: { eq: "case-studies/switch-5.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 800) {
              ...GatsbyImageSharpFluid
