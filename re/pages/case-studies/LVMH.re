@@ -39,7 +39,7 @@ let pageImagesQuery = [%raw
        }
        productImage2: file(relativePath: { eq: "case-studies/LVMH003.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -53,7 +53,7 @@ let pageImagesQuery = [%raw
        }
        productImage4: file(relativePath: { eq: "case-studies/LVMH005.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }

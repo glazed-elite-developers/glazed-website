@@ -53,7 +53,15 @@ module BackgroundImage = {
 
 module Image = {
   [@react.component] [@bs.module "gatsby-image"]
-  external make: (~fluid: fluidImage=?, ~className: string=?) => React.element = "default";
+  external make:
+    (
+      ~fluid: fluidImage=?,
+      ~className: string=?,
+      ~style: option(ReactDOMRe.style)=?,
+      ~imgStyle: option(ReactDOMRe.style)=?
+    ) =>
+    React.element =
+    "default";
 };
 
 [@bs.module "gatsby"] external useStaticQuery: string => queryResult('a) = "useStaticQuery";

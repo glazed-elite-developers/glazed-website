@@ -36,6 +36,7 @@ module Styles = {
   let text = style([maxWidth(rem(37.5))]);
   let image =
     style([
+      display(`flex),
       media(
         Theme.Breakpoints.tabletLandscape,
         [flex3(~grow=6., ~shrink=1., ~basis=rem(0.0000001))],
@@ -45,8 +46,12 @@ module Styles = {
 
 [@react.component]
 let make = (~className=?, ~text: string, ~image: option(Gatsby.fluidImage)=?) => {
+  let imageStyle = ReactDOMRe.Style.make(~objectFit="contain", ());
+
   <CaseStudySection className=?{combineClassNames([Some(Styles.wrapper), className])}>
-    <Gatsby.Image className=Styles.image fluid=?image />
+    <div className=Styles.image>
+      <Gatsby.Image className=Styles.image fluid=?image imgStyle=imageStyle />
+    </div>
     <div className=Styles.textWrapper> <p className=Styles.text> {React.string(text)} </p> </div>
   </CaseStudySection>;
 };
