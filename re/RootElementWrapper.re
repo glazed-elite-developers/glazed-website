@@ -13,10 +13,23 @@ module MediaContextProvider = {
   external make: (~children: React.element) => React.element = "MediaContextProvider";
 };
 
+module Styles = {
+  open Css;
+
+  let wrapper = style([height(pct(100.))]);
+  let content = style([height(pct(100.))]);
+};
+
 [@react.component]
 let make = (~children) => {
   <CacheProvider value=emotionCache>
-    <MediaContextProvider> <ModalsController> children </ModalsController> </MediaContextProvider>
+    <MediaContextProvider>
+      <ModalsController>
+        <ScrollContainer className=Styles.wrapper contentClassName=Styles.content>
+          children
+        </ScrollContainer>
+      </ModalsController>
+    </MediaContextProvider>
   </CacheProvider>;
 };
 

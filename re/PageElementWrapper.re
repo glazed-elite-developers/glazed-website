@@ -12,15 +12,7 @@ type location = {
   state: Js.Nullable.t(routeState),
 };
 
-type scrollRestorationProps = {
-  ref: React.ref(Js.nullable(Webapi.Dom.Element.t)),
-  onScroll: unit => unit,
-};
-
 [@bs.module "@reach/router"] external useLocation: unit => location = "useLocation";
-
-[@bs.module "gatsby"]
-external useScrollRestoration: string => scrollRestorationProps = "useScrollRestoration";
 
 module Styles = {
   open Css;
@@ -33,7 +25,7 @@ module Styles = {
 let make = (~children) => {
   let url = ReasonReactRouter.useUrl();
   let location: location = useLocation();
-  let scrollRestorationProps: scrollRestorationProps = useScrollRestoration("scrollContainer");
+  let scrollerAPI = ScrollConnectors.useRootScrollerAPI();
 
   React.useEffect0(() => {
     // Force navigation after first render to make sure hash links work properly.
@@ -59,23 +51,14 @@ let make = (~children) => {
           }
         };
       if (!preventDefaultScrollBehavior && location.hash === "" && location.action === "PUSH") {
-        switch (Js.Nullable.toOption(scrollRestorationProps.ref.current)) {
-        | None => ()
-        | Some(element) => Webapi.Dom.Element.scrollTo(0., 0., element)
-        };
+        scrollerAPI.scrollTo(Some(0.), Some(0.));
       };
       None;
     },
-    (location, scrollRestorationProps.ref),
+    (location, scrollerAPI),
   );
 
-  <ScrollContainer
-    className=Styles.wrapper
-    contentClassName=Styles.content
-    innerRef={scrollRestorationProps.ref}
-    onScroll={scrollRestorationProps.onScroll}>
-    children
-  </ScrollContainer>;
+  children;
 };
 
 let default = make;
