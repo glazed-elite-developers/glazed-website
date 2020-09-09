@@ -14,6 +14,7 @@ module Styles = {
       zIndex(1),
       display(`flex),
       flexDirection(`column),
+      overflow(`hidden),
     ]);
   let scrollContainer =
     style([
@@ -25,7 +26,7 @@ module Styles = {
   let scrollContent =
     style([
       display(`flex),
-      flex3(~grow=1., ~shrink=1., ~basis=`auto),
+      flex3(~grow=1., ~shrink=0., ~basis=`auto),
       justifyContent(`center),
       alignItems(`center),
     ]);
@@ -79,7 +80,7 @@ module Wrapper = {
         },
         [|onClose|],
       );
-    <div ?className onClick> children </div>;
+    <div id="wrapper" ?className onClick> children </div>;
   };
 };
 
@@ -118,15 +119,16 @@ let make =
          onClose>
          <ScrollContainer
            className=?{
-             combineClassNames([Some(Styles.scrollContainer), scrollContainerClassName])
+             combineClassNames([
+               Some(Styles.scrollContainer),
+               Some(animationContentClassName),
+               scrollContainerClassName,
+             ])
            }
            contentClassName=?{
              combineClassNames([Some(Styles.scrollContent), contentWrapperClassName])
            }>
-           <Content
-             className=?{combineClassNames([Some(animationContentClassName), contentClassName])}>
-             children
-           </Content>
+           <Content className=?{combineClassNames([contentClassName])}> children </Content>
          </ScrollContainer>
        </Wrapper>;
      }}

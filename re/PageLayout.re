@@ -13,7 +13,7 @@ module Styles = {
       backgroundColor(hex(Colors.white)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);
-  let header = style([position(`fixed), top(`zero), right(`zero), left(`zero)]);
+  let header = style([position(`fixed), top(`zero), right(`zero), left(`zero), zIndex(1)]);
   let sayHelloButton = useDarkNavBarLinks =>
     style([
       display(`none),
@@ -38,13 +38,34 @@ module Styles = {
 
 [@react.component]
 let make =
-  memo((~children, ~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex=0) => {
+  memo(
+    (
+      ~children,
+      ~className=?,
+      ~headerClassName=?,
+      ~headerStyle=?,
+      ~useDarkNavBarLinks=false,
+      ~currentPageIndex=0,
+      ~onHeaderResize=?,
+    ) => {
     open Webapi.Url;
     let (sayHelloModalUrl, openSayHelloModal) = OpenSayHelloModalHook.useOpenSayHelloModal();
     let openedModalRef = useRef(None);
     let modalsAPI = ModalsController.useContextAPI();
     let url = ReasonReactRouter.useUrl();
     let selectedModal = url.search |> URLSearchParams.make |> URLSearchParams.get("modal");
+    // Need to memoize this to avoid unnecessary header rerenders.
+    let headerComponentAtTheRight =
+      useMemo3(
+        () => {
+          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
+            <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
+              {React.string("> say hello")}
+            </Button>
+          </Gatsby.Link>
+        },
+        (sayHelloModalUrl, openSayHelloModal, useDarkNavBarLinks),
+      );
 
     useEffect1(
       () => {
@@ -68,19 +89,15 @@ let make =
     );
 
     <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
-      children
       <Header
-        className=Styles.header
+        className=?{combineClassNames([Some(Styles.header), headerClassName])}
+        style=?headerStyle
         useDarkNavBarLinks
         currentPageIndex
-        componentAtTheRight={
-          <Gatsby.Link _to=sayHelloModalUrl onClick=openSayHelloModal>
-            <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-              {React.string("> say hello")}
-            </Button>
-          </Gatsby.Link>
-        }
+        onResize=?onHeaderResize
+        componentAtTheRight=headerComponentAtTheRight
       />
+      children
       <MobileFooter
         currentPageIndex
         componentAtTheRight={

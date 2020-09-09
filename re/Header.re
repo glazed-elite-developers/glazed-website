@@ -1,3 +1,4 @@
+open React;
 open Utils.React;
 
 [@bs.module "static/images/logo-glazed.svg"] external logo: SVG.asset = "default";
@@ -43,40 +44,49 @@ module Styles = {
 
 [@react.component]
 let make =
+  memo(
     (
+      ~innerRef=?,
       ~className=?,
+      ~style=?,
       ~componentAtTheRight=?,
       ~onNavBarLinkClick: option((ReactEvent.Synthetic.t, string) => unit)=?,
       ~useDarkNavBarLinks: bool=false,
       ~currentPageIndex=0,
+      ~onResize=?,
     ) => {
-  let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
-  let onLogoClick =
-    React.useMemo1(
-      () => {
-        switch (onNavBarLinkClick) {
-        | None => None
-        | Some(handler) => Some(event => handler(event, "/#hey"))
-        }
-      },
-      [|onNavBarLinkClick|],
-    );
+    let logoToUse = useDarkNavBarLinks ? logo : logoOutline;
+    let onLogoClick =
+      useMemo1(
+        () => {
+          switch (onNavBarLinkClick) {
+          | None => None
+          | Some(handler) => Some(event => handler(event, "/#hey"))
+          }
+        },
+        [|onNavBarLinkClick|],
+      );
 
-  <nav className=?{combineClassNames([Some(Styles.nav), className])}>
-    <Gatsby.Link _to="/#hey" className=Styles.logoWrapper onClick=?onLogoClick>
-      <SVG className=Styles.logo asset=logoToUse />
-    </Gatsby.Link>
-    <NavBarLinks
-      className=Styles.navBarLinks
-      useDarkNavBarLinks
-      currentPageIndex
-      ?onNavBarLinkClick
-    />
-    {switch (componentAtTheRight) {
-     | None => React.null
-     | Some(componentAtTheRight') => componentAtTheRight'
-     }}
-  </nav>;
-};
+    <ResizeMonitorContainer
+      componentTag="nav"
+      ?innerRef
+      className=?{combineClassNames([Some(Styles.nav), className])}
+      ?style
+      ?onResize>
+      <Gatsby.Link _to="/#hey" className=Styles.logoWrapper onClick=?onLogoClick>
+        <SVG className=Styles.logo asset=logoToUse />
+      </Gatsby.Link>
+      <NavBarLinks
+        className=Styles.navBarLinks
+        useDarkNavBarLinks
+        currentPageIndex
+        ?onNavBarLinkClick
+      />
+      {switch (componentAtTheRight) {
+       | None => React.null
+       | Some(componentAtTheRight') => componentAtTheRight'
+       }}
+    </ResizeMonitorContainer>;
+  });
 
 let default = make;

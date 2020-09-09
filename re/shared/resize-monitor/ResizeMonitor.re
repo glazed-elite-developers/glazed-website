@@ -19,7 +19,8 @@ module Styles = {
 };
 
 [@react.component]
-let make = (~className=?, ~onResize: option(Utils.Dom.Measurements.boundingRect) => unit) => {
+let make =
+    (~className=?, ~onResize: option(option(Utils.Dom.Measurements.boundingRect) => unit)=?) => {
   open Utils.React;
 
   let placeholderObjectRef = useRef(Js.Nullable.null);
@@ -28,12 +29,16 @@ let make = (~className=?, ~onResize: option(Utils.Dom.Measurements.boundingRect)
   let dispatchResizeEvent =
     useCallback1(
       Utils.Timing.throttle(() => {
-        let boundingClientRect =
-          switch (Js.Nullable.toOption(placeholderObjectRef.current)) {
-          | None => None
-          | Some(element) => Some(Utils.Dom.Measurements.getBoundingClientRect(element))
-          };
-        onResize(boundingClientRect);
+        switch (onResize) {
+        | Some(onResize) =>
+          let boundingClientRect =
+            switch (Js.Nullable.toOption(placeholderObjectRef.current)) {
+            | None => None
+            | Some(element) => Some(Utils.Dom.Measurements.getBoundingClientRect(element))
+            };
+          onResize(boundingClientRect);
+        | None => ()
+        }
       }),
       [|onResize|],
     );
