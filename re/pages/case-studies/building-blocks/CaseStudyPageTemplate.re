@@ -9,6 +9,7 @@ module Styles = {
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundColor(hex(Colors.whiteTurquoise)),
     ]);
+  let pageContent = style([position(`relative), zIndex(0), transform(`translateZ(`zero))]);
   let header =
     style([
       position(`sticky),
@@ -91,20 +92,23 @@ let useHeaderPosition = () => {
     );
   let position =
     useMemo4(
-      () => {
-        switch (scrollDirection, lastPositionRef.current) {
-        | (Down, Fixed) => Static(Js.Math.max_float(scrollTop, 0.))
-        | (Up, Static(offset)) =>
-          if (offset +. headerHeight < scrollTop) {
-            Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
-          } else if (offset >= scrollTop) {
-            Fixed;
-          } else {
-            lastPositionRef.current;
-          }
-        | _ => lastPositionRef.current
-        }
-      },
+      () =>
+        if (scrollTop >= 0.) {
+          switch (scrollDirection, lastPositionRef.current) {
+          | (Down, Fixed) => Static(Js.Math.max_float(scrollTop, 0.))
+          | (Up, Static(offset)) =>
+            if (offset +. headerHeight < scrollTop) {
+              Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
+            } else if (offset >= scrollTop) {
+              Fixed;
+            } else {
+              lastPositionRef.current;
+            }
+          | _ => lastPositionRef.current
+          };
+        } else {
+          lastPositionRef.current;
+        },
       (scrollDirection, lastPositionRef.current, headerHeight, scrollTop),
     );
   lastPositionRef.current = position;
@@ -143,40 +147,42 @@ let make = (~content) => {
       onHeaderResize
       useDarkNavBarLinks=true
       currentPageIndex=1>
-      <CaseStudyHeader
-        image=?{content.hero.image}
-        title={content.hero.title}
-        area={content.hero.area}
-        text={content.hero.text}
-      />
-      <CaseStudyBrief
-        techs={content.brief.techs}
-        year={content.brief.year}
-        brief={content.brief.brief}
-      />
-      {React.array(
-         Belt.Array.mapWithIndex(
-           content.content,
-           (index, contentComponent) => {
-             let key = Belt.Int.toString(index);
+      <div className=Styles.pageContent>
+        <CaseStudyHeader
+          image=?{content.hero.image}
+          title={content.hero.title}
+          area={content.hero.area}
+          text={content.hero.text}
+        />
+        <CaseStudyBrief
+          techs={content.brief.techs}
+          year={content.brief.year}
+          brief={content.brief.brief}
+        />
+        {React.array(
+           Belt.Array.mapWithIndex(
+             content.content,
+             (index, contentComponent) => {
+               let key = Belt.Int.toString(index);
 
-             switch (contentComponent) {
-             | BigImage(image) => <CaseStudyBigImage key ?image />
-             | TextAndImage(text, image) => <CaseStudyTextAndImage key text ?image />
-             | QuoteCard(quote, author) => <CaseStudyQuoteCard key quote author />
-             | BigVideo(src) => <CaseStudyBigVideo key src />
-             | TextAndVideo(text, videoSrc) => <CaseStudyTextAndVideo key text videoSrc />
-             | Custom(component) => cloneElement(component, ReactDOMRe.props(~key, ()))
-             };
-           },
-         ),
-       )}
-      <CaseStudyNextCase
-        image=?{content.nextCase.image}
-        title={content.nextCase.title}
-        area={content.nextCase.area}
-        link={content.nextCase.link}
-      />
+               switch (contentComponent) {
+               | BigImage(image) => <CaseStudyBigImage key ?image />
+               | TextAndImage(text, image) => <CaseStudyTextAndImage key text ?image />
+               | QuoteCard(quote, author) => <CaseStudyQuoteCard key quote author />
+               | BigVideo(src) => <CaseStudyBigVideo key src />
+               | TextAndVideo(text, videoSrc) => <CaseStudyTextAndVideo key text videoSrc />
+               | Custom(component) => cloneElement(component, ReactDOMRe.props(~key, ()))
+               };
+             },
+           ),
+         )}
+        <CaseStudyNextCase
+          image=?{content.nextCase.image}
+          title={content.nextCase.title}
+          area={content.nextCase.area}
+          link={content.nextCase.link}
+        />
+      </div>
     </PageLayout>
   </Layout>;
 };

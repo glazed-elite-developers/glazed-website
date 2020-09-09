@@ -12,17 +12,11 @@ module Styles = {
       display(`flex),
       flex3(~grow=1., ~shrink=0., ~basis=`rem(0.000000001)),
       flexDirection(`column),
-      unsafe("willChange", "opacity"),
       unsafe("-webkitOverflowScrolling", "auto"),
       unsafe("msOverflowStyle", "-ms-autohiding-scrollbar"),
     ]);
   let content =
-    style([
-      display(`flex),
-      flex3(~grow=1., ~shrink=0., ~basis=`auto),
-      flexDirection(`column),
-      unsafe("willChange", "opacity"),
-    ]);
+    style([display(`flex), flex3(~grow=1., ~shrink=0., ~basis=`auto), flexDirection(`column)]);
   let locked = style([overflow(`hidden), unsafe("webkitOverflowScrolling", "auto")]);
   let iOSScrollFix = style([flex3(~grow=1., ~shrink=0., ~basis=Calc.(+)(pct(100.), px(2)))]);
 };
@@ -189,7 +183,12 @@ let make =
     );
   let className =
     combineClassNames([Some(Styles.wrapper), className, lock ? Some(Styles.locked) : None]);
-  let contentClassName = combineClassNames([Some(Styles.content), contentClassName]);
+  let contentClassName =
+    combineClassNames([
+      Some(Styles.content),
+      contentClassName,
+      needIOSHackery ? Some(Styles.iOSScrollFix) : None,
+    ]);
   let contentStyle =
     switch (contentStyle) {
     | None => pointerEventsStyle

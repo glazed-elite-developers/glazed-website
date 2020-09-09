@@ -66,6 +66,20 @@ let make =
         },
         (sayHelloModalUrl, openSayHelloModal, useDarkNavBarLinks),
       );
+    let footerComponentAtTheRight =
+      useMemo2(
+        () => {
+          <Gatsby.Link
+            _to=sayHelloModalUrl
+            onClick=openSayHelloModal
+            className=Styles.mobileCloseButtonWrapper>
+            <Button _type=Button.Secondary className=Styles.mobileCloseButton>
+              {React.string("> say hello")}
+            </Button>
+          </Gatsby.Link>
+        },
+        (sayHelloModalUrl, openSayHelloModal),
+      );
 
     useEffect1(
       () => {
@@ -98,19 +112,7 @@ let make =
         componentAtTheRight=headerComponentAtTheRight
       />
       children
-      <MobileFooter
-        currentPageIndex
-        componentAtTheRight={
-          <Gatsby.Link
-            _to=sayHelloModalUrl
-            onClick=openSayHelloModal
-            className=Styles.mobileCloseButtonWrapper>
-            <Button _type=Button.Secondary className=Styles.mobileCloseButton>
-              {React.string("> say hello")}
-            </Button>
-          </Gatsby.Link>
-        }
-      />
+      <MobileFooter currentPageIndex componentAtTheRight=footerComponentAtTheRight />
     </div>;
   });
 

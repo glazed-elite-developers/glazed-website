@@ -17,6 +17,7 @@ module Styles = {
       display(`flex),
       alignItems(`center),
       whiteSpace(`nowrap),
+      transform(`translateZ(`zero)),
       media(Theme.Breakpoints.tabletLandscape, [display(`none)]),
     ]);
   let navBarLinksWrapper =
@@ -43,7 +44,11 @@ module Styles = {
       ]),
     ]);
   let navBarLinksScrollerContent =
-    style([flexDirection(`row), fontFamily(`custom(Theme.Fonts.heading)), fontSize(rem(0.625))]);
+    style([
+      flexDirection(`row),
+      fontFamily(`custom(Theme.Fonts.heading)),
+      fontSize(rem(0.625)),
+    ]);
   let navBarLinks =
     style([
       display(`flex),
