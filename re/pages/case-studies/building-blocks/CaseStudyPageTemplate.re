@@ -14,15 +14,6 @@ module Styles = {
       position(`sticky),
       transform(`translateZ(`zero)),
       backgroundColor(hex(Colors.whiteTurquoise)),
-      before([
-        contentRule(`text("")),
-        display(`block),
-        position(`absolute),
-        bottom(pct(100.)),
-        width(pct(100.)),
-        height(px(200)),
-        backgroundColor(hex(Colors.whiteTurquoise)),
-      ]),
     ]);
   let headerWithShadow =
     style([boxShadow(Shadow.box(~y=px(7), ~blur=px(15), rgba(0, 0, 0, 0.04)))]);
@@ -100,10 +91,10 @@ let useHeaderPosition = () => {
     );
   let position =
     switch (scrollDirection, lastPositionRef.current) {
-    | (Down, Fixed) => Static(scrollTop);
+    | (Down, Fixed) => Static(Js.Math.max_float(scrollTop -. headerHeight, 0.))
     | (Up, Static(offset)) =>
       if (offset +. headerHeight < scrollTop) {
-        Static(scrollTop -. headerHeight);
+        Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
       } else if (offset >= scrollTop) {
         Fixed;
       } else {
