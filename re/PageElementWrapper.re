@@ -9,7 +9,7 @@ type location = {
   action: string,
   pathname: string,
   hash: string,
-  state: routeState,
+  state: Js.Nullable.t(routeState),
 };
 
 type scrollRestorationProps = {
@@ -50,9 +50,13 @@ let make = (~children) => {
     () => {
       // Scroll to top on route pushes.
       let preventDefaultScrollBehavior =
-        switch (location.state.state) {
+        switch (Js.Nullable.toOption(location.state)) {
         | None => false
-        | Some(state) => state.preventDefaultScrollBehavior
+        | Some(state) =>
+          switch (state.state) {
+          | None => false
+          | Some(state) => state.preventDefaultScrollBehavior
+          }
         };
       if (!preventDefaultScrollBehavior && location.hash === "" && location.action === "PUSH") {
         switch (Js.Nullable.toOption(scrollRestorationProps.ref.current)) {
