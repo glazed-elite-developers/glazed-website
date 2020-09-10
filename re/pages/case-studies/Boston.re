@@ -80,7 +80,7 @@ let make = () => {
         
         This project's main challenge resided in being able to provide the accurate positioning of physicians within the hospital, hence, we needed to be able to accurately calculate the physician position within the hospital. This meant to be able to manage live data points that would deliver results back to the patients and then if required, trigger changes.
         |j}, 
-        "https://player.vimeo.com/video/455760404?autoplay=true"),
+        "https://player.vimeo.com/video/455760404?autoplay=1&muted=1"),
          Custom(
         <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(

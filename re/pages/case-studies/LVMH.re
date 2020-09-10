@@ -131,7 +131,7 @@ let make = () => {
         |j},
         productImage4,
       ),
-      BigVideo("https://player.vimeo.com/video/455530260?autoplay=true"),
+      BigVideo("https://player.vimeo.com/video/455530260?autoplay=1&muted=1"),
     |],
     nextCase: {
       image: nextCaseImage,
