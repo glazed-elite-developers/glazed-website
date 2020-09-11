@@ -12,5 +12,5 @@ export const wrapPageElement = ({ element, props }) => {
 
 export const shouldUpdateScroll = ({ routerProps }) => {
   const { state: { preventDefaultScrollBehavior = false } = {} } = routerProps.location.state || {}
-  return !preventDefaultScrollBehavior
+  return routerProps.location.action === 'PUSH' ? !preventDefaultScrollBehavior : false
 }

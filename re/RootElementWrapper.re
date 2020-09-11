@@ -16,7 +16,7 @@ module MediaContextProvider = {
 [@react.component]
 let make = (~children) => {
   <CacheProvider value=emotionCache>
-    <MediaContextProvider> <ModalsController> children </ModalsController> </MediaContextProvider>
+    <MediaContextProvider> children </MediaContextProvider>
   </CacheProvider>;
 };
 
