@@ -3,6 +3,15 @@ open CaseStudyPageTemplate;
 module Styles = {
   open Css;
 
+  let inPageHeading =
+    style([
+      textAlign(`center),
+      maxWidth(rem(64.)),
+      padding2(~h=rem(1.875), ~v=`zero),
+      margin(`auto),
+      color(hex(Theme.Colors.grey)),
+    ]);
+    
   let adHocComponent = style([textAlign(`center)]);
 };
 
@@ -11,12 +20,12 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/farfetch-01.png" }) {
+       bigImage: file(relativePath: { eq: "case-studies/farfetch-05.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -25,14 +34,14 @@ let pageImagesQuery = [%raw
        }
        productImage2: file(relativePath: { eq: "case-studies/farfetch-02.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
        productImage3: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -66,7 +75,7 @@ let pageImagesQuery = [%raw
 let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
-  let bigImage = Gatsby.getImageFluid(queryResult, "headerImage");
+  let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
   let productImage3 = Gatsby.getImageFluid(queryResult, "productImage3");
   let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
@@ -87,11 +96,17 @@ let make = () => {
         {name: "ios", icon: TechIcons.apple},
       |],
       year: "2019",
-      brief: "Create a white label version of their main e-commerce site for big brands that want to sell on their own website.
-      This project, called black-and-white, was the main strategic move the company made after being valued at $1b dollars and the first clients to use it were Manolo Blahnik and Rihanna.",
+      brief: "Create a white label version of their main e-commerce site for big brands that want to sell on their own website.",
     },
     content: [|
-      BigImage(productImage3),
+      BigImage(bigImage),
+      Custom(
+        <Heading level=Heading.H3 className=Styles.inPageHeading>
+          {React.string(
+              {j|This project, called black-and-white, was the main strategic move the company made after being valued at 1 billion dollars.|j},
+           )}
+        </Heading>,
+      ),
       TextAndImage(
         {j|
         There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.

@@ -30,9 +30,9 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       image: file(relativePath: { eq: "case-studies/boston-2.png" }) {
+       image: file(relativePath: { eq: "case-studies/boston01.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 600) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }

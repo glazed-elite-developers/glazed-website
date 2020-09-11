@@ -23,16 +23,16 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/LVMH001.jpeg" }) {
+       bigImage: file(relativePath: { eq: "case-studies/LVMH001.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage: file(relativePath: { eq: "case-studies/LVMH002.jpeg" }) {
+       productImage: file(relativePath: { eq: "case-studies/lvmh-2.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -98,38 +98,33 @@ let make = () => {
       brief: {j|Develop a conversational solution to engage and create personalised experiences for customers.|j},
     },
     content: [|
-    BigImage(productImage2),
+    BigImage(productImage),
       TextAndImage(
-        {j|We wanted to hit the floor running, as such, we looked for the best third party services that would be able to aid us with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
+        {j|
+      We wanted to hit the floor running, as such, we looked for the best third party services that would be able to aid us with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
 
       At the time, Facebook Messenger was the most used and complete service, and since we wanted to validate our design approach this was a good option to develop our first chatbots. As we learned more about the technology and the requirements evolved, we ended up building our own dialogue engine.
+
+      Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic.        
       |j},
         bigImage,
       ),
-      Custom(
+      TextAndImage(
+        {j| 
+        Focusing more on service use cases we started handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules. 
+
+        Over time we’ve grown our channel support to Facebook Messenger, WhatsApp, WeChat, Google Assistant, Alexa, Web Pages (chat widget) and Slack. 
+        
+        We also integrated with multiple third-party services like Salesforce, added human handover with live chat, booking appointments and even image recognition based product recommendation services.
+        |j},
+        productImage2,
+      ),
+       Custom(
         <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(
               {j|The project’s NLU understanding was constantly improving from an always growing shared pool of examples obtained from not only training but also real chats.|j},
            )}
         </Heading>,
-      ),
-      TextAndImage(
-        {j| 
-        Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic.        
-      
-        From here we started focusing more on service use cases, handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules. 
-        |j},
-        productImage,
-      ),
-      TextAndImage(
-        {j|
-        
-        Over time we’ve grown our channel support to Facebook Messenger, WhatsApp, WeChat, Google Assistant, Alexa, Web Pages (chat widget) and Slack. 
-        
-        We also integrated with multiple third-party services like Salesforce, added human handover with live chat, booking appointments and even image recognition based product recommendation services.
-
-        |j},
-        productImage4,
       ),
       BigVideo("https://player.vimeo.com/video/455530260?title=0&byline=0&portrait=0"),
     |],
