@@ -44,20 +44,6 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       productImage3: file(relativePath: { eq: "case-studies/LVMH004.jpg" }) {
-         childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
-             ...GatsbyImageSharpFluid
-           }
-         }
-       }
-       productImage4: file(relativePath: { eq: "case-studies/LVMH005.jpg" }) {
-         childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
-           }
-         }
-       }
        nextCaseImage: file(relativePath: { eq: "case-studies/farfetch-header.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
@@ -76,8 +62,6 @@ let make = () => {
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage = Gatsby.getImageFluid(queryResult, "productImage");
   let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
-  let productImage3 = Gatsby.getImageFluid(queryResult, "productImage3");
-  let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
     hero: {

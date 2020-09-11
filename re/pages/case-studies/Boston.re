@@ -18,7 +18,7 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -30,7 +30,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       image: file(relativePath: { eq: "case-studies/boston01.jpg" }) {
+       productImage: file(relativePath: { eq: "case-studies/boston-2.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -53,7 +53,7 @@ let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
-  let image = Gatsby.getImageFluid(queryResult, "image");
+  let productImage = Gatsby.getImageFluid(queryResult, "productImage");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
     hero: {
@@ -64,10 +64,10 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "TensorFlow", icon: TechIcons.twitter},
-        {name: "iOS", icon: TechIcons.twitter},
-        {name: "BLE", icon: TechIcons.twitter},
-        {name: "iBeacons", icon: TechIcons.twitter},
+        {name: "TensorFlow", icon: TechIcons.generic},
+        {name: "iOS", icon: TechIcons.apple},
+        {name: "BLE", icon: TechIcons.generic},
+        {name: "iBeacons", icon: TechIcons.generic},
       |],
       year: "2019",
       brief: {j|We've developed a technological solution for physicians to provide live updates to their patients concerning their next appointment, including dynamically rescheduling appointments - all using positional tracking, beacons and machine learning capabilities.|j},
@@ -89,10 +89,10 @@ let make = () => {
       TextAndImage(
         {j|To capture the most accurate position possible we've used iBeacons connected to a native iOS application through Bluetooth.
  
-Bluetooth low energy (BLE) beacons are a cost-effective way for apps to obtain the device's position while indoors where other methods like GPS are not available. 
+          Bluetooth low energy (BLE) beacons are a cost-effective way for apps to obtain the device's position while indoors where other methods like GPS are not available. 
 
-Through the strength of the signal beacons emit, apps can roughly estimate how far a user is from them and be able to triangulate the user position from several signals.|j},
-        image,
+          Through the strength of the signal beacons emit, apps can roughly estimate how far a user is from them and be able to triangulate the user position from several signals.|j},
+        productImage,
       ),
     |],
     nextCase: {

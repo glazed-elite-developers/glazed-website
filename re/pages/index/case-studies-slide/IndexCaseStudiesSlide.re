@@ -110,7 +110,7 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
   {
     name: "Boston Children's Hospital",
     area: "HealthTech - IoT",
-    backgroundImageUrl: "/images/case-studies/boston.jpg",
+    backgroundImageUrl: "/images/case-studies/boston-hero.jpg",
     link: "/case-studies/boston",
   },
 |];

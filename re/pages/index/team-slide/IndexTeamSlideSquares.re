@@ -129,7 +129,7 @@ let developers =
           name: "Nelson Sachse",
           skills: [|"iOS", "Android", "Flutter", "Rails", "Strategy", "Startups"|],
           description: "He has created mobile applications, developed services, managed projects and teams for the leading companies within the health, auto, telecom and hospitality industry.",
-          shortDescription: "For the past 10 years Nelson's been working as a technologist, strategist and creator of tech events",
+          shortDescription: "For the past 10 years Nelson's been working as a technologist, strategist and creator of tech events.",
           linkedIn: "https://www.linkedin.com/in/nelsonsachse/",
         },
       ),
@@ -163,7 +163,7 @@ let developers =
           skills: [|"Django", "React", "Full stack", "Node"|],
           description: "He has a strong background in Django back-end development, as well as in JavaScript and front-end development.",
           shortDescription: "Pedro is a talented web software engineer with successful entrepreneurial experience.",
-          linkedIn: "",
+          linkedIn: "https://www.linkedin.com/in/petorres/",
         },
       ),
       (
