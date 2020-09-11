@@ -108,15 +108,13 @@ let make = () => {
         </Heading>,
       ),
       TextAndImage(
-        {j|
-        There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.
+        {j|There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.
 
 Therefore, a responsive design solution, converged in performance with search engine and app store optimisation was vital. 
 
 Since SEO was an essential requirement for the type of search the company wanted to achieve, we implemented an isomorphic React storefront with webpack. This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile. 
 
-Considering the codebase was split across several microservices with a very scalable architecture it allowed us to easily deploy via docker. 
-        |j},
+Considering the codebase was split across several microservices with a very scalable architecture it allowed us to easily deploy via docker.|j},
         productImage4,
       ),
       QuoteCard(
@@ -132,8 +130,7 @@ Considering the codebase was split across several microservices with a very scal
 
         The multi-tenant fashion eCommerce store that could host a large feature including Product Collections, Seasons, Campaigns, Search, Browsing, Filtering, Product Recommendation algorithm, Shopping Bag, Favourites, Social interaction, Campaigns, Discounts, Newsletter, Analytics and Boutiques listing.
 
-        All of them integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support.
-        |j},
+        All of them integrated with Farfetch internal processes which provided Operations, Payments, Shipping, Billing, Returns and Support.|j},
         productImage2,
       ),
     |],

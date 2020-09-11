@@ -231,9 +231,9 @@ module CloseButton = {
 [@react.component]
 let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
   open Webapi.Url;
-  let url = ReasonReactRouter.useUrl();
+  let location: Routing.location = Routing.useLocation();
   let backToUrl =
-    switch (url.search |> URLSearchParams.make |> URLSearchParams.get("backTo")) {
+    switch (location.search |> URLSearchParams.make |> URLSearchParams.get("backTo")) {
     | None => "/"
     | Some(path) => path
     };
@@ -241,13 +241,13 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
     useCallback3(
       () => {
         onExited();
-        switch (url.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
+        switch (location.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
         | Some("say-hello") =>
-          Routing.push(backToUrl, ~state={"preventDefaultScrollBehavior": true})
+          Routing.navigate(backToUrl, ~state={"preventDefaultScrollBehavior": true})
         | _ => ()
         };
       },
-      (onExited, backToUrl, url),
+      (onExited, backToUrl, location),
     );
   let handleCloseButtonClick =
     useCallback1(
@@ -257,7 +257,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
       },
       [|onClose|],
     );
-  let onNavBarLinkClick = useCallback0((_event, link) => {Routing.push(link)});
+  let onNavBarLinkClick = useCallback0((_event, link) => {Routing.navigate(link)});
   let (submissionStatus, setSubmissionStatus) = useState(() => ContactForm.Pristine);
   let onSubmit =
     useCallback1(

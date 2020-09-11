@@ -72,7 +72,7 @@ type headerPosition =
 let useHeaderPosition = () => {
   let scrollValues = ScrollConnectors.useClosestScrollValues();
   let scrollTop = scrollValues.position.scrollTop;
-  let lastPositionRef = useRef(Static(scrollTop));
+  let lastPositionRef = useRef(Static(0.));
   let (headerHeight, setHeaderHeight) = useState(() => 0.);
   let lastScrollDataRef = useRef((scrollTop, Down));
   let (lastScrollTop, lastScrollDirection) = lastScrollDataRef.current;

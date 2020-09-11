@@ -8,7 +8,7 @@ module Styles = {
     style([
       display(`flex),
       flexDirection(`column),
-      padding2(~h=`zero, ~v=rem(2.5)),
+      padding2(~h=`zero, ~v=`zero),
       media(
         Theme.Breakpoints.tabletLandscape,
         [flexDirection(`rowReverse), padding2(~h=`zero, ~v=rem(6.25))],

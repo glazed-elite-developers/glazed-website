@@ -229,18 +229,18 @@ let make =
       ~developer: IndexTeamSlideSquares.developer,
     ) => {
   open Webapi.Url;
-  let url = ReasonReactRouter.useUrl();
+  let location: Routing.location = Routing.useLocation();
   let exit =
     useCallback2(
       () => {
         onExited();
-        switch (url.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
+        switch (location.search |> URLSearchParams.make |> URLSearchParams.get("modal")) {
         | Some("team") =>
-          Routing.push(teamSlideLink, ~state={"preventDefaultScrollBehavior": true})
+          Routing.navigate(teamSlideLink, ~state={"preventDefaultScrollBehavior": true})
         | _ => ()
         };
       },
-      (onExited, url),
+      (onExited, location),
     );
   let handleCloseButtonClick =
     useCallback1(
