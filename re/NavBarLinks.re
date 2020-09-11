@@ -51,7 +51,6 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int, ~on
              _to=link
              className=linkStyles
              ?onClick
-             // @TODO: Use "replace" conditionally depending on if we're linking for the same page or a different one.
              replace=true>
              {React.string("// " ++ label)}
            </Gatsby.Link>;

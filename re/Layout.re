@@ -16,7 +16,6 @@ module Styles = {
   let header = style([position(`fixed), top(`zero), right(`zero), left(`zero)]);
 };
 
-// @TODO: refactor following this idea: https://stackoverflow.com/questions/55122752/reusable-gatsby-image-component-with-dynamic-image-sources
 let query = [%raw
   {|Gatsby.graphql`
     query SiteTitleQuery {

@@ -1,4 +1,4 @@
-// @TODO: Rethink this whole typing.
+
 type fluidImage;
 
 type imageSharp = {
@@ -67,7 +67,6 @@ module Image = {
 
 [@bs.module "gatsby"] external useStaticQuery: string => queryResult('a) = "useStaticQuery";
 
-// @TODO: should be a nullable.
 [@bs.get_index] external getImage: (queryResult('a), string) => Js.t(imageQueryResult);
 
 let getImageFluid = (result: queryResult('a), name: string) => {

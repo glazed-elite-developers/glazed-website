@@ -53,7 +53,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       joseNeves: file(relativePath: { eq: "case-studies/farfetch-header.jpg" }) {
+       joseNeves: file(relativePath: { eq: "case-studies/joseneves.jpeg" }) {
          childImageSharp {
            fluid(maxWidth: 120) {
              ...GatsbyImageSharpFluid
