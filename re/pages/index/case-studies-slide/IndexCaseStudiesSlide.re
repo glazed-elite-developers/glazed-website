@@ -90,31 +90,27 @@ module Styles = {
 
 let caseStudies: array(CaseStudySquare.caseStudy) = [|
   {
-    key: "LVMH",
     name: "LVMH",
     area: "Fashion - Chatbots",
-    backgroundImageUrl: "/images/case-studies/lvmh-hero.jpg",
+    backgroundImageKey: "LVMH",
     link: "/case-studies/lvmh",
   },
   {
-    key: "Farfetch",
     name: "Farfetch",
     area: "Fashion - Ecommerce",
-    backgroundImageUrl: "/images/case-studies/farfetch-hero.jpg",
+    backgroundImageKey: "Farfetch",
     link: "/case-studies/farfetch",
   },
   {
-    key: "Switch",
     name: "Switch",
     area: "FinTech - Payments",
-    backgroundImageUrl: "/images/case-studies/switch-hero.jpg",
+    backgroundImageKey: "Switch",
     link: "/case-studies/switch",
   },
   {
-    key: "Boston",
     name: "Boston Children's Hospital",
     area: "HealthTech - IoT",
-    backgroundImageUrl: "/images/case-studies/boston-hero.jpg",
+    backgroundImageKey: "Boston",
     link: "/case-studies/boston",
   },
 |];
@@ -159,7 +155,7 @@ let make =
   React.memo((~innerRef=?, ~id=?, ~onResize) => {
     let (selectedCaseStudy, selectCaseStudy) = React.useState(() => caseStudies[0]);
     let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
-    let backgroundImage = Gatsby.getImageFluid(queryResult, selectedCaseStudy.id);
+    let backgroundImage = Gatsby.getImageFluid(queryResult, selectedCaseStudy.backgroundImageKey);
 
     <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
       <MaskContainer className=Styles.backgroundImage maskClassName=Styles.maskContainer>
