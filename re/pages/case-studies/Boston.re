@@ -57,7 +57,7 @@ let make = () => {
     brief: {
       techs: [|
         {name: "TensorFlow", icon: TechIcons.generic},
-        {name: "iOS", icon: TechIcons.apple},
+        {name: "iOS", icon: TechIcons.generic},
         {name: "BLE", icon: TechIcons.generic},
         {name: "iBeacons", icon: TechIcons.generic},
       |],

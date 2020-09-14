@@ -74,12 +74,10 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "angular", icon: TechIcons.angular},
-        {name: "nodeJS", icon: TechIcons.nodejs},
+        {name: "angular", icon: TechIcons.generic},
+        {name: "nodeJS", icon: TechIcons.generic},
         {name: "django", icon: TechIcons.generic},
         {name: "java", icon: TechIcons.generic},
-        {name: "objective c", icon: TechIcons.apple},
-        {name: "php", icon: TechIcons.generic},
         {name: "docker", icon: TechIcons.generic},
       |],
       year: "2020",

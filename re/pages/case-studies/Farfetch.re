@@ -82,9 +82,9 @@ let make = () => {
     },
     brief: {
       techs: [|
-        {name: "react", icon: TechIcons.react},
-        {name: "angular", icon: TechIcons.angular},
-        {name: "ios", icon: TechIcons.apple},
+        {name: "react", icon: TechIcons.generic},
+        {name: "angular", icon: TechIcons.generic},
+        {name: "ios", icon: TechIcons.generic},
       |],
       year: "2019",
       brief: "Create a white label version of their main e-commerce site for big brands that want to sell on their own website.",
