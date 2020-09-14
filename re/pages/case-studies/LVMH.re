@@ -18,33 +18,33 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/LVMH001.jpg" }) {
+       bigImage: file(relativePath: { eq: "case-studies/lvmh-02.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage: file(relativePath: { eq: "case-studies/lvmh-2.png" }) {
+       productImage: file(relativePath: { eq: "case-studies/lvmh-01.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage2: file(relativePath: { eq: "case-studies/LVMH003.jpg" }) {
+       productImage2: file(relativePath: { eq: "case-studies/lvmh-03.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/farfetch-header.jpg" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
              ...GatsbyImageSharpFluid
@@ -86,10 +86,17 @@ let make = () => {
       TextAndImage(
         {j|We wanted to hit the floor running, as such, we looked for the best third party services that would be able to aid us with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
 
-      At the time, Facebook Messenger was the most used and complete service, and since we wanted to validate our design approach this was a good option to develop our first chatbots. As we learned more about the technology and the requirements evolved, we ended up building our own dialogue engine.
+        At the time, Facebook Messenger was the most used and complete service, and since we wanted to validate our design approach this was a good option to develop our first chatbots. As we learned more about the technology and the requirements evolved, we ended up building our own dialogue engine.
 
-      Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic.        |j},
+        Ownership of the dialogue engine allowed us to extend it to fully support live chat with the seamless human handover, including companion features, quickly and effectively without compromising on our UX, which would otherwise have been impossible. Plus, we developed tools to facilitate NLU training, reusability, deployment and become service agnostic.        |j},
         bigImage,
+      ),
+      Custom(
+        <Heading level=Heading.H3 className=Styles.inPageHeading>
+          {React.string(
+              {j|The project’s NLU understanding was constantly improving from an always growing shared pool of examples obtained from training and also real chats.|j},
+           )}
+        </Heading>,
       ),
       TextAndImage(
         {j| Focusing more on service use cases we started handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules. 
@@ -98,13 +105,6 @@ let make = () => {
         
         We also integrated with multiple third-party services like Salesforce, added human handover with live chat, booking appointments and even image recognition based product recommendation services.|j},
         productImage2,
-      ),
-       Custom(
-        <Heading level=Heading.H3 className=Styles.inPageHeading>
-          {React.string(
-              {j|The project’s NLU understanding was constantly improving from an always growing shared pool of examples obtained from not only training but also real chats.|j},
-           )}
-        </Heading>,
       ),
       BigVideo("https://player.vimeo.com/video/455530260?autoplay=1&muted=1&loop=1"),
     |],

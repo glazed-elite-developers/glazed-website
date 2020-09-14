@@ -25,7 +25,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/farfetch-05.png" }) {
+       bigImage: file(relativePath: { eq: "case-studies/farfetch-01.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -39,30 +39,23 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       productImage3: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
+       productImage4: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage4: file(relativePath: { eq: "case-studies/farfetch-04.png" }) {
-         childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
-             ...GatsbyImageSharpFluid
-           }
-         }
-       }
-       joseNeves: file(relativePath: { eq: "case-studies/joseneves.jpeg" }) {
+       joseNeves: file(relativePath: { eq: "case-studies/farfetch-joseneves.jpeg" }) {
          childImageSharp {
            fluid(maxWidth: 120) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/switch-hero.jpg" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
+           fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -77,9 +70,7 @@ let make = () => {
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
-  let productImage3 = Gatsby.getImageFluid(queryResult, "productImage3");
   let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
-  let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {

@@ -29,7 +29,7 @@ let query = [%raw
 ];
 
 let metaTags: array(Helmet.metaTag) = [|
-  {"name": "description", "content": "Static site built with Gatsbyjs, ReasonML, and React."},
+  {"name": "description", "content": "Glazed Solutions website is built with Gatsbyjs, ReasonML, and React."},
   {"name": "keywords", "content": "reasonml, bucklescript, react"},
 |];
 

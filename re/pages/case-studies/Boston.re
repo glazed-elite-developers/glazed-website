@@ -23,14 +23,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/boston-1.png" }) {
-         childImageSharp {
-           fluid(maxWidth: 800) {
-             ...GatsbyImageSharpFluid
-           }
-         }
-       }
-       productImage: file(relativePath: { eq: "case-studies/boston-2.jpg" }) {
+       productImage: file(relativePath: { eq: "case-studies/boston-01.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -52,7 +45,6 @@ let pageImagesQuery = [%raw
 let make = () => {
   let queryResult = Gatsby.useStaticQuery(pageImagesQuery);
   let headerImage = Gatsby.getImageFluid(queryResult, "headerImage");
-  let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage = Gatsby.getImageFluid(queryResult, "productImage");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {

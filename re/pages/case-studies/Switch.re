@@ -3,6 +3,15 @@ open CaseStudyPageTemplate;
 module Styles = {
   open Css;
 
+  let inPageHeading =
+    style([
+      textAlign(`center),
+      maxWidth(rem(64.)),
+      padding2(~h=rem(1.875), ~v=`zero),
+      margin(`auto),
+      color(hex(Theme.Colors.grey)),
+    ]);
+    
   let adHocComponent = style([textAlign(`center)]);
 };
 
@@ -16,21 +25,21 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       bigImage: file(relativePath: { eq: "case-studies/switch-1.png" }) {
+       bigImage: file(relativePath: { eq: "case-studies/switch-01.png" }) {
          childImageSharp {
            fluid(maxWidth: 800) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage: file(relativePath: { eq: "case-studies/switch-2.jpg" }) {
+       productImage: file(relativePath: { eq: "case-studies/switch-02.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 800) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage2: file(relativePath: { eq: "case-studies/switch-5.png" }) {
+       productImage2: file(relativePath: { eq: "case-studies/switch-03.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 800) {
              ...GatsbyImageSharpFluid
@@ -87,6 +96,13 @@ let make = () => {
         
         Switch Payments was incubated at Glazed when its core payment abstraction evolved from processing credit cards to supporting every payment method existent in the industry.|j},
         productImage,
+      ),
+      Custom(
+        <Heading level=Heading.H3 className=Styles.inPageHeading>
+          {React.string(
+              {j|Through a single integration, Switch offers access to every payment method, POS terminal, financial institution, and third-party risk provider, as well as the most modern payment management tools to improve acceptance rates, processing fees, security, dynamic routing, reconciliation, and reporting.|j},
+           )}
+        </Heading>,
       ),
       TextAndImage(
         {j|Switch offers access to every payment method, POS terminal, financial institution, and third-party risk provider, as well as the most modern payment management tools to improve acceptance rates, processing fees, security, dynamic routing, reconciliation, and reporting.

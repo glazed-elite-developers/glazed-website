@@ -1,4 +1,5 @@
 type caseStudy = {
+  key: string,
   name: string,
   area: string,
   backgroundImageUrl: string,
