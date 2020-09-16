@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-starter-reasonml",
-  "description": "Gatsby starter to create static sites using type-safe ReasonML.",
-  "version": "2.0.0",
-  "author": "Ian Wilson <iwilsonq@gmail.com>",
+  "name": "glazed-website",
+  "description": "Glazed Solutions website",
+  "version": "1.0.0",
+  "author": "Glazed Soltutions <info@glazedsolutions.com>",
   "dependencies": {
     "@emotion/core": "^10.0.27",
     "bs-css": "^12.2.0",
@@ -76,7 +76,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iwilsonq/gatsby-starter-reasonml"
+    "url": "https://github.com/glazed-elite-developers/glazed-website"
   },
   "husky": {
     "hooks": {
