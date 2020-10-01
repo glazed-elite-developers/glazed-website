@@ -121,7 +121,7 @@ let make = () => {
     |],
     nextCase: {
       image: nextCaseImage,
-      title: "Boston Hospital",
+      title: "Boston Children's Hospital",
       area: "HealthTech - IoT",
       link: "/case-studies/boston",
     },

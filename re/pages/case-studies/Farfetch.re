@@ -91,13 +91,6 @@ let make = () => {
     },
     content: [|
       BigImage(bigImage),
-      Custom(
-        <Heading level=Heading.H3 className=Styles.inPageHeading>
-          {React.string(
-              {j|This project, called black-and-white, was the main strategic move the company made after being valued at 1 billion dollars.|j},
-           )}
-        </Heading>,
-      ),
       TextAndImage(
         {j|There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.
 
@@ -108,13 +101,12 @@ Since SEO was an essential requirement for the type of search the company wanted
 Considering the codebase was split across several microservices with a very scalable architecture it allowed us to easily deploy via docker.|j},
         productImage4,
       ),
-      QuoteCard(
-        "Culture really trumps everything else.",
-        {
-          name: {j|José Neves|j},
-          title: "Farfetch CEO",
-          avatarImage: joseNevesAvatarImage,
-        },
+      Custom(
+        <Heading level=Heading.H3 className=Styles.inPageHeading>
+          {React.string(
+              {j|This project, called black-and-white, was the main strategic move the company made after being valued at 1 billion dollars.|j},
+           )}
+        </Heading>,
       ),
       TextAndImage(
         {j|As a result, Glazed created a custom eCommerce CMS, where each tenant could change the look and content of the storefront in real-time.

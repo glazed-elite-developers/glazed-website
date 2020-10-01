@@ -50,7 +50,7 @@ let make = () => {
   let content: content = {
     hero: {
       image: headerImage,
-      title: "Boston Hospital",
+      title: "Boston Children's Hospital",
       area: "HealthTech - IoT",
       text: "A bespoke iOS application to display the position of the physician inside the hospital.",
     },
