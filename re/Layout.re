@@ -1,4 +1,5 @@
-[@bs.module "static/images/logo_with_background.jpg"] external logoWithBackgrund: string = "default";
+[@bs.module "static/images/logo_with_background.jpg"]
+external logoWithBackgrund: string = "default";
 
 module GlobalStyles = {
   [@react.component] [@bs.module "src/styles"] external make: unit => React.element = "default";
@@ -23,7 +24,8 @@ let query = [%raw
     query SiteTitleQuery {
       site {
         siteMetadata {
-          title
+          title,
+          siteURL
         }
       }
     }
@@ -40,8 +42,7 @@ let baseMetaTags: array(Helmet.metaTag) = [|
 let make =
   React.memo((~title as titleOverride=?, ~description=defaultDescription, ~children) => {
     let queryResult = Gatsby.useStaticQuery(query);
-    let siteURL =
-      Js.Dict.get(Node.Process.process##env, "SITE_URL") |> Js.Option.getWithDefault("");
+    let siteURL = queryResult##site##siteMetadata##siteURL;
     let defaultTitle = queryResult##site##siteMetadata##title;
     let location: Routing.location = Routing.useLocation();
     let title = Belt.Option.getWithDefault(titleOverride, defaultTitle);
