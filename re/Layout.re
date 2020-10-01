@@ -1,3 +1,5 @@
+[@bs.module "static/images/logo_with_background.jpg"] external logoWithBackgrund: string = "default";
+
 module GlobalStyles = {
   [@react.component] [@bs.module "src/styles"] external make: unit => React.element = "default";
 };
@@ -28,22 +30,44 @@ let query = [%raw
   `|}
 ];
 
-let metaTags: array(Helmet.metaTag) = [|
-  {"name": "description", "content": "Glazed - Elite Developers"},
+let defaultDescription = {j|Glazed is a team of elite web and mobile developers that partner with the world’s leading companies.|j};
+
+let baseMetaTags: array(Helmet.metaTag) = [|
   {"name": "keywords", "content": "reasonml, bucklescript, react"},
 |];
 
 [@react.component]
 let make =
-  React.memo((~children) => {
+  React.memo((~title as titleOverride=?, ~description=defaultDescription, ~children) => {
     let queryResult = Gatsby.useStaticQuery(query);
+    let siteURL =
+      Js.Dict.get(Node.Process.process##env, "SITE_URL") |> Js.Option.getWithDefault("");
+    let defaultTitle = queryResult##site##siteMetadata##title;
+    let location: Routing.location = Routing.useLocation();
+    let title = Belt.Option.getWithDefault(titleOverride, defaultTitle);
+    let meta =
+      Belt.Array.concat(
+        baseMetaTags,
+        [|
+          {"name": "description", "content": description},
+          {"name": "og:title", "content": title},
+          {"name": "og:description", "content": description},
+          {"name": "og:image", "content": siteURL ++ logoWithBackgrund},
+          {"name": "og:url", "content": siteURL ++ location.pathname},
+          {"name": "og:site_name", "content": defaultTitle},
+          {"name": "twitter:card", "content": "summary_large_image"},
+          {"name": "twitter:image:alt", "content": "Glazed logo."},
+        |],
+      );
+
     <>
-      <Helmet title={queryResult##site##siteMetadata##title} meta=metaTags>
+      <Helmet title meta>
         <html lang="en" />
         <link
           href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swap"
           rel="stylesheet"
         />
+        <link rel="canonical" href={siteURL ++ location.pathname} />
       </Helmet>
       <GlobalStyles />
       children

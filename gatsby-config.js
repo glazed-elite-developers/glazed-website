@@ -2,7 +2,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = {
   siteMetadata: {
-    title: 'Glazed',
+    title: 'Glazed - Elite Developers',
     author: 'Glazed Solutions Lda.',
   },
   plugins: [

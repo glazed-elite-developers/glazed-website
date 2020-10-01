@@ -133,7 +133,11 @@ Considering the codebase was split across several microservices with a very scal
     },
   };
 
-  <CaseStudyPageTemplate content />;
+  <CaseStudyPageTemplate
+    pageTitle="Glazed - Farfetch case study"
+    pageDescription="An international fashion website that sells products from 400 independent boutiques around the world."
+    content
+  />;
 };
 
 let default = make;

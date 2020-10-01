@@ -82,7 +82,7 @@ let make = () => {
       brief: {j|Develop a conversational solution to engage and create personalised experiences for customers.|j},
     },
     content: [|
-    BigImage(productImage),
+      BigImage(productImage),
       TextAndImage(
         {j|We wanted to hit the floor running, as such, we looked for the best third party services that would be able to aid us with NLU (Natural Language Understanding) and dialogue handling to provide customers with valuable, engaging and bespoke experiences.
 
@@ -94,15 +94,15 @@ let make = () => {
       Custom(
         <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(
-              {j|The project’s NLU understanding was constantly improving from an always growing shared pool of examples obtained from training and also real chats.|j},
+             {j|The project’s NLU understanding was constantly improving from an always growing shared pool of examples obtained from training and also real chats.|j},
            )}
         </Heading>,
       ),
       TextAndImage(
-        {j| Focusing more on service use cases we started handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules. 
+        {j| Focusing more on service use cases we started handling user data gathering and GDPR compliance, improving flows to act as the first line of customer triage and also to cope with customer centres out of hours schedules.
 
-        Over time we’ve grown our channel support to Facebook Messenger, WhatsApp, WeChat, Google Assistant, Alexa, Web Pages (chat widget) and Slack. 
-        
+        Over time we’ve grown our channel support to Facebook Messenger, WhatsApp, WeChat, Google Assistant, Alexa, Web Pages (chat widget) and Slack.
+
         We also integrated with multiple third-party services like Salesforce, added human handover with live chat, booking appointments and even image recognition based product recommendation services.|j},
         productImage2,
       ),
@@ -116,7 +116,11 @@ let make = () => {
     },
   };
 
-  <CaseStudyPageTemplate content />;
+  <CaseStudyPageTemplate
+    pageTitle="Glazed - LVMH case study"
+    pageDescription={j|Moët Hennessy Louis Vuitton is a French multinational corporation and conglomerate specializing in luxury goods.|j}
+    content
+  />;
 };
 
 let default = make;

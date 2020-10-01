@@ -117,7 +117,7 @@ let useHeaderPosition = () => {
 };
 
 [@react.component]
-let make = (~content) => {
+let make = (~content, ~pageTitle, ~pageDescription) => {
   let (headerPosition, shouldHaveBackground, onHeaderResize) = useHeaderPosition();
   let headerStyle =
     useMemo1(
@@ -139,7 +139,7 @@ let make = (~content) => {
   let headerClassName =
     shouldHaveBackground ? Css.merge([Styles.header, Styles.headerWithShadow]) : Styles.header;
 
-  <Layout>
+  <Layout title=pageTitle description=pageDescription>
     <PageLayout
       className=Styles.pageLayout
       headerClassName
