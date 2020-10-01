@@ -2,8 +2,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = {
   siteMetadata: {
-    title: 'Glazed',
+    title: 'Glazed - Elite Developers',
     author: 'Glazed Solutions Lda.',
+    siteURL: process.env.SITE_URL || '',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
