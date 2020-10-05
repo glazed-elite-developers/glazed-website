@@ -1,0 +1,110 @@
+---
+title: 'How we built a website in 12 hours'
+date: '28-02-2020'
+description: 'Story how the Glazed team attempted to build a new website in 12 hours'
+tags: ['development', 'lessons learned']
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image
+  src="blog/how-we-build-a-website-in-10-hours/header.png"
+  alt="Image of the site's countdown"
+  caption="Time ticking away..."
+/>
+
+## Full Disclaimer — we didn’t!
+
+Here at [Glazed](https://glazed.dev) we recently had a revamp of our image and since no-one revamps their image without giving their website some love, we wanted to follow suit.
+
+Since everyone’s — always — busy with client work we decided to do a website hackathon to try to build the most of it in one go, leveraging this way our time and availability.
+
+Thus, if someone had a couple of minutes they could just drop by, pair up with someone or work on component or two — imagine this as an open pool that you go for a quick swim whenever you feel like
+it.
+
+## The Prep
+
+First and foremost, we needed to gather all the information concerning the event and what better way to do it if not by creating a board for the big day 👇
+
+### Restraints
+
+Usually the duration of a hackathon is 24 hours but we took into consideration that it’s hard to get everybody available at the same time on the same day, so with that caveat, we decided to address this challenge with the clear sense of only having 12 hours to achieve it and that people could join and leave the group at multiple times due to their own time restrains.
+We assumed that this would make a significant dent on our objective but nonetheless this was a risk we were willing to take to make it work.
+
+### Design
+
+With the all the design work done upfront and everything ready to go we only had to create a readme file that compiled all the information required.
+This way we centralised all the information — design, guidelines, animations, copywriting — in one document easily accessible to all and minimised the entropy of someone new joining and looking for resources.
+
+## The stack
+
+After a few short discussions, we decided that if we're doing this we needed to have something to lure us. As developers go we’re always up to a new challenge especially if it means taking on new concepts and ideas — let’s face it, in a nutshell, it’s playing with new tech that drove us, since we don’t usually have the opportunity to do it on our daily work.
+
+Even though our previous website was built with Elm taking full use of the Functional Programming (FP) paradigm, not everyone had the opportunity to dabble with it, and as so we needed to choose a framework and a language that allowed us to quickly plug and play and would work nicely together.
+
+That’s when Gatsby and ReasonML show up.
+
+### Gatsby
+
+- we’ve been using Gatsby since 2018 and compared to other static-site generation solutions (i.e.: Hugo, Jekyll) it uses React components instead of templates, which, for us makes the whole experience more intuitive since we have been exposed to React for many years now.
+
+### ReasonML
+
+- as stated previously, our website was already built with FP and Elm so it wasn’t completely new to us, nonetheless, it still provided a steep learning curve for those who hadn’t tried it.
+
+Plus, since we used BuckleScript to compile ReasonML to JavaScript, if at any point we felt that we were achieving no results, we could always take another route and simply develop React components with JavaScript.
+
+A well-known framework, a bold programming paradigm to get us excited and a 12 hour window frame to constrain us, what could possibly go wrong?
+
+## And they’re off
+
+First, we reviewed the design and identified all the components on the website, meaning we would be able to reuse them as much as possible; also we would avoid people possibly writing the same component which can happen if you don’t spend any time organising the work/team.
+
+Everyone picked up a component or screen, marked it on the board with their initials and started the work.
+As soon as someone finished their component we would notify the team (as someone else might need that component) and quickly tick that task and move on to another.
+
+I dare to say that a hackathon is not a hackathon without proper food!
+
+Therefore, as it should be, we had the most amazing food and sugary treats to keep us going 😋
+
+## The Challenge
+
+Right, let’s put this into perspective.
+
+There are many strong points about functional programming:
+
+- Less complexity (because less concepts and more strictness)
+- Predictability, both for the developer and for the compiler, enabling better optimisations (pure functions, side effect isolation)
+- Code is more modular, and therefore reusable
+- Compositionality of the property, that allows your software to be understood as a whole, by understanding its parts, and the rules governing the composition
+- Modularity allows your software to be separated into its constituent parts, and those parts can be reused independently of the whole, in novel ways that you did not anticipate when you created those parts
+- [Reason] type inference, avoids a whole class of runtime errors
+
+Nonetheless, none of the above points allows us to write or understand code faster; that takes time and effort.
+As we all know writing good code is a subtle art, the ability to express the real world into the digital in perfect symbioses between man and machine is a delicatessen to be delightedly by those who enjoy the readability of logic compositions. Or simply because when you use ReasonML there are no more variable is undefined errors 😇
+
+That said, nothing can be done if we don’t know how to use basic semantics or even the words! Add the time ticking away while you ask your colleagues, use google, or try to make sense of what you’re trying to build and you’re facing a behemoth of a challenge.
+
+Frustration creeps in as you try your best to not despair or use the quickest hack you know, before you notice there’s a sharp glimpse of the eye into the clock and a sense of heavy breathing floods the room. It’s eating you inside when you think that you could do this in half the time using the tooling and the languages that you already know.
+
+The time keeps ticking away and that component is not even close to what you want…
+
+> “Even the smallest person can change the course of the future.” ― J.R.R. Tolkien, The Lord of the Rings
+
+But it’s when you least expected that someone shares what they have built! From that moment on, even if it’s not something you could use, it’s enough to give hope and make you keep going.
+
+As of this moment you don’t care so much about the time or the missing features on your board, you know that you could use the combined knowledge of the whole team and that makes you stronger. Strong enough to finish your component and even share it with someone who might reuse it, little by little, byte by byte you’re building the website in 12 hours.
+
+## The Conclusion
+
+There are multiple valuable lessons from our hackathon but if we had to pick one to share is that we need to challenge ourselves.
+
+Let’s face it, it’s fairly easy to do what you know, even easier if you do it 8 hours a day, 5 days a week in repeat but try to do something that you’re not at ease with and you’ll stumble and you know what, that’s just fine. Get up, dust yourself and keep going — that’s how you get to be a better professional.
+
+Yes, we didn’t build our website and we could point out that we didn’t have the strength in numbers that allowed us to get there, or even the language or the time on our side but we did have each other to learn from and from there we learn more than a new programming paradigm or a reusable piece of code, we learn how to be resilient.
+
+Taking into consideration that our world (industry) is in constant change we either adapt or die — challenging yourself helps you survive✌
+
+---
+
+Thanks for reading, if you enjoyed our content you can find more over at our Twitter, Facebook and LinkedIn 👋
