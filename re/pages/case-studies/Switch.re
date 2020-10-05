@@ -20,36 +20,36 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 820) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/switch-01.png" }) {
          childImageSharp {
            fluid(maxWidth: 800) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage: file(relativePath: { eq: "case-studies/switch-02.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/switch-03.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 800) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 820) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
@@ -128,7 +128,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - Switch case study"
+    pageTitle="Glazed • Switch"
     pageDescription="Switch Payments connects the entire payments value chain through a single software platform."
     content
   />;

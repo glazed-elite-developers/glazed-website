@@ -11,7 +11,7 @@ module Styles = {
       margin(`auto),
       color(hex(Theme.Colors.grey)),
     ]);
-    
+
   let adHocComponent = style([textAlign(`center)]);
 };
 
@@ -20,43 +20,43 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/farfetch-01.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/farfetch-02.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage4: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        joseNeves: file(relativePath: { eq: "case-studies/farfetch-joseneves.jpeg" }) {
          childImageSharp {
            fluid(maxWidth: 120) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
@@ -71,7 +71,6 @@ let make = () => {
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
   let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
-  let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
     hero: {
@@ -94,9 +93,9 @@ let make = () => {
       TextAndImage(
         {j|There are many ways to optimise the conversion funnel, yet the bottom line is to invite customers into the store and convert a sale with the minimum amount of friction possible.
 
-Therefore, a responsive design solution, converged in performance with search engine and app store optimisation was vital. 
+Therefore, a responsive design solution, converged in performance with search engine and app store optimisation was vital.
 
-Since SEO was an essential requirement for the type of search the company wanted to achieve, we implemented an isomorphic React storefront with webpack. This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile. 
+Since SEO was an essential requirement for the type of search the company wanted to achieve, we implemented an isomorphic React storefront with webpack. This allowed us to do performance optimization via caching and mobile-specific code chunks, and a component-based single-page application that is search-engine optimised that only serves the content needed for each context, with a fast and light first-load which is great for mobile.
 
 Considering the codebase was split across several microservices with a very scalable architecture it allowed us to easily deploy via docker.|j},
         productImage4,
@@ -126,7 +125,7 @@ Considering the codebase was split across several microservices with a very scal
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - Farfetch case study"
+    pageTitle="Glazed • Farfetch"
     pageDescription="An international fashion website that sells products from 400 independent boutiques around the world."
     content
   />;

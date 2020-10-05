@@ -105,3 +105,5 @@ let make =
     </Heading>
   </CaseStudiesSlideSquare>;
 };
+
+let default = make;

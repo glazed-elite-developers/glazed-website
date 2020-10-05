@@ -188,3 +188,4 @@ let make = (~content, ~pageTitle, ~pageDescription) => {
 };
 
 let default = make;
+let useHeaderPosition = useHeaderPosition;

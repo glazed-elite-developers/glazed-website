@@ -209,8 +209,8 @@ let backgroundImageQuery = [%raw
     query {
       backgroundImage: file(relativePath: { eq: "home/slide-1-background.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 1800) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
@@ -230,6 +230,7 @@ let make =
           className=Styles.backgroundImage
           fluid=?backgroundImage
           style={ReactDOMRe.Style.make(~position="absolute", ())}
+          loading="eager"
         />
       </MaskContainer>
       <div className=Styles.content>

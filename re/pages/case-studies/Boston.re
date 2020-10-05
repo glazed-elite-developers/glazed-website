@@ -18,22 +18,22 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage: file(relativePath: { eq: "case-studies/boston-01.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 820) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
@@ -98,7 +98,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - Boston Hospital case study"
+    pageTitle="Glazed • Boston Hospital"
     pageDescription="A bespoke iOS application to display the position of the physician inside the hospital."
     content
   />;

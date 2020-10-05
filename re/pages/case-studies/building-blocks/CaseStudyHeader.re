@@ -98,7 +98,7 @@ module Styles = {
 let make = (~image: option(Gatsby.fluidImage)=?, ~title: string, ~area: string, ~text: string) => {
   <div className=Styles.wrapper>
     <MaskContainer className=Styles.imageContainer maskClassName=Styles.mask>
-      <Gatsby.Image className=Styles.image fluid=?image />
+      <Gatsby.Image className=Styles.image fluid=?image loading="eager" />
     </MaskContainer>
     <div className=Styles.titleCard>
       <Heading level=Heading.H1 className=Styles.heading> {React.string(title)} </Heading>

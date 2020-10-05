@@ -120,29 +120,29 @@ let backgroundImageQuery = [%raw
     query {
       LVMH: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 1800) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       Farfetch: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 1800) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       Switch: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 1800) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       Boston: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 1800) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }

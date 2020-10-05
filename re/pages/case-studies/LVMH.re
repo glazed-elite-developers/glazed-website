@@ -18,36 +18,36 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/lvmh-02.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage: file(relativePath: { eq: "case-studies/lvmh-01.png" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/lvmh-03.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+           fluid(maxWidth: 1800, maxHeight: 820) {
+             ...GatsbyImageSharpFluid_noBase64
            }
          }
        }
@@ -117,7 +117,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - LVMH case study"
+    pageTitle="Glazed • LVMH"
     pageDescription={j|Moët Hennessy Louis Vuitton is a French multinational corporation and conglomerate specializing in luxury goods.|j}
     content
   />;
