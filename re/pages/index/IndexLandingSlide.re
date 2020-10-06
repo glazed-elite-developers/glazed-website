@@ -226,10 +226,11 @@ let make =
 
     <FullPageSlide ?id ?innerRef className=Styles.wrapper onResize>
       <MaskContainer className=Styles.backgroundImage maskClassName=Styles.maskContainer>
-        <Gatsby.BackgroundImage
+        <Gatsby.Image
           className=Styles.backgroundImage
           fluid=?backgroundImage
           style={ReactDOMRe.Style.make(~position="absolute", ())}
+          loading="eager"
         />
       </MaskContainer>
       <div className=Styles.content>

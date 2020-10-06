@@ -65,11 +65,12 @@ let usePagePositionController = (numberOfSlides: int) => {
 let useCurrentSlideIndex = (positions: array(float), offsetY: float): int => {
   let scrollValues = ScrollConnectors.useClosestScrollValues();
   useMemo2(
-    () =>
+    () => {
       Belt.Array.reduceWithIndex(positions, 0, (currentPage, position, index) => {
         scrollValues.position.scrollTop +. scrollValues.boundingRect.top >= position +. offsetY
           ? index : currentPage
-      }),
+      })
+    },
     (scrollValues, positions),
   );
 };

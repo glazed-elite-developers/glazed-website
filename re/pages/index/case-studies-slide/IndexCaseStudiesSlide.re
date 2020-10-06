@@ -108,7 +108,7 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     link: "/case-studies/switch",
   },
   {
-    name: "Boston Children's Hospital",
+    name: "Boston Hospital",
     area: "HealthTech - IoT",
     backgroundImageKey: "Boston",
     link: "/case-studies/boston",

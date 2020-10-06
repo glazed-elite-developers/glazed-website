@@ -9,6 +9,7 @@ import { extractCritical } from 'emotion-server'
 import { cache } from 'emotion'
 import { CacheProvider } from '@emotion/core'
 import RootElementWrapper from 're/RootElementWrapper'
+import PageElementWrapper from 're/PageElementWrapper'
 
 export const replaceRenderer = ({ replaceBodyHTMLString, bodyComponent, setHeadComponents }) => {
   const { html, ids, css } = extractCritical(
@@ -27,4 +28,8 @@ export const replaceRenderer = ({ replaceBodyHTMLString, bodyComponent, setHeadC
 
 export const wrapRootElement = ({ element }) => {
   return <RootElementWrapper>{element}</RootElementWrapper>
+}
+
+export const wrapPageElement = ({ element, props }) => {
+  return <PageElementWrapper>{element}</PageElementWrapper>
 }

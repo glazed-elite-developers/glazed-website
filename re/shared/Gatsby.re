@@ -1,4 +1,3 @@
-
 type fluidImage;
 
 type imageSharp = {
@@ -59,7 +58,8 @@ module Image = {
       ~fluid: fluidImage=?,
       ~className: string=?,
       ~style: option(ReactDOMRe.style)=?,
-      ~imgStyle: option(ReactDOMRe.style)=?
+      ~imgStyle: option(ReactDOMRe.style)=?,
+      ~loading: option(string)=?
     ) =>
     React.element =
     "default";

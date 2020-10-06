@@ -64,10 +64,6 @@ let make =
     <>
       <Helmet title meta>
         <html lang="en" />
-        <link
-          href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swap"
-          rel="stylesheet"
-        />
         <link rel="canonical" href={siteURL ++ location.pathname} />
       </Helmet>
       <GlobalStyles />
