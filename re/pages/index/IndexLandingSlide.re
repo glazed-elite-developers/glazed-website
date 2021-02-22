@@ -46,7 +46,7 @@ module Styles = {
         ],
       ),
     ]);
-  let maskContainer = style([backgroundColor(rgba(34, 39, 63, 0.))]);
+  let maskContainer = style([backgroundColor(rgba(34, 39, 63, 0.8))]);
   let backgroundImage =
     style([position(`absolute), top(`zero), right(`zero), bottom(`zero), left(`zero)]);
   let backgroundCube =
@@ -207,10 +207,10 @@ module Styles = {
 let backgroundImageQuery = [%raw
   {|Gatsby.graphql`
     query {
-      backgroundImage: file(relativePath: { eq: "home/slide-1-background.jpg" }) {
+      backgroundImage: file(relativePath: { eq: "home/office.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
+          fluid(maxWidth: 4032) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }

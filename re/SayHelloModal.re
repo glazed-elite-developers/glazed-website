@@ -203,14 +203,14 @@ let backgroundImageQuery = [%raw
       map_mobile: file(relativePath: { eq: "map_mobile.png" }) {
         childImageSharp {
           fluid(maxWidth: 1024) {
-            ...GatsbyImageSharpFluid
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       map_desktop: file(relativePath: { eq: "map.png" }) {
         childImageSharp {
           fluid(maxWidth: 2000) {
-            ...GatsbyImageSharpFluid
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
