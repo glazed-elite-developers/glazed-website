@@ -12,9 +12,21 @@
 [@bs.module "static/images/icon_linkedin.svg"] external linkedInIcon: SVG.asset = "default";
 [@bs.module "static/images/icon_github.svg"] external githubIcon: SVG.asset = "default";
 
+// Client Images
+[@bs.module "static/images/clients/asos.png"] external asos: string = "default";
+[@bs.module "static/images/clients/BostonChildrensHospital.png"] external bostonHospital: string = "default";
+[@bs.module "static/images/clients/fenty.png"] external fenty: string = "default";
+[@bs.module "static/images/clients/Bulgari.png"] external bulgari: string = "default";
+[@bs.module "static/images/clients/Louis_Vuitton.png"] external lvmh: string = "default";
+[@bs.module "static/images/clients/ralph_and_russo.png"] external ralphAndRusso: string = "default";
+[@bs.module "static/images/clients/sephora.png"] external sephora: string = "default";
+[@bs.module "static/images/clients/WeChangers.png"] external weChangers: string = "default";
+[@bs.module "static/images/clients/Bloomberg.png"] external bloomberg: string = "default";
+
 // Variables.
 let techIcons = [|angularIcon, androidIcon, rubyIcon, appleIcon, reactIcon, nodeJSIcon|];
 let socialIcons = [|twitterIcon, facebookIcon, linkedInIcon, githubIcon|];
+let clients = [|asos, bostonHospital, fenty, bulgari, lvmh, ralphAndRusso, sephora, weChangers, bloomberg|]
 let cubeOuterEdge = 37.5;
 let cubeContentProjectionLength = 8.125;
 
@@ -180,6 +192,51 @@ module Styles = {
         [flex3(~grow=0., ~shrink=0., ~basis=`rem(3.125))],
       ),
     ]);
+  let clients =
+    style([
+      display(`flex),
+      position(`absolute),
+      flexDirection(`column),
+      right(`zero),
+      bottom(`rem(-9.)),
+      left(`rem(2.375)),
+      opacity(0.7),
+      maxWidth(`rem(16.)),
+      maxHeight(`rem(7.)),
+      overflow(`hidden),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [
+          bottom(`rem(-7.5)),
+          left(`rem(7.875)),
+          maxWidth(`rem(28.)),
+          maxHeight(`none)
+        ],
+      ),
+    ]);
+  let clientsSpan = style([
+    color(hex(Theme.Colors.grey)),
+    fontSize(rem(0.75)),
+    lineHeight(px(24))
+  ]);
+  let clientsImages = style([
+      marginTop(`rem(0.375)),
+      display(`flex),
+      flexWrap(`wrap),
+      justifyContent(`spaceAround)
+  ]);
+  let clientImage =
+    style([
+      width(`auto),
+      height(px(14)),
+      objectFit(`contain),
+      marginBottom(`rem(1.)),
+      flex3(~grow=0., ~shrink=1., ~basis=pct(50.)),
+      media(
+        Theme.Breakpoints.tabletLandscape,
+        [flex3(~grow=0., ~shrink=1., ~basis=pct(33.))]
+      ),
+    ]);
   let headingWrapper =
     style([
       display(`flex),
@@ -280,6 +337,22 @@ let make =
                techIcons,
              ),
            )}
+        </div>
+        <div className=Styles.clients>
+          <span className=Styles.clientsSpan> {"clients like:" |> ReasonReact.string}</span>
+          <div className=Styles.clientsImages>
+            {React.array(
+              Array.mapi(
+                (index, src) =>
+                  <img
+                    key={Belt.Int.toString(index)}
+                    className=Styles.clientImage
+                    src=src
+                  />,
+                clients,
+              ),
+            )}
+           </div>
         </div>
       </div>
       <div className=Styles.socialNetworks>
