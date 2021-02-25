@@ -53,7 +53,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
@@ -119,8 +119,8 @@ Considering the codebase was split across several microservices with a very scal
     |],
     nextCase: {
       image: nextCaseImage,
-      title: "Switch",
-      area: "FinTech - Payments",
+      title: "Mercadao",
+      area: "Retail - Marketplace",
       link: "/case-studies/switch",
     },
   };

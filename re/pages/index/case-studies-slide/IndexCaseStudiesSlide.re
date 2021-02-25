@@ -102,10 +102,10 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     link: "/case-studies/farfetch",
   },
   {
-    name: "Switch",
-    area: "FinTech - Payments",
-    backgroundImageKey: "Switch",
-    link: "/case-studies/switch",
+    name: "Mercadao",
+    area: "Retail - Marketplace",
+    backgroundImageKey: "Mercadao",
+    link: "/case-studies/mercadao",
   },
   {
     name: "Boston Hospital",
@@ -132,7 +132,7 @@ let backgroundImageQuery = [%raw
           }
         }
       }
-      Switch: file(relativePath: { eq: "case-studies/switch-hero.png" }) {
+      Mercadao: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 1200) {
             ...GatsbyImageSharpFluid
