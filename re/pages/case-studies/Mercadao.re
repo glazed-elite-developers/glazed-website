@@ -20,7 +20,7 @@ let pageImagesQuery = [%raw
      query {
        headerImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpeg" }) {
          childImageSharp {
-            fluid(maxWidth: 3600) {
+            fluid(maxWidth: 4800) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -144,7 +144,8 @@ let make = () => {
         All-in-all, our combined effort created one of the top players in the Portuguese online retail maket.
 
       |j},
-        productImage2,),
+        productImage2,
+      ),
     |],
     nextCase: {
       image: nextCaseImage,
@@ -156,7 +157,7 @@ let make = () => {
 
   <CaseStudyPageTemplate
     pageTitle="Glazed - Mercadao case study"
-    pageDescription="Mercadão is the first on-demand marketplace in Portugal, introducing 2-hour deliveries from a variety of retailers."
+    pageDescription={j|Mercadão is the first on-demand marketplace in Portugal, introducing 2-hour deliveries from a variety of retailers.|j}
     content
   />;
 };

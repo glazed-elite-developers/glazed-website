@@ -53,9 +53,9 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.png" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpeg" }) {
          childImageSharp {
-           fluid(maxWidth: 1200) {
+           fluid(maxWidth: 2400) {
              ...GatsbyImageSharpFluid
            }
          }
@@ -71,7 +71,6 @@ let make = () => {
   let bigImage = Gatsby.getImageFluid(queryResult, "bigImage");
   let productImage2 = Gatsby.getImageFluid(queryResult, "productImage2");
   let productImage4 = Gatsby.getImageFluid(queryResult, "productImage4");
-  let joseNevesAvatarImage = Gatsby.getImageFluid(queryResult, "joseNeves");
   let nextCaseImage = Gatsby.getImageFluid(queryResult, "nextCaseImage");
   let content: content = {
     hero: {
@@ -121,7 +120,7 @@ Considering the codebase was split across several microservices with a very scal
       image: nextCaseImage,
       title: "Mercadao",
       area: "Retail - Marketplace",
-      link: "/case-studies/switch",
+      link: "/case-studies/mercadao",
     },
   };
 
