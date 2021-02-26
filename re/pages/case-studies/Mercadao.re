@@ -39,14 +39,14 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       productImage2: file(relativePath: { eq: "case-studies/mercadao-02.png" }) {
+       productImage2: file(relativePath: { eq: "case-studies/mercadao-02.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
            }
          }
        }
-       productImage3: file(relativePath: { eq: "case-studies/mercadao-03.png" }) {
+       productImage3: file(relativePath: { eq: "case-studies/mercadao-03.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
              ...GatsbyImageSharpFluid
