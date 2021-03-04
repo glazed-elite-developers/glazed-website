@@ -59,7 +59,8 @@ module Image = {
       ~className: string=?,
       ~style: option(ReactDOMRe.style)=?,
       ~imgStyle: option(ReactDOMRe.style)=?,
-      ~loading: option(string)=?
+      ~loading: option(string)=?,
+      ~critical: option(bool)=?
     ) =>
     React.element =
     "default";

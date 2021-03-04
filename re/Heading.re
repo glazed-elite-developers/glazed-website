@@ -18,7 +18,7 @@ module Styles = {
         fontSize(rem(1.5)),
         lineHeight(rem(2.125)),
         media(
-          Theme.Breakpoints.tabletPortrait,
+          Theme.Breakpoints.tabletLandscape,
           [fontSize(rem(2.25)), lineHeight(rem(2.75))],
         ),
       ]),
@@ -29,14 +29,14 @@ module Styles = {
       style([
         fontSize(rem(1.125)),
         color(hex(Theme.Colors.grey)),
-        media(Theme.Breakpoints.tabletPortrait, [fontSize(rem(2.))]),
+        media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(2.))]),
       ]),
     ]);
   let h3 =
     merge([
       commonStyles,
       style([
-        media(Theme.Breakpoints.tabletPortrait, [fontSize(rem(1.5)), lineHeight(rem(2.75))]),
+        media(Theme.Breakpoints.tabletLandscape, [fontSize(rem(1.5)), lineHeight(rem(2.75))]),
       ]),
     ]);
   let h4 = merge([commonStyles, style([])]);

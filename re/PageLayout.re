@@ -46,7 +46,7 @@ let make =
       ~headerStyle=?,
       ~useDarkNavBarLinks=false,
       ~currentPageIndex=0,
-      ~onHeaderResize=?,
+      ~onHeaderResize=?
     ) => {
     open Webapi.Url;
     let (sayHelloModalUrl, openSayHelloModal) = OpenSayHelloModalHook.useOpenSayHelloModal();

@@ -1,0 +1,2 @@
+[@react.component] [@bs.module "src/components/glitchText"]
+external make: (~animationGroup: string, ~text: string, ~baseDelay: int=?, ~itemDelay: int=?, ~duration: int=?, ~iterationCount: int=?) => React.element = "default";
