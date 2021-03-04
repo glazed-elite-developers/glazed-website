@@ -53,7 +53,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpeg" }) {
+       nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 2400) {
              ...GatsbyImageSharpFluid
@@ -118,7 +118,7 @@ Considering the codebase was split across several microservices with a very scal
     |],
     nextCase: {
       image: nextCaseImage,
-      title: "Mercadao",
+      title: {j|Mercadão|j},
       area: "Retail - Marketplace",
       link: "/case-studies/mercadao",
     },

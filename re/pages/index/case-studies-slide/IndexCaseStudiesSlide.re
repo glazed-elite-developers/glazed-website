@@ -102,7 +102,7 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     link: "/case-studies/farfetch",
   },
   {
-    name: "Mercadao",
+    name: {j|Mercadão|j},
     area: "Retail - Marketplace",
     backgroundImageKey: "Mercadao",
     link: "/case-studies/mercadao",

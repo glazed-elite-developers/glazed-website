@@ -18,9 +18,9 @@ module Styles = {
 let pageImagesQuery = [%raw
   {|Gatsby.graphql`
      query {
-       headerImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpeg" }) {
+       headerImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
          childImageSharp {
-            fluid(maxWidth: 4800) {
+            fluid(maxWidth: 2400) {
              ...GatsbyImageSharpFluid
            }
          }
