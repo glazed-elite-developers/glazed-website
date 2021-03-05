@@ -101,29 +101,30 @@ let make = () => {
     content: [|
       TextAndImage(
         {j|
-          To put it into perspective, as the Pandemic evolved, Mercadão, like other online retailers, was one of the first options for most people to acquire essential goods. 
+          As one of the top online food and essential goods retailers in Portugal, Mercadão saw a rapid increase in usage as the Pandemic evolved. 
           
-          Hence, although improving query execution times were at the top of the list, the platform needed to remain usable, allowing customers to shop.
+          This unforeseen growth brought new scalability challenges that Glazed tackled by revamping the existing infrastructure, implementing auto-scaling strategies, as well as disaster protection and recovery policies. 
 
-          We revamped the existing infrastructure by implementing disaster recovery strategies and auto-scaling due to business demands first and followed up by many other tasks.
+          Many tasks, such as an in-depth analysis and improvement of the query execution times, had been performed while keeping the platform up and running, allowing the customers to continue their shopping experience uninterrupted.
 |j},
         bigImage,
       ),
       Custom(
         <Heading level=Heading.H3 className=Styles.inPageHeading>
           {React.string(
-              {j|Since the moment we teamed-up with Mercadão, we've tackled top priorities without undermining the shopper's experience.|j},
+              {j|Ever since we teamed-up with Mercadão, we've tackled top priorities without undermining the shopper's experience.|j},
            )}
         </Heading>,
       ),
       TextAndImage(
         {j|
-        Some of the other tasks involved the Click & Collect, a service allowing customers to shop online and choose a specific pick-up store, allowing customers to shop even though the Pandemic applied pressure on delivery schedules.
+        The Click & Collect service, which allows customers to shop online and choose a specific pick-up store, mitigated some of the Pandemic's strain on the delivery logistics. 
         
-        We've created an API for third-party so that partner brands can take advantage of Mercadão's logistics to enable same-day deliveries. 
-        
-        Failover mechanisms spread over multiple availability zones, automatic machine scaling based on the CPU usage threshold to improve service quality and response time. 
-        We've also integrated the payments journey with SIBS, including their mobile service MBway.
+        For that reason, we've created an API for third party usage, empowering the partner brands with Mercadão's catalogue of advanced features such as:
+        • Failover mechanisms spread over multiple availability zones
+        • Improved service quality and response time backed by automatic CPU based machine scaling
+        • Integrated the payments journey with SIBS, including the MBway mobile service
+
 |j},
         productImage3,
       ),
