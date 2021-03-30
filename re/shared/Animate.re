@@ -1,2 +1,2 @@
 [@react.component] [@bs.module "src/components/animate"]
-external make: (~animationGroup: string, ~animation: string, ~baseDelay: int=?, ~itemDelay: int=?, ~duration: int=?, ~iterationCount: int=?, ~timingFunction: string=?,  ~fillMode: string=?, ~transformOrigin: string=?, ~children: React.element) => React.element = "default";
+external make: (~isIn: bool, ~animationGroup: string, ~animation: string, ~baseDelay: int=?, ~itemDelay: int=?, ~duration: int=?, ~iterationCount: int=?, ~timingFunction: string=?,  ~fillMode: string=?, ~transformOrigin: string=?, ~children: React.element) => React.element = "default";

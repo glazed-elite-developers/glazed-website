@@ -14,6 +14,9 @@
 [@bs.module "static/images/icon_linkedin.svg"] external linkedInIcon: SVG.asset = "default";
 [@bs.module "static/images/icon_github.svg"] external githubIcon: SVG.asset = "default";
 
+// Hero Image
+[@bs.module "static/images/home/office.jpg"] external office: string = "default";
+
 // Client Images
 [@bs.module "static/images/clients/ASOS.png"] external asos: string = "default";
 [@bs.module "static/images/clients/BostonChildrensHospital.png"] external bostonHospital: string = "default";
@@ -134,7 +137,6 @@ module Styles = {
       lineHeight(rem(1.5)),
       padding2(~v=rem(0.625), ~h=`zero),
       maxWidth(rem(13.)),
-      opacity(0.7),
       top(`rem(1.25)),
       right(`zero),
       alignSelf(`flexEnd),
@@ -315,13 +317,13 @@ module Styles = {
     ]);
 };
 
-let backgroundImageQuery = [%raw
+let imageQuery = [%raw
   {|Gatsby.graphql`
     query {
       backgroundImage: file(relativePath: { eq: "home/office.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 4032, quality: 100) {
-            ...GatsbyImageSharpFluid
+            ...GatsbyImageSharpFluid_withWebp
           }
         }
       }
@@ -331,8 +333,8 @@ let backgroundImageQuery = [%raw
 
 [@react.component]
 let make =
-  React.memo((~id=?, ~innerRef=?, ~onResize) => {
-    let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
+  React.memo((~id=?, ~innerRef=?, ~onResize, ~hasMounted) => {
+    let queryResult = Gatsby.useStaticQuery(imageQuery);
     let backgroundImage = Gatsby.getImageFluid(queryResult, "backgroundImage");
 
     let hasPlayedAnimation =
@@ -347,56 +349,71 @@ let make =
 
     <FullPageSlide ?id ?innerRef className=Styles.wrapper onResize>
       <div className=Styles.backgroundImage>
-        <Gatsby.Image
-          className=Styles.backgroundImage
-          fluid=?backgroundImage
-          style={ReactDOMRe.Style.make(~position="absolute", ())}
-          loading="eager"
-        />
+        {hasMounted ?
+          hasPlayedAnimation ?
+            <Gatsby.Image
+              className=Styles.backgroundImage
+              fluid=?backgroundImage
+              style={ReactDOMRe.Style.make(~position="absolute", ())}
+              loading="eager"
+            /> :
+            // Gatsby image replacement stutters the page load
+            <img
+              src=office
+              style={ReactDOMRe.Style.make(~width="100%", ~height="100%", ~objectFit="cover", ())}
+            /> :
+            React.null
+        }
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="scaleDownY"
           baseDelay=1250
-          duration=2000
+          duration=1500
           transformOrigin="top center"
         >
           <div className=?{Utils.React.combineClassNames([Some(Styles.imageForeground), Some(Styles.mobile)])} />
         </Animate>
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="scaleUpY"
           baseDelay=2000
-          duration=2000
+          duration=1500
           transformOrigin="bottom center"
         >
           <div className=?{Utils.React.combineClassNames([Some(Styles.animatedMask), Some(Styles.mobile)])} />
         </Animate >
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="scaleDownX"
           baseDelay=1250
-          duration=2000
+          duration=1500
           transformOrigin="center right"
         >
           <div className=?{Utils.React.combineClassNames([Some(Styles.imageForeground), Some(Styles.tabletLandscape)])} />
         </Animate>
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="scaleUpX"
           baseDelay=2000
-          duration=2000
+          duration=1500
           transformOrigin="center left"
         >
           <div className=?{Utils.React.combineClassNames([Some(Styles.animatedMask), Some(Styles.tabletLandscape)])} />
         </Animate>
       </div>
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="fadeOut"
           baseDelay=1250
           duration=200
         >
         <Animate
+          isIn=hasMounted
             animationGroup="indexLanding"
             animation="pulse"
             duration=625
@@ -425,6 +442,7 @@ let make =
           </div>
       </Animate >
       <Animate
+        isIn=hasMounted
         animationGroup="indexLanding"
         animation="scaleUp"
         baseDelay=1250
@@ -435,6 +453,7 @@ let make =
         <div className=Styles.content>
           <div className=Styles.headingWrapper>
             <Animate
+              isIn=hasMounted
               animationGroup="indexLanding"
               animation="fadeIn"
               timingFunction="ease-in"
@@ -452,7 +471,7 @@ let make =
                     baseDelay=2500
                     itemDelay=25
                     iterationCount=30
-                    duration=80
+                    duration=125
                     text="require elite mobile and web developers"
                   />
               }
@@ -460,6 +479,7 @@ let make =
             <div className=Styles.exploreCasesButtonWrapper>
               <Gatsby.Link className="" _to="/#case-studies">
                 <Animate
+                  isIn=hasMounted
                   animationGroup="indexLanding"
                   animation="fadeIn"
                   timingFunction="ease-in"
@@ -474,6 +494,7 @@ let make =
             </div>
           </div>
           <Animate
+            isIn=hasMounted
             animationGroup="indexLanding"
             animation="fadeIn"
             timingFunction="ease-in"
@@ -487,6 +508,7 @@ let make =
             </HTMLText>
           </Animate>
           <Animate
+            isIn=hasMounted
             animationGroup="indexLanding"
             animation="fadeIn"
             timingFunction="ease-in"
@@ -510,6 +532,7 @@ let make =
           </Animate>
           <div className=Styles.techStackIcons>
             <Animate
+              isIn=hasMounted
               animationGroup="indexLanding"
                 animation="slideUpFadeIn"
                 baseDelay=3500
@@ -532,6 +555,7 @@ let make =
           </div>
         <div className=Styles.clients>
           <Animate
+            isIn=hasMounted
             animationGroup="indexLanding"
             animation="fadeIn"
             timingFunction="ease-in"
@@ -543,13 +567,14 @@ let make =
           </Animate>
           <div className=Styles.clientsImages>
             <Animate
+              isIn=hasMounted
               animationGroup="indexLanding"
               animation="slideUpFadeIn"
               baseDelay=2750
               itemDelay=200
               duration=1000
             >
-              {React.array(
+               {React.array(
                 Array.mapi(
                   (index, src) =>
                     <img
@@ -566,6 +591,7 @@ let make =
       </div>
       <div className=Styles.socialNetworks>
         <Animate
+          isIn=hasMounted
           animationGroup="indexLanding"
           animation="slideUpFadeIn"
           baseDelay=2000

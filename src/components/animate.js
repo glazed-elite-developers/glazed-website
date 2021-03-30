@@ -151,6 +151,7 @@ const fadeOut = {
 const animations = { pulse, scaleUp, scaleUpX, scaleDownX, scaleUpY, scaleDownY, slideUpFadeIn, fadeIn, fadeOut }
 
 const Animate = ({
+  isIn = false,
   animationGroup = '',
   animation,
   baseDelay = 0,
@@ -162,6 +163,10 @@ const Animate = ({
   iterationCount = 1,
   children,
 }) => {
+  if (!isIn) {
+    return null
+  }
+
   const hasPlayedAnimation =
     typeof window !== 'undefined' ? Boolean(window.sessionStorage.getItem(`hasPlayed:${animationGroup}`)) : false
   const hasAnimated = (!!animationGroup && hasPlayedAnimation) || false

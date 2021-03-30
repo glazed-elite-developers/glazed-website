@@ -103,6 +103,7 @@ let make = () => {
   let (positions, domSlideRefs, onResize) = usePagePositionController(numberOfSlides);
   let currentPageIndex = useCurrentSlideIndex(positions, headerStyleTransitionOffsetY);
   let useDarkNavBarLinks = Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPageIndex);
+  let (hasMounted, setHasMounted) = useState(() => false);
 
   let hasPlayedAnimation =
     switch (Utils.Env.getPlatform()) {
@@ -114,10 +115,15 @@ let make = () => {
       | _ => false
     };
 
+  useEffect0(() => {
+    setHasMounted(_ => true);
+    None;
+  });
+
   <Layout>
     <PageLayout className=Styles.pageLayout useDarkNavBarLinks currentPageIndex headerClassName=Styles.headerStyles(hasPlayedAnimation)>
       <PageContent className=Styles.wrapper>
-        <IndexLandingSlide id="hey" innerRef={Array.get(domSlideRefs, 0)} onResize />
+        <IndexLandingSlide id="hey" innerRef={Array.get(domSlideRefs, 0)} onResize hasMounted={hasMounted} />
         <IndexCaseStudiesSlide id="case-studies" innerRef={Array.get(domSlideRefs, 1)} onResize />
         <IndexAboutSlide id="about" innerRef={Array.get(domSlideRefs, 2)} onResize />
         <IndexTeamSlide id="team" innerRef={Array.get(domSlideRefs, 3)} onResize />

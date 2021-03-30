@@ -29,13 +29,17 @@
     "gatsby-source-filesystem": "^2.3.21",
     "gatsby-transformer-remark": "^2.8.26",
     "gatsby-transformer-sharp": "^2.5.11",
+    "gsap": "^3.6.0",
     "lodash.debounce": "^4.0.8",
     "normalize-css": "^2.3.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
+    "react-intersection-observer": "^8.31.0",
+    "react-three-fiber": "^5.3.19",
     "react-transition-group": "^4.3.0",
-    "reason-react": "^0.9.0"
+    "reason-react": "^0.9.0",
+    "three": "^0.126.1"
   },
   "keywords": [
     "gatsby"

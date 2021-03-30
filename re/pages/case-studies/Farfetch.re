@@ -21,42 +21,42 @@ let pageImagesQuery = [%raw
        headerImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/farfetch-01.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/farfetch-02.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage4: file(relativePath: { eq: "case-studies/farfetch-03.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        joseNeves: file(relativePath: { eq: "case-studies/farfetch-joseneves.jpeg" }) {
          childImageSharp {
            fluid(maxWidth: 120) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 2400) {
-             ...GatsbyImageSharpFluid_noBase64
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }

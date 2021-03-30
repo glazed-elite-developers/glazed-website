@@ -67,14 +67,20 @@ const Span = styled.span`
   }
 `
 
+const GlitchChar = React.memo(({ className, animationDelay, isSpace, text }) => (
+  <Span className={className} animationDelay={animationDelay} isSpace={isSpace}>
+    {text}
+  </Span>
+))
+
 const GlitchText = ({
   animationGroup,
   text,
   className,
   baseDelay = 0,
   itemDelay = 0,
-  duration = 80,
-  iterationCount = 25,
+  duration = 100,
+  iterationCount = 20,
 }) => {
   const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
@@ -93,7 +99,7 @@ const GlitchText = ({
   }
 
   const getNextCharacter = (iterations, index) => {
-    return iterations > 5 ? randomCharacter(characters) : text[index]
+    return iterations > 10 ? randomCharacter(characters) : text[index]
   }
 
   const getRandomString = (string, iterations) => {
@@ -154,11 +160,14 @@ const GlitchText = ({
   }, [iterations, hidden])
 
   return Array.from(Array(glitchText.length).keys()).map((elem, index) => {
-    const isSpace = glitchText[index] === ' '
-    return (
-      <Span key={index} className={className} animationDelay={baseDelay + itemDelay * index} isSpace={isSpace}>
-        {glitchText[index]}
-      </Span>
+    return hidden ? null : (
+      <GlitchChar
+        key={index}
+        className={className}
+        animationDelay={itemDelay * index}
+        isSpace={glitchText[index] === ' '}
+        text={glitchText[index]}
+      />
     )
   })
 }
