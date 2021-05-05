@@ -19,21 +19,21 @@ let pageImagesQuery = [%raw
        headerImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage: file(relativePath: { eq: "case-studies/boston-01.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }

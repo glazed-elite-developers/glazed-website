@@ -19,35 +19,35 @@ let pageImagesQuery = [%raw
        headerImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/lvmh-02.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage: file(relativePath: { eq: "case-studies/lvmh-01.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/lvmh-03.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }

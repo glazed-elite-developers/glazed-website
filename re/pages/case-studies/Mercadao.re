@@ -11,7 +11,7 @@ module Styles = {
       margin(`auto),
       color(hex(Theme.Colors.grey)),
     ]);
-    
+
   let adHocComponent = style([textAlign(`center)]);
 };
 
@@ -21,49 +21,49 @@ let pageImagesQuery = [%raw
        headerImage: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
          childImageSharp {
             fluid(maxWidth: 2400) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        bigImage: file(relativePath: { eq: "case-studies/mercadao-big.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage1: file(relativePath: { eq: "case-studies/mercadao-01.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage2: file(relativePath: { eq: "case-studies/mercadao-02.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        productImage3: file(relativePath: { eq: "case-studies/mercadao-03.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        goncaloSoares: file(relativePath: { eq: "case-studies/goncalo-soares-da-costa.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 120) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
        nextCaseImage: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
          childImageSharp {
            fluid(maxWidth: 1200) {
-             ...GatsbyImageSharpFluid
+             ...GatsbyImageSharpFluid_withWebp_noBase64
            }
          }
        }
@@ -101,9 +101,9 @@ let make = () => {
     content: [|
       TextAndImage(
         {j|
-          As one of the top online food and essential goods retailers in Portugal, Mercadão saw a rapid increase in usage as the Pandemic evolved. 
-          
-          This unforeseen growth brought new scalability challenges that Glazed tackled by revamping the existing infrastructure, implementing auto-scaling strategies, as well as disaster protection and recovery policies. 
+          As one of the top online food and essential goods retailers in Portugal, Mercadão saw a rapid increase in usage as the Pandemic evolved.
+
+          This unforeseen growth brought new scalability challenges that Glazed tackled by revamping the existing infrastructure, implementing auto-scaling strategies, as well as disaster protection and recovery policies.
 
           Many tasks, such as an in-depth analysis and improvement of the query execution times, had been performed while keeping the platform up and running, allowing the customers to continue their shopping experience uninterrupted.
 |j},
@@ -118,8 +118,8 @@ let make = () => {
       ),
       TextAndImage(
         {j|
-        The Click & Collect service, which allows customers to shop online and choose a specific pick-up store, mitigated some of the Pandemic's strain on the delivery logistics. 
-        
+        The Click & Collect service, which allows customers to shop online and choose a specific pick-up store, mitigated some of the Pandemic's strain on the delivery logistics.
+
         For that reason, we've created an API for third party usage, empowering the partner brands with Mercadão's catalogue of advanced features such as:
         • Failover mechanisms spread over multiple availability zones
         • Improved service quality and response time backed by automatic CPU based machine scaling
@@ -130,16 +130,16 @@ let make = () => {
       ),
       QuoteCard(
       {j|
-      Top-notch development at Glazed allowed Mercadão to leverage on massive demand growth with confidence. 
+      Top-notch development at Glazed allowed Mercadão to leverage on massive demand growth with confidence.
       Plus: they're great people to work with.
       |j},
-      
+
       {name: {j|Gonçalo Soares da Costa|j}, title: {j|Mercadão CEO|j}, avatarImage: quoteAvatarImage},
       ),
        TextAndImage(
         {j|
         In less than a year working with Mercadão, we can confidently state that business processes are now faster, more reliable, and overall infrastructure resource consumption has decreased.
-        
+
         All those changes have translated into a smoother user experience, an increase of MAU's and since January 2020, there has been a daily delivery increase of more than 20x.
 
         All-in-all, our combined effort created one of the top players in the Portuguese online retail maket.

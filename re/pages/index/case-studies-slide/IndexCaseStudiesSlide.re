@@ -90,24 +90,28 @@ module Styles = {
 
 let caseStudies: array(CaseStudySquare.caseStudy) = [|
   {
+    index: 0,
     name: "LVMH",
     area: "Fashion - Chatbots",
     backgroundImageKey: "LVMH",
     link: "/case-studies/lvmh",
   },
   {
+    index: 1,
     name: "Farfetch",
     area: "Fashion - Ecommerce",
     backgroundImageKey: "Farfetch",
     link: "/case-studies/farfetch",
   },
   {
+    index: 2,
     name: {j|Mercadão|j},
     area: "Retail - Marketplace",
     backgroundImageKey: "Mercadao",
     link: "/case-studies/mercadao",
   },
   {
+    index: 3,
     name: "Boston Hospital",
     area: "HealthTech - IoT",
     backgroundImageKey: "Boston",
@@ -115,55 +119,18 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
   },
 |];
 
-let backgroundImageQuery = [%raw
-  {|Gatsby.graphql`
-    query {
-      LVMH: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      Farfetch: file(relativePath: { eq: "case-studies/farfetch-hero.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      Mercadao: file(relativePath: { eq: "case-studies/mercadao-hero.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      Boston: file(relativePath: { eq: "case-studies/boston-hero.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1200) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `|}
-];
-
 [@react.component]
 let make =
   React.memo((~innerRef=?, ~id=?, ~onResize) => {
     let (selectedCaseStudy, selectCaseStudy) = React.useState(() => caseStudies[0]);
-    let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
-    let backgroundImage = Gatsby.getImageFluid(queryResult, selectedCaseStudy.backgroundImageKey);
 
     <FullPageSlide className=Styles.wrapper ?id ?innerRef onResize>
       <MaskContainer className=Styles.backgroundImage maskClassName=Styles.maskContainer>
-        <Gatsby.BackgroundImage
-          className=Styles.backgroundImage
-          fluid=?backgroundImage
-          style={ReactDOMRe.Style.make(~position="absolute", ())}
-        />
+        <GlitchCanvas>
+          <GlitchImages
+            current=selectedCaseStudy.index
+          />
+        </GlitchCanvas>
       </MaskContainer>
       <div className=Styles.grid>
         <div className=Styles.backgroundGrid>

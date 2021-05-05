@@ -1,4 +1,5 @@
 open React;
+open Utils.Env;
 
 module Styles = {
   open Css;
@@ -12,6 +13,24 @@ module Styles = {
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
       media(Theme.Breakpoints.tabletLandscape, [padding(`zero)]),
     ]);
+
+  let fadeIn = keyframes([
+      (100, [ visibility(`visible), opacity(1.0) ])
+    ]);
+
+  let headerStyles = (hasAnimated: bool) => {
+    style([
+      media(Theme.Breakpoints.tabletLandscape, [
+        opacity(hasAnimated ? 1. : 0.),
+        visibility(hasAnimated ? `visible : `hidden),
+        animationName(fadeIn),
+        animationDuration(hasAnimated ? 0 : 1500),
+        animationDelay(hasAnimated ? 0 : 2500),
+        animationFillMode(`forwards),
+        animationTimingFunction(`easeOut)
+      ])
+    ]);
+  };
 };
 
 let usePagePositionController = (numberOfSlides: int) => {
@@ -84,11 +103,27 @@ let make = () => {
   let (positions, domSlideRefs, onResize) = usePagePositionController(numberOfSlides);
   let currentPageIndex = useCurrentSlideIndex(positions, headerStyleTransitionOffsetY);
   let useDarkNavBarLinks = Belt.Set.Int.has(pagesWithDarkNavBarLinks, currentPageIndex);
+  let (hasMounted, setHasMounted) = useState(() => false);
+
+  let hasPlayedAnimation =
+    switch (Utils.Env.getPlatform()) {
+      | Browser =>
+        switch (Dom.Storage.(sessionStorage |> getItem("hasPlayed:indexLanding"))) {
+          | Some("true") => true
+          | _ => false
+          };
+      | _ => false
+    };
+
+  useEffect0(() => {
+    setHasMounted(_ => true);
+    None;
+  });
 
   <Layout>
-    <PageLayout className=Styles.pageLayout useDarkNavBarLinks currentPageIndex>
+    <PageLayout className=Styles.pageLayout useDarkNavBarLinks currentPageIndex headerClassName=Styles.headerStyles(hasPlayedAnimation)>
       <PageContent className=Styles.wrapper>
-        <IndexLandingSlide id="hey" innerRef={Array.get(domSlideRefs, 0)} onResize />
+        <IndexLandingSlide id="hey" innerRef={Array.get(domSlideRefs, 0)} onResize hasMounted={hasMounted} />
         <IndexCaseStudiesSlide id="case-studies" innerRef={Array.get(domSlideRefs, 1)} onResize />
         <IndexAboutSlide id="about" innerRef={Array.get(domSlideRefs, 2)} onResize />
         <IndexTeamSlide id="team" innerRef={Array.get(domSlideRefs, 3)} onResize />
