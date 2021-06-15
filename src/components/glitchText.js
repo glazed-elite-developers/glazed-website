@@ -45,7 +45,6 @@ const characters = [
 const reveal = keyframes`
   100% {
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
   }
 `
@@ -55,7 +54,7 @@ const Span = styled.span`
   width: ${props => (props.isSpace ? '0.5rem' : 'auto')};
   opacity: 0;
   transform: translateY(100%);
-  visibility: hidden;
+  will-change: opacity, transform;
   animation: ${reveal};
   animation-duration: 500ms;
   animation-timing-function: ease-in-out;
@@ -73,15 +72,7 @@ const GlitchChar = React.memo(({ className, animationDelay, isSpace, text }) => 
   </Span>
 ))
 
-const GlitchText = ({
-  animationGroup,
-  text,
-  className,
-  baseDelay = 0,
-  itemDelay = 0,
-  duration = 100,
-  iterationCount = 20,
-}) => {
+const GlitchText = ({ text, className, baseDelay = 0, itemDelay = 0, duration = 100, iterationCount = 20 }) => {
   const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
@@ -91,40 +82,36 @@ const GlitchText = ({
   }
 
   const getFullRandomString = string => {
-    return Array.from(Array(string.length).keys())
-      .map((char, index) => {
-        return string[index] === ' ' ? ' ' : randomCharacter(characters)
-      })
-      .join('')
+    return Array.from(Array(string.length).keys()).map((_, index) => {
+      return string[index] === ' ' ? ' ' : randomCharacter(characters)
+    })
   }
 
   const getNextCharacter = (iterations, index) => {
     return iterations > 10 ? randomCharacter(characters) : text[index]
   }
 
-  const getRandomString = (string, iterations) => {
-    return Array.from(Array(string.length).keys())
-      .map((elem, index) => {
-        if (string[index] === ' ') {
-          return ' '
-        }
+  const getRandomString = (charArray, iterations) => {
+    return charArray.map((_, index) => {
+      if (charArray[index] === ' ') {
+        return ' '
+      }
 
-        const modulo = iterations % 5
+      const modulo = iterations % 5
 
-        switch (modulo) {
-          case 0:
-            return index % 5 === 0 ? getNextCharacter(iterations, index) : string[index]
-          case 1:
-            return index % 5 === 1 ? getNextCharacter(iterations, index) : string[index]
-          case 2:
-            return index % 5 === 2 ? getNextCharacter(iterations, index) : string[index]
-          case 3:
-            return index % 5 === 3 ? getNextCharacter(iterations, index) : string[index]
-          case 4:
-            return index % 5 === 4 ? getNextCharacter(iterations, index) : string[index]
-        }
-      })
-      .join('')
+      switch (modulo) {
+        case 0:
+          return index % 5 === 0 ? getNextCharacter(iterations, index) : charArray[index]
+        case 1:
+          return index % 5 === 1 ? getNextCharacter(iterations, index) : charArray[index]
+        case 2:
+          return index % 5 === 2 ? getNextCharacter(iterations, index) : charArray[index]
+        case 3:
+          return index % 5 === 3 ? getNextCharacter(iterations, index) : charArray[index]
+        case 4:
+          return index % 5 === 4 ? getNextCharacter(iterations, index) : charArray[index]
+      }
+    })
   }
 
   const [hidden, setHidden] = useState(baseDelay > 0)
@@ -149,7 +136,7 @@ const GlitchText = ({
       if (iterations > 1) {
         setGlitchText(getRandomString(glitchText, iterations))
       } else if (iterations === 0) {
-        setGlitchText(text)
+        setGlitchText(text.split(''))
       }
 
       if (iterations >= 0) {
@@ -159,10 +146,10 @@ const GlitchText = ({
     return () => clearTimeout(timeout)
   }, [iterations, hidden])
 
-  return Array.from(Array(glitchText.length).keys()).map((elem, index) => {
+  return glitchText.map((elem, index) => {
     return hidden ? null : (
       <GlitchChar
-        key={index}
+        key={`${text[index]}${index}`}
         className={className}
         animationDelay={itemDelay * index}
         isSpace={glitchText[index] === ' '}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { css, keyframes } from '@emotion/core'
 import styled from '@emotion/styled'
 
@@ -182,6 +182,7 @@ const Animate = ({
         animation-fill-mode: ${fillMode};
         animation-iteration-count: ${iterationCount};
         transform-origin: ${transformOrigin};
+        will-change: opacity, transform, visibility;
       `
 
       return <Container delay={baseDelay + itemDelay * index} duration={duration} {...child.props}></Container>
