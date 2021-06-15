@@ -133,8 +133,9 @@ type submissionStatus =
   | Success
   | Failed(submissionErrorTypes);
 
+// FIXME: Make the hackyOverride not hacky
 [@react.component]
-let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
+let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus, ~hackyOverride=false) => {
   let controlProps = Form.useController(~schema, ~onSubmit, ~onChange?, ());
   let formRenderer = FormRenderer.useRenderer(~controlProps, ());
 
@@ -185,7 +186,11 @@ let make = (~className=?, ~onSubmit, ~onChange=?, ~submissionStatus) => {
                key=name
                className=Styles.field
                name
-               label={React.string(label)}
+               label={ {switch (hackyOverride) {
+                  | true => React.string("your project / thesis's description")
+                  | _ => React.string(label)
+                  }}
+              }
                ?placeholder
                ?value
                ?error
