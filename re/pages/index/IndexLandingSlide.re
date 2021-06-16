@@ -470,8 +470,8 @@ let make =
                     animationGroup="indexLanding"
                     baseDelay=2500
                     itemDelay=25
-                    iterationCount=30
-                    duration=125
+                    iterationCount=35
+                    duration=120
                     text="require elite mobile and web developers"
                   />
               }
