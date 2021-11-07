@@ -1,0 +1,223 @@
+---
+title: 'Making Life Easier with Distributed Background Jobs'
+date: '2021-01-29'
+description: 'Part 1 of the Managing Ecommerce Apps at Scale series where we discuss how we used background jobs to improve processes'
+tags: ['chatbots', 'opinion', 'tutorial']
+author: 'José Magalhães'
+image: '../../../static/images/blog/distributed-background-jobs/header.jpeg'
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image
+  src="blog/distributed-background-jobs/header.jpeg"
+  alt="Image of mesh of metal strings"
+  caption="Photo by Alina Grubnyak on Unsplash"
+/>
+
+One of our projects involves maintaining and developing features for the online store of one of the biggest grocery store chains in Portugal. In order to manage and get reports about the operation, business managers can export large files containing products, orders, and other critical business data. Depending on the parameterization, these tasks can become time and resource expensive.
+
+For this reason, instead of performing the process synchronously, we initially executed these jobs in the background and, once completed, sent the result to the manager’s inbox. Executing these tasks in the background was already a significant improvement since we would not block Node.js’ main thread while we processed the manager’s request.
+
+As the business scaled (and COVID was a big booster), these operations still posed an issue as the number of times the tasks were requested and data they encompassed grew. This would increase the load on the system, sometimes unnecessarily, because those multiple requests might have been unintentional. In this scenario, the machine receiving the manager’s request would be the one doing the work, not taking advantage of other machines that might be experiencing less load (since we had no means of sharing work between them).
+
+The solution we were looking for needed to fulfill the following requirements out-of-the-box:
+
+- We need to be able to distribute the load across the machines available
+- We need to limit how many times the task executes to ensure system stability
+
+If your task execution rate is low, distributing the load across the system may not be needed. In our scenario, it proves to be useful since we can scale our system automatically. We want to handle multiple tasks from different managers, and if the load surpasses a certain threshold, we will spin up a new machine to cover the needs.
+
+Allowing multiple tasks to be requested without limitation caused spikes and performance issues in our system. Limiting how many tasks of the same type can be executed lets us handle the load better, especially if tasks are not urgent. We want to avoid managers running the same export more than one at a time.
+
+We ended up choosing a distributed background tasks engine to handle our problem, and although we could’ve settled for another solution, it has the following advantages:
+
+- By introducing an engine that’s shared across the system, tasks can be executed by different machines (whereas previously, machines had no way of managing this by themselves)
+- With little configuration, we can limit the number of tasks being executed concurrently, either by type of task or by who is requesting them
+
+Thus, _Resque_ to the rescue! 😉
+
+## So, what’s Resque?
+
+_Resque_ (pronounced like “rescue”) is a Redis-backed library for creating background jobs, placing those jobs on multiple queues, and processing them later.
+
+It was developed by Github back in 2009 because of necessity.
+
+Github needed to perform massive background work and couldn’t find a solution to cover their needs, so they chose to create their own solution. Nonetheless, before starting to develop their answer, they first tried different background job systems. They concluded that all of them had some type of limitation — performance, latency, memory — which caused them to be discarded.
+
+Initially developed in Ruby, it soon became a trend within the community which naturally led to its appearance in other languages like java or javascript.
+
+If you are interested in _Resque’s_ beginnings and want to know more, check this [blog post](https://github.blog/2009-11-03-introducing-resque/).
+
+In our project we used node-resque, a node.js implementation of _Resque_.
+
+## Concepts
+
+Now that you have some context about Resque, let us introduce you to some basic concepts you should know before using it. We can decompose the entire system into 4 self-explanatory pieces:
+
+**Queue** - responsible for enqueueing/dequeueing our jobs
+
+**Worker** - responsible for running our jobs. One per Node.js process by default
+
+**Scheduler** - responsible for promoting enqueued delayed jobs into the work queues when it is time
+
+**Job** - the actual task we want to run
+
+## Setup
+
+To start using _Resque_, the first thing you need to do is to set up a connection to your Redis database:
+
+```js
+const connection = {
+  pkg: 'ioredis', // redis client driver
+  host: '<redis_host>', // 127.0.0.1
+  port: '<redis_port>', // 6379
+  Database: '<redis_db>', // 0
+  namespace: '<namespace>', // optional
+}
+```
+
+Then you can define your jobs that will be executed by your workers:
+
+```js
+const jobs = {
+  sum: {
+    plugins: ['QueueLock'],
+    perform: (a, b) => a + b,
+  },
+}
+```
+
+There are some plugins available you can use out of the box. One of them is _QueueLock_, which blocks enqueueing jobs with the same name and arguments if one is already present in your queue. Another one is _JobLock_, whose responsibility is to prevent multiple jobs with the same identifier to be running at the same time (by re-enqueueing them to be executed sequentially).
+
+By default, these plugins will use job name, queue, and args to be uniquely identified, but you can also specify your key based on your needs. In the configuration example below, we are using the first and second args (catalog ID and email) to create the job identifier.
+
+```js
+const jobs = {
+  exportCatalogueProducts: {
+    plugins: ['QueueLock', 'JobLock'],
+    pluginOptions: {
+      QueueLock: {
+        key: function () {
+          return `workerslock:exportCatalogueProducts:${this.args[0]}:${this.args[1].id}`
+        },
+      },
+      JobLock: {
+        key: function () {
+          return `workerslock:exportCatalogueProducts:${this.args[0]}:${this.args[1].id}`
+        },
+      },
+    },
+    perform: exportService.exportCatalogueProducts,
+  },
+}
+```
+
+Once jobs are defined, start your queue, worker and scheduler:
+
+```js
+const queues = ['math']
+
+// START A WORKER
+const worker = new NodeResque.Worker({ connection, queues }, jobs)
+await worker.connect()
+worker.start()
+
+// START A SCHEDULER
+const scheduler = new NodeResque.Scheduler({ connection })
+await scheduler.connect()
+scheduler.start()
+
+const queue = new NodeResque.Queue({ connection }, jobs)
+await queue.connect()
+```
+
+The next step should be to ensure a graceful ending:
+
+```js
+// SHUTDOWN HELPER
+const shutdown = async () => {
+  await scheduler.end()
+  await worker.end()
+  process.exit()
+}
+
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)
+```
+
+This helper will properly clear your worker status from Resque when shutting down your application.
+
+You can also subscribe to worker and scheduler events.
+
+```js
+// REGISTER FOR EVENTS
+worker.on('success', (queue, job, result) => {
+  logger.info(`job success ${queue} ${JSON.stringify(job)} >> ${result}`)
+})
+worker.on('failure', (queue, job, failure) => {
+  logger.error(`job failure ${queue} ${JSON.stringify(job)} >> ${failure}`)
+})
+worker.on('error', (error, queue, job) => {
+  logger.error(`error ${queue} ${JSON.stringify(job)} >> ${error}`)
+})
+
+scheduler.on('error', error => {
+  logger.error(`scheduler error >> ${error}`)
+})
+```
+
+Your initial setup is complete! You can start enqueueing your tasks:
+
+```js
+await queue.enqueue('math', 'add', [1, 2])
+```
+
+Or if you want to schedule for execution in the future, then you do:
+
+```js
+// the number of ms to delay before this job is able to start being worked on.
+await queue.enqueueIn('<milliseconds>', 'math', 'add', [1, 2])
+```
+
+or
+
+```js
+// the unix timestamp at which this job is able to start being worked on.
+await queue.enqueueAt(<timestamp>, 'math', 'add', [1, 2])
+```
+
+At this point, you should be able to start running your background tasks.
+
+Since **Resque** is backed by Redis, distributing your background tasks comes with no effort. Make sure to apply the same setup to all your hosts.
+
+## In Conclusion
+
+**Resque**, in conjunction with the **JobLock** and **QueueLock** built-in plugins, made our life easier. **QueueLock** will avoid duplicate jobs in the queue so managers cannot request the same export multiple times. **JobLock** will make sure that only one export job executes for the same manager.
+
+Besides, it has the nifty perk of letting us scale the system without worrying about these tasks consuming too many resources.
+
+We hope you enjoyed this glance at the setup and execution of **Resque** in Node.js. We showed how **Resque** combined with built-in plugins allowed us to solve our problems with little effort leaving us more time to focus on the task itself.
+
+In the next article, we’ll focus on how smart database usage lets us keep queries performant and our system responsive.
+
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/distributed-background-jobs" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+  }
+`

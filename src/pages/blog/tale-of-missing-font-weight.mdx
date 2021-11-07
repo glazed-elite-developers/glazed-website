@@ -1,0 +1,55 @@
+---
+title: 'The Tale of the Missing Font Weight'
+date: '2020-09-23'
+description: 'Discussing about an apparent bug that turned out to be the browser just helping out'
+tags: ['web', 'lessons learned']
+author: 'Carlos Matias'
+image: '../../../static/images/blog/tale-of-missing-font-weight/header.jpeg'
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image
+  src="blog/tale-of-missing-font-weight/header.jpeg"
+  alt="Image of an open old book"
+  caption="Photo by Adam Nieścioruk on Unsplash"
+/>
+
+This week, the team currently working on our latest project and I were banging our heads against the wall trying to figure out why our fonts weren’t being displayed correctly. We were importing four different font-weights from google fonts but only two of them were being shown.
+
+In a nutshell, [angular-cli wasn't changing the order our font imports](https://github.com/angular/angular-cli/pull/17431), therefore, making the browser ignore the import since it doesn't load any imports that's are not at the top of the file. Nonetheless, the font itself was still displaying as we were using a theme that contained the same font, hence the confusion.
+
+The theme was only setting the font-weight value corresponding to 400 but our site still displayed a bolder font for font-weights equal or higher than 500. If we set the base font-weight of the font as anything higher than 500 then only bold would be displayed. This wasn't the behavior we expected. How was the bold font-weight being loaded plus why does it depend on the base font-weight in the @font-face declaration? Are they magically present in the font files? 🧙‍♂️
+
+A few searches in and I found out this [A List Apart article](A List Apart article) from 2012 advising people to say no to faux bold.
+
+As it turns out, the browser is your friend!
+
+If by any chance you forget to import a bold version of your font - but you still use bold font-weights - then the browser tries to bold up the font for you, preserving accessibility and visual hierarchy. This can be proven by the following example where we import the bold version of the font and see that it doesn’t match the browser’s bold version.
+
+An example of this behavior can be found on this [codesandbox](https://codesandbox.io/s/browser-faux-bold-kooq9?from-embed).
+
+The recommendation from the A List Apart article is clear: avoid faux bold. The examples shown are pretty concerning from a design perspective. Nevertheless, I must say that today’s version of faux bold can easily go by undetected, which shows that browsers have come a long way and continue to provide us with good defaults, all in name of the user experience.
+
+I hope you’ve learned something new as we did 😇
+
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/tale-of-missing-font-weight" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+  }
+`

@@ -5,6 +5,9 @@ import { css } from 'emotion'
 
 const figureStyles = css`
   padding: 1rem 0;
+  max-width: 70rem;
+  width: 100%;
+  margin: 1rem auto 2rem;
 
   figcaption {
     padding-top: 0.5rem;
@@ -13,6 +16,7 @@ const figureStyles = css`
   }
 `
 
+// TODO: Accept Html in caption
 export default function Image({ src, alt, caption }) {
   const { allImageSharp } = useStaticQuery(graphql`
     query {
@@ -21,7 +25,7 @@ export default function Image({ src, alt, caption }) {
           node {
             id
             fluid(maxWidth: 1800) {
-              ...GatsbyImageSharpFluid_noBase64
+              ...GatsbyImageSharpFluid_withWebp_noBase64
             }
             parent {
               ... on File {

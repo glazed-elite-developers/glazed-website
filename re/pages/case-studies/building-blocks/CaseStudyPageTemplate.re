@@ -12,9 +12,10 @@ module Styles = {
   let pageContent = style([position(`relative), zIndex(0), transform(`translateZ(`zero))]);
   let header =
     style([
-      position(`sticky),
-      transform(`translateZ(`zero)),
+      position(`fixed),
       backgroundColor(hex(Colors.whiteTurquoise)),
+      transition(~duration=200, ~delay=0, ~timingFunction=`easeOut, "all"),
+      transform(translateY(pct(-100.)))
     ]);
   let headerWithShadow =
     style([boxShadow(Shadow.box(~y=px(7), ~blur=px(15), rgba(0, 0, 0, 0.04)))]);
@@ -61,91 +62,14 @@ type content = {
   nextCase,
 };
 
-type scrollDirection =
-  | Up
-  | Down;
-
-type headerPosition =
-  | Static(float)
-  | Fixed;
-
-let useHeaderPosition = () => {
-  let scrollValues = ScrollConnectors.useClosestScrollValues();
-  let scrollTop = scrollValues.position.scrollTop;
-  let lastPositionRef = useRef(Static(0.));
-  let (headerHeight, setHeaderHeight) = useState(() => 0.);
-  let lastScrollDataRef = useRef((scrollTop, Down));
-  let (lastScrollTop, lastScrollDirection) = lastScrollDataRef.current;
-  let scrollDirection =
-    scrollTop > lastScrollTop ? Down : lastScrollTop === scrollTop ? lastScrollDirection : Up;
-  let shouldHaveBackground = scrollTop > 0.;
-  lastScrollDataRef.current = (scrollTop, scrollDirection);
-  let onHeaderResize =
-    useCallback1(
-      (nextBoundingRect: option(Utils.Dom.Measurements.boundingRect)) => {
-        switch (nextBoundingRect) {
-        | Some(boundingRect) => setHeaderHeight(_state => boundingRect.height)
-        | None => ()
-        }
-      },
-      [|setHeaderHeight|],
-    );
-  let position =
-    useMemo4(
-      () =>
-        if (scrollTop >= 0.) {
-          switch (scrollDirection, lastPositionRef.current) {
-          | (Down, Fixed) => Static(Js.Math.max_float(scrollTop, 0.))
-          | (Up, Static(offset)) =>
-            if (offset +. headerHeight < scrollTop) {
-              Static(Js.Math.max_float(scrollTop -. headerHeight, 0.));
-            } else if (offset >= scrollTop) {
-              Fixed;
-            } else {
-              lastPositionRef.current;
-            }
-          | _ => lastPositionRef.current
-          };
-        } else {
-          lastPositionRef.current;
-        },
-      (scrollDirection, lastPositionRef.current, headerHeight, scrollTop),
-    );
-  lastPositionRef.current = position;
-
-  (position, shouldHaveBackground, onHeaderResize);
-};
 
 [@react.component]
 let make = (~content, ~pageTitle, ~pageDescription) => {
-  let (headerPosition, shouldHaveBackground, onHeaderResize) = useHeaderPosition();
-  let headerStyle =
-    useMemo1(
-      () => {
-        switch (headerPosition) {
-        | Static(offsetTop) =>
-          Some(
-            ReactDOMRe.Style.make(
-              ~position="relative",
-              ~transform={j|translateY($(offsetTop)px)|j},
-              (),
-            ),
-          )
-        | Fixed => None
-        }
-      },
-      [|headerPosition|],
-    );
-  let headerClassName =
-    shouldHaveBackground ? Css.merge([Styles.header, Styles.headerWithShadow]) : Styles.header;
-
   <Layout title=pageTitle description=pageDescription>
     <PageLayout
       className=Styles.pageLayout
-      headerClassName
-      ?headerStyle
-      onHeaderResize
       useDarkNavBarLinks=true
+      useFloatingNavBar=true
       currentPageIndex=1>
       <div className=Styles.pageContent>
         <CaseStudyHeader
@@ -188,4 +112,3 @@ let make = (~content, ~pageTitle, ~pageDescription) => {
 };
 
 let default = make;
-let useHeaderPosition = useHeaderPosition;

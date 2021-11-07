@@ -1,23 +1,25 @@
 ---
 title: 'How we built a website in 12 hours'
-date: '28-02-2020'
+date: '2020-02-28'
 description: 'Story how the Glazed team attempted to build a new website in 12 hours'
 tags: ['development', 'lessons learned']
+author: 'Nelson Sachse'
+image: '../../../static/images/blog/how-we-built-a-website-in-12-hours/header.png'
 ---
 
 import Image from '../../components/blogImage.js'
 
 <Image
-  src="blog/how-we-build-a-website-in-10-hours/header.png"
+  src="blog/how-we-built-a-website-in-12-hours/header.png"
   alt="Image of the site's countdown"
   caption="Time ticking away..."
 />
 
 ## Full Disclaimer — we didn’t!
 
-Here at [Glazed](https://glazed.dev) we recently had a revamp of our image and since no-one revamps their image without giving their website some love, we wanted to follow suit.
+Here at Glazed we recently had a revamp of our image and since no-one revamps their image without giving their website some love, we wanted to follow suit.
 
-Since everyone’s — always — busy with client work we decided to do a website hackathon to try to build the most of it in one go, leveraging this way our time and availability.
+Since everyone’s — _always_ — busy with client work we decided to do a website hackathon to try to build the most of it in one go, leveraging this way our time and availability.
 
 Thus, if someone had a couple of minutes they could just drop by, pair up with someone or work on component or two — imagine this as an open pool that you go for a quick swim whenever you feel like
 it.
@@ -26,12 +28,20 @@ it.
 
 First and foremost, we needed to gather all the information concerning the event and what better way to do it if not by creating a board for the big day 👇
 
+<Image src="blog/how-we-built-a-website-in-12-hours/hackathon.jpeg" alt="Image depicting the event's details" />
+
 ### Restraints
 
 Usually the duration of a hackathon is 24 hours but we took into consideration that it’s hard to get everybody available at the same time on the same day, so with that caveat, we decided to address this challenge with the clear sense of only having 12 hours to achieve it and that people could join and leave the group at multiple times due to their own time restrains.
 We assumed that this would make a significant dent on our objective but nonetheless this was a risk we were willing to take to make it work.
 
 ### Design
+
+<Image
+  src="blog/how-we-built-a-website-in-12-hours/planning.png"
+  alt="Image depicting a readme file with design guidelines"
+  caption="r/all the links"
+/>
 
 With the all the design work done upfront and everything ready to go we only had to create a readme file that compiled all the information required.
 This way we centralised all the information — design, guidelines, animations, copywriting — in one document easily accessible to all and minimised the entropy of someone new joining and looking for resources.
@@ -60,12 +70,29 @@ A well-known framework, a bold programming paradigm to get us excited and a 12 h
 
 First, we reviewed the design and identified all the components on the website, meaning we would be able to reuse them as much as possible; also we would avoid people possibly writing the same component which can happen if you don’t spend any time organising the work/team.
 
+<Image
+  src="blog/how-we-built-a-website-in-12-hours/show-and-tell.jpeg"
+  alt="Image depicting a planning session"
+  caption="Look into my eyes and tell me that you've made a PR"
+/>
+
 Everyone picked up a component or screen, marked it on the board with their initials and started the work.
+
 As soon as someone finished their component we would notify the team (as someone else might need that component) and quickly tick that task and move on to another.
+
+<Image
+  src="blog/how-we-built-a-website-in-12-hours/board.jpeg"
+  alt="Image depicting the board resulting of the planning session"
+  caption="We might need bigger board"
+/>
 
 I dare to say that a hackathon is not a hackathon without proper food!
 
+<Image src="blog/how-we-built-a-website-in-12-hours/pizza.png" alt="Image of multiple pizzas" />
+
 Therefore, as it should be, we had the most amazing food and sugary treats to keep us going 😋
+
+<Image src="blog/how-we-built-a-website-in-12-hours/kfc.png" alt="Image of KFC food" />
 
 ## The Challenge
 
@@ -93,6 +120,12 @@ The time keeps ticking away and that component is not even close to what you wan
 
 But it’s when you least expected that someone shares what they have built! From that moment on, even if it’s not something you could use, it’s enough to give hope and make you keep going.
 
+<Image
+  src="blog/how-we-built-a-website-in-12-hours/hacking.jpeg"
+  alt="Image of everyone coding away"
+  caption="Too many cooks in the kitchen?"
+/>
+
 As of this moment you don’t care so much about the time or the missing features on your board, you know that you could use the combined knowledge of the whole team and that makes you stronger. Strong enough to finish your component and even share it with someone who might reuse it, little by little, byte by byte you’re building the website in 12 hours.
 
 ## The Conclusion
@@ -103,8 +136,27 @@ Let’s face it, it’s fairly easy to do what you know, even easier if you do i
 
 Yes, we didn’t build our website and we could point out that we didn’t have the strength in numbers that allowed us to get there, or even the language or the time on our side but we did have each other to learn from and from there we learn more than a new programming paradigm or a reusable piece of code, we learn how to be resilient.
 
+<Image src="blog/how-we-built-a-website-in-12-hours/laughs.jpeg" alt="Image of people having fun" />
+
 Taking into consideration that our world (industry) is in constant change we either adapt or die — challenging yourself helps you survive✌
 
----
-
-Thanks for reading, if you enjoyed our content you can find more over at our Twitter, Facebook and LinkedIn 👋
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/how-we-built-a-website-in-12-hours" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+  }
+`

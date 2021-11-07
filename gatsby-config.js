@@ -4,7 +4,8 @@ module.exports = {
   siteMetadata: {
     title: 'Glazed • Elite Developers',
     author: 'Glazed Solutions Lda.',
-    siteURL: process.env.SITE_URL || '',
+    description: 'Glazed is a team of elite web and mobile developers that partner with the world’s leading companies.',
+    siteURL: process.env.SITE_URL || 'https://glazed.dev',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
