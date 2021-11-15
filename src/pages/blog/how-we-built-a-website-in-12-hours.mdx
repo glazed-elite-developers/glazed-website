@@ -148,6 +148,7 @@ export const pageQuery = graphql`
         description
         tags
         title
+        author
         image {
           publicURL
           childImageSharp {
@@ -155,6 +156,13 @@ export const pageQuery = graphql`
               ...GatsbyImageSharpFluid_withWebp_noBase64
             }
           }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/nelson.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }

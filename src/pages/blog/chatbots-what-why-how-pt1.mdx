@@ -3,7 +3,7 @@ title: 'Chatbots: What, Why and How (part I)'
 date: '2020-04-29'
 description: 'Learn about what chatbots are, how they work and how you can build your own'
 tags: ['chatbots', 'opinion']
-author: 'Ricard Moutinho'
+author: 'Ricardo Moutinho'
 image: '../../../static/images/blog/chatbots-what-why-how-pt1/header.jpeg'
 ---
 
@@ -88,6 +88,7 @@ export const pageQuery = graphql`
         description
         tags
         title
+        author
         image {
           publicURL
           childImageSharp {
@@ -95,6 +96,13 @@ export const pageQuery = graphql`
               ...GatsbyImageSharpFluid_withWebp_noBase64
             }
           }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/rick.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }

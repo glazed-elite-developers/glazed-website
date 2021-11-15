@@ -3,7 +3,7 @@ title: 'Chatbots: What, Why and How (part III)'
 date: '2020-06-02'
 description: 'Learn about what chatbots are, how they work and how you can build your own'
 tags: ['chatbots', 'opinion', 'tutorial']
-author: 'Ricard Moutinho'
+author: 'Ricardo Moutinho'
 image: '../../../static/images/blog/chatbots-what-why-how-pt3/header.jpeg'
 ---
 
@@ -66,7 +66,14 @@ Let’s give that a go:
 <Image
   src="blog/chatbots-what-why-how-pt3/node-test.png"
   alt="IBM's Watson Assistant's dialog node test"
-  caption="Tip: try this for yourself using IBM’s “Try it” option - https://cloud.ibm.com/docs/assistant?topic=assistant-getting-started#testing-the-start-node"
+  caption={
+    <a
+      href="https://cloud.ibm.com/docs/assistant?topic=assistant-getting-started#testing-the-start-node"
+      target="_blank"
+    >
+      Tip: try this for yourself using IBM’s “Try it” option
+    </a>
+  }
 />
 
 🎉 Cool, we’ve just taught our chatbot to answer these types of questions!
@@ -189,6 +196,7 @@ export const pageQuery = graphql`
         description
         tags
         title
+        author
         image {
           publicURL
           childImageSharp {
@@ -196,6 +204,13 @@ export const pageQuery = graphql`
               ...GatsbyImageSharpFluid_withWebp_noBase64
             }
           }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/rick.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }

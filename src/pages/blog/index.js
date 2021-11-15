@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby'
 import { css } from 'emotion'
 import Img from 'gatsby-image'
 import capitalize from 'capitalize'
+import styled from '@emotion/styled'
 
 import Layout from 're/Layout'
 import PageLayout from 're/PageLayout'
@@ -69,10 +70,6 @@ const pageContentStyles = css`
         flex: 1 1 65%;
         padding-bottom: 0.5rem;
         padding-right: 2rem;
-
-        span:first-of-type {
-          padding-right: 0.5rem;
-        }
       }
 
       > div:last-of-type {
@@ -87,9 +84,16 @@ const pageContentStyles = css`
   }
 `
 
-// TODO:
-// Code component
-// Fix Mobile
+const FormattedDate = styled.span`
+  font-size: 0.875rem;
+  padding-top: 0.125rem;
+`
+
+const Tags = styled.span`
+  font-size: 0.75rem;
+  font-style: italic;
+  padding-top: 0.5rem;
+`
 
 const BlogHome = ({ data }) => {
   const posts = data.allMdx.edges
@@ -106,13 +110,25 @@ const BlogHome = ({ data }) => {
                     <Heading level={2}>{node.frontmatter.title}</Heading>
                   </Link>
                   <Heading level={4}>{node.frontmatter.description}</Heading>
-                  <span>{node.frontmatter.date}</span>
-                  {node.frontmatter.tags.map((tag, index) => (
-                    <Fragment key={index}>
-                      <span>{capitalize.words(tag)}</span>
-                      {index < node.frontmatter.tags.length - 1 && ', '}
-                    </Fragment>
-                  ))}
+                  <div>
+                    <FormattedDate>
+                      {new Date(node.frontmatter.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </FormattedDate>
+                  </div>
+                  <div>
+                    <Tags>
+                      {node.frontmatter.tags.map((tag, index) => (
+                        <Fragment key={tag}>
+                          <span>{capitalize.words(tag)}</span>
+                          {index < node.frontmatter.tags.length - 1 && ', '}
+                        </Fragment>
+                      ))}
+                    </Tags>
+                  </div>
                 </div>
                 <div>{node.frontmatter.image && <Img fluid={node.frontmatter.image.childImageSharp.fluid} />}</div>
               </li>

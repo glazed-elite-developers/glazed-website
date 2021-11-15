@@ -1,9 +1,9 @@
 ---
 title: 'Here Are The Rapid Delivery Apps'
-date: '2021-07-2021'
+date: '2021-07-21'
 description: 'Insight into the rapid delivery apps that are taking over the world'
 tags: ['opinion', 'industry']
-author: 'Nelson Sacshe'
+author: 'Nelson Sachse'
 image: '../../../static/images/blog/rapid-delivery-apps/header.jpeg'
 ---
 
@@ -81,6 +81,8 @@ export const pageQuery = graphql`
         description
         tags
         title
+        author
+        author
         image {
           publicURL
           childImageSharp {
@@ -88,6 +90,13 @@ export const pageQuery = graphql`
               ...GatsbyImageSharpFluid_withWebp_noBase64
             }
           }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/nelson.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }

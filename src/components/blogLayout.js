@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'emotion'
+import styled from '@emotion/styled'
 import { MDXProvider } from '@mdx-js/react'
 import capitalize from 'capitalize'
 import { Link } from 'gatsby'
@@ -8,12 +9,13 @@ import Layout from 're/Layout'
 import PageLayout from 're/PageLayout'
 import PageContent from 're/PageContent'
 import Heading from 're/Heading'
-import { Colors } from 're/Theme'
+import { Colors, Breakpoints } from 're/Theme'
 import SVG from 're/shared/SVG'
 import SEO from '../components/seo'
 import Code from '../components/code'
 
 import glazedLogo from '../../static/images/logo-glazed-small.svg'
+import GatsbyImage from 'gatsby-image'
 
 const pageLayoutStyles = css`
   background-color: #${Colors.whiteTurquoise};
@@ -27,42 +29,6 @@ const pageContentStyles = css`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    // max-width: 70vw;
-    // margin: 0 auto;
-
-    a {
-      color: #${Colors.glazedBlueDarker};
-      transition: color 200ms ease-in-out;
-      position: relative;
-
-      &:after {
-        content: '';
-        position: absolute;
-        transition: color 200ms ease-in-out;
-        bottom: 1px;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background-color: #${Colors.glazedBlueDarker};
-      }
-
-      &:visited {
-        color: #${Colors.glazedBlueMidnight};
-
-        &:after {
-          background-color: #${Colors.glazedBlueMidnight};
-        }
-      }
-
-      &:hover,
-      &:focus {
-        color: #${Colors.glazedBlueLighter};
-
-        &:after {
-          background-color: #${Colors.glazedBlueLighter};
-        }
-      }
-    }
 
     pre {
       max-width: 39.5rem;
@@ -76,7 +42,12 @@ const pageContentStyles = css`
     footer {
       display: flex;
       flex-direction: column;
-      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      padding-bottom: 6rem;
+
+      @media ${Breakpoints.tabletLandscape} {
+        padding-bottom: 3rem;
+      }
 
       div {
         display: flex;
@@ -107,8 +78,6 @@ const pageContentStyles = css`
       }
 
       > a {
-        margin-bottom: 4rem;
-
         &:after {
           display: none;
         }
@@ -119,13 +88,45 @@ const pageContentStyles = css`
       }
     }
   }
+`
 
-  .frontmatter {
-    width: 100%;
-    max-width: 37.5rem;
+const GlobalBlogStylesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 
-    span:first-of-type {
-      padding-right: 0.5rem;
+  a {
+    color: #${Colors.glazedBlueDarker};
+    transition: color 200ms ease-in-out;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      transition: color 200ms ease-in-out;
+      bottom: 1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: #${Colors.glazedBlueDarker};
+    }
+
+    &:visited {
+      color: #${Colors.glazedBlueMidnight};
+
+      &:after {
+        background-color: #${Colors.glazedBlueMidnight};
+      }
+    }
+
+    &:hover,
+    &:focus {
+      color: #${Colors.glazedBlueLighter};
+
+      &:after {
+        background-color: #${Colors.glazedBlueLighter};
+      }
     }
   }
 
@@ -158,6 +159,7 @@ const pageContentStyles = css`
     padding-bottom: 1rem;
     max-width: 37.5rem;
     width: 100%;
+    text-align: justify;
   }
 
   li {
@@ -195,25 +197,77 @@ const pageContentStyles = css`
   }
 `
 
+const Title = styled(Heading)`
+  width: 100%;
+  padding-bottom: 0.75rem;
+  max-width: 37.5rem;
+  color: #${Colors.darkGreyDarker};
+`
+
+const Frontmatter = styled.div`
+  width: 100%;
+  max-width: 39.5rem;
+  display: flex;
+  flex-direction: column;
+`
+
+const AuthorContainer = styled.div`
+  display: flex;
+`
+
+const ImageContainer = styled.div`
+  width: 5rem;
+  height: 4rem;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+`
+
+const PostInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  a {
+    color: #${Colors.darkGreyDarker};
+  }
+`
+
+const FormattedDate = styled.span`
+  font-size: 0.875rem;
+  padding-top: 0.125rem;
+`
+
+const Tags = styled.span`
+  font-size: 0.75rem;
+  font-style: italic;
+  padding-top: 0.5rem;
+`
+
 export default function BlogPageLayout({
   children,
   location,
   data: {
     mdx: { frontmatter },
+    authorPhoto,
   },
 }) {
-  console.log(children)
+  const authorName = authorPhoto.childImageSharp.fluid.src.substring(
+    authorPhoto.childImageSharp.fluid.src.lastIndexOf('/') + 1,
+    authorPhoto.childImageSharp.fluid.src.lastIndexOf('.')
+  )
+
+  console.log({ img: frontmatter.image })
+
   return (
     <>
       <SEO
         title={frontmatter.title}
         description={frontmatter.description}
-        image={
-          frontmatter.image.childImageSharp ? frontmatter.image.childImageSharp.fluid.src : frontmatter.image.publicURL
-        }
+        image={frontmatter.image.publicURL}
         pathname={location.pathname}
         postData={{
-          // author: author.name,
+          author: authorName,
           date: frontmatter.date,
         }}
       />
@@ -221,6 +275,41 @@ export default function BlogPageLayout({
         <PageLayout className={pageLayoutStyles} useDarkNavBarLinks useFloatingNavBar>
           <PageContent className={pageContentStyles}>
             <article>
+              <Frontmatter>
+                <Title level={0}>{frontmatter.title}</Title>
+
+                <AuthorContainer>
+                  <a href={`/?modal=team&unit=${authorName}`} target="_blank">
+                    <ImageContainer>
+                      <GatsbyImage
+                        objectFit="cover"
+                        objectPosition="50% 50%"
+                        fluid={authorPhoto.childImageSharp.fluid}
+                      />
+                    </ImageContainer>
+                  </a>
+                  <PostInfo>
+                    <a href={`/?modal=team&unit=${authorName}`} target="_blank">
+                      {frontmatter.author}
+                    </a>
+                    <FormattedDate>
+                      {new Date(frontmatter.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </FormattedDate>
+                    <Tags>
+                      {frontmatter.tags.map((tag, index) => (
+                        <Fragment key={tag}>
+                          <span>{capitalize.words(tag)}</span>
+                          {index < frontmatter.tags.length - 1 && ', '}
+                        </Fragment>
+                      ))}
+                    </Tags>
+                  </PostInfo>
+                </AuthorContainer>
+              </Frontmatter>
               <MDXProvider
                 components={{
                   // // Map HTML element tag to React component
@@ -233,43 +322,32 @@ export default function BlogPageLayout({
                   code: props => <Code {...props} />,
                 }}
               >
-                <Heading level={1}>{frontmatter.title}</Heading>
-                <div className="frontmatter">
-                  <span>{frontmatter.date}</span>
-                  {frontmatter.tags.map((tag, index) => (
-                    <>
-                      <span>{capitalize.words(tag)}</span>
-                      {index < frontmatter.tags.length - 1 && ', '}
-                    </>
-                  ))}
-                </div>
-                {children}
-                <footer>
-                  <div>
-                    <hr />
-                    <SVG asset={glazedLogo} />
-                    <hr />
-                  </div>
-                  <p>
-                    Thanks for reading, if you enjoyed our content you can you can stay up to date by following us on{' '}
-                    <a href="https://twitter.com/glazedSolutions" target="_blank" rel="noopener">
-                      Twitter
-                    </a>
-                    ,{' '}
-                    <a href="https://www.facebook.com/glazedEliteDevelopers" target="_blank" rel="noopener">
-                      Facebook
-                    </a>{' '}
-                    and{' '}
-                    <a href="https://www.linkedin.com/company/glazed-solutions/" target="_blank" rel="noopener">
-                      LinkedIn
-                    </a>{' '}
-                    👋
-                  </p>
-                  <Link to="/blog">
-                    {'// < '}
-                    back to blog
-                  </Link>
-                </footer>
+                <GlobalBlogStylesContainer>
+                  {children}
+                  <footer>
+                    <div>
+                      <hr />
+                      <SVG asset={glazedLogo} />
+                      <hr />
+                    </div>
+                    <p>
+                      Thanks for reading, if you enjoyed our content you can you can stay up to date by following us on{' '}
+                      <a href="https://twitter.com/glazedSolutions" target="_blank" rel="noopener">
+                        Twitter
+                      </a>
+                      ,{' '}
+                      <a href="https://www.facebook.com/glazedEliteDevelopers" target="_blank" rel="noopener">
+                        Facebook
+                      </a>{' '}
+                      and{' '}
+                      <a href="https://www.linkedin.com/company/glazed-solutions/" target="_blank" rel="noopener">
+                        LinkedIn
+                      </a>{' '}
+                      👋
+                    </p>
+                    <Link to="/blog">{'//'}&nbsp; back to blog</Link>
+                  </footer>
+                </GlobalBlogStylesContainer>
               </MDXProvider>
             </article>
           </PageContent>

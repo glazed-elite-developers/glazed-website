@@ -3,6 +3,8 @@ import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import { css } from 'emotion'
 
+import { Colors } from 're/Theme'
+
 const figureStyles = css`
   padding: 1rem 0;
   max-width: 70rem;
@@ -11,13 +13,17 @@ const figureStyles = css`
 
   figcaption {
     padding-top: 0.5rem;
-    font-size: 0.725rem;
+    font-size: 0.875rem;
     text-align: center;
+
+    > a {
+      color: #${Colors.darkGrey};
+    }
   }
 `
 
-// TODO: Accept Html in caption
 export default function Image({ src, alt, caption }) {
+  // TODO: This query is probably taking too long
   const { allImageSharp } = useStaticQuery(graphql`
     query {
       allImageSharp {

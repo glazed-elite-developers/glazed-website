@@ -3,7 +3,7 @@ title: 'Chatbots: What, Why and How (part II)'
 date: '2020-05-13'
 description: 'Learn about what chatbots are, how they work and how you can build your own'
 tags: ['chatbots', 'opinion', 'tutorial']
-author: 'Ricard Moutinho'
+author: 'Ricardo Moutinho'
 image: '../../../static/images/blog/chatbots-what-why-how-pt2/header.png'
 ---
 
@@ -63,7 +63,11 @@ Let’s see how you can do that by creating an NLU model capable of understandin
 <Image
   src="blog/chatbots-what-why-how-pt2/create-dialog-skill.png"
   alt="IBM's Watson Assistant's create dialog skill interface"
-  caption="If you need additional assistance on setting up your first skill take a look https://cloud.ibm.com/docs/assistant?topic=assistant-skill-add"
+  caption={
+    <a href="https://cloud.ibm.com/docs/assistant?topic=assistant-skill-add" target="_blank">
+      If you need additional assistance on setting up your first skill take a look here
+    </a>
+  }
 />
 
 To teach it how to understand an intent, we need to provide it with different examples of what people might typically say to achieve that goal. In this case, let’s create the **turn_off** intent — _a way of users asking to turn something off_ — with the following examples:
@@ -71,7 +75,11 @@ To teach it how to understand an intent, we need to provide it with different ex
 <Image
   src="blog/chatbots-what-why-how-pt2/intent-example.png"
   alt="IBM's Watson Assistant's user intent examples"
-  caption="Additional information on adding intents to your skill: https://cloud.ibm.com/docs/assistant?topic=assistant-skill-add"
+  caption={
+    <a href="https://cloud.ibm.com/docs/assistant?topic=assistant-skill-add" target="_blank">
+      Additional information on adding intents to your skill
+    </a>
+  }
 />
 
 For a production rollout we could certainly add more but for the purpose of this example, these will be enough. With the intent out of the way, we also have to teach it about the two entities we want it to look for: **locations** and **subjects**. These are the things we want to look out for in requests to “turn something off”. We want to know _what_ to turn off, and potentially, from _which location_. To do this, let’s create both entities and specify the values they could take:
@@ -79,7 +87,11 @@ For a production rollout we could certainly add more but for the purpose of this
 <Image
   src="blog/chatbots-what-why-how-pt2/intent-values.png"
   alt="IBM's Watson Assistant's entity intent values"
-  caption="Additional information on adding entities to your skill: https://cloud.ibm.com/docs/assistant?topic=assistant-entities"
+  caption={
+    <a href="https://cloud.ibm.com/docs/assistant?topic=assistant-entities" target="_blank">
+      Additional information on adding entities to your skill
+    </a>
+  }
 />
 
 Note that these could take more values, but for now, we’ll assume our chatbot’s goal is just to be able to understand requests related to _lights_ in our _kitchen_ and our _living room_. To improve their recognition, we also add a few synonyms for each value:
@@ -91,7 +103,6 @@ When specifying your entities, always take a few moments to think of synonyms th
 Ok! We’ve created the _turn_off_ intent and the two entities we needed so our NLU model should now be able to:
 
 - Understand when a user asks to **turn something off**
-
 - Be able to identify any _subject_ and _location_ included in those requests
 
 Let’s give it a go! 🤞🏻
@@ -99,7 +110,14 @@ Let’s give it a go! 🤞🏻
 <Image
   src="blog/chatbots-what-why-how-pt2/try-it.png"
   alt="IBM's Watson Assistant's try it menu"
-  caption="Tip: try this for yourself using IBM’s “Try it” option and check your model as you go - https://cloud.ibm.com/docs/assistant?topic=assistant-getting-started#testing-the-start-node"
+  caption={
+    <a
+      href="https://cloud.ibm.com/docs/assistant?topic=assistant-getting-started#testing-the-start-node"
+      target="_blank"
+    >
+      Tip: try this for yourself using IBM’s “Try it” option and check your model as you go
+    </a>
+  }
 />
 
 Success 🎉
@@ -155,6 +173,7 @@ export const pageQuery = graphql`
         description
         tags
         title
+        author
         image {
           publicURL
           childImageSharp {
@@ -162,6 +181,13 @@ export const pageQuery = graphql`
               ...GatsbyImageSharpFluid_withWebp_noBase64
             }
           }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/rick.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }
