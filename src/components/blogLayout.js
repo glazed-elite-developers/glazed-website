@@ -60,8 +60,7 @@ const pageContentStyles = css`
 
         hr {
           height: 0;
-          margin-top: 0;
-          margin-bottom: 0;
+          margin: 2.5rem 0;
 
           &:first-of-type {
             margin-right: 1rem;
@@ -130,6 +129,16 @@ const GlobalBlogStylesContainer = styled.div`
     }
   }
 
+  em,
+  i {
+    font-style: italic;
+  }
+
+  strong,
+  b {
+    font-weight: bold;
+  }
+
   h1,
   h2,
   h3,
@@ -154,12 +163,31 @@ const GlobalBlogStylesContainer = styled.div`
 
   p,
   ul,
-  ol,
-  blockquote {
+  ol {
     padding-bottom: 1rem;
     max-width: 37.5rem;
     width: 100%;
     text-align: justify;
+  }
+
+  blockquote {
+    font-style: italic;
+    display: flex;
+    padding-bottom: 1rem;
+    max-width: 37.5rem;
+    height: 100%;
+
+    p:last-of-type {
+      padding-bottom: 0;
+    }
+
+    &:before {
+      content: ' ';
+      width: 2px;
+      height: 100%;
+      margin-right: 0.75rem;
+      background-color: #${Colors.glazedBlue};
+    }
   }
 
   li {
@@ -190,7 +218,7 @@ const GlobalBlogStylesContainer = styled.div`
   }
 
   hr {
-    margin-bottom: 2rem;
+    margin: 2rem 0;
     max-width: 37.5rem;
     width: 100%;
     border: solid 1px #${Colors.glazedBlueDarkest};

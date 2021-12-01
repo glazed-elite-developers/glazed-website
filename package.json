@@ -52,7 +52,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format": "prettier --write \"**/*.{js,jsx,json}\"",
     "bsb:build": "bsb -make-world",
     "bsb:clean": "bsb -clean-world",
     "start": "run-p start:**",
@@ -92,7 +92,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged --pattern \"**/*.{js,jsx,json}\""
     }
   }
 }
