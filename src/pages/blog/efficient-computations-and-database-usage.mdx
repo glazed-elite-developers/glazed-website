@@ -1,0 +1,117 @@
+---
+title: 'Efficient computations and database usage in eCommerce apps'
+date: '2021-07-07'
+description: 'Part 2 of the Managing Ecommerce Apps at Scale series where we discuss how we made computations more efficient and improved database usage'
+tags: ['web', 'lessons learned']
+author: 'Carlos Matias'
+image: '../../../static/images/blog/efficient-computations-and-database-usage/header.jpeg'
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image
+  src="blog/efficient-computations-and-database-usage/header.jpeg"
+  alt="Image of an hard drive"
+  caption="Photo by benjamin lehman on Unsplash"
+/>
+
+In the [first post of our series](/blog/distributed-background-jobs), we discussed how using distributed background tasks helped business operations remain smooth and performant.
+
+In this post, we’re going to discuss different techniques we’ve used to keep our database usage sane and reduce the load on daily operations and deal with large amounts of data (up to tens of millions of entries).
+
+The following are some of the hurdles we overcome by applying strategies we will soon discuss:
+
+- Higher system load due to the increasing number of users and requests
+- Frequent unoptimized queries
+- Inefficient queries over vast amounts of data
+- Excessive resource consumption of the databases (CPU/Memory) — that sometimes lead to downtime
+
+Although we’ve made progress, database optimization is an ongoing process. An increasingly higher load on our system and a growing number of users eventually reveals weaknesses in other parts of our app that have yet to be addressed. Nonetheless, we present you with an assortment of techniques we have found success with to this day.
+
+## Going beyond ORM defaults
+
+Our backend application is powered by a framework that allows the plug-in of ORM frameworks such as Sequelize or Mongoose. ORMs usually follow the same APIs whose base allows for easy CRUD operations. These are great for building MVPs and are the go-to for simple use cases, but as applications start to scale and business requirements change, we can hit some limitations and start reaching bottlenecks.
+
+For us, a typical bottleneck scenario was when we needed to fetch data from multiple tables to generate a report or compute a complex value. Using default ORM methods, we used to perform numerous find operations to get all the data needed. While we fetched this data, we needed our application to keep every query in memory to perform computations. If the dataset was big enough, we hit CPU/memory limits.
+
+An example of this situation was a full catalogue export. Simply requesting this export a couple of times in quick succession would kill our app because it could not load the entire product set to memory multiple times.
+
+Since we manage relational and non-relational databases, we ended up developing a simple query builder for our SQL needs and took advantage of MongoDB aggregate pipelines to keep our mongo lookups performant. These freed our application of a lot of complex operations, offsetting them to the database layer.
+
+We know modern ORMs support complex database operations such as joins and aggregations, but ours didn’t, and upgrading wasn’t an option hence why we built our query builder. If your ORM supports these operations, consider taking time to learn about its API and use these methods instead of offsetting the cost to the application layer.
+
+Please take into account that these strategies don’t come without trade-offs. By default, MongoDB aggregate pipelines perform all their processing in the master node. Ideally, we should only use the master node when having the latest data is a top priority since the replication process between primary and secondary nodes is asynchronous. Otherwise, clogging the master node with unnecessary work may hinder performance. Mileage may vary here since a balance needs to be struck between application and database load. Sometimes leaving the application to do the work is the best option as you can perform some caching at the application level that’s not feasible in the database layer — more on caching later.
+
+## Leveraging database indexes
+
+Database indexes are a tool to enhance data reads of a table/collection. They speed up these operations by not having to search every table row. Indexes can be created with one or multiple keys (corresponding to table columns) depending on the queries you’re trying to optimize. They can also be used to guarantee the uniqueness of a field.
+
+Indexes do not come without counterparts. The read speed gained comes at the cost of storage to save the index and additional time when performing data write operations, as the index needs to be updated when data is changed or deleted. This generally means you should avoid using indexes in low-read/high-write tables and small tables (as the read speed gains in small tables won’t be noticeable).
+
+We found success in creating indexes to handle:
+
+- frequent queries that always search for the same field or combination of fields
+- queries over huge amounts of data, where it’s critical for the business to get a result as fast as possible;
+- tables where requirements evolved, and we needed to enforce the uniqueness of a field or a combination of them -- an example would be enforcing that there can be only one store which is a brand’s default store, achieved by creating a unique index combining two fields, an id and a boolean
+
+One important thing to note in composite indexes (indexes that combine multiple fields) is that the order in which the fields are indexed matters. You can find more information about composite indexes [here](https://user3141592.medium.com/single-vs-composite-indexes-in-relational-databases-58d0eb045cbe).
+
+Also, it’s common to hear that you should avoid indexing low cardinality data as the index will not improve read speeds that much, but they do [have their use cases](https://stackoverflow.com/questions/2113181/does-it-make-sense-to-use-an-index-that-will-have-a-low-cardinality).
+
+## Using read replicas and managing stale data
+
+Read replicas are an almost real-time duplication of your primary database which means we can offset the load on the main database instance to the read replica when performing massive data reads. Read replicas also serve as a backup in disaster recovery scenarios.
+
+Besides this, it’s a good idea to be aware of what data needs to be readily available for day-to-day operations. For most of our routine work, business managers only work with data relative to the week/month we’re currently in. The rest of the data is accessed on a much less frequent basis, meaning that most of this data is stale, and it’s hindering our query speeds. We’ve adopted two strategies to handle this scenario.
+
+The first one was archiving stale data, moving old data to other tables that are not required for day-to-day operations but valuable for business intelligence. We don’t want to query a table with tens of millions of entries on a daily basis if these queries only query for data that’s always fresher than a month old.
+
+The second strategy was the creation of summary tables.
+Summary tables contain a summary of the information of the original table. These summaries can be means, sums, or any statistic regarding the table’s data. Summary tables are particularly handy to act as dashboard feeding tables that are updated on a regular schedule. Instead of managers having to run a query each time they want to look at the data, we can display the summary and offset the time cost of the query to discrete moments.
+
+## Applying caching strategies
+
+Caching lets us trade computation time for memory space as computation results are saved in memory. If a computation is requested again using the same parameters, we return the same result, avoiding a recalculation. Always consider caching when handling time-critical operations that are not prone to change.
+
+As the project evolved, caching became one of the first tools discussed to save computational resources and speed up operations.
+
+Examples of this were showing the user the next available delivery schedule and displaying banners tied to the user’s selected store. We wanted to make these operations fast, and we don’t always need to compute the latest value since delivery schedules only change every half hour. In the case of banners, we only need to update the cache once the banner is no longer available or when the banner’s settings were updated.
+
+Caching carries its own set of challenges as well, in the form of cache invalidation. We need to be aware of when to invalidate and what to invalidate. Most times, we invalidate cache on a time basis, but they’re times where cache needs to be invalidated when data changes. Failing to correctly invalidate cache can have direct business implications. An example would be not invalidating the next delivery schedule and showing the user a schedule that’s past the current time. That would immediately decrease the user’s trust in the application, so always include invalidation strategies in the acceptance criteria of features where caching is applied.
+
+## In Conclusion
+
+As an application matures, properly managing data-related operations is crucial in maintaining a smooth experience for everyone involved.
+
+As with all optimizations, the strategies we presented have counterparts that need to be weighed against the benefits they bring, or you might just be hindering the system by prematurely optimizing things.
+
+As a final note, we would like to remind you that you should monitor your databases and applications, especially when changes are made, to let you know if you’re going in the right direction.
+
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/efficient-computations-and-database-usage" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        author
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/matias.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
+        }
+      }
+    }
+  }
+`

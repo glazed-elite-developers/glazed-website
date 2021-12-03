@@ -9,6 +9,8 @@ type post = {
     title: string,
     date: string,
   },
+  "author": string,
+  "tags": array(string)
 };
 
 [@react.component]

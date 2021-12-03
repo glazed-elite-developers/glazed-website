@@ -98,7 +98,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - Boston Hospital case study"
+    pageTitle="Glazed • Boston Hospital"
     pageDescription="A bespoke iOS application to display the position of the physician inside the hospital."
     content
   />;

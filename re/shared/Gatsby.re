@@ -45,7 +45,8 @@ module BackgroundImage = {
       ~fluid: fluidImage=?,
       ~className: string=?,
       ~children: option(React.element)=?,
-      ~style: option(ReactDOMRe.style)=?
+      ~style: option(ReactDOMRe.style)=?,
+      ~loading: string=?,
     ) =>
     React.element =
     "default";

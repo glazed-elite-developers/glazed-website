@@ -2,6 +2,8 @@ import * as React from 'react'
 import RootElementWrapper from 're/RootElementWrapper'
 import PageElementWrapper from 're/PageElementWrapper'
 
+import './src/styles/prism-theme.css'
+
 export const wrapRootElement = ({ element }) => {
   return <RootElementWrapper>{element}</RootElementWrapper>
 }

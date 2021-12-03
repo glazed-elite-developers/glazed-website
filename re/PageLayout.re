@@ -13,7 +13,13 @@ module Styles = {
       backgroundColor(hex(Colors.white)),
       flex3(~grow=1., ~shrink=1., ~basis=`rem(0.00000001)),
     ]);
-  let header = style([position(`fixed), top(`zero), right(`zero), left(`zero), zIndex(1)]);
+  let header = style([position(`fixed), top(`zero), right(`px(14)), left(`zero), zIndex(1)]);
+  let padFloatingNav =
+    style([
+     paddingTop(px(75)),
+     media(Breakpoints.tabletLandscape, [paddingTop(px(117))]),
+
+    ]);
   let sayHelloButton = useDarkNavBarLinks =>
     style([
       display(`none),
@@ -45,6 +51,7 @@ let make =
       ~headerClassName=?,
       ~headerStyle=?,
       ~useDarkNavBarLinks=false,
+      ~useFloatingNavBar=false,
       ~currentPageIndex=0,
       ~onHeaderResize=?
     ) => {
@@ -109,15 +116,29 @@ let make =
       [|selectedModal|],
     );
 
-    <div className=?{combineClassNames([Some(Styles.wrapper), className])}>
-      <Header
-        className=?{combineClassNames([Some(Styles.header), headerClassName])}
-        style=?headerStyle
-        useDarkNavBarLinks
-        currentPageIndex
-        onResize=?onHeaderResize
-        componentAtTheRight=headerComponentAtTheRight
-      />
+
+
+    <div className=?{combineClassNames([
+      Some(Styles.wrapper),
+      className,
+      Some(useFloatingNavBar ? Styles.padFloatingNav : "")])}>
+      {
+        useFloatingNavBar ?
+        <FloatingHeader
+            className=?{combineClassNames([Some(Styles.header), headerClassName])}
+            useDarkNavBarLinks
+            currentPageIndex
+            componentAtTheRight=headerComponentAtTheRight
+          />
+        : <Header
+          className=?{combineClassNames([Some(Styles.header), headerClassName])}
+          style=?headerStyle
+          useDarkNavBarLinks
+          currentPageIndex
+          onResize=?onHeaderResize
+          componentAtTheRight=headerComponentAtTheRight
+        />
+      }
       children
       <MobileFooter currentPageIndex componentAtTheRight=footerComponentAtTheRight />
     </div>;

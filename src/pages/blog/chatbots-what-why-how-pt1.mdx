@@ -1,0 +1,110 @@
+---
+title: 'Chatbots: What, Why and How (part I)'
+date: '2020-04-29'
+description: 'Learn about what chatbots are, how they work and how you can build your own'
+tags: ['chatbots', 'opinion']
+author: 'Ricardo Moutinho'
+image: '../../../static/images/blog/chatbots-what-why-how-pt1/header.jpeg'
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image src="blog/chatbots-what-why-how-pt1/header.jpeg" alt="Image of toy robot" />
+
+Here at Glazed we started working with Chatbots and NLU (Natural Language Understanding) back in 2016. Since then we’ve delivered chatbots for Alexa, Facebook Messenger, Google Assistant, Web pages, Salesforce, WhatsApp, and even Slack, so we thought we’d talk a bit about them and share a few of the things we learned along the way.
+
+This is the first of three articles, where we cover:
+
+- **Part I**: An introduction to chatbots, what they are and why are they relevant in today’s market.
+- **Part II**: How do they work? We start taking a practical look into the steps needed to build a chatbot, focusing on the NLU model generation.
+- **Part III**: In the final article, we build upon our work from part II and by focusing on the addition of Dialog, we’ll have covered the main steps involved in the creation of a basic chatbot.
+  At the end of each article, there’ll also be a few insights & tips about the subjects covered…but enough of this, let’s get started! 💪
+
+## What are chatbots and why should I care?
+
+We’ve all probably already had an experience with some sort of chatbot by now. For a few good years, they’ve been making their way into more and more business pages, social platform presences and customer service chains. Propelled by the Artificial Intelligence (AI) push cycle we’ve been experiencing through the last half of the decade, as businesses look for ways to take AI on board, chatbots are frequently one of the first items on their list.
+
+### Why is that?
+
+It comes down as the result of a few key points:
+
+- **Chatbots are an understandable concept**, with several businesses already deploying some level of client-facing automation through their customer service chains.
+
+- Being able to take on the ever-growing **instant messaging market has great appeal to businesses**, as does being able to provide some level of **customer reach through multiple social channels easily**.
+
+- **Virtual assistants** like Alexa, Google Assistant and Siri are now widely used products, present in millions of homes and personal devices, **familiarising and building the trust of mainstream audiences in the concept of automation through natural language**. One might even find them… on their next [toilet](https://www.youtube.com/watch?v=xYsy9Yd5grs)? 😮
+
+### What’s so great about them?
+
+Most chatbots’ purpose is to automate specific tasks either for scalability, efficiency or plain convenience, but that’s not all there is to it.
+
+Some of their key advantages include:
+
+- **Platform support**: Chatbot support has been steadily increasing through social, instant messaging and virtual assistant platforms, allowing businesses to expand their offers and reach more customers through their preferred channel.
+- **24/7 availability**: Chatbots are always available. Take the customer service scenario, human agents are a limited resource and work during specific hours. Chatbots help fill in the gap, answering requests out of business hours and saving the agents’ capacity for the situations that really require it during the day.
+- **Instant replies**: Not only are chatbots always available but they can also respond almost instantly to questions.
+- **Scalability**: Chatbots are built to scale, so they can go from servicing a few users to handling hundreds of conversations simultaneously over time.
+- **Cost-effectiveness**: All of the above combined, make chatbots a cost-efficient solution. Their availability and response rate keep users happy, while their cost-effective scalability helps businesses cope with customer demands as they grow.
+
+### Are all chatbots the same?
+
+Chatbots might be encountered in all sorts of devices, but when it comes to their interaction design, there are mostly two main paths to take:
+
+- **Natural language-based**: taking advantage of **NLU and machine learning**, these chatbots **try to understand natural commands** like “Turn off the lights in the living room” based on models trained through hundreds or thousands of examples. They will also reply in the same manner, leading to more natural conversations taking place without strict paths to follow.
+- **Functional based**: these bots don’t worry as much about “sounding human”, instead **focusing on enabling their tasks to be performed as efficiently and quickly as possible**. An example would be a triage chatbot that simply collects your information through a **series of closed response predetermined questions**.
+
+Both have their ups and downs and selecting which to go for should be done based on the specific problem at hand. However, even a functionality focused chatbot can be quickly trained to take some advantage of NLU to improve its User Experience (UX). If your chatbot is targeted at a general audience, a natural language-based experience is likely the way to go.
+
+---
+
+### How are they being used?
+
+There are many use-cases typically associated with chatbots, but here are some of the best ones we’ve worked on for businesses:
+
+- **Customer services**: One of the most valuable and best-suited use-cases for chatbots is having them answer common customer questions 24/7 while escalating more complex issues to human support agents.
+- **Booking scenarios**: From dinner reservations or barber appointments to booking flights or buying event tickets, chatbots are a good fit for enabling these journeys on the go.
+- **Tracking scenarios**: As for bookings, keeping track of the status of something is another good use-case for chatbots. Be it your latest delivery, a payment confirmation, your flight’s status or your favorite stocks, being able to ask a virtual assistant about it makes people feel like they’re living in the future 🤖
+- **Automation of repetitive work**: By taking repetitive and error-prone chores away from humans, chatbots can increase both businesses and personal productivity.
+
+---
+
+That’s it for today’s introduction but before we wrap up, a few insights & tips:
+
+- A chatbot **isn’t the right answer for all problems, but it can be a very efficient one when used correctly**.
+- **As a conversation designer, consider an escalation path for the user to still achieve its goal if the chatbot fails**. For example, if your chatbot is replacing a customer service team during out of hours and it fails to handle a client’s request, consider having a process to arrange a callback, leaving all the information ready for human agents to pick up when they get back to work the next morning.
+- **If your chatbot sits in front of a human, remember that some people will prefer to speak to the human directly** and you should respect and facilitate that path as well.
+
+With the intros out of the way, we can now get to the nitty-gritty of chatbots. In the next articles, we’ll take a practical look into how a chatbot is built, as we provide instructions on how you can get started building your own NLU and Dialog using [IBM Watson Assistant](https://www.ibm.com/cloud/watson-assistant/). If that sounds interesting, stay tuned!
+
+---
+
+Part II is available [here](/blog/chatbots-what-why-how-pt2).
+
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/chatbots-what-why-how-pt1" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        author
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/rick.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
+        }
+      }
+    }
+  }
+`

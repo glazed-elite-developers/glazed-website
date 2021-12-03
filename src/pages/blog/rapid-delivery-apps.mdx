@@ -1,0 +1,104 @@
+---
+title: 'Here Are The Rapid Delivery Apps'
+date: '2021-07-21'
+description: 'Insight into the rapid delivery apps that are taking over the world'
+tags: ['opinion', 'industry']
+author: 'Nelson Sachse'
+image: '../../../static/images/blog/rapid-delivery-apps/header.jpeg'
+---
+
+import Image from '../../components/blogImage.js'
+
+<Image
+  src="blog/rapid-delivery-apps/header.jpeg"
+  alt="Image of a courier on a scooter"
+  caption="Photo by Rowan Freeman on Unsplash"
+/>
+
+## On-demand grocery revamp
+
+Promptly boomed by the worldwide lockdown, consumers flocked to delivery services to get their goods. From day to day items to the most various products, all of them delivered to our doorstep.
+If we analyse this consumer behaviour from a business perspective, we see a boost in volume, a substantial growth of new users, a potential disruption in the value chain, but we might not necessarily see a new trend.
+
+Well, some companies did.
+
+They’ve identified a new type of consumption that focuses on time-saving, convenience, and low labour, the lazy economy trend.
+According to PitchBook Data, from the beginning of the pandemic, already $14 billion have been invested worldwide in on-demand grocery delivery services, proving that this service has a new market and a new investment opportunity. Thus, companies like the Philadelphia-based pioneer GoPuff, Istanbul-based Getir, Berlin-based Gorillas and London-based Dija cater to a new audience that wants their products instantly.
+
+Through a mobile app, these companies offer a service that delivers snacks, alcohol, medication, food, drinks and other products to those that need them right away.
+
+## How it works
+
+To put in context, users that order their groceries online usually prefer to schedule weekly, bi-weekly or even monthly deliveries, but with this service, they don’t need to plan ahead; they could order that missing item from a recipe, dippers or merely on a whim when they have a craving for ice cream and don’t want to leave their couch to go to the corner shop.
+
+Let’s see how it works:
+
+1. You open the app
+2. Select the products you desire
+3. Execute your order
+4. The shopper gathers your items from a dark store
+5. The shopper delivers those items to your door
+
+Depending on the company, all these steps shouldn’t take more than 10 minutes. Nonetheless, except for the time it takes to deliver your groceries, it doesn’t look like a big difference from many other delivery services out there.
+
+Yet, there are substantial differences.
+
+If companies can match the users’ postcode addresses and their consumers’ habits, it’s possible to create a selection of items that users desire the most. Consequently, with this selection, companies can then place these top items inside a “dark store” and deliver them to a specific neighbourhood.
+
+Dark stores — aka small fulfilment centres — can hold around 1000–2000 goods and are strategically located in specific regions throughout the cities to allow companies to speed up deliveries. These small warehouses are usually placed in the vicinity of large areas, based on users geo-location and top products preferences. As a result, it’s relatively easy for companies to populate the mobile client apps with a pre-selection of known items available in-store.
+
+<Image
+  src="blog/rapid-delivery-apps/store.jpeg"
+  alt="Image of products on shelves in a store"
+  caption="Photo by Drew Stewart on Unsplash"
+/>
+
+For this service to work, it needs to combine a strategic location of the goods, a data-driven approach to user shopping habits, and the use of dark stores.
+
+## Tech stacks
+
+Rapid delivery companies might diverge in business practices, locations and go to market strategies; still, their focus is on saving customers time and delivering their products quickly. To achieve this, they need to assemble an engineering team that can work in an agile context, in cross-functional units, and running quick iterations to build successful release trains.
+
+Although most of these companies focus on their mobile clients to reach their customers, they still need DevOps, Frontend and Backend developers to evolve their core architecture. May that be by creating API’s, dashboards, marketing websites or ERP systems, they need to deploy stable systems to support the growing needs of the business, customers and teams.
+
+Therefore, analysing companies tech stacks, we can identify that most frontend spans from custom Vue/React apps using frameworks such as Next.js/Gatsby. The backend falls mainly into Spring Boot, Kotlin, Ruby
+On Rails, all nicely containerised to be deployed in AWS or Azure.
+
+Concerning mobile development, although there are two schools of thought — Hybrid vs Native — businesses tend to build bespoke UI and UX features (i.e., add to basket, add to favourites, promo codes, last orders) to present speedy interactions to their users. Hence, native is the preferred way, and consequently, developers with good expertise in either Kotlin and Swift are in high demand.
+With this approach, companies build platforms with fast-loading and intuitive designs that provide users with a smooth shopping experience with minimum friction, fighting off the “shopping cart abandonment” syndrome.
+
+---
+
+To conclude, if this trend is here to stay, we can’t know for sure, but as many other incumbents have experienced before, if the offer exists and the need is there, then the market will rapidly follow suit.
+
+Here at Glazed, we have hands-on experience in this market since we work within this space. As such, if you want to know more, feel free to reach out to us.
+
+export const pageQuery = graphql`
+  query {
+    mdx(slug: { eq: "blog/rapid-delivery-apps" }) {
+      frontmatter {
+        date
+        description
+        tags
+        title
+        author
+        author
+        image {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
+    }
+    authorPhoto: file(relativePath: { eq: "team/nelson.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 200) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
+        }
+      }
+    }
+  }
+`

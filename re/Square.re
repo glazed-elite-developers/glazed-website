@@ -22,3 +22,5 @@ let make = (~children=?, ~className=?, ~contentClassName=?, ~onMouseEnter=?) => 
     </div>
   </div>;
 };
+
+let default = make;
