@@ -42,11 +42,17 @@ const pageContentStyles = css`
       }
 
       h3 {
+        font-size: 1.25rem;
         line-height: 1.5;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.25rem;
+        color: inherit;
+
+        @media ${Breakpoints.tabletLandscape} {
+          font-size: 1.5rem;
+        }
       }
 
-      h5 {
+      h4 {
         font-family: 'Muli';
         font-weight: 500;
         padding-bottom: 0.5rem;
@@ -58,11 +64,15 @@ const pageContentStyles = css`
         padding-right: 0.5rem;
         position: absolute;
         top: -20px;
-        left: -20px;
+        left: -10px;
         width: 160px;
         height: 160px;
         border: 1px solid #${Colors.glazedBlue};
         opacity: 0.1;
+
+        @media ${Breakpoints.tabletLandscape} {
+          left: -20px;
+        }
       }
 
       // Blog Post Info
@@ -109,7 +119,7 @@ const BlogHome = ({ data }) => {
                   <Link to={node.slug}>
                     <Heading level={2}>{node.frontmatter.title}</Heading>
                   </Link>
-                  <Heading level={4}>{node.frontmatter.description}</Heading>
+                  <Heading level={3}>{node.frontmatter.description}</Heading>
                   <div>
                     <FormattedDate>
                       {new Date(node.frontmatter.date).toLocaleDateString('en-US', {

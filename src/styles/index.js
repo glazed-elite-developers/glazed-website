@@ -48,9 +48,6 @@ const GlobalStyles = () => (
               url('${fonts.ZonaProBoldSvg}#ZonaProBold') format('svg'); /* Legacy iOS */
         }
 
-        html {
-          background-color: #${Colors.glazedBabyBlueText};
-        }
 
         html,
         body,

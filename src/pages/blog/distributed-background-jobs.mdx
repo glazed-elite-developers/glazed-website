@@ -37,7 +37,7 @@ We ended up choosing a distributed background tasks engine to handle our problem
 
 Thus, _Resque_ to the rescue! 😉
 
-## So, what’s Resque?
+# So, what’s Resque?
 
 _Resque_ (pronounced like “rescue”) is a Redis-backed library for creating background jobs, placing those jobs on multiple queues, and processing them later.
 
@@ -51,7 +51,7 @@ If you are interested in _Resque’s_ beginnings and want to know more, check th
 
 In our project we used node-resque, a node.js implementation of _Resque_.
 
-## Concepts
+# Concepts
 
 Now that you have some context about Resque, let us introduce you to some basic concepts you should know before using it. We can decompose the entire system into 4 self-explanatory pieces:
 
@@ -63,7 +63,7 @@ Now that you have some context about Resque, let us introduce you to some basic 
 
 **Job** - the actual task we want to run
 
-## Setup
+# Setup
 
 To start using _Resque_, the first thing you need to do is to set up a connection to your Redis database:
 
@@ -191,7 +191,7 @@ At this point, you should be able to start running your background tasks.
 
 Since **Resque** is backed by Redis, distributing your background tasks comes with no effort. Make sure to apply the same setup to all your hosts.
 
-## In Conclusion
+# In Conclusion
 
 **Resque**, in conjunction with the **JobLock** and **QueueLock** built-in plugins, made our life easier. **QueueLock** will avoid duplicate jobs in the queue so managers cannot request the same export multiple times. **JobLock** will make sure that only one export job executes for the same manager.
 

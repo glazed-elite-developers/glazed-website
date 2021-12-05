@@ -153,6 +153,14 @@ const GlobalBlogStylesContainer = styled.div`
     color: #${Colors.darkGrey};
   }
 
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
   p,
   li {
     line-height: 1.8;
@@ -167,7 +175,6 @@ const GlobalBlogStylesContainer = styled.div`
     padding-bottom: 1rem;
     max-width: 37.5rem;
     width: 100%;
-    text-align: justify;
   }
 
   blockquote {
@@ -284,8 +291,6 @@ export default function BlogPageLayout({
     authorPhoto.childImageSharp.fluid.src.lastIndexOf('/') + 1,
     authorPhoto.childImageSharp.fluid.src.lastIndexOf('.')
   )
-
-  console.log({ img: frontmatter.image })
 
   return (
     <>

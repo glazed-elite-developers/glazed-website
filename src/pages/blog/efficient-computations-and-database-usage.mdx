@@ -28,7 +28,7 @@ The following are some of the hurdles we overcome by applying strategies we will
 
 Although we’ve made progress, database optimization is an ongoing process. An increasingly higher load on our system and a growing number of users eventually reveals weaknesses in other parts of our app that have yet to be addressed. Nonetheless, we present you with an assortment of techniques we have found success with to this day.
 
-## Going beyond ORM defaults
+# Going beyond ORM defaults
 
 Our backend application is powered by a framework that allows the plug-in of ORM frameworks such as Sequelize or Mongoose. ORMs usually follow the same APIs whose base allows for easy CRUD operations. These are great for building MVPs and are the go-to for simple use cases, but as applications start to scale and business requirements change, we can hit some limitations and start reaching bottlenecks.
 
@@ -42,7 +42,7 @@ We know modern ORMs support complex database operations such as joins and aggreg
 
 Please take into account that these strategies don’t come without trade-offs. By default, MongoDB aggregate pipelines perform all their processing in the master node. Ideally, we should only use the master node when having the latest data is a top priority since the replication process between primary and secondary nodes is asynchronous. Otherwise, clogging the master node with unnecessary work may hinder performance. Mileage may vary here since a balance needs to be struck between application and database load. Sometimes leaving the application to do the work is the best option as you can perform some caching at the application level that’s not feasible in the database layer — more on caching later.
 
-## Leveraging database indexes
+# Leveraging database indexes
 
 Database indexes are a tool to enhance data reads of a table/collection. They speed up these operations by not having to search every table row. Indexes can be created with one or multiple keys (corresponding to table columns) depending on the queries you’re trying to optimize. They can also be used to guarantee the uniqueness of a field.
 
@@ -58,7 +58,7 @@ One important thing to note in composite indexes (indexes that combine multiple 
 
 Also, it’s common to hear that you should avoid indexing low cardinality data as the index will not improve read speeds that much, but they do [have their use cases](https://stackoverflow.com/questions/2113181/does-it-make-sense-to-use-an-index-that-will-have-a-low-cardinality).
 
-## Using read replicas and managing stale data
+# Using read replicas and managing stale data
 
 Read replicas are an almost real-time duplication of your primary database which means we can offset the load on the main database instance to the read replica when performing massive data reads. Read replicas also serve as a backup in disaster recovery scenarios.
 
@@ -69,7 +69,7 @@ The first one was archiving stale data, moving old data to other tables that are
 The second strategy was the creation of summary tables.
 Summary tables contain a summary of the information of the original table. These summaries can be means, sums, or any statistic regarding the table’s data. Summary tables are particularly handy to act as dashboard feeding tables that are updated on a regular schedule. Instead of managers having to run a query each time they want to look at the data, we can display the summary and offset the time cost of the query to discrete moments.
 
-## Applying caching strategies
+# Applying caching strategies
 
 Caching lets us trade computation time for memory space as computation results are saved in memory. If a computation is requested again using the same parameters, we return the same result, avoiding a recalculation. Always consider caching when handling time-critical operations that are not prone to change.
 
@@ -79,7 +79,7 @@ Examples of this were showing the user the next available delivery schedule and 
 
 Caching carries its own set of challenges as well, in the form of cache invalidation. We need to be aware of when to invalidate and what to invalidate. Most times, we invalidate cache on a time basis, but they’re times where cache needs to be invalidated when data changes. Failing to correctly invalidate cache can have direct business implications. An example would be not invalidating the next delivery schedule and showing the user a schedule that’s past the current time. That would immediately decrease the user’s trust in the application, so always include invalidation strategies in the acceptance criteria of features where caching is applied.
 
-## In Conclusion
+# In Conclusion
 
 As an application matures, properly managing data-related operations is crucial in maintaining a smooth experience for everyone involved.
 
