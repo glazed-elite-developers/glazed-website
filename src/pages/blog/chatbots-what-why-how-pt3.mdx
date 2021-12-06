@@ -19,7 +19,7 @@ In this article, we’ll build upon that work as we continue using [IBM’s Wats
 
 ---
 
-### Step 3: Dialog
+## Step 3: Dialog
 
 In [Part II](/blog/chatbots-what-why-how-pt2) we covered the first two steps of a chatbot’s request handling process. Now that we have a standard representation of the user’s request, we can assess how to best handle it. That is the dialog’s job: to take a standardised request and based on the information available and context of the conversation, decide what is the best next path to take, act upon it, and draw up which should be the chatbot’s response.
 
@@ -125,7 +125,7 @@ And there you have it. You got yourself a chatbot that can understand and respon
 
 ---
 
-## 💡 Just one more thing…
+# 💡 Just one more thing…
 
 There is one thing left though: how do you make the connection to an external service and make those actions happen for real?
 
@@ -168,7 +168,7 @@ With this change, if the action succeeds, we just acknowledge the action to the 
 
 And we’re done! All that’s left is replicating the above for the #turn_on intent and you have a chatbot that not only understands requests to turn things on and off, but would also able to perform those actions and respond accordingly! 🙌
 
-### Step 4: Respond to the user
+## Step 4: Respond to the user
 
 Once we have actioned and decided our response, the final step is just sending that response back to the user through the original channel, thus completing a round of conversation. As for Step 1, we won’t focus too much on this as each platform has its detailed instructions on how to do this, but as an example, on Facebook, you’d use the messenger’s [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) to achieve this.
 

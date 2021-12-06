@@ -20,7 +20,7 @@ As before, at the end of this article, there’ll also be a few insights & tips 
 
 ---
 
-## What makes chatbots tick?
+# What makes chatbots tick?
 
 A chatbot sees a conversation as single rounds of back and forth requests & responses happening over and over. In each of these rounds, the state and context of the conversation are changing, but we can break down each round into a few main steps:
 
@@ -31,11 +31,11 @@ A chatbot sees a conversation as single rounds of back and forth requests & resp
 
 In this article, we’ll take a closer look at the first two steps and we’ll cover the remaining steps on Part III.
 
-### Step 1: Receive the user’s input
+## Step 1: Receive the user’s input
 
 The first thing you need to be able to do is to receive messages from your users. Depending on which channel you’re going for (Facebook Messenger, Google Actions, etc.), this might involve implementing an SDK or, in most channels, just registering a webhook to receive new message events from conversations with your chatbot. We won’t focus too much on this step as each platform has its detailed instructions on how you can set this step up, but an example of what you might get on each event originating from Facebook chat can be seen [here](here).
 
-### Step 2: NLU
+## Step 2: NLU
 
 Once you have access to the user’s request, you need to transform its input into something that your chatbot will understand. This is where NLU comes into play. You can use it to take the incoming message and transform it into a standard data structure that you can build a dialog tree around.
 
