@@ -55,6 +55,7 @@ module.exports = {
         trackingId: process.env.GA_TRACKING_ID,
       },
     },
+    'gatsby-plugin-remove-serviceworker',
   ],
   // For avoiding CORS while developing Netlify Functions locally.
   // Read more: https://www.gatsbyjs.org/docs/api-proxy/#advanced-proxying
