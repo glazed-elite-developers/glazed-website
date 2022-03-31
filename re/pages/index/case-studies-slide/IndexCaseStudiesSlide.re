@@ -117,6 +117,13 @@ let caseStudies: array(CaseStudySquare.caseStudy) = [|
     backgroundImageKey: "Boston",
     link: "/case-studies/boston",
   },
+    {
+    index: 4,
+    name: "Pasabi",
+    area: "AI Analytics",
+    backgroundImageKey: "Pasabi",
+    link: "/case-studies/pasabi",
+  }
 |];
 
 [@react.component]

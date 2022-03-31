@@ -8,6 +8,7 @@ import lvmh from '../../static/images/case-studies/lvmh-hero.jpg'
 import farfetch from '../../static/images/case-studies/farfetch-hero.jpg'
 import mercadao from '../../static/images/case-studies/mercadao-hero.jpg'
 import boston from '../../static/images/case-studies/boston-hero.jpg'
+import pasabi from '../../static/images/placeholder-hero.png'
 import dispImg from '../../static/images/disp1.jpg'
 
 const vertex =
@@ -45,7 +46,7 @@ void main()	{
 `
 
 const GlitchImages = React.memo(({ current }) => {
-  const images = [lvmh, farfetch, mercadao, boston]
+  const images = [lvmh, farfetch, mercadao, boston, pasabi]
   const duration = 1
   const easing = 'easeInOut'
   const textures = useLoader(THREE.TextureLoader, images)

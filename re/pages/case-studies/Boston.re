@@ -30,7 +30,7 @@ let pageImagesQuery = [%raw
            }
          }
        }
-       nextCaseImage: file(relativePath: { eq: "case-studies/lvmh-hero.jpg" }) {
+       nextCaseImage: file(relativePath: { eq: "placeholder-hero.png" }) {
          childImageSharp {
            fluid(maxWidth: 1200, maxHeight: 820) {
              ...GatsbyImageSharpFluid_withWebp_noBase64
@@ -91,9 +91,9 @@ let make = () => {
     |],
     nextCase: {
       image: nextCaseImage,
-      title: "LVMH",
-      area: "Fashion - Chatbots",
-      link: "/case-studies/lvmh",
+      title: "Pasabi",
+      area: "AI Analytics",
+      link: "/case-studies/pasabi",
     },
   };
 
