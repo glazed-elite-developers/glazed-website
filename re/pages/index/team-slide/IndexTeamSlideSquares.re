@@ -228,6 +228,17 @@ let developers =
           linkedIn: "https://www.linkedin.com/in/danielafpdias/",
         },
       ),
+      (
+        "batista",
+        {
+          key: "batista",
+          name: "Rui Batista",
+          skills: [|"Angular", "Node"|],
+          description: "desc",
+          shortDescription: "short desc",
+          linkedIn: "https://www.linkedin.com/in/rui-batista-32a79aa7/",
+        },
+      ),
     |],
   );
 
@@ -254,4 +265,5 @@ let squares = [|
   DeveloperSquare("raspa"),
   DeveloperSquare("maria"),
   DeveloperSquare("nelson"),
+  DeveloperSquare("batista"),
 |];
