@@ -7,7 +7,7 @@ module Styles = {
 
   let wrapper =
     style([
-      padding4(~top=rem(4.1875), ~bottom=rem(4.1875), ~left=rem(1.25), ~right=rem(2.5)),
+      padding4(~top=rem(1.1875), ~bottom=rem(4.1875), ~left=rem(1.25), ~right=rem(2.5)),
       height(`auto),
       flex3(~grow=1., ~shrink=0., ~basis=`auto),
       backgroundColor(hex(Colors.glazedBabyBlueText)),
