@@ -252,10 +252,11 @@ const AuthorContainer = styled.div`
 
 const ImageContainer = styled.div`
   width: 5rem;
-  height: 4rem;
+  height: 5rem;
   overflow: hidden;
   border-radius: 50%;
   margin-right: 0.5rem;
+  border: 0.1rem solid #${Colors.glazedBlueDarker};
 `
 
 const PostInfo = styled.div`
