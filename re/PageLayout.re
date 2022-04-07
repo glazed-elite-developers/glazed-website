@@ -108,7 +108,11 @@ let make =
           let modal =
             modalsAPI.openModal((~id as modalId, ~onClose) => <SayHelloModal modalId onClose />);
           openedModalRef.current = Some(modal);
-        | _ => ()
+        | Some("job-offer") =>
+          let modal =
+            modalsAPI.openModal((~id as modalId, ~onClose) => <JobOfferModal modalId onClose />);
+          openedModalRef.current = Some(modal);
+        |_ => ()
         };
         ();
         None;
