@@ -35,7 +35,7 @@ export async function handler(event, context, callback) {
     ) {
       const mailOptions = {
         from: `${name} <${email}>`,
-        to: process.env.CONTACT_EMAIL_ADDRESS,
+        to: process.env.JOB_OFFER_EMAIL_ADDRESS,
         replyTo: email,
         subject: `${subject}`,
         text: `${messageToSend}`,
