@@ -317,7 +317,7 @@ let make = (~modalId, ~onClose, ~_in=true, ~onExited=() => ()) => {
         Css.merge([Styles.jobOfferForm, Styles.hidden, Styles.formSuccessMessage]),
         "we'll get in touch soon!",
       )
-      : (Styles.formMessage, Styles.jobOfferForm, "Job Offer");
+      : (Styles.formMessage, Styles.jobOfferForm, "Job Opportunity");
   let queryResult = Gatsby.useStaticQuery(backgroundImageQuery);
   let fluidMapImage =
     Gatsby.getResponsiveImageFluid(
