@@ -202,7 +202,6 @@ let squares = [|
   TitleSquare("// team"),
   DeveloperSquare("matias"),
   DeveloperSquare("cristiano"),
-  DeveloperSquare("diogo"),
   DeveloperSquare("filipe"),
   MottoSquare("Great developers build great code"),
   DeveloperSquare("rick"),
@@ -211,7 +210,6 @@ let squares = [|
   DeveloperSquare("joao"),
   DeveloperSquare("daniela"),
   DeveloperSquare("nuno"),
-  DeveloperSquare("goncalo"),
   MottoSquare("Great developers love their work"),
   SendApplicationSquare,
   DeveloperSquare("torres"),
@@ -219,6 +217,5 @@ let squares = [|
   DeveloperSquare("pedro"),
   DeveloperSquare("raspa"),
   DeveloperSquare("maria"),
-  DeveloperSquare("nelson"),
   DeveloperSquare("batista"),
 |];
