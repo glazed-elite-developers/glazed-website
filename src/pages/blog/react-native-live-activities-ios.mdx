@@ -10,6 +10,7 @@ image: '../../../static/images/blog/react-native-live-activities-ios/header.png'
 import { graphql } from 'gatsby'
 
 import Image from '../../components/blogImage.js'
+import ResponsiveEmbed from '../../components/responsiveEmbed.js'
 
 <Image src="blog/react-native-live-activities-ios/header.png" alt="Live activities" />
 
@@ -72,7 +73,7 @@ These functions will control and manage Live Activities by interacting with the 
 ```swift
 @objc(startActivity:withDriverName:withExpectingDeliveryTime:withResolver:withRejecter:)
 func startActivity(status: String, driverName: String, expectingDeliveryTime: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
- 
+
   if #available(iOS 16.1, *) {
     var activity: Activity<MyActivityAttributes>?
     let initialContentState = MyActivityAttributes
@@ -81,7 +82,7 @@ func startActivity(status: String, driverName: String, expectingDeliveryTime: St
             expectedDeliveryTime: expectingDeliveryTime
             )
     let activityAttributes = MyActivityAttributes()
-    do {  
+    do {
       activity = try Activity.request(attributes:
               activityAttributes,
               contentState: initialContentState)
@@ -103,13 +104,13 @@ RCT_EXTERN_METHOD(startActivity:(NSString)status withDriverName:(NSString)driver
                   withExpectingDeliveryTime:(NSString)expectingDeliveryTime
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject);
- 
+
 RCT_EXTERN_METHOD(listAllActivities:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject);
- 
+
 RCT_EXTERN_METHOD(endActivity:(NSString)status withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject);
- 
+
 RCT_EXTERN_METHOD(updateActivity:(NSString)id withStatus:(NSString)status withDriverName:(NSString)driverName
                   withExpectingDeliveryTime:(NSString)expectingDeliveryTime
                  withResolver:(RCTPromiseResolveBlock)resolve
@@ -125,11 +126,11 @@ function startActivity(
       status: string,
       driverName: string,
       expectingDeliveryTime: string);
- 
+
 function listAllActivities();
- 
+
 function endActivity(id: string);
- 
+
 function updateActivity(
       id: string,
       status: string,
@@ -139,7 +140,7 @@ function updateActivity(
 
 After installing the module in React Native, we then create the Live Activity itself on the iOS project.
 
-For that let’s create a widget extension (documentation [here](https://developer.apple.com/documentation/widgetkit/creating-a-widget-extension)) on Xcode and also add `NSSupportsLiveActivities` as `YES` to the `info.plist`` of the project.
+For that let’s create a widget extension (documentation [here](https://developer.apple.com/documentation/widgetkit/creating-a-widget-extension)) on Xcode and also add `NSSupportsLiveActivities` as `YES` to the `info.plist` of the project.
 
 Then we can create the [Live Activity UI](https://github.com/cristianoalves92/react-native-live-activity/blob/master/example/ios/LiveActivityDynamicIsland/LiveActivityDynamicIsland.swift) in SwiftUI using the struct created on the Native Module:
 
@@ -214,11 +215,7 @@ All the code for this POC [here](https://github.com/cristianoalves92/react-nativ
 
 Video showing an example of a React Native app using Live Activities. You can download it here.
 
-TODO: MATIAS METE ESTE VIDEO AQUI: https://www.youtube.com/embed/g-kkLi6FFNY
-
-TODO: QUOTES A CRESCER INFINITAMENTE
-
-TODO: BLOCOS CÓDIGO MULTILINE
+<ResponsiveEmbed src="https://www.youtube.com/embed/g-kkLi6FFNY" />
 
 # Conclusion #Live Activities on React Native
 
