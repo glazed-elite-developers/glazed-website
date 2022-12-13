@@ -46,17 +46,6 @@ let developers =
         },
       ),
       (
-        "diogo",
-        {
-          key: "diogo",
-          name: "Diogo Nunes",
-          skills: [|"iOS", "IOT"|],
-          description: "He has an unmatched attention to detail, shipped a ton of apps and he's very efficient, so you won't see a bad app coming out of his hands.",
-          shortDescription: "Diogo has a vast experience and deep knowledge on all things iOS.",
-          linkedIn: "https://www.linkedin.com/in/diogocamposnunes/",
-        },
-      ),
-      (
         "filipe",
         {
           key: "filipe",
@@ -65,17 +54,6 @@ let developers =
           description: "Javascript (both front-end and node) and Rails are his weapons of choice, but he can adapt to any new team or technology and start adding value to any project very quickly.",
           shortDescription: "Filipe is a very fast and productive full-stack web developer.",
           linkedIn: "https://www.linkedin.com/in/filipeperdigaosousa/",
-        },
-      ),
-      (
-        "ismael",
-        {
-          key: "ismael",
-          name: "Ismael Abreu",
-          skills: [|"Rails", "Elixir", "Node", "Javascript"|],
-          description: "He has worked on many web engineering projects, loves open source, and is proud to have millions of users using his beautifully crafted code.",
-          shortDescription: "Ismael is a seasoned Rails, Node and Elixir developer who is always looking for new tech and ways to improve his code.",
-          linkedIn: "https://www.linkedin.com/in/ismaelabreu/",
         },
       ),
       (
@@ -123,17 +101,6 @@ let developers =
         },
       ),
       (
-        "nelson",
-        {
-          key: "nelson",
-          name: "Nelson Sachse",
-          skills: [|"iOS", "Android", "Flutter", "Rails", "Strategy", "Startups"|],
-          description: "He has created mobile applications, developed services, managed projects and teams for the leading companies within the health, auto, telecom and hospitality industry.",
-          shortDescription: "For the past 10 years Nelson's been working as a technologist, strategist and creator of tech events.",
-          linkedIn: "https://www.linkedin.com/in/nelsonsachse/",
-        },
-      ),
-      (
         "nuno",
         {
           key: "nuno",
@@ -142,17 +109,6 @@ let developers =
           description: "Nuno is a Mobile Engineer that has developed apps on both iOS and Android for millions of users, and managed mobile and front-end teams.",
           shortDescription: "He's a fast learner and a generalist, with a never ending motivation to go through any challenge and ship the product!",
           linkedIn: "https://www.linkedin.com/in/nunompsilva/",
-        },
-      ),
-      (
-        "goncalo",
-        {
-          key: "goncalo",
-          name: {j|Gonçalo Lobo|j},
-          skills: [|"React", "React Native", "Rails", "GraphQL", "Node"|],
-          description: "With his multidisciplinary experience, he can develop natively compiled iOS and Android apps, single-page web applications and APIs.",
-          shortDescription: {j|Gonçalo is a cross-platform full-stack engineer that can develop web and mobile apps from start to finish.|j},
-          linkedIn: "https://www.linkedin.com/in/goncalobo/",
         },
       ),
       (
@@ -228,6 +184,17 @@ let developers =
           linkedIn: "https://www.linkedin.com/in/danielafpdias/",
         },
       ),
+      (
+        "batista",
+        {
+          key: "batista",
+          name: "Rui Baptista",
+          skills: [|"Java", "C#", "Python", "Javascript", "TypeScript"|],
+          description: "He has vast expertise in eCommerce, grocery retailers, ticketing platforms and worked on projects for notable brands such as Coca-Cola, Continente, Unicer.",
+          shortDescription: "Rui is a professional software developer with eight years of experience in backend services and hybrid mobile applications.",
+          linkedIn: "https://www.linkedin.com/in/rui-b-32a79aa7/",
+        },
+      ),
     |],
   );
 
@@ -235,9 +202,7 @@ let squares = [|
   TitleSquare("// team"),
   DeveloperSquare("matias"),
   DeveloperSquare("cristiano"),
-  DeveloperSquare("diogo"),
   DeveloperSquare("filipe"),
-  DeveloperSquare("ismael"),
   MottoSquare("Great developers build great code"),
   DeveloperSquare("rick"),
   DeveloperSquare("figo"),
@@ -245,7 +210,6 @@ let squares = [|
   DeveloperSquare("joao"),
   DeveloperSquare("daniela"),
   DeveloperSquare("nuno"),
-  DeveloperSquare("goncalo"),
   MottoSquare("Great developers love their work"),
   SendApplicationSquare,
   DeveloperSquare("torres"),
@@ -253,5 +217,5 @@ let squares = [|
   DeveloperSquare("pedro"),
   DeveloperSquare("raspa"),
   DeveloperSquare("maria"),
-  DeveloperSquare("nelson"),
+  DeveloperSquare("batista"),
 |];

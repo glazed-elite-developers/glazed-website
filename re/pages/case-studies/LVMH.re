@@ -117,7 +117,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed • LVMH"
+    pageTitle={j|Glazed • LVMH|j}
     pageDescription={j|Moët Hennessy Louis Vuitton is a French multinational corporation and conglomerate specializing in luxury goods.|j}
     content
   />;

@@ -157,7 +157,7 @@ let make = () => {
   };
 
   <CaseStudyPageTemplate
-    pageTitle="Glazed - Mercadao case study"
+    pageTitle={j|Glazed • Mercadão|j}
     pageDescription={j|Mercadão is the first on-demand marketplace in Portugal, introducing 2-hour deliveries from a variety of retailers.|j}
     content
   />;
