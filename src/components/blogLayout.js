@@ -28,7 +28,9 @@ const pageContentStyles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto;
     width: 100%;
+    max-width: 70rem;
 
     pre {
       max-width: 39.5rem;
@@ -37,6 +39,15 @@ const pageContentStyles = css`
       margin-bottom: 1rem;
       background-color: #${Colors.almostAlmostWhite};
       padding: 1rem;
+    }
+
+    p code .token-line {
+      display: inline-block;
+      background-color: #${Colors.almostAlmostWhite};
+      padding: 0 0.25rem;
+      font-size: inherit;
+      border: solid 1px #${Colors.glazedBlueMidnight}20;
+      border-radius: 0.3em;
     }
 
     footer {
@@ -182,7 +193,6 @@ const GlobalBlogStylesContainer = styled.div`
     display: flex;
     padding-bottom: 1rem;
     max-width: 37.5rem;
-    height: 100%;
 
     p:last-of-type {
       padding-bottom: 0;
@@ -256,7 +266,6 @@ const ImageContainer = styled.div`
   overflow: hidden;
   border-radius: 50%;
   margin-right: 0.5rem;
-  border: 0.1rem solid #${Colors.glazedBlueDarker};
 `
 
 const PostInfo = styled.div`
@@ -354,6 +363,7 @@ export default function BlogPageLayout({
                   h5: props => <Heading level={5} {...props} />,
                   h6: props => <Heading level={6} {...props} />,
                   code: props => <Code {...props} />,
+                  inlineCode: props => <Code {...props} />,
                 }}
               >
                 <GlobalBlogStylesContainer>
