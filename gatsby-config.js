@@ -56,6 +56,15 @@ module.exports = {
       },
     },
     'gatsby-plugin-remove-serviceworker',
+    `gatsby-plugin-image`,
+    'gatsby-plugin-remove-serviceworker',
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `dxpq2byksutf`,
+        accessToken: `N10f816GOsOggdHUXxCm2mqVB38L9n_-WQKimTW3IjM`,
+      },
+    },
   ],
   // For avoiding CORS while developing Netlify Functions locally.
   // Read more: https://www.gatsbyjs.org/docs/api-proxy/#advanced-proxying

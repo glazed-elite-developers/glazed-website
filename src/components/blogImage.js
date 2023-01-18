@@ -1,3 +1,4 @@
+/*
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
@@ -58,3 +59,4 @@ export default function Image({ src, alt, caption }) {
     </figure>
   )
 }
+*/

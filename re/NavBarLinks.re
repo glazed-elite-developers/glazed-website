@@ -20,7 +20,8 @@ let items = [|
   ("/#about", "about"),
   ("/#team", "team"),
   ("/#manifesto", "manifesto"),
-  ("/blog", "blog"),
+  //("/blog", "blog"),
+  ("/contentfulBlog", "contentful Blog")
 |];
 
 [@react.component]
