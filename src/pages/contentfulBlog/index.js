@@ -10,7 +10,6 @@ import PageLayout from 're/PageLayout'
 import PageContent from 're/PageContent'
 import Heading from 're/Heading'
 import { Colors, Breakpoints } from 're/Theme'
-import { StaticImage } from 'gatsby-plugin-image'
 
 const pageLayoutStyles = css`
   background-color: #${Colors.whiteTurquoise};
@@ -109,10 +108,6 @@ const Tags = styled.span`
 const ContentfulBlogHome = ({ data }) => {
   const posts = data.allContentfulBlogpost.edges
 
-  //   function staticimage() {
-  //     return <StaticImage src="../../../static/images/blog/1000-days-of-glazed/header.jpeg"/>
-  //   }
-
   return (
     <Layout>
       <PageLayout className={pageLayoutStyles} useDarkNavBarLinks useFloatingNavBar>
@@ -145,9 +140,7 @@ const ContentfulBlogHome = ({ data }) => {
                     </Tags>
                   </div>
                 </div>
-                <div>
-                  <Heading level={2}>{'cus'}</Heading>
-                </div>
+                <div> {node.image && <Img fluid={node.image.fluid} />} </div>
               </li>
             ))}
           </ul>
@@ -157,13 +150,11 @@ const ContentfulBlogHome = ({ data }) => {
   )
 }
 
-/* <img src={node.image.fluid.src} alt={node.image.file.fileName} />*/
-
 export default ContentfulBlogHome
 
 export const pageQuery = graphql`
   query ContentfulBlogQuery {
-    allContentfulBlogpost {
+    allContentfulBlogpost(filter: { node_locale: { eq: "en-US" } }) {
       edges {
         node {
           content {
@@ -177,19 +168,16 @@ export const pageQuery = graphql`
             }
           }
           slug
+          image {
+            fluid(maxWidth: 800) {
+              ...GatsbyContentfulFluid_withWebp_noBase64
+            }
+            file {
+              fileName
+            }
+          }
         }
       }
     }
   }
 `
-
-/*
-
-          image {
-            childImageSharp {
-                fluid(maxWidth: 800) {
-                    ...GatsbyImageSharpFluid_withWebp_noBase64
-                }
-            }
-          }
-          */

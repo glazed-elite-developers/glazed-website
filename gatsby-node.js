@@ -1,13 +1,13 @@
-const { graphql } = require('graphql')
 const path = require('path')
+const { graphql } = require('graphql')
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {
         re: path.resolve(__dirname, 'lib/es6/re'),
-        static: path.resolve(__dirname, 'static'),
         src: path.resolve(__dirname, 'src'),
+        static: path.resolve(__dirname, 'static'),
       },
     },
   })
@@ -17,7 +17,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const results = await graphql(
     `
       {
-        allContentfulBlogpost {
+        allContentfulBlogpost(filter: { node_locale: { eq: "en-US" } }) {
           nodes {
             slug
           }

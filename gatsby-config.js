@@ -56,8 +56,6 @@ module.exports = {
       },
     },
     'gatsby-plugin-remove-serviceworker',
-    `gatsby-plugin-image`,
-    'gatsby-plugin-remove-serviceworker',
     {
       resolve: `gatsby-source-contentful`,
       options: {
