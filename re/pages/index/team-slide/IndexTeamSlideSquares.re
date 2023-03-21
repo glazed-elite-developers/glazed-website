@@ -195,6 +195,17 @@ let developers =
           linkedIn: "https://www.linkedin.com/in/rui-b-32a79aa7/",
         },
       ),
+      (
+        "fox",
+        {
+          key: "fox",
+          name: {j|Ricardo Reis|j},
+          skills: [|"Strategy", "Business development", "Project Coordination"|],
+          description: "Armed with two decades of culinary expertise, he knows the recipe for success lies in the strength of the team. Now, he's using his skills to cook up sales strategies and market solutions that leave our clients hungry for more.",
+          shortDescription: {j|From chef to sales strategist, Ricardo's passion for optimizing performance in the kitchen has translated seamlessly into the tech world.|j},
+          linkedIn: "https://www.linkedin.com/in/ricardo-reis-1b143b",
+        },
+      ),
     |],
   );
 
@@ -218,4 +229,5 @@ let squares = [|
   DeveloperSquare("raspa"),
   DeveloperSquare("maria"),
   DeveloperSquare("batista"),
+  DeveloperSquare("fox"),
 |];
