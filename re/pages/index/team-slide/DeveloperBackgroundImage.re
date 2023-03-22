@@ -144,6 +144,13 @@ let backgroundImageQuery = [%raw
           }
         }
       } 
+      fox: file(relativePath: { eq: "team/fox.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid_withWebp_noBase64
+          }
+        }
+      } 
       overlay: file(relativePath: { eq: "team/overlay.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
