@@ -62,38 +62,53 @@ let make =
     let location: Routing.location = Routing.useLocation();
     let selectedModal = location.search |> URLSearchParams.make |> URLSearchParams.get("modal");
     // Need to memoize this to avoid unnecessary header rerenders.
+    let careersUrl = "https://www.careers-page.com/glazed-solutions"; // Replace with your actual URL
     let headerComponentAtTheRight =
-      useMemo3(
-        () => {
-          <Gatsby.Link
-            _to=sayHelloModalUrl
-            onClick=openSayHelloModal
-            state={
-              "state": {
-                "preventDefaultScrollBehavior": true,
-              },
-            }>
-            <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-              {React.string("> say hello")}
-            </Button>
-          </Gatsby.Link>
-        },
-        (sayHelloModalUrl, openSayHelloModal, useDarkNavBarLinks),
-      );
+  useMemo3(
+    () => {
+      <>
+        <Gatsby.Link _to=careersUrl>
+          <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
+            {React.string("Careers")}
+          </Button>
+        </Gatsby.Link>
+        <Gatsby.Link
+          _to=sayHelloModalUrl
+          onClick=openSayHelloModal
+          state={
+            "state": {
+              "preventDefaultScrollBehavior": true,
+            },
+          }>
+          <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
+            {React.string("> say hello")}
+          </Button>
+        </Gatsby.Link>
+      </>
+    },
+    (sayHelloModalUrl, openSayHelloModal, useDarkNavBarLinks),
+  );
     let footerComponentAtTheRight =
-      useMemo2(
-        () => {
-          <Gatsby.Link
-            _to=sayHelloModalUrl
-            onClick=openSayHelloModal
-            className=Styles.mobileCloseButtonWrapper>
-            <Button _type=Button.Secondary className=Styles.mobileCloseButton>
-              {React.string("> say hello")}
-            </Button>
-          </Gatsby.Link>
-        },
-        (sayHelloModalUrl, openSayHelloModal),
-      );
+  useMemo2(
+    () => {
+      <>
+        <Gatsby.Link _to=careersUrl>
+          <Button _type=Button.Secondary className={Styles.mobileCloseButton}>
+            {React.string("Careers")}
+          </Button>
+        </Gatsby.Link>
+        <Gatsby.Link
+          _to=sayHelloModalUrl
+          onClick=openSayHelloModal
+          className=Styles.mobileCloseButtonWrapper>
+          <Button _type=Button.Secondary className={Styles.mobileCloseButton}>
+            {React.string("> say hello")}
+          </Button>
+        </Gatsby.Link>
+      </>
+    },
+    (sayHelloModalUrl, openSayHelloModal),
+  );
 
     useEffect1(
       () => {
