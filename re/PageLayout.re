@@ -69,7 +69,7 @@ let make =
       <>
         <Gatsby.Link _to=careersUrl>
           <Button _type=Button.Secondary className={Styles.sayHelloButton(useDarkNavBarLinks)}>
-            {React.string("> Careers")}
+            {React.string(" > Careers")}
           </Button>
         </Gatsby.Link>
         <Gatsby.Link
