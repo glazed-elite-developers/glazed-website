@@ -34,6 +34,7 @@
     "gatsby-remark-images": "^4.2.0",
     "gatsby-source-filesystem": "^2.3.21",
     "gatsby-transformer-sharp": "^2.5.11",
+    "git": "^0.1.5",
     "gsap": "^3.6.0",
     "lodash.debounce": "^4.0.8",
     "normalize-css": "^2.3.1",
