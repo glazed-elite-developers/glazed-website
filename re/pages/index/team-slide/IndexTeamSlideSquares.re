@@ -61,8 +61,8 @@ let developers =
         {
           key: "rick",
           name: "Ricardo Moutinho",
-          skills: [|"Android", "IOT", "Javascript"|],
-          description: "He's been working on Android since 2011 in projects ranging from state of the art R&D prototypes to robust commercial applications for thousands of users. His knowledge of Android's APIs and ecosystem, as well as his understanding of the entire development process has consistently delivered valuable products.",
+          skills: [|"Android", "IOT", "Node", "Javascript"|],
+          description: "He's been working on Android since 2011 in projects ranging from state of the art R&D prototypes to robust commercial applications. His knowledge of Android's APIs and ecosystem, full stack experience and understanding of the entire development process have consistently delivered valuable products.",
           shortDescription: "Ricardo is an award winning Android developer.",
           linkedIn: "https://www.linkedin.com/in/rmoutinho/",
         },
