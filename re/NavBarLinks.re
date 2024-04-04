@@ -16,11 +16,11 @@ module Styles = {
 };
 
 let items = [|
-  ("/#case-studies", "case studies"),
-  ("/#about", "about"),
-  ("/#team", "team"),
-  ("/#manifesto", "manifesto"),
-  ("/blog", "blog"),
+  ("/#case-studies", "case studies", true),
+  ("/#about", "about", true),
+  ("/#team", "team", true),
+  ("/#manifesto", "manifesto", true),
+  ("https://blog.glazedsolutions.com", "blog", false),
 |];
 
 [@react.component]
@@ -35,7 +35,7 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int, ~on
     </div>
     {React.array(
        Array.mapi(
-         (index, (link, label)) => {
+         (index, (link, label, internal)) => {
            let isDimmed = index !== currentPageIndex - 1;
            let linkStyles =
              isDimmed
@@ -47,18 +47,23 @@ let make = (~className=?, ~useDarkNavBarLinks=false, ~currentPageIndex: int, ~on
              | Some(handler) => Some(event => handler(event, link))
              };
 
-           <Gatsby.Link
+          let output = internal ?
+          <Gatsby.Link
              key={Belt.Int.toString(index)}
              _to=link
              className=linkStyles
              ?onClick
              replace=true>
              {React.string("// " ++ label)}
-           </Gatsby.Link>;
+           </Gatsby.Link> :
+           <a href=link className=linkStyles>{React.string("// "++ label)}</a>;
+
+           output;
          },
          items,
        ),
      )}
+     
   </div>;
 };
 

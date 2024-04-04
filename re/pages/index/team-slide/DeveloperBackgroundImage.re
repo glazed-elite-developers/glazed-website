@@ -74,6 +74,20 @@ let backgroundImageQuery = [%raw
           }
         }
       }
+      mariia: file(relativePath: { eq: "team/mariia.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid_withWebp_noBase64
+          }
+        }
+      }
+      tania: file(relativePath: { eq: "team/tania.png" }) {
+        childImageSharp {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid_withWebp_noBase64
+          }
+        }
+      }
       goncalo: file(relativePath: { eq: "team/goncalo.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
