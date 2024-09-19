@@ -7,7 +7,8 @@ author: 'Carlos Matias'
 image: '../../../static/images/blog/efficient-computations-and-database-usage/header.jpeg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/efficient-computations-and-database-usage/header.jpeg"
@@ -89,7 +90,7 @@ As a final note, we would like to remind you that you should monitor your databa
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/efficient-computations-and-database-usage" }) {
+    mdx(fields: { slug: { eq: "/blog/efficient-computations-and-database-usage" } }) {
       frontmatter {
         date
         description
@@ -99,19 +100,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/matias.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

@@ -1,6 +1,6 @@
 ## Getting it running
 
-1.  **Depencencies**
+1.  **Dependencies**
 
     ```sh
     yarn
@@ -10,15 +10,5 @@
 
 
     ```sh
-    yarn start
+    yarn develop
     ```
-
-## Editor support for VS Code
-
-    Install BuckleScript & Reason globally:
-
-    ```sh
-    yarn global add bs-platform
-    ```
-
-    Install the reason-vscode and prettier VS Code extensions.

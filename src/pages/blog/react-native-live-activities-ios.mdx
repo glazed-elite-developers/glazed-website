@@ -8,9 +8,8 @@ image: '../../../static/images/blog/react-native-live-activities-ios/header.png'
 ---
 
 import { graphql } from 'gatsby'
-
-import Image from '../../components/blogImage.js'
-import ResponsiveEmbed from '../../components/responsiveEmbed.js'
+import Image from '@components/shared/BlogImage'
+import ResponsiveEmbed from '@components/shared/ResponsiveEmbed'
 
 <Image src="blog/react-native-live-activities-ios/header.png" alt="Live activities" />
 
@@ -223,7 +222,7 @@ Although we need to create a native module to give RN access to the ActivityKitâ
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/react-native-live-activities-ios" }) {
+    mdx(fields: { slug: { eq: "/blog/react-native-live-activities-ios" } }) {
       frontmatter {
         date
         description
@@ -233,19 +232,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/cristiano.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

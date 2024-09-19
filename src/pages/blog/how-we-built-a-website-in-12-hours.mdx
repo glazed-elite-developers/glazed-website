@@ -7,7 +7,8 @@ author: 'Nelson Sachse'
 image: '../../../static/images/blog/how-we-built-a-website-in-12-hours/header.png'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/how-we-built-a-website-in-12-hours/header.png"
@@ -142,7 +143,7 @@ Taking into consideration that our world (industry) is in constant change we eit
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/how-we-built-a-website-in-12-hours" }) {
+    mdx(fields: { slug: { eq: "/blog/how-we-built-a-website-in-12-hours" } }) {
       frontmatter {
         date
         description
@@ -152,19 +153,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/nelson.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"
