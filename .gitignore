@@ -5,17 +5,10 @@ yarn-error.log
 
 # Build directory
 /public
-.DS_Store
-
-
-# BuckleScript
-/lib
-
-# ReasonML
-/.merlin
-.merlin
-
-.bsb.lock
 
 # Netlify lambda build artifacts
 /.lambda
+
+# Other
+.DS_Store
+.hygraph-fragments

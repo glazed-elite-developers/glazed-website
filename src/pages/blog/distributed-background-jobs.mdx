@@ -7,7 +7,8 @@ author: 'José Magalhães'
 image: '../../../static/images/blog/distributed-background-jobs/header.jpeg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/distributed-background-jobs/header.jpeg"
@@ -203,7 +204,7 @@ In the next article, we’ll focus on how smart database usage lets us keep quer
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/distributed-background-jobs" }) {
+    mdx(fields: { slug: { eq: "/blog/distributed-background-jobs" } }) {
       frontmatter {
         date
         description
@@ -213,19 +214,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/jose.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

@@ -7,7 +7,8 @@ author: 'Nelson Sachse'
 image: '../../../static/images/blog/rapid-delivery-apps/header.jpeg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/rapid-delivery-apps/header.jpeg"
@@ -75,7 +76,7 @@ Here at Glazed, we have hands-on experience in this market since we work within 
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/rapid-delivery-apps" }) {
+    mdx(fields: { slug: { eq: "/blog/rapid-delivery-apps" } }) {
       frontmatter {
         date
         description
@@ -86,19 +87,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/nelson.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

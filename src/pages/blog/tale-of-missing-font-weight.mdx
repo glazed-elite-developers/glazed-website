@@ -7,7 +7,8 @@ author: 'Carlos Matias'
 image: '../../../static/images/blog/tale-of-missing-font-weight/header.jpeg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/tale-of-missing-font-weight/header.jpeg"
@@ -35,7 +36,7 @@ I hope you’ve learned something new as we did 😇
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/tale-of-missing-font-weight" }) {
+    mdx(fields: { slug: { eq: "/blog/tale-of-missing-font-weight" } }) {
       frontmatter {
         date
         description
@@ -45,19 +46,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/matias.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

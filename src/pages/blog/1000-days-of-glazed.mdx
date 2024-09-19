@@ -8,7 +8,7 @@ image: '../../../static/images/blog/1000-days-of-glazed/header.jpeg'
 ---
 
 import { graphql } from 'gatsby'
-import Image from '../../components/blogImage.js'
+import Image from '@components/shared/BlogImage'
 
 <Image src="blog/1000-days-of-glazed/header.jpeg" alt="The Glazed team" />
 
@@ -105,7 +105,7 @@ If you’re looking for a TL;DR, I will leave you with the following advice: org
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/1000-days-of-glazed" }) {
+    mdx(fields: { slug: { eq: "/blog/1000-days-of-glazed" } }) {
       frontmatter {
         date
         description
@@ -115,19 +115,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/maria.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

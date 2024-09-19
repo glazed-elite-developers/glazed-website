@@ -7,7 +7,8 @@ author: 'Ricardo Moutinho'
 image: '../../../static/images/blog/chatbots-what-why-how-pt3/header.jpeg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image src="blog/chatbots-what-why-how-pt3/header.jpeg" alt="Image of a chat bubble" />
 
@@ -190,7 +191,7 @@ As this is the last article of this series, we’ve included not only insights &
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/chatbots-what-why-how-pt3" }) {
+    mdx(fields: { slug: { eq: "/blog/chatbots-what-why-how-pt3" } }) {
       frontmatter {
         date
         description
@@ -200,19 +201,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/rick.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

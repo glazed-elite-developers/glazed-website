@@ -7,7 +7,8 @@ author: 'Carlos Matias'
 image: '../../../static/images/blog/perils-of-the-browser-back-button/header.jpg'
 ---
 
-import Image from '../../components/blogImage.js'
+import { graphql } from 'gatsby'
+import Image from '@components/shared/BlogImage'
 
 <Image
   src="blog/perils-of-the-browser-back-button/header.jpg"
@@ -43,7 +44,7 @@ The final argument is that, unlike a mobile app, the browser has the history of 
 
 For instance, when the user first arrives at the site, do you decide to hide the button (and let the user figure out where the back button is), or do you show it anyway and redirect the user back to a landing page even if he has no in-app history?
 
-A description text can enhance these buttons. This text can be a call to action different from _“go back”_; it can be something like _“continue browsing”_ or _“go back to <place\>”_. Still, that poses the question, what if you just landed on a page and weren’t browsing in the first place? Should the text vary depending on the scenario? Would users like that? Many UX considerations arise when we want a custom back button.
+A description text can enhance these buttons. This text can be a call to action different from _“go back”_; it can be something like _“continue browsing”_ or _“go back to \<place\>”_. Still, that poses the question, what if you just landed on a page and weren’t browsing in the first place? Should the text vary depending on the scenario? Would users like that? Many UX considerations arise when we want a custom back button.
 
 ---
 
@@ -55,7 +56,7 @@ Not all pages require a back button, so use these in pages where it’s obvious 
 
 export const pageQuery = graphql`
   query {
-    mdx(slug: { eq: "blog/perils-of-the-browser-back-button" }) {
+    mdx(fields: { slug: { eq: "/blog/perils-of-the-browser-back-button" } }) {
       frontmatter {
         date
         description
@@ -65,19 +66,17 @@ export const pageQuery = graphql`
         image {
           publicURL
           childImageSharp {
-            fluid(maxWidth: 800) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
-            }
+            gatsbyImageData(width: 800, placeholder: NONE, layout: CONSTRAINED)
           }
         }
       }
     }
     authorPhoto: file(relativePath: { eq: "team/matias.png" }) {
       childImageSharp {
-        fluid(maxWidth: 200) {
-          ...GatsbyImageSharpFluid_withWebp_noBase64
-        }
+        gatsbyImageData(width: 200, placeholder: NONE, layout: CONSTRAINED)
       }
     }
   }
 `
+
+export { default } from "@components/shared/BlogPageLayout"

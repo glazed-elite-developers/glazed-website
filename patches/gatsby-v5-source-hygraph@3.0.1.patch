@@ -1,0 +1,1029 @@
+diff --git a/gatsby-node.js b/gatsby-node.js
+index 99a16975130529060b233c1fb62a391c219b3129..f4c39c06c72d026363df8e4a57fd84627b7c57a0 100644
+--- a/gatsby-node.js
++++ b/gatsby-node.js
+@@ -21,6 +21,7 @@ var _getImageBase = require("./util/getImageBase64");
+ var _getDominantColor = require("./util/getDominantColor");
+ var _getTracedSVG = require("./util/getTracedSVG");
+ var _reportPanic = require("./util/reportPanic");
++var _retry = require("./util/retry");
+ function pluginOptionsSchema({
+   Joi
+ }) {
+@@ -29,8 +30,8 @@ function pluginOptionsSchema({
+     downloadLocalImages: Joi.boolean().description(`Download and cache Hygraph image assets in your Gatsby project`).default(false),
+     endpoint: Joi.string().description(`The endpoint URL for the Hygraph project. This can be found in the [project settings UI](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`).required(),
+     fragmentsPath: Joi.string().description(`The local project path where generated query fragments are saved. This is relative to your current working directory. If using multiple instances of the source plugin, you **must** provide a value here to prevent type and/or fragment conflicts.`).default(`hygraph-fragments`),
+-    locales: Joi.array().description(`An array of locale key strings from your Hygraph project. You can read more about working with localisation in Hygraph [here](https://hygraph.com/docs/guides/concepts/i18n).`).items(Joi.string()).min(1).default(['en']),
+-    stages: Joi.array().description(`An array of Content Stages from your Hygraph project. You can read more about using Content Stages [here](https://hygraph.com/guides/working-with-content-stages).`).items(Joi.string()).min(1).default(['PUBLISHED']),
++    locales: Joi.array().description(`An array of locale key strings from your Hygraph project. You can read more about working with localisation in Hygraph [here](https://hygraph.com/docs/guides/concepts/i18n).`).items(Joi.string()).min(1).default(["en"]),
++    stages: Joi.array().description(`An array of Content Stages from your Hygraph project. You can read more about using Content Stages [here](https://hygraph.com/guides/working-with-content-stages).`).items(Joi.string()).min(1).default(["PUBLISHED"]),
+     token: Joi.string().description(`If your Hygraph project is **not** publicly accessible, you will need to provide a [Permanent Auth Token](https://hygraph.com/docs/reference/authorization) to correctly authorize with the API. You can learn more about creating and managing API tokens [here](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`),
+     typePrefix: Joi.string().description(`The string by which every generated type name is prefixed with. For example, a type of Post in Hygraph would become Hygraph_Post by default. If using multiple instances of the source plugin, you **must** provide a value here to prevent type conflicts`).default(`Hygraph_`),
+     queryConcurrency: Joi.number().integer().min(1).default(10).description(`The number of promises to run at one time.`)
+@@ -48,64 +49,71 @@ const createSourcingConfig = async (gatsbyApi, {
+   const execute = async ({
+     operationName,
+     query,
+-    variables = {}
++    variables: baseVariables = {}
+   }) => {
+     const {
+       reporter
+     } = gatsbyApi;
+-    return await (0, _nodeFetch.default)(endpoint, {
+-      method: 'POST',
+-      body: JSON.stringify({
+-        query,
+-        variables,
+-        operationName
+-      }),
+-      headers: {
+-        'Content-Type': 'application/json',
+-        ...(token && {
+-          Authorization: `Bearer ${token}`
+-        })
+-      }
+-    }).then(response => {
+-      if (!response.ok) {
+-        return (0, _reportPanic.reportPanic)(1, 'Problem building Hygraph nodes', response.statusText, reporter);
+-      }
+-      return response.json();
+-    }).then(response => {
+-      if (response.errors) {
+-        return (0, _reportPanic.reportPanic)(2, 'Problem building Hygraph nodes', JSON.stringify(response.errors, null, 2), reporter);
+-      }
+-      return response;
+-    }).catch(error => {
+-      return (0, _reportPanic.reportPanic)(3, 'Problem building Hygraph nodes', JSON.stringify(error, null, 2), reporter);
+-    });
++    const variables = {
++      where: {},
++      locales,
++      ...baseVariables
++    };
++    try {
++      return await (0, _retry.retry)(async () => {
++        const response = await (0, _nodeFetch.default)(endpoint, {
++          method: "POST",
++          body: JSON.stringify({
++            query,
++            variables,
++            operationName
++          }),
++          headers: {
++            "Content-Type": "application/json",
++            ...(token && {
++              Authorization: `Bearer ${token}`
++            })
++          }
++        });
++        if (!response.ok) {
++          throw response.statusText;
++        }
++        const data = await response.json();
++        if (data.errors) {
++          throw data.errors;
++        }
++        return data;
++      });
++    } catch (error) {
++      return (0, _reportPanic.reportPanic)(1, "Problem building Hygraph nodes", JSON.stringify(error, null, 2), reporter);
++    }
+   };
+   const schema = await (0, _gatsbyGraphqlSourceToolkit.loadSchema)(execute);
+-  const nodeInterface = schema.getType('Node');
+-  const query = schema.getType('Query');
++  const nodeInterface = schema.getType("Node");
++  const query = schema.getType("Query");
+   const queryFields = query.getFields();
+   const possibleTypes = schema.getPossibleTypes(nodeInterface);
+   const typeMap = schema.getTypeMap();
+-  const richTextTypes = Object.keys(typeMap).filter(typeName => typeName.endsWith('RichText')).map(value => value.replace('RichText', '')).filter(Boolean);
++  const richTextTypes = Object.keys(typeMap).filter(typeName => typeName.endsWith("RichText")).map(value => value.replace("RichText", "")).filter(Boolean);
+   const singularRootFieldName = type => Object.keys(queryFields).find(fieldName => queryFields[fieldName].type === type);
+   const pluralRootFieldName = type => Object.keys(queryFields).find(fieldName => String(queryFields[fieldName].type) === `[${type.name}!]!`);
+   const hasLocaleField = type => type.getFields().locale;
+   const gatsbyNodeTypes = possibleTypes.map(type => ({
+     remoteTypeName: type.name,
+     queries: [...locales.map(locale => stages.map(stage => `
+-          query LIST_${pluralRootFieldName(type)}_${locale}_${stage} { ${pluralRootFieldName(type)}(first: $limit, ${hasLocaleField(type) ? `locales: [${locale}]` : ''}, skip: $offset, stage: ${stage}) {
++          query LIST_${pluralRootFieldName(type)}_${locale}_${stage} { ${pluralRootFieldName(type)}(first: $limit, ${hasLocaleField(type) ? `locales: [${locale}]` : ""}, skip: $offset, stage: ${stage}) {
+               ..._${type.name}Id_
+             }
+-          }`)), `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(type)}(where: $where, ${hasLocaleField(type) ? `locales: $locales` : ''}) {
++          }`)), `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(type)}(where: $where, ${hasLocaleField(type) ? `locales: $locales` : ""}) {
+         ..._${type.name}Id_
+         }
+       }
+       fragment _${type.name}Id_ on ${type.name} {
+         __typename
+         id
+-        ${hasLocaleField(type) ? `locale` : ''}
++        ${hasLocaleField(type) ? `locale` : ""}
+         stage
+-      }`].join('\n'),
++      }`].join("\n"),
+     nodeQueryVariables: ({
+       id,
+       locale,
+@@ -121,7 +129,7 @@ const createSourcingConfig = async (gatsbyApi, {
+   const fragmentsDir = `${process.cwd()}/${fragmentsPath}`;
+   if (!_fs.default.existsSync(fragmentsDir)) _fs.default.mkdirSync(fragmentsDir);
+   const addSystemFieldArguments = field => {
+-    if (['createdAt', 'publishedAt', 'updatedAt'].includes(field.name)) return {
++    if (["createdAt", "publishedAt", "updatedAt"].includes(field.name)) return {
+       variation: `COMBINED`
+     };
+   };
+@@ -159,7 +167,7 @@ async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+   const {
+     buildMarkdownNodes = false,
+     downloadLocalImages = false,
+-    typePrefix = 'Hygraph_'
++    typePrefix = "Hygraph_"
+   } = pluginOptions;
+   const config = await createSourcingConfig(gatsbyApi, pluginOptions);
+   const {
+@@ -177,10 +185,10 @@ async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+       id
+     }) => {
+       switch (operation) {
+-        case 'delete':
+-        case 'unpublish':
++        case "delete":
++        case "unpublish":
+           return {
+-            eventName: 'DELETE',
++            eventName: "DELETE",
+             remoteTypeName: __typename,
+             remoteId: {
+               __typename,
+@@ -188,11 +196,11 @@ async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+               id
+             }
+           };
+-        case 'create':
+-        case 'publish':
+-        case 'update':
++        case "create":
++        case "publish":
++        case "update":
+           return {
+-            eventName: 'UPDATE',
++            eventName: "UPDATE",
+             remoteTypeName: __typename,
+             remoteId: {
+               __typename,
+@@ -204,7 +212,7 @@ async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+     };
+     const {
+       localizations = [{
+-        locale: 'en'
++        locale: "en"
+       }]
+     } = data;
+     await (0, _gatsbyGraphqlSourceToolkit.sourceNodeChanges)(config, {
+@@ -249,9 +257,9 @@ async function onCreateNode({
+ }, {
+   buildMarkdownNodes = false,
+   downloadLocalImages = false,
+-  typePrefix = 'Hygraph_'
++  typePrefix = "Hygraph_"
+ }) {
+-  if (downloadLocalImages && node.remoteTypeName === 'Asset' && ['image/png', 'image/jpg', 'image/jpeg', 'image/tiff', 'image/webp'].includes(node.mimeType)) {
++  if (downloadLocalImages && node.remoteTypeName === "Asset" && ["image/png", "image/jpg", "image/jpeg", "image/tiff", "image/webp"].includes(node.mimeType)) {
+     try {
+       const fileNode = await (0, _gatsbySourceFilesystem.createRemoteFileNode)({
+         url: node.url,
+@@ -267,7 +275,7 @@ async function onCreateNode({
+       if (fileNode) {
+         createNodeField({
+           node,
+-          name: 'localFile',
++          name: "localFile",
+           value: fileNode.id
+         });
+       }
+@@ -281,7 +289,7 @@ async function onCreateNode({
+       value
+     })).filter(({
+       value
+-    }) => value && value.remoteTypeName && value.remoteTypeName.endsWith('RichText'));
++    }) => value && value.remoteTypeName && value.remoteTypeName.endsWith("RichText"));
+     if (fields.length) {
+       fields.forEach(field => {
+         const decodedMarkdown = _he.default.decode(field.value.markdown);
+@@ -290,7 +298,7 @@ async function onCreateNode({
+           parent: node.id,
+           internal: {
+             type: `${typePrefix}MarkdownNode`,
+-            mediaType: 'text/markdown',
++            mediaType: "text/markdown",
+             content: decodedMarkdown,
+             contentDigest: _crypto.default.createHash(`md5`).update(decodedMarkdown).digest(`hex`)
+           }
+@@ -301,10 +309,10 @@ async function onCreateNode({
+     }
+   }
+ }
+-const generateImageSource = (baseURL, width, height, format, fit = 'clip', {
++const generateImageSource = (baseURL, width, height, format, fit = "clip", {
+   quality = 100
+ }) => {
+-  const src = `https://media.graphassets.com/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
++  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/output=format:webp/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
+   return {
+     src,
+     width,
+@@ -321,14 +329,14 @@ function makeResolveGatsbyImageData(cache) {
+     url,
+     internal
+   }, options) {
+-    if (!['image/png', 'image/jpg', 'image/jpeg', 'image/tiff', 'image/webp'].includes(mimeType)) {
++    if (!["image/png", "image/jpg", "image/jpeg", "image/tiff", "image/webp"].includes(mimeType)) {
+       return null;
+     }
+     const imageDataArgs = {
+       ...options,
+       pluginName: _constants.PLUGIN_NAME,
+       sourceMetadata: {
+-        format: mimeType.split('/')[1],
++        format: mimeType.split("/")[1],
+         height,
+         width
+       },
+@@ -368,7 +376,7 @@ function createResolvers({
+   createResolvers,
+   cache
+ }, {
+-  typePrefix = 'Hygraph_',
++  typePrefix = "Hygraph_",
+   downloadLocalImages = false
+ }) {
+   const args = {
+@@ -390,14 +398,14 @@ function createResolvers({
+     [`${typePrefix}Asset`]: {
+       gatsbyImageData: {
+         ...(0, _graphqlUtils.getGatsbyImageResolver)(makeResolveGatsbyImageData(cache), args),
+-        type: 'JSON'
++        type: "JSON"
+       }
+     },
+     ...(downloadLocalImages && {
+       File: {
+         gatsbyImageData: {
+           ...(0, _graphqlUtils.getGatsbyImageResolver)(makeResolveGatsbyImageData(cache), args),
+-          type: 'JSON'
++          type: "JSON"
+         }
+       }
+     })
+diff --git a/gatsby-node.js.map b/gatsby-node.js.map
+index d9541d8b08e7775b5053af18e6e26cb0d898d226..3cac7742d8c89015d37c02cecb8cc16a3c987fd8 100644
+--- a/gatsby-node.js.map
++++ b/gatsby-node.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"gatsby-node.js","names":["_crypto","_interopRequireDefault","require","_fs","_gatsbyGraphqlSourceToolkit","_gatsbyPluginImage","_graphqlUtils","_gatsbySourceFilesystem","_he","_nodeFetch","_constants","_getImageBase","_getDominantColor","_getTracedSVG","_reportPanic","pluginOptionsSchema","Joi","object","buildMarkdownNodes","boolean","description","default","downloadLocalImages","endpoint","string","required","fragmentsPath","locales","array","items","min","stages","token","typePrefix","queryConcurrency","number","integer","createSourcingConfig","gatsbyApi","execute","operationName","query","variables","reporter","fetch","method","body","JSON","stringify","headers","Authorization","then","response","ok","reportPanic","statusText","json","errors","catch","error","schema","loadSchema","nodeInterface","getType","queryFields","getFields","possibleTypes","getPossibleTypes","typeMap","getTypeMap","richTextTypes","Object","keys","filter","typeName","endsWith","map","value","replace","Boolean","singularRootFieldName","type","find","fieldName","pluralRootFieldName","String","name","hasLocaleField","locale","gatsbyNodeTypes","remoteTypeName","queries","stage","join","nodeQueryVariables","id","where","fragmentsDir","process","cwd","fs","existsSync","mkdirSync","addSystemFieldArguments","field","includes","variation","fragments","readOrGenerateDefaultFragments","defaultArgumentValues","documents","compileNodeQueries","customFragments","wrapQueryExecutorWithQueue","concurrency","gatsbyTypePrefix","gatsbyNodeDefs","buildNodeDefinitions","createSchemaCustomization","pluginOptions","webhookBody","actions","createTypes","config","createToolkitSchemaCustomization","length","operation","data","nodeEvent","__typename","eventName","remoteId","localizations","sourceNodeChanges","nodeEvents","sourceAllNodes","onCreateNode","node","createNode","createNodeField","createNodeId","getCache","cache","mimeType","fileNode","createRemoteFileNode","url","parentNodeId","fileName","e","console","PLUGIN_NAME","fields","entries","key","forEach","decodedMarkdown","he","decode","markdown","markdownNode","parent","internal","mediaType","content","contentDigest","crypto","createHash","update","digest","generateImageSource","baseURL","width","height","format","fit","quality","src","makeResolveGatsbyImageData","resolveGatsbyImageData","handle","filename","options","imageDataArgs","pluginName","sourceMetadata","split","placeholder","lowResImageURL","getLowResolutionImageURL","imageBase64","getImageBase64","placeholderURL","getBase64DataURI","backgroundColor","getImageDominantColor","getTracedSVG","generateImageData","createResolvers","args","resolvers","gatsbyImageData","getGatsbyImageResolver","File"],"sources":["src/gatsby-node.js"],"sourcesContent":["import crypto from 'crypto'\nimport fs from 'fs'\nimport {\n  wrapQueryExecutorWithQueue,\n  loadSchema,\n  readOrGenerateDefaultFragments,\n  compileNodeQueries,\n  buildNodeDefinitions,\n  createSchemaCustomization as createToolkitSchemaCustomization,\n  sourceAllNodes,\n  sourceNodeChanges,\n} from 'gatsby-graphql-source-toolkit'\nimport {\n  generateImageData,\n  getLowResolutionImageURL,\n} from 'gatsby-plugin-image'\nimport { getGatsbyImageResolver } from 'gatsby-plugin-image/graphql-utils'\nimport { createRemoteFileNode } from 'gatsby-source-filesystem'\nimport he from 'he'\nimport fetch from 'node-fetch'\n\nimport { PLUGIN_NAME } from './util/constants'\nimport { getImageBase64, getBase64DataURI } from './util/getImageBase64'\nimport { getImageDominantColor } from './util/getDominantColor'\nimport { getTracedSVG } from './util/getTracedSVG'\nimport { reportPanic } from './util/reportPanic'\n\nexport function pluginOptionsSchema({ Joi }) {\n  return Joi.object({\n    buildMarkdownNodes: Joi.boolean()\n      .description(\n        `Build markdown nodes for all [RichText](https://hygraph.com/docs/reference/fields/rich-text) fields in your Hygraph schema`\n      )\n      .default(false),\n    downloadLocalImages: Joi.boolean()\n      .description(\n        `Download and cache Hygraph image assets in your Gatsby project`\n      )\n      .default(false),\n    endpoint: Joi.string()\n      .description(\n        `The endpoint URL for the Hygraph project. This can be found in the [project settings UI](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`\n      )\n      .required(),\n    fragmentsPath: Joi.string()\n      .description(\n        `The local project path where generated query fragments are saved. This is relative to your current working directory. If using multiple instances of the source plugin, you **must** provide a value here to prevent type and/or fragment conflicts.`\n      )\n      .default(`hygraph-fragments`),\n    locales: Joi.array()\n      .description(\n        `An array of locale key strings from your Hygraph project. You can read more about working with localisation in Hygraph [here](https://hygraph.com/docs/guides/concepts/i18n).`\n      )\n      .items(Joi.string())\n      .min(1)\n      .default(['en']),\n    stages: Joi.array()\n      .description(\n        `An array of Content Stages from your Hygraph project. You can read more about using Content Stages [here](https://hygraph.com/guides/working-with-content-stages).`\n      )\n      .items(Joi.string())\n      .min(1)\n      .default(['PUBLISHED']),\n    token: Joi.string().description(\n      `If your Hygraph project is **not** publicly accessible, you will need to provide a [Permanent Auth Token](https://hygraph.com/docs/reference/authorization) to correctly authorize with the API. You can learn more about creating and managing API tokens [here](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`\n    ),\n    typePrefix: Joi.string()\n      .description(\n        `The string by which every generated type name is prefixed with. For example, a type of Post in Hygraph would become Hygraph_Post by default. If using multiple instances of the source plugin, you **must** provide a value here to prevent type conflicts`\n      )\n      .default(`Hygraph_`),\n    queryConcurrency: Joi.number()\n      .integer()\n      .min(1)\n      .default(10)\n      .description(`The number of promises to run at one time.`),\n  })\n}\n\nconst createSourcingConfig = async (\n  gatsbyApi,\n  {\n    endpoint,\n    fragmentsPath,\n    locales,\n    stages,\n    token,\n    typePrefix,\n    queryConcurrency,\n  }\n) => {\n  const execute = async ({ operationName, query, variables = {} }) => {\n    const { reporter } = gatsbyApi\n\n    return await fetch(endpoint, {\n      method: 'POST',\n      body: JSON.stringify({ query, variables, operationName }),\n      headers: {\n        'Content-Type': 'application/json',\n        ...(token && { Authorization: `Bearer ${token}` }),\n      },\n    })\n      .then((response) => {\n        if (!response.ok) {\n          return reportPanic(\n            1,\n            'Problem building Hygraph nodes',\n            response.statusText,\n            reporter\n          )\n        }\n\n        return response.json()\n      })\n      .then((response) => {\n        if (response.errors) {\n          return reportPanic(\n            2,\n            'Problem building Hygraph nodes',\n            JSON.stringify(response.errors, null, 2),\n            reporter\n          )\n        }\n\n        return response\n      })\n      .catch((error) => {\n        return reportPanic(\n          3,\n          'Problem building Hygraph nodes',\n          JSON.stringify(error, null, 2),\n          reporter\n        )\n      })\n  }\n  const schema = await loadSchema(execute)\n\n  const nodeInterface = schema.getType('Node')\n  const query = schema.getType('Query')\n  const queryFields = query.getFields()\n  const possibleTypes = schema.getPossibleTypes(nodeInterface)\n  const typeMap = schema.getTypeMap()\n\n  const richTextTypes = Object.keys(typeMap)\n    .filter((typeName) => typeName.endsWith('RichText'))\n    .map((value) => value.replace('RichText', ''))\n    .filter(Boolean)\n\n  const singularRootFieldName = (type) =>\n    Object.keys(queryFields).find(\n      (fieldName) => queryFields[fieldName].type === type\n    )\n\n  const pluralRootFieldName = (type) =>\n    Object.keys(queryFields).find(\n      (fieldName) => String(queryFields[fieldName].type) === `[${type.name}!]!`\n    )\n\n  const hasLocaleField = (type) => type.getFields().locale\n\n  const gatsbyNodeTypes = possibleTypes.map((type) => ({\n    remoteTypeName: type.name,\n    queries: [\n      ...locales.map((locale) =>\n        stages.map(\n          (stage) => `\n          query LIST_${pluralRootFieldName(\n            type\n          )}_${locale}_${stage} { ${pluralRootFieldName(type)}(first: $limit, ${\n            hasLocaleField(type) ? `locales: [${locale}]` : ''\n          }, skip: $offset, stage: ${stage}) {\n              ..._${type.name}Id_\n            }\n          }`\n        )\n      ),\n      `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(\n        type\n      )}(where: $where, ${hasLocaleField(type) ? `locales: $locales` : ''}) {\n        ..._${type.name}Id_\n        }\n      }\n      fragment _${type.name}Id_ on ${type.name} {\n        __typename\n        id\n        ${hasLocaleField(type) ? `locale` : ''}\n        stage\n      }`,\n    ].join('\\n'),\n    nodeQueryVariables: ({ id, locale, stage }) => ({\n      where: { id },\n      locales: [locale],\n      stage,\n    }),\n  }))\n\n  const fragmentsDir = `${process.cwd()}/${fragmentsPath}`\n\n  if (!fs.existsSync(fragmentsDir)) fs.mkdirSync(fragmentsDir)\n\n  const addSystemFieldArguments = (field) => {\n    if (['createdAt', 'publishedAt', 'updatedAt'].includes(field.name))\n      return { variation: `COMBINED` }\n  }\n\n  const fragments = await readOrGenerateDefaultFragments(fragmentsDir, {\n    schema,\n    gatsbyNodeTypes,\n    defaultArgumentValues: [addSystemFieldArguments],\n  })\n\n  const documents = compileNodeQueries({\n    schema,\n    gatsbyNodeTypes,\n    customFragments: fragments,\n  })\n\n  return {\n    gatsbyApi,\n    schema,\n    execute: wrapQueryExecutorWithQueue(execute, {\n      concurrency: queryConcurrency,\n    }),\n    gatsbyTypePrefix: typePrefix,\n    gatsbyNodeDefs: buildNodeDefinitions({ gatsbyNodeTypes, documents }),\n    richTextTypes,\n  }\n}\n\nexport async function createSchemaCustomization(gatsbyApi, pluginOptions) {\n  const {\n    webhookBody,\n    actions: { createTypes },\n  } = gatsbyApi\n  const {\n    buildMarkdownNodes = false,\n    downloadLocalImages = false,\n    typePrefix = 'Hygraph_',\n  } = pluginOptions\n\n  const config = await createSourcingConfig(gatsbyApi, pluginOptions)\n\n  const { richTextTypes } = config\n\n  await createToolkitSchemaCustomization(config)\n\n  if (webhookBody && Object.keys(webhookBody).length) {\n    const { operation, data } = webhookBody\n\n    const nodeEvent = (operation, { __typename, locale, id }) => {\n      switch (operation) {\n        case 'delete':\n        case 'unpublish':\n          return {\n            eventName: 'DELETE',\n            remoteTypeName: __typename,\n            remoteId: { __typename, locale, id },\n          }\n        case 'create':\n        case 'publish':\n        case 'update':\n          return {\n            eventName: 'UPDATE',\n            remoteTypeName: __typename,\n            remoteId: { __typename, locale, id },\n          }\n      }\n    }\n\n    const { localizations = [{ locale: 'en' }] } = data\n\n    await sourceNodeChanges(config, {\n      nodeEvents: localizations.map(({ locale }) =>\n        nodeEvent(operation, { locale, ...data })\n      ),\n    })\n  } else {\n    await sourceAllNodes(config)\n  }\n\n  if (downloadLocalImages)\n    createTypes(`\n      type ${typePrefix}Asset {\n        localFile: File @link(from: \"fields.localFile\")\n      }\n    `)\n\n  if (buildMarkdownNodes)\n    createTypes(`\n      type ${typePrefix}MarkdownNode implements Node {\n        id: ID!\n      }\n      type ${typePrefix}RichText {\n        markdownNode: ${typePrefix}MarkdownNode @link\n      }\n      ${richTextTypes.map(\n        (typeName) => `\n          type ${typePrefix}${typeName}RichText implements Node {\n            markdownNode: ${typePrefix}MarkdownNode @link\n          }\n      `\n      )}\n    `)\n}\n\nexport async function onCreateNode(\n  {\n    node,\n    actions: { createNode, createNodeField },\n    createNodeId,\n    getCache,\n    cache,\n  },\n  {\n    buildMarkdownNodes = false,\n    downloadLocalImages = false,\n    typePrefix = 'Hygraph_',\n  }\n) {\n  if (\n    downloadLocalImages &&\n    node.remoteTypeName === 'Asset' &&\n    [\n      'image/png',\n      'image/jpg',\n      'image/jpeg',\n      'image/tiff',\n      'image/webp',\n    ].includes(node.mimeType)\n  ) {\n    try {\n      const fileNode = await createRemoteFileNode({\n        url: node.url,\n        parentNodeId: node.id,\n        createNode,\n        createNodeId,\n        cache,\n        getCache,\n        ...(node.fileName && { name: node.fileName }),\n      })\n\n      if (fileNode) {\n        createNodeField({ node, name: 'localFile', value: fileNode.id })\n      }\n    } catch (e) {\n      console.error(`[${PLUGIN_NAME}]`, e)\n    }\n  }\n\n  if (buildMarkdownNodes) {\n    const fields = Object.entries(node)\n      .map(([key, value]) => ({ key, value }))\n      .filter(\n        ({ value }) =>\n          value &&\n          value.remoteTypeName &&\n          value.remoteTypeName.endsWith('RichText')\n      )\n\n    if (fields.length) {\n      fields.forEach((field) => {\n        const decodedMarkdown = he.decode(field.value.markdown)\n\n        const markdownNode = {\n          id: `MarkdownNode:${createNodeId(`${node.id}-${field.key}`)}`,\n          parent: node.id,\n          internal: {\n            type: `${typePrefix}MarkdownNode`,\n            mediaType: 'text/markdown',\n            content: decodedMarkdown,\n            contentDigest: crypto\n              .createHash(`md5`)\n              .update(decodedMarkdown)\n              .digest(`hex`),\n          },\n        }\n\n        createNode(markdownNode)\n\n        field.value.markdownNode = markdownNode.id\n      })\n    }\n  }\n}\n\nconst generateImageSource = (\n  baseURL,\n  width,\n  height,\n  format,\n  fit = 'clip',\n  { quality = 100 }\n) => {\n  const src = `https://media.graphassets.com/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`\n\n  return { src, width, height, format }\n}\n\nfunction makeResolveGatsbyImageData(cache) {\n  return async function resolveGatsbyImageData(\n    { handle: filename, height, mimeType, width, url, internal },\n    options\n  ) {\n    if (\n      ![\n        'image/png',\n        'image/jpg',\n        'image/jpeg',\n        'image/tiff',\n        'image/webp',\n      ].includes(mimeType)\n    ) {\n      return null\n    }\n\n    const imageDataArgs = {\n      ...options,\n      pluginName: PLUGIN_NAME,\n      sourceMetadata: { format: mimeType.split('/')[1], height, width },\n      filename,\n      generateImageSource,\n      options,\n    }\n\n    if (options?.placeholder === `BLURRED`) {\n      const lowResImageURL = getLowResolutionImageURL(imageDataArgs)\n\n      const imageBase64 = await getImageBase64({\n        url: lowResImageURL,\n        cache,\n      })\n\n      imageDataArgs.placeholderURL = getBase64DataURI({\n        imageBase64,\n      })\n    }\n\n    if (options?.placeholder === `DOMINANT_COLOR`) {\n      const lowResImageURL = getLowResolutionImageURL(imageDataArgs)\n\n      imageDataArgs.backgroundColor = await getImageDominantColor({\n        url: lowResImageURL,\n        cache,\n      })\n    }\n\n    if (options?.placeholder === `TRACED_SVG`) {\n      imageDataArgs.placeholderURL = await getTracedSVG({\n        url,\n        internal,\n        filename,\n        cache,\n      })\n    }\n\n    return generateImageData(imageDataArgs)\n  }\n}\n\nexport function createResolvers(\n  { createResolvers, cache },\n  { typePrefix = 'Hygraph_', downloadLocalImages = false }\n) {\n  const args = {\n    quality: {\n      type: `Int`,\n      description: `The default image quality generated. This is overridden by any format-specific options.`,\n    },\n    placeholder: {\n      type: `enum HygraphImagePlaceholder { NONE, BLURRED, DOMINANT_COLOR, TRACED_SVG }`,\n      description: `The style of temporary image shown while the full image loads.\n        BLURRED: generates a very low-resolution version of the image and displays it as a blurred background (default).\n        DOMINANT_COLOR: the dominant color of the image used as a solid background color.\n        TRACED_SVG: generates a simplified, flat SVG version of the source image, which it displays as a placeholder.\n        NONE: No placeholder. Use the backgroundColor option to set a static background if you wish.\n        `,\n    },\n  }\n\n  const resolvers = {\n    [`${typePrefix}Asset`]: {\n      gatsbyImageData: {\n        ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),\n        type: 'JSON',\n      },\n    },\n    ...(downloadLocalImages && {\n      File: {\n        gatsbyImageData: {\n          ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),\n          type: 'JSON',\n        },\n      },\n    }),\n  }\n\n  createResolvers(resolvers)\n}\n"],"mappings":"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","ignoreList":[]}
+\ No newline at end of file
++{"version":3,"file":"gatsby-node.js","names":["_crypto","_interopRequireDefault","require","_fs","_gatsbyGraphqlSourceToolkit","_gatsbyPluginImage","_graphqlUtils","_gatsbySourceFilesystem","_he","_nodeFetch","_constants","_getImageBase","_getDominantColor","_getTracedSVG","_reportPanic","_retry","pluginOptionsSchema","Joi","object","buildMarkdownNodes","boolean","description","default","downloadLocalImages","endpoint","string","required","fragmentsPath","locales","array","items","min","stages","token","typePrefix","queryConcurrency","number","integer","createSourcingConfig","gatsbyApi","execute","operationName","query","variables","baseVariables","reporter","where","retry","response","fetch","method","body","JSON","stringify","headers","Authorization","ok","statusText","data","json","errors","error","reportPanic","schema","loadSchema","nodeInterface","getType","queryFields","getFields","possibleTypes","getPossibleTypes","typeMap","getTypeMap","richTextTypes","Object","keys","filter","typeName","endsWith","map","value","replace","Boolean","singularRootFieldName","type","find","fieldName","pluralRootFieldName","String","name","hasLocaleField","locale","gatsbyNodeTypes","remoteTypeName","queries","stage","join","nodeQueryVariables","id","fragmentsDir","process","cwd","fs","existsSync","mkdirSync","addSystemFieldArguments","field","includes","variation","fragments","readOrGenerateDefaultFragments","defaultArgumentValues","documents","compileNodeQueries","customFragments","wrapQueryExecutorWithQueue","concurrency","gatsbyTypePrefix","gatsbyNodeDefs","buildNodeDefinitions","createSchemaCustomization","pluginOptions","webhookBody","actions","createTypes","config","createToolkitSchemaCustomization","length","operation","nodeEvent","__typename","eventName","remoteId","localizations","sourceNodeChanges","nodeEvents","sourceAllNodes","onCreateNode","node","createNode","createNodeField","createNodeId","getCache","cache","mimeType","fileNode","createRemoteFileNode","url","parentNodeId","fileName","e","console","PLUGIN_NAME","fields","entries","key","forEach","decodedMarkdown","he","decode","markdown","markdownNode","parent","internal","mediaType","content","contentDigest","crypto","createHash","update","digest","generateImageSource","baseURL","width","height","format","fit","quality","src","makeResolveGatsbyImageData","resolveGatsbyImageData","handle","filename","options","imageDataArgs","pluginName","sourceMetadata","split","placeholder","lowResImageURL","getLowResolutionImageURL","imageBase64","getImageBase64","placeholderURL","getBase64DataURI","backgroundColor","getImageDominantColor","getTracedSVG","generateImageData","createResolvers","args","resolvers","gatsbyImageData","getGatsbyImageResolver","File"],"sources":["src/gatsby-node.js"],"sourcesContent":["import crypto from \"crypto\";\nimport fs from \"fs\";\nimport {\n  wrapQueryExecutorWithQueue,\n  loadSchema,\n  readOrGenerateDefaultFragments,\n  compileNodeQueries,\n  buildNodeDefinitions,\n  createSchemaCustomization as createToolkitSchemaCustomization,\n  sourceAllNodes,\n  sourceNodeChanges,\n} from \"gatsby-graphql-source-toolkit\";\nimport { generateImageData, getLowResolutionImageURL } from \"gatsby-plugin-image\";\nimport { getGatsbyImageResolver } from \"gatsby-plugin-image/graphql-utils\";\nimport { createRemoteFileNode } from \"gatsby-source-filesystem\";\nimport he from \"he\";\nimport fetch from \"node-fetch\";\n\nimport { PLUGIN_NAME } from \"./util/constants\";\nimport { getImageBase64, getBase64DataURI } from \"./util/getImageBase64\";\nimport { getImageDominantColor } from \"./util/getDominantColor\";\nimport { getTracedSVG } from \"./util/getTracedSVG\";\nimport { reportPanic } from \"./util/reportPanic\";\nimport { retry } from \"./util/retry\";\n\nexport function pluginOptionsSchema({ Joi }) {\n  return Joi.object({\n    buildMarkdownNodes: Joi.boolean()\n      .description(\n        `Build markdown nodes for all [RichText](https://hygraph.com/docs/reference/fields/rich-text) fields in your Hygraph schema`\n      )\n      .default(false),\n    downloadLocalImages: Joi.boolean()\n      .description(`Download and cache Hygraph image assets in your Gatsby project`)\n      .default(false),\n    endpoint: Joi.string()\n      .description(\n        `The endpoint URL for the Hygraph project. This can be found in the [project settings UI](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`\n      )\n      .required(),\n    fragmentsPath: Joi.string()\n      .description(\n        `The local project path where generated query fragments are saved. This is relative to your current working directory. If using multiple instances of the source plugin, you **must** provide a value here to prevent type and/or fragment conflicts.`\n      )\n      .default(`hygraph-fragments`),\n    locales: Joi.array()\n      .description(\n        `An array of locale key strings from your Hygraph project. You can read more about working with localisation in Hygraph [here](https://hygraph.com/docs/guides/concepts/i18n).`\n      )\n      .items(Joi.string())\n      .min(1)\n      .default([\"en\"]),\n    stages: Joi.array()\n      .description(\n        `An array of Content Stages from your Hygraph project. You can read more about using Content Stages [here](https://hygraph.com/guides/working-with-content-stages).`\n      )\n      .items(Joi.string())\n      .min(1)\n      .default([\"PUBLISHED\"]),\n    token: Joi.string().description(\n      `If your Hygraph project is **not** publicly accessible, you will need to provide a [Permanent Auth Token](https://hygraph.com/docs/reference/authorization) to correctly authorize with the API. You can learn more about creating and managing API tokens [here](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`\n    ),\n    typePrefix: Joi.string()\n      .description(\n        `The string by which every generated type name is prefixed with. For example, a type of Post in Hygraph would become Hygraph_Post by default. If using multiple instances of the source plugin, you **must** provide a value here to prevent type conflicts`\n      )\n      .default(`Hygraph_`),\n    queryConcurrency: Joi.number()\n      .integer()\n      .min(1)\n      .default(10)\n      .description(`The number of promises to run at one time.`),\n  });\n}\n\nconst createSourcingConfig = async (\n  gatsbyApi,\n  { endpoint, fragmentsPath, locales, stages, token, typePrefix, queryConcurrency }\n) => {\n  const execute = async ({ operationName, query, variables: baseVariables = {} }) => {\n    const { reporter } = gatsbyApi;\n    const variables = { where: {}, locales, ...baseVariables };\n\n    try {\n      return await retry(async () => {\n        const response = await fetch(endpoint, {\n          method: \"POST\",\n          body: JSON.stringify({ query, variables, operationName }),\n          headers: {\n            \"Content-Type\": \"application/json\",\n            ...(token && { Authorization: `Bearer ${token}` }),\n          },\n        });\n\n        if (!response.ok) {\n          throw response.statusText;\n        }\n\n        const data = await response.json();\n        if (data.errors) {\n          throw data.errors;\n        }\n\n        return data;\n      });\n    } catch (error) {\n      return reportPanic(\n        1,\n        \"Problem building Hygraph nodes\",\n        JSON.stringify(error, null, 2),\n        reporter\n      );\n    }\n  };\n  const schema = await loadSchema(execute);\n\n  const nodeInterface = schema.getType(\"Node\");\n  const query = schema.getType(\"Query\");\n  const queryFields = query.getFields();\n  const possibleTypes = schema.getPossibleTypes(nodeInterface);\n  const typeMap = schema.getTypeMap();\n\n  const richTextTypes = Object.keys(typeMap)\n    .filter((typeName) => typeName.endsWith(\"RichText\"))\n    .map((value) => value.replace(\"RichText\", \"\"))\n    .filter(Boolean);\n\n  const singularRootFieldName = (type) =>\n    Object.keys(queryFields).find((fieldName) => queryFields[fieldName].type === type);\n\n  const pluralRootFieldName = (type) =>\n    Object.keys(queryFields).find(\n      (fieldName) => String(queryFields[fieldName].type) === `[${type.name}!]!`\n    );\n\n  const hasLocaleField = (type) => type.getFields().locale;\n\n  const gatsbyNodeTypes = possibleTypes.map((type) => ({\n    remoteTypeName: type.name,\n    queries: [\n      ...locales.map((locale) =>\n        stages.map(\n          (stage) => `\n          query LIST_${pluralRootFieldName(type)}_${locale}_${stage} { ${pluralRootFieldName(\n            type\n          )}(first: $limit, ${\n            hasLocaleField(type) ? `locales: [${locale}]` : \"\"\n          }, skip: $offset, stage: ${stage}) {\n              ..._${type.name}Id_\n            }\n          }`\n        )\n      ),\n      `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(type)}(where: $where, ${\n        hasLocaleField(type) ? `locales: $locales` : \"\"\n      }) {\n        ..._${type.name}Id_\n        }\n      }\n      fragment _${type.name}Id_ on ${type.name} {\n        __typename\n        id\n        ${hasLocaleField(type) ? `locale` : \"\"}\n        stage\n      }`,\n    ].join(\"\\n\"),\n    nodeQueryVariables: ({ id, locale, stage }) => ({\n      where: { id },\n      locales: [locale],\n      stage,\n    }),\n  }));\n\n  const fragmentsDir = `${process.cwd()}/${fragmentsPath}`;\n\n  if (!fs.existsSync(fragmentsDir)) fs.mkdirSync(fragmentsDir);\n\n  const addSystemFieldArguments = (field) => {\n    if ([\"createdAt\", \"publishedAt\", \"updatedAt\"].includes(field.name))\n      return { variation: `COMBINED` };\n  };\n\n  const fragments = await readOrGenerateDefaultFragments(fragmentsDir, {\n    schema,\n    gatsbyNodeTypes,\n    defaultArgumentValues: [addSystemFieldArguments],\n  });\n\n  const documents = compileNodeQueries({\n    schema,\n    gatsbyNodeTypes,\n    customFragments: fragments,\n  });\n\n  return {\n    gatsbyApi,\n    schema,\n    execute: wrapQueryExecutorWithQueue(execute, {\n      concurrency: queryConcurrency,\n    }),\n    gatsbyTypePrefix: typePrefix,\n    gatsbyNodeDefs: buildNodeDefinitions({ gatsbyNodeTypes, documents }),\n    richTextTypes,\n  };\n};\n\nexport async function createSchemaCustomization(gatsbyApi, pluginOptions) {\n  const {\n    webhookBody,\n    actions: { createTypes },\n  } = gatsbyApi;\n  const {\n    buildMarkdownNodes = false,\n    downloadLocalImages = false,\n    typePrefix = \"Hygraph_\",\n  } = pluginOptions;\n\n  const config = await createSourcingConfig(gatsbyApi, pluginOptions);\n\n  const { richTextTypes } = config;\n\n  await createToolkitSchemaCustomization(config);\n\n  if (webhookBody && Object.keys(webhookBody).length) {\n    const { operation, data } = webhookBody;\n\n    const nodeEvent = (operation, { __typename, locale, id }) => {\n      switch (operation) {\n        case \"delete\":\n        case \"unpublish\":\n          return {\n            eventName: \"DELETE\",\n            remoteTypeName: __typename,\n            remoteId: { __typename, locale, id },\n          };\n        case \"create\":\n        case \"publish\":\n        case \"update\":\n          return {\n            eventName: \"UPDATE\",\n            remoteTypeName: __typename,\n            remoteId: { __typename, locale, id },\n          };\n      }\n    };\n\n    const { localizations = [{ locale: \"en\" }] } = data;\n\n    await sourceNodeChanges(config, {\n      nodeEvents: localizations.map(({ locale }) => nodeEvent(operation, { locale, ...data })),\n    });\n  } else {\n    await sourceAllNodes(config);\n  }\n\n  if (downloadLocalImages)\n    createTypes(`\n      type ${typePrefix}Asset {\n        localFile: File @link(from: \"fields.localFile\")\n      }\n    `);\n\n  if (buildMarkdownNodes)\n    createTypes(`\n      type ${typePrefix}MarkdownNode implements Node {\n        id: ID!\n      }\n      type ${typePrefix}RichText {\n        markdownNode: ${typePrefix}MarkdownNode @link\n      }\n      ${richTextTypes.map(\n        (typeName) => `\n          type ${typePrefix}${typeName}RichText implements Node {\n            markdownNode: ${typePrefix}MarkdownNode @link\n          }\n      `\n      )}\n    `);\n}\n\nexport async function onCreateNode(\n  { node, actions: { createNode, createNodeField }, createNodeId, getCache, cache },\n  { buildMarkdownNodes = false, downloadLocalImages = false, typePrefix = \"Hygraph_\" }\n) {\n  if (\n    downloadLocalImages &&\n    node.remoteTypeName === \"Asset\" &&\n    [\"image/png\", \"image/jpg\", \"image/jpeg\", \"image/tiff\", \"image/webp\"].includes(node.mimeType)\n  ) {\n    try {\n      const fileNode = await createRemoteFileNode({\n        url: node.url,\n        parentNodeId: node.id,\n        createNode,\n        createNodeId,\n        cache,\n        getCache,\n        ...(node.fileName && { name: node.fileName }),\n      });\n\n      if (fileNode) {\n        createNodeField({ node, name: \"localFile\", value: fileNode.id });\n      }\n    } catch (e) {\n      console.error(`[${PLUGIN_NAME}]`, e);\n    }\n  }\n\n  if (buildMarkdownNodes) {\n    const fields = Object.entries(node)\n      .map(([key, value]) => ({ key, value }))\n      .filter(\n        ({ value }) => value && value.remoteTypeName && value.remoteTypeName.endsWith(\"RichText\")\n      );\n\n    if (fields.length) {\n      fields.forEach((field) => {\n        const decodedMarkdown = he.decode(field.value.markdown);\n\n        const markdownNode = {\n          id: `MarkdownNode:${createNodeId(`${node.id}-${field.key}`)}`,\n          parent: node.id,\n          internal: {\n            type: `${typePrefix}MarkdownNode`,\n            mediaType: \"text/markdown\",\n            content: decodedMarkdown,\n            contentDigest: crypto.createHash(`md5`).update(decodedMarkdown).digest(`hex`),\n          },\n        };\n\n        createNode(markdownNode);\n\n        field.value.markdownNode = markdownNode.id;\n      });\n    }\n  }\n}\n\nconst generateImageSource = (baseURL, width, height, format, fit = \"clip\", { quality = 100 }) => {\n  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/output=format:webp/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;\n\n  return { src, width, height, format };\n};\n\nfunction makeResolveGatsbyImageData(cache) {\n  return async function resolveGatsbyImageData(\n    { handle: filename, height, mimeType, width, url, internal },\n    options\n  ) {\n    if (![\"image/png\", \"image/jpg\", \"image/jpeg\", \"image/tiff\", \"image/webp\"].includes(mimeType)) {\n      return null;\n    }\n\n    const imageDataArgs = {\n      ...options,\n      pluginName: PLUGIN_NAME,\n      sourceMetadata: { format: mimeType.split(\"/\")[1], height, width },\n      filename,\n      generateImageSource,\n      options,\n    };\n\n    if (options?.placeholder === `BLURRED`) {\n      const lowResImageURL = getLowResolutionImageURL(imageDataArgs);\n\n      const imageBase64 = await getImageBase64({\n        url: lowResImageURL,\n        cache,\n      });\n\n      imageDataArgs.placeholderURL = getBase64DataURI({\n        imageBase64,\n      });\n    }\n\n    if (options?.placeholder === `DOMINANT_COLOR`) {\n      const lowResImageURL = getLowResolutionImageURL(imageDataArgs);\n\n      imageDataArgs.backgroundColor = await getImageDominantColor({\n        url: lowResImageURL,\n        cache,\n      });\n    }\n\n    if (options?.placeholder === `TRACED_SVG`) {\n      imageDataArgs.placeholderURL = await getTracedSVG({\n        url,\n        internal,\n        filename,\n        cache,\n      });\n    }\n\n    return generateImageData(imageDataArgs);\n  };\n}\n\nexport function createResolvers(\n  { createResolvers, cache },\n  { typePrefix = \"Hygraph_\", downloadLocalImages = false }\n) {\n  const args = {\n    quality: {\n      type: `Int`,\n      description: `The default image quality generated. This is overridden by any format-specific options.`,\n    },\n    placeholder: {\n      type: `enum HygraphImagePlaceholder { NONE, BLURRED, DOMINANT_COLOR, TRACED_SVG }`,\n      description: `The style of temporary image shown while the full image loads.\n        BLURRED: generates a very low-resolution version of the image and displays it as a blurred background (default).\n        DOMINANT_COLOR: the dominant color of the image used as a solid background color.\n        TRACED_SVG: generates a simplified, flat SVG version of the source image, which it displays as a placeholder.\n        NONE: No placeholder. Use the backgroundColor option to set a static background if you wish.\n        `,\n    },\n  };\n\n  const resolvers = {\n    [`${typePrefix}Asset`]: {\n      gatsbyImageData: {\n        ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),\n        type: \"JSON\",\n      },\n    },\n    ...(downloadLocalImages && {\n      File: {\n        gatsbyImageData: {\n          ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),\n          type: \"JSON\",\n        },\n      },\n    }),\n  };\n\n  createResolvers(resolvers);\n}\n"],"mappings":"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","ignoreList":[]}
+\ No newline at end of file
+diff --git a/src/gatsby-node.js b/src/gatsby-node.js
+index 4f0f149baf1f98b43aeeaa479e019e855cf66a82..842860aa8da18af66b755ad9f67f1e7eea39c885 100644
+--- a/src/gatsby-node.js
++++ b/src/gatsby-node.js
+@@ -1,5 +1,5 @@
+-import crypto from 'crypto'
+-import fs from 'fs'
++import crypto from "crypto";
++import fs from "fs";
+ import {
+   wrapQueryExecutorWithQueue,
+   loadSchema,
+@@ -9,21 +9,19 @@ import {
+   createSchemaCustomization as createToolkitSchemaCustomization,
+   sourceAllNodes,
+   sourceNodeChanges,
+-} from 'gatsby-graphql-source-toolkit'
+-import {
+-  generateImageData,
+-  getLowResolutionImageURL,
+-} from 'gatsby-plugin-image'
+-import { getGatsbyImageResolver } from 'gatsby-plugin-image/graphql-utils'
+-import { createRemoteFileNode } from 'gatsby-source-filesystem'
+-import he from 'he'
+-import fetch from 'node-fetch'
+-
+-import { PLUGIN_NAME } from './util/constants'
+-import { getImageBase64, getBase64DataURI } from './util/getImageBase64'
+-import { getImageDominantColor } from './util/getDominantColor'
+-import { getTracedSVG } from './util/getTracedSVG'
+-import { reportPanic } from './util/reportPanic'
++} from "gatsby-graphql-source-toolkit";
++import { generateImageData, getLowResolutionImageURL } from "gatsby-plugin-image";
++import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
++import { createRemoteFileNode } from "gatsby-source-filesystem";
++import he from "he";
++import fetch from "node-fetch";
++
++import { PLUGIN_NAME } from "./util/constants";
++import { getImageBase64, getBase64DataURI } from "./util/getImageBase64";
++import { getImageDominantColor } from "./util/getDominantColor";
++import { getTracedSVG } from "./util/getTracedSVG";
++import { reportPanic } from "./util/reportPanic";
++import { retry } from "./util/retry";
+ 
+ export function pluginOptionsSchema({ Joi }) {
+   return Joi.object({
+@@ -33,9 +31,7 @@ export function pluginOptionsSchema({ Joi }) {
+       )
+       .default(false),
+     downloadLocalImages: Joi.boolean()
+-      .description(
+-        `Download and cache Hygraph image assets in your Gatsby project`
+-      )
++      .description(`Download and cache Hygraph image assets in your Gatsby project`)
+       .default(false),
+     endpoint: Joi.string()
+       .description(
+@@ -53,14 +49,14 @@ export function pluginOptionsSchema({ Joi }) {
+       )
+       .items(Joi.string())
+       .min(1)
+-      .default(['en']),
++      .default(["en"]),
+     stages: Joi.array()
+       .description(
+         `An array of Content Stages from your Hygraph project. You can read more about using Content Stages [here](https://hygraph.com/guides/working-with-content-stages).`
+       )
+       .items(Joi.string())
+       .min(1)
+-      .default(['PUBLISHED']),
++      .default(["PUBLISHED"]),
+     token: Joi.string().description(
+       `If your Hygraph project is **not** publicly accessible, you will need to provide a [Permanent Auth Token](https://hygraph.com/docs/reference/authorization) to correctly authorize with the API. You can learn more about creating and managing API tokens [here](https://hygraph.com/docs/guides/concepts/apis#working-with-apis)`
+     ),
+@@ -74,89 +70,70 @@ export function pluginOptionsSchema({ Joi }) {
+       .min(1)
+       .default(10)
+       .description(`The number of promises to run at one time.`),
+-  })
++  });
+ }
+ 
+ const createSourcingConfig = async (
+   gatsbyApi,
+-  {
+-    endpoint,
+-    fragmentsPath,
+-    locales,
+-    stages,
+-    token,
+-    typePrefix,
+-    queryConcurrency,
+-  }
++  { endpoint, fragmentsPath, locales, stages, token, typePrefix, queryConcurrency }
+ ) => {
+-  const execute = async ({ operationName, query, variables = {} }) => {
+-    const { reporter } = gatsbyApi
+-
+-    return await fetch(endpoint, {
+-      method: 'POST',
+-      body: JSON.stringify({ query, variables, operationName }),
+-      headers: {
+-        'Content-Type': 'application/json',
+-        ...(token && { Authorization: `Bearer ${token}` }),
+-      },
+-    })
+-      .then((response) => {
++  const execute = async ({ operationName, query, variables: baseVariables = {} }) => {
++    const { reporter } = gatsbyApi;
++    const variables = { where: {}, locales, ...baseVariables };
++
++    try {
++      return await retry(async () => {
++        const response = await fetch(endpoint, {
++          method: "POST",
++          body: JSON.stringify({ query, variables, operationName }),
++          headers: {
++            "Content-Type": "application/json",
++            ...(token && { Authorization: `Bearer ${token}` }),
++          },
++        });
++
+         if (!response.ok) {
+-          return reportPanic(
+-            1,
+-            'Problem building Hygraph nodes',
+-            response.statusText,
+-            reporter
+-          )
++          throw response.statusText;
+         }
+ 
+-        return response.json()
+-      })
+-      .then((response) => {
+-        if (response.errors) {
+-          return reportPanic(
+-            2,
+-            'Problem building Hygraph nodes',
+-            JSON.stringify(response.errors, null, 2),
+-            reporter
+-          )
++        const data = await response.json();
++        if (data.errors) {
++          throw data.errors;
+         }
+ 
+-        return response
+-      })
+-      .catch((error) => {
+-        return reportPanic(
+-          3,
+-          'Problem building Hygraph nodes',
+-          JSON.stringify(error, null, 2),
+-          reporter
+-        )
+-      })
+-  }
+-  const schema = await loadSchema(execute)
++        return data;
++      });
++    } catch (error) {
++      return reportPanic(
++        1,
++        "Problem building Hygraph nodes",
++        JSON.stringify(error, null, 2),
++        reporter
++      );
++    }
++  };
++  const schema = await loadSchema(execute);
+ 
+-  const nodeInterface = schema.getType('Node')
+-  const query = schema.getType('Query')
+-  const queryFields = query.getFields()
+-  const possibleTypes = schema.getPossibleTypes(nodeInterface)
+-  const typeMap = schema.getTypeMap()
++  const nodeInterface = schema.getType("Node");
++  const query = schema.getType("Query");
++  const queryFields = query.getFields();
++  const possibleTypes = schema.getPossibleTypes(nodeInterface);
++  const typeMap = schema.getTypeMap();
+ 
+   const richTextTypes = Object.keys(typeMap)
+-    .filter((typeName) => typeName.endsWith('RichText'))
+-    .map((value) => value.replace('RichText', ''))
+-    .filter(Boolean)
++    .filter((typeName) => typeName.endsWith("RichText"))
++    .map((value) => value.replace("RichText", ""))
++    .filter(Boolean);
+ 
+   const singularRootFieldName = (type) =>
+-    Object.keys(queryFields).find(
+-      (fieldName) => queryFields[fieldName].type === type
+-    )
++    Object.keys(queryFields).find((fieldName) => queryFields[fieldName].type === type);
+ 
+   const pluralRootFieldName = (type) =>
+     Object.keys(queryFields).find(
+       (fieldName) => String(queryFields[fieldName].type) === `[${type.name}!]!`
+-    )
++    );
+ 
+-  const hasLocaleField = (type) => type.getFields().locale
++  const hasLocaleField = (type) => type.getFields().locale;
+ 
+   const gatsbyNodeTypes = possibleTypes.map((type) => ({
+     remoteTypeName: type.name,
+@@ -164,56 +141,56 @@ const createSourcingConfig = async (
+       ...locales.map((locale) =>
+         stages.map(
+           (stage) => `
+-          query LIST_${pluralRootFieldName(
++          query LIST_${pluralRootFieldName(type)}_${locale}_${stage} { ${pluralRootFieldName(
+             type
+-          )}_${locale}_${stage} { ${pluralRootFieldName(type)}(first: $limit, ${
+-            hasLocaleField(type) ? `locales: [${locale}]` : ''
++          )}(first: $limit, ${
++            hasLocaleField(type) ? `locales: [${locale}]` : ""
+           }, skip: $offset, stage: ${stage}) {
+               ..._${type.name}Id_
+             }
+           }`
+         )
+       ),
+-      `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(
+-        type
+-      )}(where: $where, ${hasLocaleField(type) ? `locales: $locales` : ''}) {
++      `query NODE_${singularRootFieldName(type)}{ ${singularRootFieldName(type)}(where: $where, ${
++        hasLocaleField(type) ? `locales: $locales` : ""
++      }) {
+         ..._${type.name}Id_
+         }
+       }
+       fragment _${type.name}Id_ on ${type.name} {
+         __typename
+         id
+-        ${hasLocaleField(type) ? `locale` : ''}
++        ${hasLocaleField(type) ? `locale` : ""}
+         stage
+       }`,
+-    ].join('\n'),
++    ].join("\n"),
+     nodeQueryVariables: ({ id, locale, stage }) => ({
+       where: { id },
+       locales: [locale],
+       stage,
+     }),
+-  }))
++  }));
+ 
+-  const fragmentsDir = `${process.cwd()}/${fragmentsPath}`
++  const fragmentsDir = `${process.cwd()}/${fragmentsPath}`;
+ 
+-  if (!fs.existsSync(fragmentsDir)) fs.mkdirSync(fragmentsDir)
++  if (!fs.existsSync(fragmentsDir)) fs.mkdirSync(fragmentsDir);
+ 
+   const addSystemFieldArguments = (field) => {
+-    if (['createdAt', 'publishedAt', 'updatedAt'].includes(field.name))
+-      return { variation: `COMBINED` }
+-  }
++    if (["createdAt", "publishedAt", "updatedAt"].includes(field.name))
++      return { variation: `COMBINED` };
++  };
+ 
+   const fragments = await readOrGenerateDefaultFragments(fragmentsDir, {
+     schema,
+     gatsbyNodeTypes,
+     defaultArgumentValues: [addSystemFieldArguments],
+-  })
++  });
+ 
+   const documents = compileNodeQueries({
+     schema,
+     gatsbyNodeTypes,
+     customFragments: fragments,
+-  })
++  });
+ 
+   return {
+     gatsbyApi,
+@@ -224,58 +201,56 @@ const createSourcingConfig = async (
+     gatsbyTypePrefix: typePrefix,
+     gatsbyNodeDefs: buildNodeDefinitions({ gatsbyNodeTypes, documents }),
+     richTextTypes,
+-  }
+-}
++  };
++};
+ 
+ export async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+   const {
+     webhookBody,
+     actions: { createTypes },
+-  } = gatsbyApi
++  } = gatsbyApi;
+   const {
+     buildMarkdownNodes = false,
+     downloadLocalImages = false,
+-    typePrefix = 'Hygraph_',
+-  } = pluginOptions
++    typePrefix = "Hygraph_",
++  } = pluginOptions;
+ 
+-  const config = await createSourcingConfig(gatsbyApi, pluginOptions)
++  const config = await createSourcingConfig(gatsbyApi, pluginOptions);
+ 
+-  const { richTextTypes } = config
++  const { richTextTypes } = config;
+ 
+-  await createToolkitSchemaCustomization(config)
++  await createToolkitSchemaCustomization(config);
+ 
+   if (webhookBody && Object.keys(webhookBody).length) {
+-    const { operation, data } = webhookBody
++    const { operation, data } = webhookBody;
+ 
+     const nodeEvent = (operation, { __typename, locale, id }) => {
+       switch (operation) {
+-        case 'delete':
+-        case 'unpublish':
++        case "delete":
++        case "unpublish":
+           return {
+-            eventName: 'DELETE',
++            eventName: "DELETE",
+             remoteTypeName: __typename,
+             remoteId: { __typename, locale, id },
+-          }
+-        case 'create':
+-        case 'publish':
+-        case 'update':
++          };
++        case "create":
++        case "publish":
++        case "update":
+           return {
+-            eventName: 'UPDATE',
++            eventName: "UPDATE",
+             remoteTypeName: __typename,
+             remoteId: { __typename, locale, id },
+-          }
++          };
+       }
+-    }
++    };
+ 
+-    const { localizations = [{ locale: 'en' }] } = data
++    const { localizations = [{ locale: "en" }] } = data;
+ 
+     await sourceNodeChanges(config, {
+-      nodeEvents: localizations.map(({ locale }) =>
+-        nodeEvent(operation, { locale, ...data })
+-      ),
+-    })
++      nodeEvents: localizations.map(({ locale }) => nodeEvent(operation, { locale, ...data })),
++    });
+   } else {
+-    await sourceAllNodes(config)
++    await sourceAllNodes(config);
+   }
+ 
+   if (downloadLocalImages)
+@@ -283,7 +258,7 @@ export async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+       type ${typePrefix}Asset {
+         localFile: File @link(from: "fields.localFile")
+       }
+-    `)
++    `);
+ 
+   if (buildMarkdownNodes)
+     createTypes(`
+@@ -300,33 +275,17 @@ export async function createSchemaCustomization(gatsbyApi, pluginOptions) {
+           }
+       `
+       )}
+-    `)
++    `);
+ }
+ 
+ export async function onCreateNode(
+-  {
+-    node,
+-    actions: { createNode, createNodeField },
+-    createNodeId,
+-    getCache,
+-    cache,
+-  },
+-  {
+-    buildMarkdownNodes = false,
+-    downloadLocalImages = false,
+-    typePrefix = 'Hygraph_',
+-  }
++  { node, actions: { createNode, createNodeField }, createNodeId, getCache, cache },
++  { buildMarkdownNodes = false, downloadLocalImages = false, typePrefix = "Hygraph_" }
+ ) {
+   if (
+     downloadLocalImages &&
+-    node.remoteTypeName === 'Asset' &&
+-    [
+-      'image/png',
+-      'image/jpg',
+-      'image/jpeg',
+-      'image/tiff',
+-      'image/webp',
+-    ].includes(node.mimeType)
++    node.remoteTypeName === "Asset" &&
++    ["image/png", "image/jpg", "image/jpeg", "image/tiff", "image/webp"].includes(node.mimeType)
+   ) {
+     try {
+       const fileNode = await createRemoteFileNode({
+@@ -337,13 +296,13 @@ export async function onCreateNode(
+         cache,
+         getCache,
+         ...(node.fileName && { name: node.fileName }),
+-      })
++      });
+ 
+       if (fileNode) {
+-        createNodeField({ node, name: 'localFile', value: fileNode.id })
++        createNodeField({ node, name: "localFile", value: fileNode.id });
+       }
+     } catch (e) {
+-      console.error(`[${PLUGIN_NAME}]`, e)
++      console.error(`[${PLUGIN_NAME}]`, e);
+     }
+   }
+ 
+@@ -351,97 +310,76 @@ export async function onCreateNode(
+     const fields = Object.entries(node)
+       .map(([key, value]) => ({ key, value }))
+       .filter(
+-        ({ value }) =>
+-          value &&
+-          value.remoteTypeName &&
+-          value.remoteTypeName.endsWith('RichText')
+-      )
++        ({ value }) => value && value.remoteTypeName && value.remoteTypeName.endsWith("RichText")
++      );
+ 
+     if (fields.length) {
+       fields.forEach((field) => {
+-        const decodedMarkdown = he.decode(field.value.markdown)
++        const decodedMarkdown = he.decode(field.value.markdown);
+ 
+         const markdownNode = {
+           id: `MarkdownNode:${createNodeId(`${node.id}-${field.key}`)}`,
+           parent: node.id,
+           internal: {
+             type: `${typePrefix}MarkdownNode`,
+-            mediaType: 'text/markdown',
++            mediaType: "text/markdown",
+             content: decodedMarkdown,
+-            contentDigest: crypto
+-              .createHash(`md5`)
+-              .update(decodedMarkdown)
+-              .digest(`hex`),
++            contentDigest: crypto.createHash(`md5`).update(decodedMarkdown).digest(`hex`),
+           },
+-        }
++        };
+ 
+-        createNode(markdownNode)
++        createNode(markdownNode);
+ 
+-        field.value.markdownNode = markdownNode.id
+-      })
++        field.value.markdownNode = markdownNode.id;
++      });
+     }
+   }
+ }
+ 
+-const generateImageSource = (
+-  baseURL,
+-  width,
+-  height,
+-  format,
+-  fit = 'clip',
+-  { quality = 100 }
+-) => {
+-  const src = `https://media.graphassets.com/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`
++const generateImageSource = (baseURL, width, height, format, fit = "clip", { quality = 100 }) => {
++  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/output=format:webp/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
+ 
+-  return { src, width, height, format }
+-}
++  return { src, width, height, format };
++};
+ 
+ function makeResolveGatsbyImageData(cache) {
+   return async function resolveGatsbyImageData(
+     { handle: filename, height, mimeType, width, url, internal },
+     options
+   ) {
+-    if (
+-      ![
+-        'image/png',
+-        'image/jpg',
+-        'image/jpeg',
+-        'image/tiff',
+-        'image/webp',
+-      ].includes(mimeType)
+-    ) {
+-      return null
++    if (!["image/png", "image/jpg", "image/jpeg", "image/tiff", "image/webp"].includes(mimeType)) {
++      return null;
+     }
+ 
+     const imageDataArgs = {
+       ...options,
+       pluginName: PLUGIN_NAME,
+-      sourceMetadata: { format: mimeType.split('/')[1], height, width },
++      sourceMetadata: { format: mimeType.split("/")[1], height, width },
+       filename,
+       generateImageSource,
+       options,
+-    }
++    };
+ 
+     if (options?.placeholder === `BLURRED`) {
+-      const lowResImageURL = getLowResolutionImageURL(imageDataArgs)
++      const lowResImageURL = getLowResolutionImageURL(imageDataArgs);
+ 
+       const imageBase64 = await getImageBase64({
+         url: lowResImageURL,
+         cache,
+-      })
++      });
+ 
+       imageDataArgs.placeholderURL = getBase64DataURI({
+         imageBase64,
+-      })
++      });
+     }
+ 
+     if (options?.placeholder === `DOMINANT_COLOR`) {
+-      const lowResImageURL = getLowResolutionImageURL(imageDataArgs)
++      const lowResImageURL = getLowResolutionImageURL(imageDataArgs);
+ 
+       imageDataArgs.backgroundColor = await getImageDominantColor({
+         url: lowResImageURL,
+         cache,
+-      })
++      });
+     }
+ 
+     if (options?.placeholder === `TRACED_SVG`) {
+@@ -450,16 +388,16 @@ function makeResolveGatsbyImageData(cache) {
+         internal,
+         filename,
+         cache,
+-      })
++      });
+     }
+ 
+-    return generateImageData(imageDataArgs)
+-  }
++    return generateImageData(imageDataArgs);
++  };
+ }
+ 
+ export function createResolvers(
+   { createResolvers, cache },
+-  { typePrefix = 'Hygraph_', downloadLocalImages = false }
++  { typePrefix = "Hygraph_", downloadLocalImages = false }
+ ) {
+   const args = {
+     quality: {
+@@ -475,24 +413,24 @@ export function createResolvers(
+         NONE: No placeholder. Use the backgroundColor option to set a static background if you wish.
+         `,
+     },
+-  }
++  };
+ 
+   const resolvers = {
+     [`${typePrefix}Asset`]: {
+       gatsbyImageData: {
+         ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),
+-        type: 'JSON',
++        type: "JSON",
+       },
+     },
+     ...(downloadLocalImages && {
+       File: {
+         gatsbyImageData: {
+           ...getGatsbyImageResolver(makeResolveGatsbyImageData(cache), args),
+-          type: 'JSON',
++          type: "JSON",
+         },
+       },
+     }),
+-  }
++  };
+ 
+-  createResolvers(resolvers)
++  createResolvers(resolvers);
+ }
+diff --git a/src/util/retry.js b/src/util/retry.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..9428237a484f5d747ddb4cb2a9a476fe56a290bd
+--- /dev/null
++++ b/src/util/retry.js
+@@ -0,0 +1,56 @@
++/**
++ * Waits for a given number of milliseconds
++ * @param milliseconds - The number of milliseconds to wait
++ * @returns A promise that resolves after the given number of milliseconds
++ */
++export async function wait(milliseconds) {
++  return new Promise((resolve) => setTimeout(resolve, milliseconds));
++}
++
++const alwaysRetry = () => true;
++
++const defaultGetBackoffTime = (retries) => 2 ** (retries - 1) * 60000;
++
++/**
++ Retries a given function upto maxRetries attempts
++ If you are executing something like http requests that may timeout or fail and are safe
++ to retry this function will handle catching errors and retrying for you.  It will
++ backoff exponentialy 1m, 2m, 4m, 8m....
++ A onRetry callback can be passed to gain access to the exception and retry number
++ * @param method - The method to retry
++ * @param options - Additional options
++ * @param options.onRetry - A callback to be called on each retry
++ * @param options.retryIf - Optional function that can be passed to only enable retries for specific errors
++ * @param options.maxRetries - The maximum number of retries
++ * @param options.getBackoffTime - Function to get the time to wait for the next retry
++ * @returns The result of the method
++ */
++export async function retry(
++  method,
++  { maxRetries = 10, retryIf = alwaysRetry, onRetry, getBackoffTime = defaultGetBackoffTime } = {}
++) {
++  /**
++   * Recursive function that will retry the given method upto maxRetries
++   * @param retries - The number of retries so far
++   * @returns The result of the method
++   */
++  async function retryWithBackoff(retries) {
++    try {
++      if (retries > 0) {
++        const timeToWait = getBackoffTime(retries);
++        logger.debug(`retry function failed, waiting ${timeToWait}ms to retry`);
++        await wait(timeToWait);
++      }
++      return await method();
++    } catch (error) {
++      if (retryIf(error) && retries < maxRetries) {
++        onRetry?.(retries, error);
++        logger.error(error, `Retry function failure ${retries}`);
++        return retryWithBackoff(retries + 1);
++      }
++      throw error;
++    }
++  }
++
++  return retryWithBackoff(0);
++}
+diff --git a/util/retry.js b/util/retry.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..e90503d8950724e390ad91c475dc99899506cbf0
+--- /dev/null
++++ b/util/retry.js
+@@ -0,0 +1,63 @@
++"use strict";
++
++Object.defineProperty(exports, "__esModule", {
++  value: true
++});
++exports.retry = retry;
++exports.wait = wait;
++/**
++ * Waits for a given number of milliseconds
++ * @param milliseconds - The number of milliseconds to wait
++ * @returns A promise that resolves after the given number of milliseconds
++ */
++async function wait(milliseconds) {
++  return new Promise(resolve => setTimeout(resolve, milliseconds));
++}
++const alwaysRetry = () => true;
++const defaultGetBackoffTime = retries => 2 ** (retries - 1) * 60000;
++
++/**
++ Retries a given function upto maxRetries attempts
++ If you are executing something like http requests that may timeout or fail and are safe
++ to retry this function will handle catching errors and retrying for you.  It will
++ backoff exponentialy 1m, 2m, 4m, 8m....
++ A onRetry callback can be passed to gain access to the exception and retry number
++ * @param method - The method to retry
++ * @param options - Additional options
++ * @param options.onRetry - A callback to be called on each retry
++ * @param options.retryIf - Optional function that can be passed to only enable retries for specific errors
++ * @param options.maxRetries - The maximum number of retries
++ * @param options.getBackoffTime - Function to get the time to wait for the next retry
++ * @returns The result of the method
++ */
++async function retry(method, {
++  maxRetries = 10,
++  retryIf = alwaysRetry,
++  onRetry,
++  getBackoffTime = defaultGetBackoffTime
++} = {}) {
++  /**
++   * Recursive function that will retry the given method upto maxRetries
++   * @param retries - The number of retries so far
++   * @returns The result of the method
++   */
++  async function retryWithBackoff(retries) {
++    try {
++      if (retries > 0) {
++        const timeToWait = getBackoffTime(retries);
++        logger.debug(`retry function failed, waiting ${timeToWait}ms to retry`);
++        await wait(timeToWait);
++      }
++      return await method();
++    } catch (error) {
++      if (retryIf(error) && retries < maxRetries) {
++        onRetry?.(retries, error);
++        logger.error(error, `Retry function failure ${retries}`);
++        return retryWithBackoff(retries + 1);
++      }
++      throw error;
++    }
++  }
++  return retryWithBackoff(0);
++}
++//# sourceMappingURL=retry.js.map
+\ No newline at end of file
+diff --git a/util/retry.js.map b/util/retry.js.map
+new file mode 100644
+index 0000000000000000000000000000000000000000..1691659e9e423f7dee98e74df0d1758f44b34b3f
+--- /dev/null
++++ b/util/retry.js.map
+@@ -0,0 +1 @@
++{"version":3,"file":"retry.js","names":["wait","milliseconds","Promise","resolve","setTimeout","alwaysRetry","defaultGetBackoffTime","retries","retry","method","maxRetries","retryIf","onRetry","getBackoffTime","retryWithBackoff","timeToWait","logger","debug","error"],"sources":["../src/util/retry.js"],"sourcesContent":["/**\n * Waits for a given number of milliseconds\n * @param milliseconds - The number of milliseconds to wait\n * @returns A promise that resolves after the given number of milliseconds\n */\nexport async function wait(milliseconds) {\n  return new Promise((resolve) => setTimeout(resolve, milliseconds));\n}\n\nconst alwaysRetry = () => true;\n\nconst defaultGetBackoffTime = (retries) => 2 ** (retries - 1) * 60000;\n\n/**\n Retries a given function upto maxRetries attempts\n If you are executing something like http requests that may timeout or fail and are safe\n to retry this function will handle catching errors and retrying for you.  It will\n backoff exponentialy 1m, 2m, 4m, 8m....\n A onRetry callback can be passed to gain access to the exception and retry number\n * @param method - The method to retry\n * @param options - Additional options\n * @param options.onRetry - A callback to be called on each retry\n * @param options.retryIf - Optional function that can be passed to only enable retries for specific errors\n * @param options.maxRetries - The maximum number of retries\n * @param options.getBackoffTime - Function to get the time to wait for the next retry\n * @returns The result of the method\n */\nexport async function retry(\n  method,\n  { maxRetries = 10, retryIf = alwaysRetry, onRetry, getBackoffTime = defaultGetBackoffTime } = {}\n) {\n  /**\n   * Recursive function that will retry the given method upto maxRetries\n   * @param retries - The number of retries so far\n   * @returns The result of the method\n   */\n  async function retryWithBackoff(retries) {\n    try {\n      if (retries > 0) {\n        const timeToWait = getBackoffTime(retries);\n        logger.debug(`retry function failed, waiting ${timeToWait}ms to retry`);\n        await wait(timeToWait);\n      }\n      return await method();\n    } catch (error) {\n      if (retryIf(error) && retries < maxRetries) {\n        onRetry?.(retries, error);\n        logger.error(error, `Retry function failure ${retries}`);\n        return retryWithBackoff(retries + 1);\n      }\n      throw error;\n    }\n  }\n\n  return retryWithBackoff(0);\n}\n"],"mappings":";;;;;;;AAAA;AACA;AACA;AACA;AACA;AACO,eAAeA,IAAIA,CAACC,YAAY,EAAE;EACvC,OAAO,IAAIC,OAAO,CAAEC,OAAO,IAAKC,UAAU,CAACD,OAAO,EAAEF,YAAY,CAAC,CAAC;AACpE;AAEA,MAAMI,WAAW,GAAGA,CAAA,KAAM,IAAI;AAE9B,MAAMC,qBAAqB,GAAIC,OAAO,IAAK,CAAC,KAAKA,OAAO,GAAG,CAAC,CAAC,GAAG,KAAK;;AAErE;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACO,eAAeC,KAAKA,CACzBC,MAAM,EACN;EAAEC,UAAU,GAAG,EAAE;EAAEC,OAAO,GAAGN,WAAW;EAAEO,OAAO;EAAEC,cAAc,GAAGP;AAAsB,CAAC,GAAG,CAAC,CAAC,EAChG;EACA;AACF;AACA;AACA;AACA;EACE,eAAeQ,gBAAgBA,CAACP,OAAO,EAAE;IACvC,IAAI;MACF,IAAIA,OAAO,GAAG,CAAC,EAAE;QACf,MAAMQ,UAAU,GAAGF,cAAc,CAACN,OAAO,CAAC;QAC1CS,MAAM,CAACC,KAAK,CAAC,kCAAkCF,UAAU,aAAa,CAAC;QACvE,MAAMf,IAAI,CAACe,UAAU,CAAC;MACxB;MACA,OAAO,MAAMN,MAAM,CAAC,CAAC;IACvB,CAAC,CAAC,OAAOS,KAAK,EAAE;MACd,IAAIP,OAAO,CAACO,KAAK,CAAC,IAAIX,OAAO,GAAGG,UAAU,EAAE;QAC1CE,OAAO,GAAGL,OAAO,EAAEW,KAAK,CAAC;QACzBF,MAAM,CAACE,KAAK,CAACA,KAAK,EAAE,0BAA0BX,OAAO,EAAE,CAAC;QACxD,OAAOO,gBAAgB,CAACP,OAAO,GAAG,CAAC,CAAC;MACtC;MACA,MAAMW,KAAK;IACb;EACF;EAEA,OAAOJ,gBAAgB,CAAC,CAAC,CAAC;AAC5B","ignoreList":[]}
