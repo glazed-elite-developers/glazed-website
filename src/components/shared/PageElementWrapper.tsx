@@ -12,6 +12,12 @@ const Styles = {
     flex-direction: column;
     flex: 1 1 0.0000001rem;
   `,
+  content: css`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+  `,
 }
 
 interface PageElementWrapperProps {
@@ -41,7 +47,7 @@ const PageElementWrapper: FC<PageElementWrapperProps> = ({ children }) => {
       <ScrollContainer
         innerRef={scrollRestoration.ref as MutableRefObject<HTMLDivElement>}
         className={Styles.wrapper}
-        contentClassName={Styles.wrapper}
+        contentClassName={Styles.content}
         onScroll={scrollRestoration.onScroll}
       >
         {children}
