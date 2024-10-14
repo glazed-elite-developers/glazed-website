@@ -172,9 +172,11 @@ const CaseStudyBrief: FC<CaseStudyBriefProps> = ({ techs, year, brief }) => {
         <p className={Styles.brief}>{brief}</p>
       </CaseStudyBriefSection>
 
-      <CaseStudyBriefSection title="// Year" className={Styles.yearSection}>
-        <p className={Styles.year}>{year}</p>
-      </CaseStudyBriefSection>
+      {year && (
+        <CaseStudyBriefSection title="// Year" className={Styles.yearSection}>
+          <p className={Styles.year}>{year}</p>
+        </CaseStudyBriefSection>
+      )}
     </CaseStudySection>
   )
 }
