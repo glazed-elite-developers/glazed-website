@@ -1,4 +1,4 @@
-import createMailgunClient, { MessagesResponse } from 'mailgun-js'
+import createMailgunClient from 'mailgun-js'
 import dotenv from 'dotenv'
 
 // Gatsby logic to populate environment variables.
@@ -54,9 +54,7 @@ export async function handler(
         text: `${message}`,
       }
 
-      const response: MessagesResponse = await mailgunClient
-        .messages()
-        .send(mailOptions)
+      const response = await mailgunClient.messages().send(mailOptions)
 
       return {
         headers,

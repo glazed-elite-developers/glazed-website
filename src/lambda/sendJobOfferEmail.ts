@@ -72,12 +72,13 @@ export async function handler(
     }
   } catch (error) {
     console.log('failed to send email: ', error)
+    const typedError = error as Error
     return {
       headers,
       statusCode: 400,
       body: JSON.stringify({
-        error: error.name,
-        message: error.message,
+        error: typedError.name,
+        message: typedError.message,
       }),
     }
   }
