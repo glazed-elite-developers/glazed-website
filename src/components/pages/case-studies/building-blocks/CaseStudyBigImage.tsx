@@ -6,6 +6,9 @@ import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image'
 
 export const Styles = {
   section: css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 2.5rem 0;
 
     @media (min-width: ${Breakpoints.tabletLandscape}) {

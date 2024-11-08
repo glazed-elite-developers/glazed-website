@@ -166,7 +166,7 @@ export const query = graphql`
           stage
           id
           image {
-            gatsbyImageData(placeholder: NONE, layout: FULL_WIDTH)
+            gatsbyImageData(placeholder: NONE)
           }
         }
         ... on Hygraph_BigVideoSection {
@@ -198,7 +198,7 @@ export const query = graphql`
           id
           text
           image {
-            gatsbyImageData(placeholder: NONE, layout: FULL_WIDTH)
+            gatsbyImageData(placeholder: NONE)
           }
         }
         ... on Hygraph_TextAndVideoSection {
