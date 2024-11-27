@@ -28,7 +28,7 @@ const Styles = {
     @media (min-width: ${Breakpoints.tabletLandscape}) {
       padding: 1.875rem 5.625rem 0 6.25rem;
       flex: 4 1 0.0000001rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
   `,
   text: css`
