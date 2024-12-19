@@ -112,7 +112,7 @@ export const heading = css`
   @media (min-width: ${Breakpoints.tabletLandscape}) {
     padding: 5.625rem 0 1.875rem 0.9375rem;
     width: auto;
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 `;
 
@@ -154,7 +154,7 @@ export const description = css`
 
   @media (min-width: ${Breakpoints.tabletLandscape}) {
     order: 1;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 `;
 

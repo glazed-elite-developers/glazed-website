@@ -12,7 +12,7 @@ export const Styles = {
     padding: 2.5rem 1.25rem 0;
 
     @media (min-width: ${Breakpoints.tabletLandscape}) {
-      padding: 6.25rem 11.25rem 0;
+      padding: 6.25rem 11.25rem 2.25rem;
     }
   `,
   section: css`
