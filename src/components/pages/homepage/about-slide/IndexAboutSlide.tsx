@@ -155,7 +155,7 @@ const AboutSlide: React.FC<AboutSlideProps> = memo(
           </Heading>
           <div className={contentText}>
             <p className={contentTextLine}>
-              Every team member is highly experienced (8y avg), strives for
+              Every team member is highly experienced (10y avg), strives for
               excellency and has access to the colossal combined knowledge of
               the whole team.
             </p>

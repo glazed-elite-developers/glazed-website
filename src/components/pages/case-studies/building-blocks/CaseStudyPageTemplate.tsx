@@ -3,7 +3,7 @@ import { css } from '@emotion/css'
 import CaseStudyQuoteCard, { Author } from './CaseStudyQuoteCard'
 import CaseStudyTextAndImage from './CaseStudyTextAndImage'
 import CaseStudyTextAndVideo from './CaseStudyTextAndVideo'
-import { Colors } from '@styles/Theme'
+import { Breakpoints, Colors } from '@styles/Theme'
 import PageLayout from '@components/shared/PageLayout'
 import Layout from '@components/shared/Layout'
 import IconTwitterSvg from '@static/images/icon_twitter.svg'
@@ -38,9 +38,13 @@ const Styles = {
   inPageHeading: css`
     text-align: center;
     max-width: 64rem;
-    padding: 0 1.875rem;
+    padding: 1.875rem;
     margin: auto;
     color: ${Colors.grey};
+
+    @media (min-width: ${Breakpoints.tabletLandscape}) {
+      padding: 1.875rem 0 1.875rem;
+    }
   `,
 }
 

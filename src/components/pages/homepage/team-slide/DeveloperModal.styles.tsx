@@ -141,7 +141,7 @@ export const shortDescription = css`
     align-items: center;
     justify-content: flex-end;
     padding-left: 6.25rem;
-    font-size: 2rem;
+    font-size: 1.6rem;
     line-height: 1.5;
   }
 `;
@@ -154,7 +154,7 @@ export const description = css`
 
   @media (min-width: ${Breakpoints.tabletLandscape}) {
     order: 1;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 `;
 
