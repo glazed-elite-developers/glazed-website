@@ -34,7 +34,7 @@ const query = graphql`
 `
 
 const defaultDescription =
-  'Glazed is a team of elite web and mobile developers that partner with the world’s leading companies.'
+  'Glazed Solutions specializes in delivering top-tier web and mobile development projects. Our team of expert developers creates innovative, scalable, and customized solutions for businesses of all sizes.'
 
 const baseMetaTags = [
   { name: 'keywords', content: 'reasonml, bucklescript, react' },

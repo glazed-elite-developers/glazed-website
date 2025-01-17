@@ -7,10 +7,10 @@ config({ path: `.env.${process.env.NODE_ENV}` })
 
 const gatsbyConfig: GatsbyConfig = {
   siteMetadata: {
-    title: 'Glazed • Elite Developers',
+    title: 'Glazed Solutions | Expert Web and Mobile Development Services',
     author: 'Glazed Solutions Lda.',
     description:
-      'Glazed is a team of elite web and mobile developers that partner with the world’s leading companies.',
+      'Glazed Solutions specializes in delivering top-tier web and mobile development projects. Our team of expert developers creates innovative, scalable, and customized solutions for businesses of all sizes.',
     siteURL: process.env.SITE_URL || 'https://glazed.dev',
   },
   plugins: [
@@ -46,7 +46,7 @@ const gatsbyConfig: GatsbyConfig = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'Glazed • Elite Developers',
+        name: 'Glazed Solutions | Expert Web and Mobile Development Services',
         short_name: 'Glazed',
         start_url: '/',
         background_color: '#2560F2',
