@@ -1,4 +1,11 @@
-import React, { memo, useState, FC, useMemo } from 'react'
+import React, {
+  memo,
+  useState,
+  FC,
+  useMemo,
+  useCallback,
+  SyntheticEvent,
+} from 'react'
 import { graphql, useStaticQuery } from 'gatsby'
 import { cx } from '@emotion/css'
 import FullPageSlide from '@components/shared/FullPageSlide'
@@ -48,7 +55,14 @@ const CaseStudies: FC<CaseStudiesProps> = ({ innerRef, id, onResize }) => {
         .filter(Boolean) as Array<string>,
     [caseStudies]
   )
-  const [selectedCaseStudyIndex, selectCaseStudyIndex] = useState(0)
+  const [selectedCaseStudyIndex, baseSelectCaseStudyIndex] = useState(0)
+  const selectCaseStudyIndex = useCallback(
+    (index: number, event: SyntheticEvent) => {
+      baseSelectCaseStudyIndex(index)
+      event.preventDefault()
+    },
+    [baseSelectCaseStudyIndex]
+  )
 
   return (
     <FullPageSlide
@@ -111,7 +125,12 @@ const CaseStudies: FC<CaseStudiesProps> = ({ innerRef, id, onResize }) => {
                 className={Styles.square}
                 contentWrapperClassName={Styles.squareContent}
                 isSelected={caseStudy === caseStudies[selectedCaseStudyIndex]}
-                onMouseEnter={() => selectCaseStudyIndex(index)}
+                onMouseEnter={
+                  caseStudy !== caseStudies[selectedCaseStudyIndex]
+                    ? (event: SyntheticEvent) =>
+                        selectCaseStudyIndex(index, event)
+                    : undefined
+                }
               />
             ))}
           </div>

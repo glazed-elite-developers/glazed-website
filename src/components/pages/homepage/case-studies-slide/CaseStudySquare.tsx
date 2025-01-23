@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, SyntheticEvent } from 'react'
 import { Link } from 'gatsby'
 import { css, cx } from '@emotion/css'
 import { Colors, Breakpoints, Fonts } from '@styles/Theme'
@@ -93,7 +93,7 @@ interface CaseStudySquareProps {
   contentWrapperClassName?: string
   contentClassName?: string
   isSelected?: boolean
-  onMouseEnter?: () => void
+  onMouseEnter?: (event: SyntheticEvent) => void
 }
 
 const CaseStudySquare: React.FC<CaseStudySquareProps> = ({

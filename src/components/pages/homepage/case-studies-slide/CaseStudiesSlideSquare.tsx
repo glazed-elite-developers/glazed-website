@@ -1,4 +1,4 @@
-import React, { ReactNode, memo } from 'react'
+import React, { ReactNode, SyntheticEvent, memo } from 'react'
 import { cx, css } from '@emotion/css'
 import { Breakpoints, Colors } from '@styles/Theme'
 import Square from '@components/shared/Square'
@@ -79,7 +79,7 @@ interface CaseStudiesSlideSquareProps {
   contentClassName?: string
   contentWhenSelected?: ReactNode
   isSelected?: boolean
-  onMouseEnter?: () => void
+  onMouseEnter?: (event: SyntheticEvent) => void
 }
 
 const CaseStudiesSlideSquare: React.FC<CaseStudiesSlideSquareProps> = ({
