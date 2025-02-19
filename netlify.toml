@@ -1,4 +1,4 @@
 [build]
   command = "pnpm build"
-  functions = ".lambda"
+  functions = "src/lambda"
   publish = "public"
