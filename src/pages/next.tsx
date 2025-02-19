@@ -95,7 +95,10 @@ const Next: React.FC = () => {
   const onSubmit = useCallback(
     (values: any) => {
       setSubmissionStatus('Pending')
-      const payload = Object.fromEntries([...values, ['subject', emailSubject]])
+      const payload: Record<string, string> = {
+        ...values,
+        subject: emailSubject,
+      }
 
       fetch('/.netlify/functions/sendEmail', {
         method: 'POST',

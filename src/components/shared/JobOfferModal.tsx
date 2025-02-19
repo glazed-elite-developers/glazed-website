@@ -132,10 +132,7 @@ const JobOfferModal: FC<BaseModalProps> = ({
 
   const onSubmit = useCallback((values: any) => {
     setSubmissionStatus('Pending')
-    const payload: Record<string, any> = {
-      ...Object.fromEntries(values),
-      subject: emailSubject,
-    }
+    const payload: Record<string, string> = { ...values, subject: emailSubject }
 
     fetch('/.netlify/functions/sendJobOfferEmail', {
       method: 'POST',
