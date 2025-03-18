@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   gatsby-v5-source-hygraph@3.0.1:
-    hash: i3z323qoyoiz72eraykejadpey
+    hash: 888e9271903daaaa7dbf42b147a4570eb7ee669221bde224ae64ba5efb47afeb
     path: patches/gatsby-v5-source-hygraph@3.0.1.patch
 
 importers:
@@ -81,7 +81,7 @@ importers:
         version: 5.13.1(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)
       gatsby-v5-source-hygraph:
         specifier: ^3.0.1
-        version: 3.0.1(patch_hash=i3z323qoyoiz72eraykejadpey)(gatsby-plugin-image@3.13.1(@babel/core@7.25.2)(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby-source-filesystem@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))
+        version: 3.0.1(patch_hash=888e9271903daaaa7dbf42b147a4570eb7ee669221bde224ae64ba5efb47afeb)(gatsby-plugin-image@3.13.1(@babel/core@7.25.2)(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby-source-filesystem@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))
       gbimage-bridge:
         specifier: ^0.2.2
         version: 0.2.2(gatsby-background-image@1.6.0(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby-plugin-image@3.13.1(@babel/core@7.25.2)(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby-source-filesystem@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -10031,7 +10031,7 @@ snapshots:
   capital-case@1.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
       upper-case-first: 2.0.2
 
   capitalize@2.0.4: {}
@@ -10267,7 +10267,7 @@ snapshots:
   constant-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
       upper-case: 2.0.2
 
   content-disposition@0.5.4:
@@ -10719,7 +10719,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   dot-prop@5.3.0:
     dependencies:
@@ -11992,7 +11992,7 @@ snapshots:
       - graphql
       - supports-color
 
-  gatsby-v5-source-hygraph@3.0.1(patch_hash=i3z323qoyoiz72eraykejadpey)(gatsby-plugin-image@3.13.1(@babel/core@7.25.2)(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby-source-filesystem@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)):
+  gatsby-v5-source-hygraph@3.0.1(patch_hash=888e9271903daaaa7dbf42b147a4570eb7ee669221bde224ae64ba5efb47afeb)(gatsby-plugin-image@3.13.1(@babel/core@7.25.2)(gatsby-plugin-sharp@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0))(gatsby-source-filesystem@5.13.1(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2))(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(gatsby@5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)):
     dependencies:
       '@babel/runtime': 7.16.7
       gatsby: 5.13.7(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(type-fest@4.26.1)(typescript@5.6.2)
@@ -12553,7 +12553,7 @@ snapshots:
   header-case@2.0.4:
     dependencies:
       capital-case: 1.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   history@5.3.0:
     dependencies:
@@ -14070,7 +14070,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   node-abi@3.67.0:
     dependencies:
@@ -14371,7 +14371,7 @@ snapshots:
   pascal-case@3.1.2:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   password-prompt@1.1.3:
     dependencies:
@@ -14381,7 +14381,7 @@ snapshots:
   path-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   path-exists@3.0.0: {}
 
@@ -15265,7 +15265,7 @@ snapshots:
   sentence-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
       upper-case-first: 2.0.2
 
   serialize-javascript@5.0.1:
@@ -15386,7 +15386,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.7.0
 
   socket.io-adapter@2.5.5:
     dependencies:

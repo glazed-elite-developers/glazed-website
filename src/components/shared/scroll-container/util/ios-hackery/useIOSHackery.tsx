@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { DOMElement, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 const Styles = {
   iOSScrollFix: css`

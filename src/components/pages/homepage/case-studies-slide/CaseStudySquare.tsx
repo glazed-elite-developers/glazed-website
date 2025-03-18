@@ -5,6 +5,7 @@ import { Colors, Breakpoints, Fonts } from '@styles/Theme'
 import CaseStudiesSlideSquare from './CaseStudiesSlideSquare'
 import Heading, { HeadingLevel } from '@components/shared/Heading'
 import { IGatsbyImageData } from 'gatsby-plugin-image'
+import { navigate } from '@components/shared/Routing'
 
 export const Styles = {
   number: css`
@@ -107,9 +108,9 @@ const CaseStudySquare: React.FC<CaseStudySquareProps> = ({
 }) => {
   return (
     <CaseStudiesSlideSquare
-      className={cx(className)}
-      contentWrapperClassName={cx(contentWrapperClassName)}
-      contentClassName={cx(contentClassName)}
+      className={className}
+      contentWrapperClassName={contentWrapperClassName}
+      contentClassName={contentClassName}
       isSelected={isSelected}
       onMouseEnter={onMouseEnter}
       contentWhenSelected={
@@ -121,7 +122,13 @@ const CaseStudySquare: React.FC<CaseStudySquareProps> = ({
             </Heading>
             <p className={Styles.area}>{caseStudy.category}</p>
           </div>
-          <Link to={`/case-studies/${caseStudy.slug}`} className={Styles.link}>
+          <Link
+            to={`/case-studies/${caseStudy.slug}`}
+            className={Styles.link}
+            onTouchStart={() =>
+              navigate(undefined, undefined, `/case-studies/${caseStudy.slug}`)
+            }
+          >
             &gt; explore case
           </Link>
         </>

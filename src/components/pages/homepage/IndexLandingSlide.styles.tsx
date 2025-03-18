@@ -230,6 +230,8 @@ export const techStackIcon = css`
   flex: 0 0 33.333333%;
   margin: 0.625rem 0;
   fill: ${Colors.lightGrey};
+  transform: translateZ(0);
+  position: relative;
 
   @media (min-width: ${Breakpoints.tabletLandscape}) {
     flex: 0 0 3.125rem;

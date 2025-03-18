@@ -272,23 +272,23 @@ const IndexLandingSlide: FC<Props> = ({
           </pre>
         </Animate>
         <div className={Styles.techStackIcons}>
-          <Animate
+          {/* <Animate
             isIn={hasMounted}
             animationGroup="indexLanding"
             animation="slideUpFadeIn"
             baseDelay={3500}
             itemDelay={200}
             duration={1500}
-          >
-            {techIcons.map((icon, index) => (
-              <SVG
-                key={index}
-                className={Styles.techStackIcon}
-                height="16"
-                asset={icon}
-              />
-            ))}
-          </Animate>
+          > */}
+          {techIcons.map((icon, index) => (
+            <SVG
+              key={index}
+              className={Styles.techStackIcon}
+              height="16"
+              asset={icon}
+            />
+          ))}
+          {/* </Animate> */}
         </div>
         <div className={Styles.clients}>
           <Animate
@@ -303,18 +303,18 @@ const IndexLandingSlide: FC<Props> = ({
             <span className={Styles.clientsSpan}>clients like:</span>
           </Animate>
           <div className={Styles.clientsImages}>
-            <Animate
+            {/* <Animate
               isIn={hasMounted}
               animationGroup="indexLanding"
               animation="slideUpFadeIn"
               baseDelay={2750}
               itemDelay={200}
               duration={1000}
-            >
-              {clients.map((src, index) => (
-                <img key={index} className={Styles.clientImage} src={src} />
-              ))}
-            </Animate>
+            > */}
+            {clients.map((src, index) => (
+              <img key={index} className={Styles.clientImage} src={src} />
+            ))}
+            {/* </Animate> */}
           </div>
         </div>
       </div>
