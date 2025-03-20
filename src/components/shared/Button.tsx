@@ -1,5 +1,12 @@
 import { css, cx } from '@emotion/css'
-import React, { ButtonHTMLAttributes, FC, MouseEvent, ReactNode } from 'react'
+import React, {
+  ButtonHTMLAttributes,
+  FC,
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  TouchEventHandler,
+} from 'react'
 import { Colors, Fonts } from '@styles/Theme'
 
 export enum Backgrounds {
@@ -79,7 +86,8 @@ interface ButtonProps {
   bgColor?: Backgrounds
   isDisabled?: boolean
   className?: string
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
+  onTouchStart?: TouchEventHandler<HTMLButtonElement>
   type_?: ButtonHTMLAttributes<HTMLButtonElement>['type']
   children: ReactNode
 }
@@ -90,6 +98,7 @@ const Button: FC<ButtonProps> = ({
   isDisabled = false,
   className,
   onClick,
+  onTouchStart,
   type_,
   children,
 }) => {
@@ -115,6 +124,7 @@ const Button: FC<ButtonProps> = ({
     <button
       className={buttonClassName}
       onClick={onClickHandler}
+      onTouchStart={onTouchStart}
       type={type_}
       disabled={isDisabled}
     >

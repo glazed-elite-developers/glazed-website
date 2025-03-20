@@ -39,6 +39,7 @@ import SVG from '@components/shared/SVG'
 import OfficeJpg from '@static/images/home/office.jpg'
 import FullPageSlide from '@components/shared/FullPageSlide'
 import usePlatform from '@components/shared/hooks/usePlatform'
+import { navigate } from '@components/shared/Routing'
 
 const clients = [
   ASOSLogo,
@@ -221,7 +222,12 @@ const IndexLandingSlide: FC<Props> = ({
             )}
           </Heading>
           <div className={Styles.exploreCasesButtonWrapper}>
-            <Link to="/#case-studies">
+            <Link
+              to="/#case-studies"
+              onTouchStart={() =>
+                navigate(undefined, undefined, `/#case-studies`)
+              }
+            >
               <Animate
                 isIn={hasMounted}
                 animationGroup="indexLanding"
