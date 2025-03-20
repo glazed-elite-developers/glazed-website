@@ -79,5 +79,6 @@
     "patchedDependencies": {
       "gatsby-v5-source-hygraph@3.0.1": "patches/gatsby-v5-source-hygraph@3.0.1.patch"
     }
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }
