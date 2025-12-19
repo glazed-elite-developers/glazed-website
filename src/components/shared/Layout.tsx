@@ -43,12 +43,14 @@ const baseMetaTags = [
 interface Props {
   title?: string
   description?: string
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>
   children?: React.ReactNode
 }
 
 const Layout: React.FC<Props> = ({
   title: titleOverride,
   description: descriptionOpt,
+  structuredData,
   children,
 }) => {
   const description = descriptionOpt || defaultDescription
@@ -75,6 +77,16 @@ const Layout: React.FC<Props> = ({
       <Helmet title={title} meta={metaTags}>
         <html lang="en" />
         <link href={`${siteURL}${location.pathname}`} rel="canonical" />
+        {structuredData
+          ? (Array.isArray(structuredData)
+              ? structuredData
+              : [structuredData]
+            ).map((entry, index) => (
+              <script key={String(index)} type="application/ld+json">
+                {JSON.stringify(entry)}
+              </script>
+            ))
+          : null}
       </Helmet>
       <GlobalStyles />
       {children}

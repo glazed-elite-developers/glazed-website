@@ -23,6 +23,7 @@ import {
 } from '@components/shared/scroll-container/scrollConnectors'
 import usePlatform from '@components/shared/hooks/usePlatform'
 import useDidMount from '@components/shared/hooks/useDidMount'
+import { homepageOrganization } from './structuredData'
 
 const Styles = {
   pageLayout: css`
@@ -121,7 +122,7 @@ const HomePage: FC = () => {
   )
 
   return (
-    <Layout>
+    <Layout structuredData={homepageOrganization}>
       <PageLayout
         className={Styles.pageLayout}
         headerClassName={Styles.header(hasPlayedAnimation)}

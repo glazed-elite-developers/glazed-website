@@ -1,0 +1,37 @@
+User-agent: *
+Allow: /
+
+# Explicitly allow AI crawlers
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: AnthropicAI
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.glazedsolutions.com/sitemap.xml
+Sitemap: https://www.glazedsolutions.com/sitemap-ai.xml

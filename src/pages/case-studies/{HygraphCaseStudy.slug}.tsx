@@ -7,6 +7,7 @@ import CaseStudyPageTemplate, {
 import LogoGlazedSmallSvg from 'static/images/logo-glazed-small.svg'
 import { getImage, ImageDataLike } from 'gatsby-plugin-image'
 import { CaseStudy } from '@components/pages/homepage/case-studies-slide/CaseStudySquare'
+import { caseStudyStructuredDataBySlug } from '@components/pages/case-studies/structuredData'
 
 interface CaseStudyPageProps {
   data: {
@@ -132,6 +133,7 @@ export default function CaseStudyPage(props: CaseStudyPageProps) {
       content={content}
       pageTitle={`Glazed • ${caseStudy.name}`}
       pageDescription={caseStudy.shortDescription}
+      structuredData={caseStudyStructuredDataBySlug[caseStudy.slug]}
     />
   )
 }

@@ -120,12 +120,14 @@ interface CaseStudyPageTemplateProps {
   content: CaseStudyPageContent
   pageTitle: string
   pageDescription: string
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>
 }
 
 const CaseStudyPageTemplate: FC<CaseStudyPageTemplateProps> = ({
   content,
   pageTitle,
   pageDescription,
+  structuredData,
 }) => {
   const heroData = {
     title: content.hero.title,
@@ -142,7 +144,11 @@ const CaseStudyPageTemplate: FC<CaseStudyPageTemplateProps> = ({
   }
 
   return (
-    <Layout title={pageTitle} description={pageDescription}>
+    <Layout
+      title={pageTitle}
+      description={pageDescription}
+      structuredData={structuredData}
+    >
       <PageLayout
         className={Styles.pageLayout}
         useDarkNavBarLinks={true}
