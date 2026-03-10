@@ -232,7 +232,7 @@ index 99a16975130529060b233c1fb62a391c219b3129..4487907eb95a8b92ee4d48d05e4d9d31
    quality = 100
  }) => {
 -  const src = `https://media.graphassets.com/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
-+  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/output=format:webp/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
++  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/resize=width:${width},height:${height},fit:${fit}/output=format:webp,quality:${quality}/${baseURL}`;
    return {
      src,
      width,
@@ -772,7 +772,7 @@ index 4f0f149baf1f98b43aeeaa479e019e855cf66a82..ae50881739d2c95b65848d908a321827
 -) => {
 -  const src = `https://media.graphassets.com/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`
 +const generateImageSource = (baseURL, width, height, format, fit = "clip", { quality = 100 }) => {
-+  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/output=format:webp/resize=width:${width},height:${height},fit:${fit}/output=quality:${quality}/${baseURL}`;
++  const src = `https://eu-west-2.graphassets.com/cm167skc2080l06l2bral25i7/resize=width:${width},height:${height},fit:${fit}/output=format:webp,quality:${quality}/${baseURL}`;
  
 -  return { src, width, height, format }
 -}
